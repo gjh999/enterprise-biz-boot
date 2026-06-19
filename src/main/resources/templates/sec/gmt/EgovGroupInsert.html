@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>그룹 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/gmt/EgovGroupListView.do}">그룹관리</a></li>
+            <li class="breadcrumb-item active">그룹 등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 그룹 등록</h1>
+
+        <form th:action="@{/sec/gmt/EgovGroupInsert.do}" method="post">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="groupNm">그룹 명 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="groupNm" name="groupNm" maxlength="50" required
+                               th:value="${groupManage != null ? groupManage.groupNm : ''}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="groupDc">설명</label>
+                        <input type="text" class="form-control" id="groupDc" name="groupDc" maxlength="50"
+                               th:value="${groupManage != null ? groupManage.groupDc : ''}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/gmt/EgovGroupListView.do}">목록</a>
+                <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>프로그램 변경처리 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}">프로그램 변경처리</a></li>
+            <li class="breadcrumb-item active">변경처리 상세/수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-gear"></i> 변경처리 상세/수정</h1>
+
+        <p class="text-danger small" th:if="${resultMsg != null and resultMsg != ''}" th:text="${resultMsg}"></p>
+
+        <form th:action="@{/sym/prm/EgovProgramChangRequstProcessDetailSelectUpdt.do}" method="post" th:object="${progrmManageDtlVO}">
+            <input type="hidden" th:field="*{progrmFileNm}"/>
+            <input type="hidden" th:field="*{rqesterNo}"/>
+            <input type="hidden" th:field="*{rqesterPersonId}"/>
+            <input type="hidden" th:field="*{opetrId}"/>
+            <div class="card mb-3">
+                <div class="card-header">변경요청 내용</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">프로그램파일명</label>
+                        <input type="text" class="form-control" readonly th:value="*{progrmFileNm}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">요청제목</label>
+                        <input type="text" class="form-control" readonly th:value="*{rqesterSj}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">요청자ID</label>
+                        <input type="text" class="form-control" readonly th:value="*{rqesterPersonId}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">변경요청내용</label>
+                        <textarea class="form-control" readonly rows="4" th:text="*{changerqesterCn}"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">변경처리 정보</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="opetrIdView">처리자ID</label>
+                        <input type="text" class="form-control" id="opetrIdView" readonly th:value="*{opetrId}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="processSttus">처리상태</label>
+                        <select class="form-select" id="processSttus" th:field="*{processSttus}">
+                            <option value="A">요청</option>
+                            <option value="P">처리중</option>
+                            <option value="C">완료</option>
+                            <option value="R">반려</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="processDe">처리일자</label>
+                        <input type="text" class="form-control" id="processDe" th:field="*{processDe}" maxlength="20" placeholder="예) 20250101"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="rqesterProcessCn">요청처리내용</label>
+                        <textarea class="form-control" id="rqesterProcessCn" th:field="*{rqesterProcessCn}" rows="6"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <button type="submit" class="btn btn-outline-danger btn-sm"
+                        th:formaction="@{/sym/prm/EgovProgramChangRequstProcessDelete.do}"
+                        onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</button>
+                <div>
+                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}">목록</a>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg"></i> 처리저장</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

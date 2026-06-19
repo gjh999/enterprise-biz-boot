@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>권한별 롤 관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/ram/EgovAuthorListView.do}">권한관리</a></li>
+            <li class="breadcrumb-item active">권한별 롤 관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> 권한별 롤 관리</h1>
+
+        <form id="searchForm" th:action="@{/sec/ram/EgovAuthorRoleList.do}" method="post" class="row g-2 mb-3">
+            <div class="col-auto">
+                <label class="col-form-label">권한코드</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" class="form-control" name="searchKeyword"
+                       th:value="${authorRoleManageVO != null ? authorRoleManageVO.searchKeyword : ''}" placeholder="권한코드 입력"/>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-search"></i> 조회</button>
+            </div>
+        </form>
+
+        <form id="roleForm" th:action="@{/sec/ram/EgovAuthorRoleInsert.do}" method="post">
+            <input type="hidden" name="authorCode" id="authorCode"
+                   th:value="${authorRoleManageVO != null ? authorRoleManageVO.searchKeyword : ''}"/>
+            <input type="hidden" name="roleCodes" id="roleCodes"/>
+            <input type="hidden" name="regYns" id="regYns"/>
+
+            <table class="table table-hover align-middle">
+                <thead class="table-light"><tr>
+                    <th style="width:40px;"><input type="checkbox" id="checkAll"/></th>
+                    <th>롤ID</th><th>롤명</th><th>롤타입</th><th>롤Sort</th><th>롤 설명</th><th style="width:120px;">등록일자</th><th style="width:120px;">등록여부</th>
+                </tr></thead>
+                <tbody>
+                <tr th:each="item : ${authorRoleList}">
+                    <td><input type="checkbox" class="rowChk" th:attr="data-rolecode=${item.roleCode}"/></td>
+                    <td th:text="${item.roleCode}">코드</td>
+                    <td th:text="${item.roleNm}">롤명</td>
+                    <td th:text="${item.roleTyp}">타입</td>
+                    <td th:text="${item.roleSort}">Sort</td>
+                    <td th:text="${item.roleDc}">설명</td>
+                    <td class="text-center" th:text="${item.creatDt}">등록일자</td>
+                    <td>
+                        <select class="form-select form-select-sm rowReg">
+                            <option value="Y" th:selected="${item.regYn == 'Y'}">등록</option>
+                            <option value="N" th:selected="${item.regYn == 'N'}">미등록</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(authorRoleList)}"><td colspan="8" class="text-center text-muted py-4">조회된 롤이 없습니다. 권한코드로 조회하세요.</td></tr>
+                </tbody>
+            </table>
+            <div class="text-end">
+                <button type="button" class="btn btn-primary btn-sm" onclick="submitAuthorRole()"><i class="bi bi-save"></i> 권한별 롤정보 저장</button>
+            </div>
+        </form>
+    </div>
+    <script th:inline="javascript">
+        document.getElementById('checkAll').addEventListener('change', function () {
+            document.querySelectorAll('.rowChk').forEach(c => c.checked = this.checked);
+        });
+        function submitAuthorRole() {
+            var rows = document.querySelectorAll('#roleForm tbody tr');
+            var codes = [], regs = [];
+            rows.forEach(function (tr) {
+                var chk = tr.querySelector('.rowChk');
+                if (chk && chk.checked) {
+                    codes.push(chk.getAttribute('data-rolecode'));
+                    regs.push(tr.querySelector('.rowReg').value);
+                }
+            });
+            if (codes.length === 0) { alert('선택된 롤이 없습니다.'); return; }
+            if (!confirm('저장하시겠습니까?')) return;
+            document.getElementById('roleCodes').value = codes.join(';');
+            document.getElementById('regYns').value = regs.join(';');
+            document.getElementById('roleForm').submit();
+        }
+    </script>
+</main>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>Q&amp;A 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olh/qna/QnaListInqire.do}">Q&amp;A</a></li>
+            <li class="breadcrumb-item active">상세</li>
+        </ol></nav>
+        <div class="alert alert-warning" th:if="${result.passwordConfirmAt == 'N'}">
+            작성 비밀번호가 일치하지 않습니다.
+        </div>
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <strong th:text="${result.qestnSj}">제목</strong>
+                <span class="badge bg-secondary" th:text="${result.qnaProcessSttusCodeNm ?: '접수'}">상태</span>
+            </div>
+            <div class="card-body">
+                <div class="text-muted small mb-2">
+                    작성자 <span th:text="${result.wrterNm}">작성자</span> · <span th:text="${result.writngDe}">작성일</span>
+                </div>
+                <p th:text="${result.qestnCn}">질문 내용</p>
+                <div class="alert alert-light border mt-3" th:if="${result.answerCn != null and !#strings.isEmpty(result.answerCn)}">
+                    <strong class="text-success">[답변]</strong>
+                    <div th:utext="${result.answerCn}">답변</div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <a class="btn btn-outline-secondary btn-sm" th:href="@{/uss/olh/qna/QnaListInqire.do}"><i class="bi bi-list"></i> 목록</a>
+            <div sec:authorize="isAuthenticated()">
+                <a class="btn btn-outline-primary btn-sm"
+                   th:href="@{/uss/olh/qna/QnaPasswordConfirmView.do(qaId=${result.qaId})}"><i class="bi bi-pencil"></i> 수정</a>
+                <a class="btn btn-outline-danger btn-sm"
+                   th:href="@{/uss/olh/qna/QnaCnDelete.do(qaId=${result.qaId})}"
+                   onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

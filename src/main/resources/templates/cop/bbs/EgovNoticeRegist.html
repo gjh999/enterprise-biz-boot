@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>게시물 작성</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item">
+                <a th:href="@{/cop/bbs/selectBoardList.do(bbsId=${bdMstr != null ? bdMstr.bbsId : ''})}"
+                   th:text="${bdMstr != null ? bdMstr.bbsNm : '게시판'}">게시판</a>
+            </li>
+            <li class="breadcrumb-item active">글쓰기</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 게시물 작성</h1>
+        <form th:action="@{/cop/bbs/insertBoardArticle.do}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="bbsId" th:value="${bdMstr != null ? bdMstr.bbsId : ''}"/>
+            <!-- 인증 사용자(비익명) validator(@EgovNullCheck) 처리를 위한 dummy 값 -->
+            <input type="hidden" name="ntcrNm" value="dummy"/>
+            <input type="hidden" name="password" value="dummy"/>
+            <div class="mb-3"><label class="form-label">제목</label>
+                <input class="form-control" type="text" name="nttSj" required/></div>
+            <div class="mb-3"><label class="form-label">내용</label>
+                <textarea class="form-control" rows="10" name="nttCn" required></textarea></div>
+            <!-- 게시기간: 공지(BBSA01)는 입력, 그 외는 무기한(10000101~99991231) -->
+            <div class="mb-3" th:if="${bdMstr != null and bdMstr.bbsAttrbCode == 'BBSA01'}">
+                <label class="form-label">게시기간</label>
+                <div class="d-flex align-items-center gap-2">
+                    <input class="form-control" type="date" name="ntceBgnde" required/>
+                    <span>~</span>
+                    <input class="form-control" type="date" name="ntceEndde" required/>
+                </div>
+            </div>
+            <th:block th:unless="${bdMstr != null and bdMstr.bbsAttrbCode == 'BBSA01'}">
+                <input type="hidden" name="ntceBgnde" value="10000101"/>
+                <input type="hidden" name="ntceEndde" value="99991231"/>
+            </th:block>
+            <div class="mb-3" th:if="${bdMstr == null or bdMstr.fileAtchPosblAt == 'Y'}">
+                <label class="form-label">첨부파일</label>
+                <div th:replace="~{cmm/fms/EgovFileUploader ::
+                     uploader(${bdMstr != null ? bdMstr.posblAtchFileNumber : null}, 0)}"></div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary"
+                   th:href="@{/cop/bbs/selectBoardList.do(bbsId=${bdMstr != null ? bdMstr.bbsId : ''})}">취소</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

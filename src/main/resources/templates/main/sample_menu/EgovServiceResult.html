@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title>민원결과확인</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/EgovPageLink.do(linkIndex=2)}">민원광장</a></li>
+                <li class="breadcrumb-item active">민원결과확인</li>
+            </ol>
+        </nav>
+
+        <h1 class="h4 mb-2"><i class="bi bi-card-checklist"></i> 민원광장</h1>
+        <p class="text-muted">프레임워크 관련 서비스의 운영개선을 위한 창조적인 의견이나 아이디어 제안을 기다립니다.</p>
+
+        <h2 class="h5 mb-2">민원결과확인 <span class="badge bg-secondary">샘플화면</span></h2>
+        <p class="text-muted small">※ 7일 이전의 신청내용은 검색기간을 입력한 후 확인하시기 바랍니다.</p>
+
+        <!-- 검색조건 -->
+        <form class="row g-2 align-items-center mb-3" onsubmit="return false;">
+            <div class="col-auto fw-semibold">기간별 검색</div>
+            <div class="col-auto"><select class="form-select" title="연도"><option>2021</option></select></div>
+            <div class="col-auto"><select class="form-select" title="월"><option>08</option></select></div>
+            <div class="col-auto"><select class="form-select" title="일"><option>08</option></select></div>
+            <div class="col-auto">부터~</div>
+            <div class="col-auto"><select class="form-select" title="월"><option>08</option></select></div>
+            <div class="col-auto"><select class="form-select" title="일"><option>08</option></select></div>
+            <div class="col-auto">까지</div>
+            <div class="col-auto"><button class="btn btn-primary" type="submit">조회</button></div>
+        </form>
+        <!--// 검색조건 -->
+
+        <!-- 게시판 -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col" style="width:170px;">민원접수번호 [신청일]</th>
+                    <th scope="col">민원사무명</th>
+                    <th scope="col" style="width:90px;">부수</th>
+                    <th scope="col" style="width:115px;">처리상태</th>
+                    <th scope="col" style="width:115px;">교부기관</th>
+                    <th scope="col" style="width:115px;">연락처</th>
+                    <th scope="col" style="width:90px;">추가신청</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>2021-06-13</td>
+                    <td><a th:href="@{/EgovPageLink.do(linkIndex=0)}">표준프레임워크 인증서 발급</a></td>
+                    <td>300</td><td>발급대기</td><td>행정안전부</td><td>1544-5555</td><td>신청</td>
+                </tr>
+                <tr>
+                    <td>2021-06-13</td>
+                    <td><a th:href="@{/EgovPageLink.do(linkIndex=0)}">표준프레임워크 인증서 발급</a></td>
+                    <td>300</td><td>발급대기</td><td>행정안전부</td><td>1544-5555</td><td>신청</td>
+                </tr>
+                <tr>
+                    <td>2021-06-13</td>
+                    <td><a th:href="@{/EgovPageLink.do(linkIndex=0)}">표준프레임워크 인증서 발급</a></td>
+                    <td>300</td><td>발급대기</td><td>행정안전부</td><td>1544-5555</td><td>신청</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <nav aria-label="페이지 이동">
+            <ul class="pagination justify-content-center">
+                <li class="page-item active"><span class="page-link">1</span></li>
+            </ul>
+        </nav>
+        <!--// 게시판 -->
+    </div>
+</main>
+</body>
+</html>

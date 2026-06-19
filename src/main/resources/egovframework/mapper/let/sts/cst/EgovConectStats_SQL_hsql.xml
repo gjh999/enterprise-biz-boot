@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ConectStatsDAO">
+    <!-- 개정이력: 2026.06.17  구재호   레거시 테이블명(LETT*/COMT*/COMVN*) → TB_/VW_ 표준 명명 현행화 (Spring Boot + Thymeleaf 전환) -->
+
+
+	<!-- 접속통계 조회 (HSQL) -->
+	<select id="selectConectStats" parameterType="egovframework.let.sts.com.StatsVO" resultType="egovframework.let.sts.com.StatsVO">
+		<!-- 서비스별 통계 -->
+		<if test="statsKind == &quot;SERVICE&quot;">
+			SELECT METHOD_NM AS conectMethod
+			     , COALESCE(SUM(CREAT_CO),0) AS creatCo
+			     , COALESCE(SUM(UPDT_CO),0) AS updtCo
+			     , COALESCE(SUM(RDCNT),0) AS inqireCo
+			     , COALESCE(SUM(DELETE_CO),0) AS deleteCo
+			     , COALESCE(SUM(OUTPT_CO),0) AS outptCo
+			     , COALESCE(SUM(ERROR_CO),0) AS errorCo
+			     <!-- 기간검색(년) -->
+				 <if test="pdKind == &quot;Y&quot;">
+			     , SUBSTRING(OCCRRNC_DE, 1, 4) AS statsDate
+			     </if>
+			     <!-- 기간검색(월) -->
+			     <if test="pdKind == &quot;M&quot;">
+			     , SUBSTRING(OCCRRNC_DE, 1, 4) || '-' || SUBSTRING(OCCRRNC_DE, 5, 2) AS statsDate
+			     </if>
+			     <!-- 기간검색(일) -->
+			     <if test="pdKind == &quot;D&quot;">
+			     , SUBSTRING(OCCRRNC_DE, 1, 4) || '-' || SUBSTRING(OCCRRNC_DE, 5, 2) || '-' || SUBSTRING(OCCRRNC_DE, 7, 2) AS statsDate
+			     </if>
+			     , 0 AS statsCo
+			  FROM TB_CONECT_LOG
+		 	 WHERE OCCRRNC_DE BETWEEN #{fromDate} AND #{toDate}
+		 	   <if test="detailStatsKind != null and detailStatsKind != ''">
+		 	   AND SRVC_NM LIKE '%' || #{detailStatsKind} || '%'
+		 	   </if>
+			 GROUP BY METHOD_NM
+			     <if test="pdKind == &quot;Y&quot;">
+			     , SUBSTRING(OCCRRNC_DE, 1, 4)
+			     </if>
+			     <if test="pdKind == &quot;M&quot;">
+			     , SUBSTRING(OCCRRNC_DE, 1, 4) || '-' || SUBSTRING(OCCRRNC_DE, 5, 2)
+			     </if>
+			     <if test="pdKind == &quot;D&quot;">
+			     , SUBSTRING(OCCRRNC_DE, 1, 4) || '-' || SUBSTRING(OCCRRNC_DE, 5, 2) || '-' || SUBSTRING(OCCRRNC_DE, 7, 2)
+			     </if>
+		 	 ORDER BY 8
+		</if>
+
+		<!-- 개인별 통계 -->
+		<if test="statsKind == &quot;PRSONAL&quot;">
+			SELECT COUNT(CONECT_ID) AS statsCo
+			     <!-- 기간검색(년) -->
+				 <if test="pdKind == &quot;Y&quot;">
+			     , SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 1, 4) AS statsDate
+			     </if>
+			     <!-- 기간검색(월) -->
+			     <if test="pdKind == &quot;M&quot;">
+			     , SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 1, 4) || '-' || SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 5, 2) AS statsDate
+			     </if>
+			     <!-- 기간검색(일) -->
+			     <if test="pdKind == &quot;D&quot;">
+			     , SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 1, 4) || '-' || SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 5, 2) || '-' || SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 7, 2) AS statsDate
+			     </if>
+			     , '' AS conectMethod
+			     , 0 AS creatCo
+			     , 0 AS updtCo
+			     , 0 AS inqireCo
+			     , 0 AS deleteCo
+			     , 0 AS outptCo
+			     , 0 AS errorCo
+			  FROM TB_CONECT_LOG
+		 	 WHERE 1=1
+		 	   AND CONECT_ID = #{detailStatsKind}
+			   <!-- 시작일자~종료일자 기간제한 -->
+			   AND TO_CHAR(CREAT_DT, 'YYYYMMDD') BETWEEN #{fromDate} AND #{toDate}
+			 GROUP BY
+			     <if test="pdKind == &quot;Y&quot;">
+			     SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 1, 4)
+			     </if>
+			     <if test="pdKind == &quot;M&quot;">
+			     SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 1, 4) || '-' || SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 5, 2)
+			     </if>
+			     <if test="pdKind == &quot;D&quot;">
+			     SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 1, 4) || '-' || SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 5, 2) || '-' || SUBSTRING(TO_CHAR(CREAT_DT, 'YYYYMMDD'), 7, 2)
+			     </if>
+			 ORDER BY 2
+		</if>
+	</select>
+
+</mapper>

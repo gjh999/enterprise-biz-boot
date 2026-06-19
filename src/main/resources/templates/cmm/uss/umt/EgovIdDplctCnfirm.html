@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>ID 중복확인</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:520px;">
+        <h1 class="h5 mb-3"><i class="bi bi-person-check"></i> 아이디 중복확인</h1>
+        <form th:action="@{/uss/umt/cmm/EgovIdDplctCnfirm.do}" method="post" name="checkForm">
+            <div class="mb-3">
+                <label class="form-label" for="checkId">사용할 아이디</label>
+                <div class="input-group">
+                    <input class="form-control" type="text" id="checkId" name="checkId"
+                           th:value="${checkId}" maxlength="20" required autofocus/>
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                </div>
+            </div>
+        </form>
+        <div th:with="cnt=${usedCnt != null ? #strings.toString(usedCnt) : '-1'}">
+            <p class="alert alert-secondary" th:if="${cnt == '-1'}">중복확인을 실행하십시오.</p>
+            <p class="alert alert-success" th:if="${cnt == '0'}">
+                <strong th:text="${checkId}">아이디</strong> 는 사용가능한 아이디입니다.
+                <button type="button" class="btn btn-sm btn-success ms-2" id="btnUse">사용</button>
+            </p>
+            <p class="alert alert-danger" th:if="${cnt != '-1' and cnt != '0'}">
+                <strong th:text="${checkId}">아이디</strong> 는 사용할 수 없는 아이디입니다.</p>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        /* 가입화면에서 ?checkId= 로 넘어온 값 프리필 (View 컨트롤러는 checkId 파라미터를 모델에 싣지 않음) */
+        (function () {
+            var input = document.getElementById('checkId');
+            if (input && !input.value) {
+                var m = new URLSearchParams(window.location.search).get('checkId');
+                if (m) { input.value = m; }
+            }
+        })();
+        var useBtn = document.getElementById('btnUse');
+        if (useBtn) {
+            useBtn.addEventListener('click', function () {
+                var id = [[${checkId}]];
+                if (window.opener && !window.opener.closed) {
+                    var f = window.opener.document.getElementById('mberId');
+                    if (f) { f.value = id; }
+                    if (typeof window.opener.showModalDialogCallback === 'function') {
+                        window.opener.showModalDialogCallback(id);
+                    }
+                }
+                window.close();
+            });
+        }
+    </script>
+</main>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title>포탈사이트 템플릿 소개</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+                <li class="breadcrumb-item active">포탈사이트 템플릿 소개</li>
+            </ol>
+        </nav>
+
+        <h1 class="h4 mb-3"><i class="bi bi-info-circle"></i> 포탈사이트 템플릿 소개</h1>
+
+        <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item">경량환경 템플릿은 개발자가 프레임워크 쉽게 이해하고 활용할 수 있도록 지원합니다.</li>
+            <li class="list-group-item">홈페이지 템플릿은 공통컴포넌트를 기반으로 아래 그림과 같이 메뉴가 구성됩니다.</li>
+            <li class="list-group-item">관리자로 로그인하면 관리자용 메뉴를 추가로 사용할 수 있습니다.</li>
+            <li class="list-group-item">기울임체로 표시된 메뉴는 구성을 위한 샘플페이지가 제공되며 기능은 구현되지 않은 상태입니다.</li>
+        </ul>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">사이트소개</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">사이트소개</li>
+                        <li class="list-group-item">연혁</li>
+                        <li class="list-group-item">조직소개</li>
+                        <li class="list-group-item">찾아오시는길</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">민원광장</div>
+                    <ul class="list-group list-group-flush fst-italic">
+                        <li class="list-group-item">민원신청</li>
+                        <li class="list-group-item">민원결과확인</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">알림마당</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">공지사항</li>
+                        <li class="list-group-item">자유게시판</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">정보마당</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">FAQ</li>
+                        <li class="list-group-item">QnA</li>
+                        <li class="list-group-item">설문조사</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">서비스관리</div>
+                    <div class="card-body py-2">
+                        <p class="fw-semibold mb-1 mt-2">설문관리</p>
+                        <ul class="list-unstyled text-muted small mb-2">
+                            <li>- 설문지</li>
+                            <li>- 설문템플릿</li>
+                            <li>- 설문문항</li>
+                            <li>- 설문항목</li>
+                            <li>- 설문응답결과</li>
+                        </ul>
+                        <p class="fw-semibold mb-1">서비스관리</p>
+                        <ul class="list-unstyled text-muted small mb-2">
+                            <li>- FAQ관리</li>
+                            <li>- QnA관리</li>
+                            <li>- QnA답변관리</li>
+                            <li>- 게시판생성관리</li>
+                            <li>- 게시판사용관리</li>
+                            <li>- 공지사항관리</li>
+                            <li>- 자유게시판관리</li>
+                            <li>- 배너관리</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">시스템관리</div>
+                    <div class="card-body py-2">
+                        <p class="fw-semibold mb-1 mt-2">사용자관리</p>
+                        <ul class="list-unstyled text-muted small mb-2">
+                            <li>- 회원관리</li>
+                            <li>- 이용약관관리</li>
+                            <li>- 개인정보보호관리</li>
+                        </ul>
+                        <p class="fw-semibold mb-1">사용자권한관리</p>
+                        <ul class="list-unstyled text-muted small mb-2">
+                            <li>- 권한관리</li>
+                            <li>- 사용자그룹관리</li>
+                            <li>- 사용자별권한관리</li>
+                            <li>- 롤관리</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

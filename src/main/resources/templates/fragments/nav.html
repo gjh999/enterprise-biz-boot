@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<body>
+<nav th:fragment="nav" class="navbar navbar-expand-lg egov-nav egov-navbar border-bottom">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav gap-1">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">홈</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">게시판</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/cop/bbs/selectBoardList.do(bbsId='BBSMSTR_AAAAAAAAAAAA')}">공지사항</a></li>
+                        <li><a class="dropdown-item" th:href="@{/cop/bbs/selectBoardList.do(bbsId='BBSMSTR_BBBBBBBBBBBB')}">갤러리</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><hr class="dropdown-divider"/></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/cop/bbs/SelectBBSMasterInfs.do}">게시판마스터관리</a></li>
+                    </ul>
+                </li>
+                <!-- ===== 회원·권한관리 (관리자) ===== -->
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">회원·권한</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/uss/umt/user/EgovUserManage.do}">업무사용자관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/uss/umt/mber/EgovMberManage.do}">회원관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sec/ram/EgovAuthorListView.do}">권한관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sec/rmt/EgovRoleListView.do}">롤관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sec/gmt/EgovGroupListView.do}">그룹관리</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" th:href="@{/uat/uap/selectLoginPolicyListView.do}">로그인정책관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/uss/ion/uas/selectUserAbsnceListView.do}">사용자부재관리</a></li>
+                    </ul>
+                </li>
+                <!-- ===== 코드·메뉴·프로그램 (관리자) ===== -->
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">코드·메뉴</a>
+                    <ul class="dropdown-menu">
+                        <li><h6 class="dropdown-header">코드관리</h6></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/ccm/ccc/EgovCcmCmmnClCodeList.do}">공통분류코드관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">공통코드관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do}">공통상세코드관리</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><h6 class="dropdown-header">메뉴·프로그램</h6></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/mnu/mpm/EgovMenuManageSelect.do}">메뉴목록관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do}">메뉴생성관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/prm/EgovProgramListManageSelect.do}">프로그램관리</a></li>
+                    </ul>
+                </li>
+                <!-- ===== 시스템관리 (관리자) ===== -->
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">시스템관리</a>
+                    <ul class="dropdown-menu">
+                        <li><h6 class="dropdown-header">로그·통계</h6></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/log/clg/SelectLoginLogList.do}">접속로그조회</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/log/lgm/SelectSysLogList.do}">시스템로그조회</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sts/cst/selectConectStats.do}">접속통계관리</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><h6 class="dropdown-header">기준정보</h6></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/cal/EgovRestdeList.do}">휴일관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">우편번호관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/cop/com/selectTemplateInfs.do}">템플릿관리</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

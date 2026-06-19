@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>FAQ 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olh/faq/FaqListInqire.do}">FAQ</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> FAQ 등록</h1>
+        <form th:action="@{/uss/olh/faq/FaqCnRegist.do}" method="post" th:object="${faqManageVO}"
+              enctype="multipart/form-data">
+            <div class="mb-3"><label class="form-label">질문 제목</label>
+                <input class="form-control" type="text" th:field="*{qestnSj}" required/></div>
+            <div class="mb-3"><label class="form-label">질문 내용</label>
+                <textarea class="form-control" rows="4" th:field="*{qestnCn}" required></textarea></div>
+            <div class="mb-3"><label class="form-label">답변 내용</label>
+                <textarea class="form-control" rows="6" th:field="*{answerCn}" required></textarea></div>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olh/faq/FaqListInqire.do}">취소</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

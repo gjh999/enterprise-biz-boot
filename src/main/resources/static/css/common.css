@@ -1,0 +1,213 @@
+/* ============================================================
+   eGovFrame 5.0 공통 CSS (KRDS 기반)
+   KRDS CDN: https://uiux.egovframe.go.kr
+   Bootstrap 5 기반 — KRDS 파일 적용 시 아래 변수값 교체
+   ============================================================ */
+
+/* KRDS 컬러 변수 */
+:root {
+    --egov-primary: #0054A6;       /* 정부 대표 파란색 */
+    --egov-primary-dark: #003D7A;
+    --egov-secondary: #00A0E9;
+    --egov-success: #28A745;
+    --egov-danger: #DC3545;
+    --egov-warning: #FFC107;
+    --egov-light: #F5F7FA;
+    --egov-border: #DEE2E6;
+    --egov-text: #212529;
+    --egov-text-muted: #6C757D;
+}
+
+/* 접근성: 본문 바로가기 */
+.skip-nav {
+    position: absolute;
+    top: -9999px;
+    left: 0;
+    z-index: 9999;
+    padding: 8px 16px;
+    background: var(--egov-primary);
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+.skip-nav:focus {
+    top: 0;
+}
+
+/* 헤더 */
+.egov-header {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+/* 네비게이션 */
+.egov-nav {
+    background-color: var(--egov-primary) !important;
+}
+.egov-nav .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.15s;
+}
+.egov-nav .nav-link:hover,
+.egov-nav .nav-link.active {
+    color: #fff !important;
+    border-bottom-color: #fff;
+}
+
+/* 본문 */
+.egov-content {
+    min-height: calc(100vh - 200px);
+    background-color: var(--egov-light);
+}
+
+/* 카드 */
+.egov-card {
+    border: 1px solid var(--egov-border);
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* 페이지 타이틀 영역 */
+.page-title-bar {
+    background-color: #fff;
+    border-bottom: 1px solid var(--egov-border);
+    padding: 16px 0 12px;
+    margin-bottom: 24px;
+}
+.page-title-bar h1, .page-title-bar h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--egov-text);
+    margin-bottom: 4px;
+}
+.breadcrumb {
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+/* 테이블 */
+.egov-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.egov-table thead th {
+    background-color: #F0F4F9;
+    border: 1px solid var(--egov-border);
+    padding: 10px 12px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--egov-text);
+    white-space: nowrap;
+}
+.egov-table tbody td {
+    border: 1px solid var(--egov-border);
+    padding: 9px 12px;
+    vertical-align: middle;
+    color: var(--egov-text);
+}
+.egov-table tbody tr:hover {
+    background-color: #F8F9FA;
+}
+.egov-table .text-center { text-align: center; }
+.egov-table .text-end { text-align: right; }
+
+/* 검색 영역 */
+.search-bar {
+    background: #fff;
+    border: 1px solid var(--egov-border);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+/* 버튼 */
+.btn-egov {
+    background-color: var(--egov-primary);
+    border-color: var(--egov-primary);
+    color: #fff;
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+.btn-egov:hover {
+    background-color: var(--egov-primary-dark);
+    border-color: var(--egov-primary-dark);
+    color: #fff;
+}
+
+/* 폼 */
+.form-label { font-size: 14px; font-weight: 500; }
+.form-control, .form-select {
+    font-size: 14px;
+    border-color: var(--egov-border);
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--egov-primary);
+    box-shadow: 0 0 0 2px rgba(0,84,166,0.15);
+}
+
+/* 로그인 페이지 */
+.egov-login-body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #EAF1FB 0%, #F5F7FA 100%);
+}
+.login-card {
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(0,84,166,0.10);
+}
+.login-logo {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.login-logo h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--egov-primary);
+    margin-top: 12px;
+}
+
+/* 게시판 */
+.bbs-content {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--egov-text);
+    min-height: 200px;
+    padding: 20px;
+    border: 1px solid var(--egov-border);
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+/* 알림/배지 */
+.badge-new {
+    display: inline-block;
+    background: var(--egov-danger);
+    color: #fff;
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .egov-content { padding: 12px !important; }
+    .page-title-bar h1, .page-title-bar h2 { font-size: 18px; }
+    .login-card { padding: 24px; }
+}

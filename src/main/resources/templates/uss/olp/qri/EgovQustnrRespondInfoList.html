@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>응답자결과 목록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">응답자결과 목록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-data"></i> 응답자결과 목록</h1>
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr>
+                <th style="width:60px;">번호</th>
+                <th>문항내용</th>
+                <th>선택항목</th>
+                <th>주관식답변</th>
+                <th style="width:120px;">응답자</th>
+                <th style="width:120px;">등록일</th>
+            </tr></thead>
+            <tbody>
+            <tr th:each="item, st : ${resultList}">
+                <td class="text-center" th:text="${st.count}">1</td>
+                <td><a th:href="@{/uss/olp/qri/EgovQustnrRespondInfoDetail.do(qestnrQesrspnsId=${item['qestnrqesrspnsid']})}" th:text="${item['qestncn']}">문항내용</a></td>
+                <td th:text="${item['iemcn']}">선택항목</td>
+                <td th:text="${item['respondanswercn']}">주관식</td>
+                <td class="text-center" th:text="${item['respondnm']}">응답자</td>
+                <td class="text-center" th:text="${item['frstregistpnttm']}">등록일</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(resultList)}"><td colspan="6" class="text-center text-muted py-4">응답 결과가 없습니다.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

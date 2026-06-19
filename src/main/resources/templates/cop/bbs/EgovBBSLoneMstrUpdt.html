@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>게시판 마스터 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:860px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cop/bbs/selectBoardMasterList.do}">게시판마스터목록</a></li>
+            <li class="breadcrumb-item active">수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 게시판 마스터 수정</h1>
+        <form th:action="@{/cop/bbs/updateBoardMaster.do}" method="post">
+            <input type="hidden" name="pageIndex" th:value="${searchVO != null ? searchVO.pageIndex : '1'}"/>
+            <input type="hidden" name="bbsId" th:value="${result != null ? result.bbsId : ''}"/>
+            <input type="hidden" name="bbsTyCode" th:value="${result != null ? result.bbsTyCode : ''}"/>
+            <input type="hidden" name="bbsAttrbCode" th:value="${result != null ? result.bbsAttrbCode : ''}"/>
+            <input type="hidden" name="tmplatId" th:value="${result != null and result.tmplatId != null and !#strings.isEmpty(result.tmplatId) ? result.tmplatId : 'TMPLAT_BOARD_DEFAULT'}"/>
+
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th style="width:190px;">게시판 ID</th>
+                    <td><span class="form-control-plaintext" th:text="${result != null ? result.bbsId : ''}">bbsId</span></td>
+                </tr>
+                <tr th:if="${provdUrl != null}">
+                    <th>제공 URL</th>
+                    <td><a th:href="@{${provdUrl}}" th:text="${provdUrl}" target="_blank">url</a></td>
+                </tr>
+                <tr>
+                    <th>게시판 명 <span class="text-danger">*</span></th>
+                    <td><input class="form-control" type="text" name="bbsNm" maxlength="120"
+                               th:value="${result != null ? result.bbsNm : ''}" required/></td>
+                </tr>
+                <tr>
+                    <th>게시판 소개 <span class="text-danger">*</span></th>
+                    <td><textarea class="form-control" rows="4" maxlength="2000" name="bbsIntrcn" required
+                                  th:text="${result != null ? result.bbsIntrcn : ''}"></textarea></td>
+                </tr>
+                <tr>
+                    <th>게시판 유형</th>
+                    <td><span class="form-control-plaintext"
+                              th:text="${result != null and result.bbsTyCodeNm != null and !#strings.isEmpty(result.bbsTyCodeNm) ? result.bbsTyCodeNm : (result != null ? result.bbsTyCode : '')}">유형</span></td>
+                </tr>
+                <tr>
+                    <th>게시판 속성</th>
+                    <td><span class="form-control-plaintext"
+                              th:text="${result != null and result.bbsAttrbCodeNm != null and !#strings.isEmpty(result.bbsAttrbCodeNm) ? result.bbsAttrbCodeNm : (result != null ? result.bbsAttrbCode : '')}">속성</span></td>
+                </tr>
+                <tr>
+                    <th>답장가능여부 <span class="text-danger">*</span></th>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="rp_y" name="replyPosblAt" value="Y"
+                                   th:checked="${result != null and result.replyPosblAt == 'Y'}"/>
+                            <label class="form-check-label" for="rp_y">Y</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="rp_n" name="replyPosblAt" value="N"
+                                   th:checked="${result != null and result.replyPosblAt == 'N'}"/>
+                            <label class="form-check-label" for="rp_n">N</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>파일첨부가능여부 <span class="text-danger">*</span></th>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="fa_y" name="fileAtchPosblAt" value="Y"
+                                   th:checked="${result != null and result.fileAtchPosblAt == 'Y'}"/>
+                            <label class="form-check-label" for="fa_y">Y</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="fa_n" name="fileAtchPosblAt" value="N"
+                                   th:checked="${result != null and result.fileAtchPosblAt == 'N'}"/>
+                            <label class="form-check-label" for="fa_n">N</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>첨부가능파일 숫자</th>
+                    <td>
+                        <select class="form-select" name="posblAtchFileNumber">
+                            <option value="0" th:selected="${result == null or result.posblAtchFileNumber == 0}">선택하세요</option>
+                            <option value="1" th:selected="${result != null and result.posblAtchFileNumber == 1}">1개</option>
+                            <option value="2" th:selected="${result != null and result.posblAtchFileNumber == 2}">2개</option>
+                            <option value="3" th:selected="${result != null and result.posblAtchFileNumber == 3}">3개</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>템플릿 정보 <span class="text-danger">*</span></th>
+                    <td><input class="form-control" type="text" name="tmplatNm" readonly
+                               th:value="${result != null and result.tmplatNm != null and !#strings.isEmpty(result.tmplatNm) ? result.tmplatNm : '게시판 기본템플릿'}"/></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" th:href="@{/cop/bbs/selectBoardMasterList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+            </div>
+        </form>
+        <form th:action="@{/cop/bbs/deleteBoardMaster.do}" method="post" class="mt-2 text-end"
+              onsubmit="return confirm('삭제하시겠습니까?');">
+            <input type="hidden" name="bbsId" th:value="${result != null ? result.bbsId : ''}"/>
+            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

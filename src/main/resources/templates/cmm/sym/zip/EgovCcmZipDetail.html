@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>우편번호 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">우편번호 관리</a></li>
+            <li class="breadcrumb-item active">상세</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-geo-alt"></i> 우편번호 상세</h1>
+
+        <div th:if="${result == null}" class="alert alert-warning">상세 데이터가 없습니다.</div>
+
+        <table class="table table-bordered align-middle" th:if="${result != null}">
+            <tbody>
+            <tr><th class="table-light" style="width:160px;">우편번호</th><td th:text="${result.zip}">우편번호</td></tr>
+            <tr><th class="table-light">일련번호</th><td th:text="${result.sn}">0</td></tr>
+            <tr><th class="table-light">시도명</th><td th:text="${result.ctprvnNm}">시도</td></tr>
+            <tr><th class="table-light">시군구명</th><td th:text="${result.signguNm}">시군구</td></tr>
+            <tr><th class="table-light">읍면동명</th><td th:text="${result.emdNm}">읍면동</td></tr>
+            <tr><th class="table-light">리/건물명</th><td th:text="${result.liBuldNm}">건물</td></tr>
+            <tr><th class="table-light">번지/동호</th><td th:text="${result.lnbrDongHo}">번지</td></tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex gap-2" th:if="${result != null}">
+            <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/zip/EgovCcmZipList.do}"><i class="bi bi-list"></i> 목록</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary"
+               th:href="@{/sym/ccm/zip/EgovCcmZipModify.do(zip=${result.zip}, sn=${result.sn})}"><i class="bi bi-pencil"></i> 수정</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-outline-danger"
+               th:href="@{/sym/ccm/zip/EgovCcmZipRemove.do(zip=${result.zip}, sn=${result.sn})}"
+               onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

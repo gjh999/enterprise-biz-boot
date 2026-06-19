@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>이용약관 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/sam/stp/StplatListInqire.do}">이용약관</a></li>
+            <li class="breadcrumb-item active">약관 수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 이용약관 수정</h1>
+        <form th:action="@{/uss/sam/stp/StplatCnUpdt.do}" th:object="${stplatManageVO}" method="post">
+            <input type="hidden" th:field="*{useStplatId}"/>
+            <div class="mb-3">
+                <label class="form-label">이용약관명 <span class="text-danger">*</span></label>
+                <input class="form-control" type="text" th:field="*{useStplatNm}" maxlength="100" required/>
+                <div class="text-danger small" th:if="${#fields.hasErrors('useStplatNm')}" th:errors="*{useStplatNm}"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">이용약관내용 <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="10" th:field="*{useStplatCn}" required></textarea>
+                <div class="text-danger small" th:if="${#fields.hasErrors('useStplatCn')}" th:errors="*{useStplatCn}"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">정보제공동의내용 <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="8" th:field="*{infoProvdAgreCn}" required></textarea>
+                <div class="text-danger small" th:if="${#fields.hasErrors('infoProvdAgreCn')}" th:errors="*{infoProvdAgreCn}"></div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/sam/stp/StplatListInqire.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

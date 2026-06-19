@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>응답자정보 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}">응답자관리</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-person-plus"></i> 응답자정보 등록</h1>
+        <form th:action="@{/uss/olp/qrm/EgovQustnrRespondManageRegist.do}" th:object="${qustnrRespondManageVO}" method="post"
+              onsubmit="document.getElementById('brth').value=document.getElementById('brthY').value+document.getElementById('brthM').value+document.getElementById('brthD').value;">
+            <input type="hidden" name="cmd" value="save"/>
+            <div class="row g-3">
+                <div class="col-md-6"><label class="form-label">설문지 ID</label>
+                    <input class="form-control" type="text" th:field="*{qestnrId}"/></div>
+                <div class="col-md-6"><label class="form-label">설문템플릿 ID</label>
+                    <input class="form-control" type="text" th:field="*{qestnrTmplatId}"/></div>
+                <div class="col-md-6"><label class="form-label">성별 <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{sexdstnCode}" required>
+                        <option value="">선택</option>
+                        <option th:each="c : ${comCode014}" th:value="${c.code}" th:text="${c.codeNm}"></option>
+                    </select>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('sexdstnCode')}" th:errors="*{sexdstnCode}"></div></div>
+                <div class="col-md-6"><label class="form-label">직업 <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{occpTyCode}" required>
+                        <option value="">선택</option>
+                        <option th:each="c : ${comCode034}" th:value="${c.code}" th:text="${c.codeNm}"></option>
+                    </select>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('occpTyCode')}" th:errors="*{occpTyCode}"></div></div>
+                <div class="col-12"><label class="form-label">생년월일</label>
+                    <div class="d-flex gap-2" style="max-width:380px;">
+                        <select class="form-select" id="brthY"><option th:each="y : ${#numbers.sequence(1960,2009)}" th:value="${y}" th:text="${y}"></option></select>
+                        <select class="form-select" id="brthM"><option th:each="m : ${#numbers.sequence(1,12)}" th:value="${m < 10 ? '0'+m : ''+m}" th:text="${m < 10 ? '0'+m : ''+m}"></option></select>
+                        <select class="form-select" id="brthD"><option th:each="d : ${#numbers.sequence(1,31)}" th:value="${d < 10 ? '0'+d : ''+d}" th:text="${d < 10 ? '0'+d : ''+d}"></option></select>
+                    </div>
+                    <input type="hidden" name="brth" id="brth" th:value="*{brth}"/></div>
+                <div class="col-12"><label class="form-label">응답자명 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" th:field="*{respondNm}" maxlength="50" required/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('respondNm')}" th:errors="*{respondNm}"></div></div>
+                <div class="col-12"><label class="form-label">전화번호 <span class="text-danger">*</span></label>
+                    <div class="d-flex gap-2 align-items-center" style="max-width:380px;">
+                        <input class="form-control" type="text" th:field="*{areaNo}" maxlength="4" required/> -
+                        <input class="form-control" type="text" th:field="*{middleTelno}" maxlength="4" required/> -
+                        <input class="form-control" type="text" th:field="*{endTelno}" maxlength="4" required/>
+                    </div>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('areaNo') or #fields.hasErrors('middleTelno') or #fields.hasErrors('endTelno')}">전화번호를 숫자로 입력하세요.</div></div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

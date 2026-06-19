@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문문항 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">설문문항</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ol"></i> 설문문항 등록</h1>
+        <p class="text-muted small" th:if="${qestnrInfo != null}">설문지: <span th:text="${qestnrInfo.qestnrSj}"></span></p>
+        <form th:action="@{/uss/olp/qqm/EgovQustnrQestnManageRegist.do}" th:object="${qustnrQestnManageVO}" method="post">
+            <input type="hidden" name="cmd" value="save"/>
+            <input type="hidden" th:field="*{qestnrId}"/>
+            <input type="hidden" th:field="*{qestnrTmplatId}"/>
+            <input type="hidden" th:field="*{searchMode}"/>
+            <div class="row g-3">
+                <div class="col-md-4"><label class="form-label">질문순번 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" th:field="*{qestnSn}" maxlength="10" required/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnSn')}" th:errors="*{qestnSn}"></div></div>
+                <div class="col-md-4"><label class="form-label">질문유형 <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{qestnTyCode}" required>
+                        <option value="">선택</option>
+                        <option th:each="c : ${cmmCode018}" th:value="${c.code}" th:text="${c.codeNm}"></option>
+                    </select>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnTyCode')}" th:errors="*{qestnTyCode}"></div></div>
+                <div class="col-md-4"><label class="form-label">최대선택건수</label>
+                    <input class="form-control" type="text" th:field="*{mxmmChoiseCo}"/></div>
+                <div class="col-12"><label class="form-label">질문내용 <span class="text-danger">*</span></label>
+                    <textarea class="form-control" rows="4" th:field="*{qestnCn}" required></textarea>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnCn')}" th:errors="*{qestnCn}"></div></div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

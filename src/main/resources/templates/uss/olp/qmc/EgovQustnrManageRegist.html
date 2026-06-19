@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">설문관리</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> 설문지 등록</h1>
+        <form th:action="@{/uss/olp/qmc/EgovQustnrManageRegist.do}" th:object="${qustnrManageVO}" method="post">
+            <input type="hidden" name="cmd" value="save"/>
+            <div class="row g-3">
+                <div class="col-12"><label class="form-label">설문제목 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" th:field="*{qestnrSj}" maxlength="250" required/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnrSj')}" th:errors="*{qestnrSj}"></div></div>
+                <div class="col-12"><label class="form-label">설문목적 <span class="text-danger">*</span></label>
+                    <textarea class="form-control" rows="3" th:field="*{qestnrPurps}" required></textarea>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnrPurps')}" th:errors="*{qestnrPurps}"></div></div>
+                <div class="col-12"><label class="form-label">설문작성 안내내용 <span class="text-danger">*</span></label>
+                    <textarea class="form-control" rows="3" th:field="*{qestnrWritngGuidanceCn}" required></textarea>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnrWritngGuidanceCn')}" th:errors="*{qestnrWritngGuidanceCn}"></div></div>
+                <div class="col-md-6"><label class="form-label">설문대상 <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{qestnrTrget}" required>
+                        <option value="">선택</option>
+                        <option th:each="c : ${comCode034}" th:value="${c.code}" th:text="${c.codeNm}"></option>
+                    </select>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnrTrget')}" th:errors="*{qestnrTrget}"></div></div>
+                <div class="col-md-3"><label class="form-label">설문 시작일 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="date" th:field="*{qestnrBeginDe}" required/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnrBeginDe')}" th:errors="*{qestnrBeginDe}"></div></div>
+                <div class="col-md-3"><label class="form-label">설문 종료일 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="date" th:field="*{qestnrEndDe}" required/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('qestnrEndDe')}" th:errors="*{qestnrEndDe}"></div></div>
+                <div class="col-12"><label class="form-label">템플릿 유형</label>
+                    <div>
+                        <div class="form-check form-check-inline" th:each="t,st : ${listQustnrTmplat}">
+                            <input class="form-check-input" type="radio" name="qestnrTmplatId"
+                                   th:value="${t.qestnrtmplatid}" th:checked="${st.first}"/>
+                            <label class="form-check-label" th:text="${t.qestnrtmplatty}">유형</label>
+                        </div>
+                        <span class="text-muted small" th:if="${#lists.isEmpty(listQustnrTmplat)}">등록된 템플릿이 없습니다.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

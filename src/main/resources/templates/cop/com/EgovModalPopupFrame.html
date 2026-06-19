@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>팝업</title>
+    <style>
+        html, body { margin: 0; padding: 0; height: 100%; }
+        iframe { border: 0; display: block; }
+    </style>
+</head>
+<body>
+    <iframe th:src="@{${requestUrl}}"
+            th:width="${width != null and !#strings.isEmpty(width) ? width : '100%'}"
+            th:height="${height != null and !#strings.isEmpty(height) ? height : '600'}"
+            width="100%" height="600">
+    </iframe>
+</body>
+</html>

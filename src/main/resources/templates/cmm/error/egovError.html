@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title>오류</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container text-center py-5">
+        <h1 class="display-6 mb-3"><i class="bi bi-exclamation-triangle text-warning"></i> Error</h1>
+        <p class="lead mb-4">알 수 없는 오류가 발생하였습니다.</p>
+        <div class="d-flex gap-2 justify-content-center">
+            <a href="javascript:history.back();" class="btn btn-primary">이전페이지</a>
+            <a th:href="@{/}" class="btn btn-outline-secondary">메인으로</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

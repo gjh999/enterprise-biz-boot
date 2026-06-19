@@ -1,0 +1,7 @@
+<!--/*
+  validator.do 가 반환하는 동적 검증 스크립트 뷰.
+  JSP 원본은 commons-validator 의 <validator:javascript> 로 클라이언트 검증 룰을 출력했으나,
+  Boot 전환본은 서버측 @EgovNullCheck(BeanValidator) 검증만 사용하므로 빈 스크립트를 반환한다.
+  (화면에서 <script src="/validator.do"> 형태로 로드되어도 무해하도록 JS 주석만 출력)
+*/-->
+// egovframework validator.do : client-side validation rules are not used in the Boot/Thymeleaf version.

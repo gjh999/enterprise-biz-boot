@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>우편번호 검색</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
+</head>
+<body class="p-3">
+    <h1 class="h5 mb-3"><i class="bi bi-geo-alt"></i> 우편번호 검색</h1>
+
+    <form class="row g-2 mb-3" th:action="@{/cmm/sym/zip/EgovCcmZipSearchPopup.do}" method="get">
+        <div class="col-auto">
+            <select class="form-select form-select-sm" name="searchCondition" title="검색조건">
+                <option value="4" th:selected="${searchVO.searchCondition == '4'}">읍면동명</option>
+                <option value="2" th:selected="${searchVO.searchCondition == '2'}">시도명</option>
+                <option value="3" th:selected="${searchVO.searchCondition == '3'}">시군구명</option>
+                <option value="1" th:selected="${searchVO.searchCondition == '1'}">우편번호</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <input class="form-control form-control-sm" name="searchKeyword" th:value="${searchVO.searchKeyword}"
+                   maxlength="20" placeholder="검색어" title="검색어" autofocus/>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-sm btn-primary" type="submit"><i class="bi bi-search"></i> 검색</button>
+        </div>
+    </form>
+
+    <table class="table table-sm table-hover align-middle">
+        <thead class="table-light">
+        <tr><th style="width:90px;">우편번호</th><th>주소</th><th style="width:70px;">선택</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${resultList}"
+            th:with="addr=${item.ctprvnNm + ' ' + item.signguNm + ' ' + item.emdNm
+                          + (item.liBuldNm != null and item.liBuldNm != '' ? ' ' + item.liBuldNm : '')
+                          + (item.lnbrDongHo != null and item.lnbrDongHo != '' ? ' ' + item.lnbrDongHo : '')}">
+            <td th:text="${item.zip}">우편번호</td>
+            <td th:text="${addr}">주소</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                        th:attr="data-zip=${item.zip},data-addr=${addr}"
+                        onclick="fnSelectZip(this);">선택</button>
+            </td>
+        </tr>
+        <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
+            <td colspan="3" class="text-center text-muted py-4">
+                <span th:if="${searchVO.searchKeyword == null or searchVO.searchKeyword == ''}">검색어를 입력하세요.</span>
+                <span th:unless="${searchVO.searchKeyword == null or searchVO.searchKeyword == ''}">검색 결과가 없습니다.</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이징 -->
+    <div th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/cmm/sym/zip/EgovCcmZipSearchPopup.do', searchCondition=${searchVO.searchCondition}, searchKeyword=${searchVO.searchKeyword})}"></div>
+
+    <div class="mt-2 text-end">
+        <button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.close();">닫기</button>
+    </div>
+
+    <script>
+        /* 선택한 우편번호/주소를 부모창에 전달한다.
+         * 1) JSP 원본과 동일한 fn_egov_returnValue({sZip, vZip, sAddr}) 콜백 우선
+         * 2) fnZipReturn(zip, addr) 콜백
+         * 3) 콜백이 없으면 zip / adres 입력 필드를 직접 채운다. */
+        function fnSelectZip(btn) {
+            var zip = btn.getAttribute('data-zip');
+            var addr = btn.getAttribute('data-addr');
+            var retVal = {
+                sZip: zip,
+                vZip: (zip && zip.length === 6) ? zip.substring(0, 3) + '-' + zip.substring(3, 6) : zip,
+                sAddr: addr
+            };
+            try {
+                if (window.opener && !window.opener.closed) {
+                    if (typeof window.opener.fn_egov_returnValue === 'function') {
+                        window.opener.fn_egov_returnValue(retVal);
+                    } else if (typeof window.opener.fnZipReturn === 'function') {
+                        window.opener.fnZipReturn(zip, addr);
+                    } else {
+                        var doc = window.opener.document;
+                        var zipEl = doc.getElementById('zip') || doc.getElementsByName('zip')[0];
+                        var addrEl = doc.getElementById('adres') || doc.getElementsByName('adres')[0];
+                        if (zipEl) { zipEl.value = zip; }
+                        if (addrEl) { addrEl.value = addr; }
+                    }
+                }
+            } catch (e) { /* opener 접근 불가 시 무시 */ }
+            window.close();
+        }
+    </script>
+</body>
+</html>

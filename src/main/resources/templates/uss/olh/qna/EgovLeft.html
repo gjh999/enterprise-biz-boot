@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>Q&amp;A 메뉴</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:360px;">
+        <h2 class="h5 mb-3"><i class="bi bi-question-circle"></i> Q&amp;A</h2>
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" th:href="@{/uss/olh/qna/QnaListInqire.do}">
+                <i class="bi bi-list-ul"></i> Q&amp;A 목록</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/uss/olh/qna/QnaCnRegistView.do}">
+                <i class="bi bi-pencil-square"></i> 질문 등록</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

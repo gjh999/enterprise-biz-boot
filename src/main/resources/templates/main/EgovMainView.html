@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title>홈</title>
+    <th:block layout:fragment="head-css">
+    <style>
+        /* ===== 랜딩 전용 스타일 ===== */
+        .lp-wrap { --ind:#4f6bff; --ind2:#7a5cff; --cyan:#19d3da; }
+        .lp-hero {
+            position: relative; overflow: hidden; border-radius: 28px;
+            padding: clamp(48px, 7vw, 104px) clamp(24px, 5vw, 72px);
+            background:
+                radial-gradient(900px 500px at 88% -20%, rgba(122,92,255,.40), transparent 60%),
+                radial-gradient(700px 500px at -5% 120%, rgba(25,211,218,.28), transparent 55%),
+                linear-gradient(135deg, #141a44, #1b1f53 55%, #131a3f);
+            border: 1px solid rgba(255,255,255,.10);
+            box-shadow: 0 40px 90px rgba(0,0,0,.45);
+        }
+        .lp-hero::after {
+            content:""; position:absolute; right:-80px; top:-80px; width:380px; height:380px;
+            background: radial-gradient(circle, rgba(79,107,255,.55), transparent 68%);
+            filter: blur(30px); pointer-events:none;
+        }
+        .lp-eyebrow {
+            display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700;
+            letter-spacing:.04em; color:#cfe0ff; padding:7px 14px; border-radius:999px;
+            background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);
+        }
+        .lp-title {
+            font-size: clamp(32px, 5vw, 60px); font-weight: 800; line-height:1.1;
+            letter-spacing:-.02em; color:#fff; margin:.5em 0 .35em;
+        }
+        .lp-title .grad {
+            background: linear-gradient(100deg, #8aa2ff, #b79bff 45%, #5fe6e6);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .lp-sub { font-size: clamp(15px,1.6vw,19px); color:#c2c9ef; max-width:640px; line-height:1.7; }
+        .lp-chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+        .lp-chip { font-size:12.5px; font-weight:600; color:#dfe6ff; padding:7px 13px; border-radius:999px;
+            background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); }
+        .lp-btn-primary {
+            background: linear-gradient(135deg, var(--ind), var(--ind2)); border:none; color:#fff;
+            font-weight:700; padding:13px 26px; border-radius:14px; box-shadow:0 14px 30px rgba(79,107,255,.40);
+            transition: transform .18s, box-shadow .18s;
+        }
+        .lp-btn-primary:hover { color:#fff; transform:translateY(-2px); box-shadow:0 18px 40px rgba(79,107,255,.55); }
+        .lp-btn-ghost { background: rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.20);
+            color:#eaf0ff; font-weight:700; padding:13px 24px; border-radius:14px; transition:.18s; }
+        .lp-btn-ghost:hover { color:#fff; background: rgba(255,255,255,.14); transform:translateY(-2px); }
+
+        /* 통계 */
+        .lp-stat { text-align:center; padding:22px 12px; border-radius:18px;
+            background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); }
+        .lp-stat .num { font-size: clamp(26px,3.4vw,40px); font-weight:800; letter-spacing:-.02em;
+            background: linear-gradient(120deg,#9db4ff,#69ecec); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        .lp-stat .lbl { font-size:13.5px; color:#aab1d6; margin-top:4px; }
+
+        /* 섹션 제목 */
+        .lp-sec-title { font-size: clamp(22px,2.6vw,30px); font-weight:800; color:#fff; letter-spacing:-.01em; }
+        .lp-sec-desc { color:#9aa3cf; font-size:15px; }
+
+        /* 서비스 카드 */
+        .lp-svc { display:block; height:100%; text-decoration:none; border-radius:20px; padding:26px 24px;
+            background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+            border:1px solid rgba(255,255,255,.10); transition: transform .2s, border-color .2s, box-shadow .2s; }
+        .lp-svc:hover { transform: translateY(-6px); border-color: rgba(124,150,255,.55);
+            box-shadow: 0 24px 54px rgba(0,0,0,.40); }
+        .lp-svc .ic { width:54px; height:54px; border-radius:15px; display:grid; place-items:center;
+            font-size:24px; color:#fff; margin-bottom:16px;
+            background: linear-gradient(135deg, var(--ind), var(--ind2)); box-shadow:0 10px 24px rgba(79,107,255,.40); }
+        .lp-svc.c2 .ic { background: linear-gradient(135deg,#19d3da,#3aa0ff); box-shadow:0 10px 24px rgba(25,211,218,.35); }
+        .lp-svc.c3 .ic { background: linear-gradient(135deg,#ff5d8f,#a05cff); box-shadow:0 10px 24px rgba(255,93,143,.32); }
+        .lp-svc h3 { font-size:18px; font-weight:700; color:#fff; margin:0 0 6px; }
+        .lp-svc p { font-size:14px; color:#a9b0d6; margin:0; line-height:1.6; }
+        .lp-svc .go { margin-top:14px; font-size:13px; font-weight:700; color:#9db4ff; }
+
+        /* 리스트 카드 */
+        .lp-panel { border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,.10);
+            background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); height:100%; }
+        .lp-panel-head { display:flex; align-items:center; justify-content:space-between;
+            padding:18px 22px; border-bottom:1px solid rgba(255,255,255,.08); }
+        .lp-panel-head .ttl { font-weight:700; color:#fff; font-size:16px; }
+        .lp-panel-head a { font-size:13px; color:#9db4ff; text-decoration:none; }
+        .lp-row { display:flex; justify-content:space-between; gap:14px; padding:13px 22px;
+            border-bottom:1px solid rgba(255,255,255,.05); }
+        .lp-row:last-child { border-bottom:none; }
+        .lp-row a { color:#dfe5ff; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .lp-row a:hover { color:#fff; }
+        .lp-row .date { color:#8b93bd; font-size:12.5px; white-space:nowrap; }
+
+        /* CTA */
+        .lp-cta { border-radius:24px; padding: clamp(36px,5vw,64px);
+            background: radial-gradient(700px 400px at 80% -40%, rgba(122,92,255,.35), transparent 60%),
+                        linear-gradient(135deg,#171c49,#10143a);
+            border:1px solid rgba(255,255,255,.10); text-align:center; }
+    </style>
+    </th:block>
+</head>
+<body>
+<main layout:fragment="content">
+<div class="lp-wrap container" style="max-width:1200px;">
+
+    <!-- ===== HERO ===== -->
+    <section class="lp-hero">
+        <span class="lp-eyebrow"><i class="bi bi-shield-check"></i> 전자정부 표준프레임워크 5.0</span>
+        <h1 class="lp-title">신뢰할 수 있는<br><span class="grad">디지털 정부 서비스</span>의 표준</h1>
+        <p class="lp-sub">
+            Spring Boot와 Thymeleaf로 재구축한 표준 포털 플랫폼입니다.
+            게시판·민원·설문·회원·권한 등 공공 서비스에 필요한 모든 기능을 하나의 일관된 경험으로 제공합니다.
+        </p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+            <a class="lp-btn-primary" href="#services"><i class="bi bi-grid-1x2"></i> 서비스 둘러보기</a>
+            <a sec:authorize="!isAuthenticated()" class="lp-btn-ghost" th:href="@{/uss/umt/cmm/EgovMberSbscrbView.do}">
+                <i class="bi bi-person-plus"></i> 회원가입</a>
+            <a sec:authorize="isAuthenticated()" class="lp-btn-ghost" th:href="@{/uss/olh/qna/QnaListInqire.do}">
+                <i class="bi bi-chat-dots"></i> 문의하기</a>
+        </div>
+        <div class="lp-chips">
+            <span class="lp-chip">Spring Boot 3.5</span>
+            <span class="lp-chip">Thymeleaf</span>
+            <span class="lp-chip">eGovFrame Boot 5.0</span>
+            <span class="lp-chip">Spring Security</span>
+            <span class="lp-chip">KRDS 디자인</span>
+            <span class="lp-chip">PostgreSQL · HSQL</span>
+        </div>
+    </section>
+
+    <!-- ===== 통계 ===== -->
+    <section class="row g-3 mt-4">
+        <div class="col-6 col-lg-3"><div class="lp-stat"><div class="num">130+</div><div class="lbl">서비스 화면</div></div></div>
+        <div class="col-6 col-lg-3"><div class="lp-stat"><div class="num">20+</div><div class="lbl">업무 모듈</div></div></div>
+        <div class="col-6 col-lg-3"><div class="lp-stat"><div class="num">100%</div><div class="lbl">표준 컴포넌트 준수</div></div></div>
+        <div class="col-6 col-lg-3"><div class="lp-stat"><div class="num">24/7</div><div class="lbl">안정적 서비스</div></div></div>
+    </section>
+
+    <!-- ===== 서비스 ===== -->
+    <section id="services" class="mt-5 pt-3">
+        <div class="text-center mb-4">
+            <div class="lp-sec-title">핵심 서비스</div>
+            <div class="lp-sec-desc">공공 포털에 필요한 기능을 모듈형으로 제공합니다</div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <a class="lp-svc c1" th:href="@{/cop/bbs/selectBoardList.do(bbsId='BBSMSTR_AAAAAAAAAAAA')}">
+                    <div class="ic"><i class="bi bi-megaphone"></i></div>
+                    <h3>공지·게시판</h3><p>공지사항, 갤러리, 자료실 등 다양한 게시판을 손쉽게 운영합니다.</p>
+                    <div class="go">바로가기 <i class="bi bi-arrow-right"></i></div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="lp-svc c2" th:href="@{/uss/olh/faq/FaqListInqire.do}">
+                    <div class="ic"><i class="bi bi-question-circle"></i></div>
+                    <h3>자주 묻는 질문</h3><p>FAQ로 자주 묻는 질문을 빠르게 확인하고 응대 부담을 줄입니다.</p>
+                    <div class="go">바로가기 <i class="bi bi-arrow-right"></i></div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="lp-svc c3" th:href="@{/uss/olh/qna/QnaListInqire.do}">
+                    <div class="ic"><i class="bi bi-chat-dots"></i></div>
+                    <h3>묻고 답하기 (Q&amp;A)</h3><p>온라인으로 질문을 접수하고 담당자가 답변하는 민원 채널입니다.</p>
+                    <div class="go">바로가기 <i class="bi bi-arrow-right"></i></div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="lp-svc c1" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">
+                    <div class="ic"><i class="bi bi-clipboard-data"></i></div>
+                    <h3>온라인 설문</h3><p>설문 템플릿·문항·응답·통계까지 한 번에 관리합니다.</p>
+                    <div class="go">바로가기 <i class="bi bi-arrow-right"></i></div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="lp-svc c2" th:href="@{/uss/umt/cmm/EgovMberSbscrbView.do}">
+                    <div class="ic"><i class="bi bi-people"></i></div>
+                    <h3>회원·권한</h3><p>회원 가입과 역할 기반 접근제어(RBAC)로 안전하게 운영합니다.</p>
+                    <div class="go">바로가기 <i class="bi bi-arrow-right"></i></div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="lp-svc c3" th:href="@{/uss/sam/stp/StplatListInqire.do}">
+                    <div class="ic"><i class="bi bi-file-earmark-text"></i></div>
+                    <h3>이용약관·정책</h3><p>이용약관과 개인정보처리방침을 투명하게 안내합니다.</p>
+                    <div class="go">바로가기 <i class="bi bi-arrow-right"></i></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 공지 / 갤러리 ===== -->
+    <section class="row g-4 mt-5 pt-2">
+        <div class="col-lg-6">
+            <div class="lp-panel">
+                <div class="lp-panel-head">
+                    <span class="ttl"><i class="bi bi-megaphone text-info"></i> 공지사항</span>
+                    <a th:href="@{/cop/bbs/selectBoardList.do(bbsId='BBSMSTR_AAAAAAAAAAAA')}">더보기 <i class="bi bi-chevron-right"></i></a>
+                </div>
+                <div>
+                    <div class="lp-row" th:each="item : ${notiList}">
+                        <a th:href="@{/cop/bbs/selectBoardArticle.do(bbsId='BBSMSTR_AAAAAAAAAAAA',nttId=${item.nttId})}"
+                           th:text="${item.nttSj}">제목</a>
+                        <span class="date" th:text="${item.frstRegisterPnttm}">날짜</span>
+                    </div>
+                    <div class="lp-row" th:if="${notiList == null or #lists.isEmpty(notiList)}">
+                        <span class="text-muted">등록된 공지사항이 없습니다.</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="lp-panel">
+                <div class="lp-panel-head">
+                    <span class="ttl"><i class="bi bi-images text-info"></i> 갤러리</span>
+                    <a th:href="@{/cop/bbs/selectBoardList.do(bbsId='BBSMSTR_BBBBBBBBBBBB')}">더보기 <i class="bi bi-chevron-right"></i></a>
+                </div>
+                <div>
+                    <div class="lp-row" th:each="item : ${bbsList}">
+                        <a th:href="@{/cop/bbs/selectBoardArticle.do(bbsId='BBSMSTR_BBBBBBBBBBBB',nttId=${item.nttId})}"
+                           th:text="${item.nttSj}">제목</a>
+                        <span class="date" th:text="${item.frstRegisterPnttm}">날짜</span>
+                    </div>
+                    <div class="lp-row" th:if="${bbsList == null or #lists.isEmpty(bbsList)}">
+                        <span class="text-muted">등록된 게시물이 없습니다.</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="mt-4">
+        <div class="lp-panel">
+            <div class="lp-panel-head">
+                <span class="ttl"><i class="bi bi-question-circle text-info"></i> 자주 묻는 질문</span>
+                <a th:href="@{/uss/olh/faq/FaqListInqire.do}">더보기 <i class="bi bi-chevron-right"></i></a>
+            </div>
+            <div>
+                <div class="lp-row" th:each="item : ${faqList}">
+                    <span style="color:#dfe5ff;"><i class="bi bi-q-circle" style="color:#7a9bff;"></i>
+                        <span th:text="${item.qestnSj}">질문</span></span>
+                </div>
+                <div class="lp-row" th:if="${faqList == null or #lists.isEmpty(faqList)}">
+                    <span class="text-muted">등록된 FAQ가 없습니다.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 설문참여 ===== -->
+    <section class="mt-4">
+        <div class="lp-panel">
+            <div class="lp-panel-head">
+                <span class="ttl"><i class="bi bi-clipboard-check text-info"></i> 포털 설문 참여</span>
+                <a th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}">참여하기 <i class="bi bi-chevron-right"></i></a>
+            </div>
+            <div>
+                <div class="lp-row" th:each="item : ${qriList}">
+                    <a th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}"
+                       th:text="${item.qestnrSj}">설문 제목</a>
+                    <span class="date">
+                        <span th:text="${item.qestnrBeginDe}">시작일</span> ~ <span th:text="${item.qestnrEndDe}">종료일</span>
+                    </span>
+                </div>
+                <div class="lp-row" th:if="${qriList == null or #lists.isEmpty(qriList)}">
+                    <span class="text-muted">진행 중인 설문이 없습니다. 표준프레임워크 경량환경 포털 홈페이지 이용에 대한 설문조사에 참여해 주세요.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="lp-cta mt-5 mb-4">
+        <div class="lp-sec-title mb-2">지금 바로 시작하세요</div>
+        <p class="lp-sec-desc mb-4">회원가입 후 포털의 모든 서비스를 이용할 수 있습니다.</p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+            <a sec:authorize="!isAuthenticated()" class="lp-btn-primary" th:href="@{/uat/uia/egovLoginUsr.do}">
+                <i class="bi bi-box-arrow-in-right"></i> 로그인</a>
+            <a sec:authorize="!isAuthenticated()" class="lp-btn-ghost" th:href="@{/uss/umt/cmm/EgovMberSbscrbView.do}">
+                <i class="bi bi-person-plus"></i> 회원가입</a>
+            <a sec:authorize="isAuthenticated()" class="lp-btn-primary" th:href="@{/uss/olh/qna/QnaListInqire.do}">
+                <i class="bi bi-chat-dots"></i> 문의 남기기</a>
+        </div>
+    </section>
+
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>Q&amp;A 답변 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olh/qnm/QnaAnswerListInqire.do}">Q&amp;A 답변 관리</a></li>
+            <li class="breadcrumb-item active">상세</li>
+        </ol></nav>
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <strong th:text="${result.qestnSj}">제목</strong>
+                <span class="badge bg-secondary" th:text="${result.qnaProcessSttusCodeNm ?: '접수'}">상태</span>
+            </div>
+            <div class="card-body">
+                <div class="text-muted small mb-2">
+                    작성자 <span th:text="${result.wrterNm}">작성자</span>
+                    · <span th:text="${result.writngDe}">작성일</span>
+                    · 조회 <span th:text="${result.inqireCo ?: 0}">0</span>
+                </div>
+                <p th:text="${result.qestnCn}">질문 내용</p>
+                <div class="alert alert-light border mt-3" th:if="${result.answerCn != null and !#strings.isEmpty(result.answerCn)}">
+                    <strong class="text-success">[답변]</strong>
+                    <div th:utext="${result.answerCn}">답변</div>
+                </div>
+                <div class="text-muted mt-3" th:if="${result.answerCn == null or #strings.isEmpty(result.answerCn)}">
+                    아직 답변이 등록되지 않았습니다.
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <a class="btn btn-outline-secondary btn-sm" th:href="@{/uss/olh/qnm/QnaAnswerListInqire.do}"><i class="bi bi-list"></i> 목록</a>
+            <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary btn-sm"
+               th:href="@{/uss/olh/qnm/QnaCnAnswerUpdtView.do(qaId=${result.qaId})}"><i class="bi bi-reply"></i> 답변 등록/수정</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

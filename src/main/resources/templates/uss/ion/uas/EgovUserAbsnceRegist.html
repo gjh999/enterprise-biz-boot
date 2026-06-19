@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>사용자부재등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item">내부시스템관리</li>
+            <li class="breadcrumb-item active">사용자부재관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-person-dash"></i> 사용자부재 등록</h1>
+
+        <form id="userAbsnce" name="userAbsnce" method="post"
+              th:action="@{/uss/ion/uas/addUserAbsnce.do}" th:object="${userAbsnce}">
+            <table class="table">
+                <colgroup><col style="width:190px;"><col></colgroup>
+                <tbody>
+                <tr>
+                    <th class="table-light">사용자ID</th>
+                    <td><input class="form-control" th:field="*{userId}" type="text" readonly title="사용자ID"/></td>
+                </tr>
+                <tr>
+                    <th class="table-light">사용자명 <span class="text-danger">*</span></th>
+                    <td>
+                        <input class="form-control" th:field="*{userNm}" type="text" readonly title="사용자명"/>
+                        <span class="text-danger" th:if="${#fields.hasErrors('userNm')}" th:errors="*{userNm}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">부재여부</th>
+                    <td>
+                        <select name="userAbsnceAt" id="userAbsnceAt" class="form-select" title="부재여부"
+                                style="width:auto;display:inline-block;">
+                            <option value="Y" th:selected="*{userAbsnceAt} == 'Y'">Y</option>
+                            <option value="N" th:selected="*{userAbsnceAt} == 'N'">N</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">등록일시</th>
+                    <td><input class="form-control" th:field="*{lastUpdusrPnttm}" type="text" readonly title="등록일시"/></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <input type="hidden" name="searchCondition" th:value="${userAbsnceVO != null} ? ${userAbsnceVO.searchCondition} : ''"/>
+            <input type="hidden" name="searchKeyword" th:value="${userAbsnceVO != null} ? ${userAbsnceVO.searchKeyword} : ''"/>
+            <input type="hidden" name="pageIndex" th:value="${userAbsnceVO != null} ? ${userAbsnceVO.pageIndex} : ''"/>
+            <input type="hidden" name="selAbsnceAt" th:value="${userAbsnceVO != null} ? ${userAbsnceVO.selAbsnceAt} : ''"/>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">저장</button>
+                <a class="btn btn-outline-secondary" th:href="@{/uss/ion/uas/selectUserAbsnceList.do}">목록</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

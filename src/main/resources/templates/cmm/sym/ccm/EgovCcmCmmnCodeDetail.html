@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>공통코드 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">공통코드관리</a></li>
+            <li class="breadcrumb-item active">상세</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-card-list"></i> 공통코드 상세</h1>
+
+        <div th:if="${result == null}" class="alert alert-warning">상세 데이터가 없습니다.</div>
+
+        <table class="table table-bordered align-middle" th:if="${result != null}">
+            <tbody>
+            <tr><th class="table-light" style="width:190px;">분류코드</th><td th:text="${result.clCodeNm}">분류</td></tr>
+            <tr><th class="table-light">코드ID</th><td th:text="${result.codeId}">코드ID</td></tr>
+            <tr><th class="table-light">코드ID명</th><td th:text="${result.codeIdNm}">코드ID명</td></tr>
+            <tr><th class="table-light">코드ID설명</th><td th:text="${result.codeIdDc}">설명</td></tr>
+            <tr><th class="table-light">사용여부</th><td th:text="${result.useAt == 'Y'} ? 'Yes' : 'No'">Yes</td></tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex gap-2" th:if="${result != null}">
+            <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}"><i class="bi bi-list"></i> 목록</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary"
+               th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeModify.do(codeId=${result.codeId})}"><i class="bi bi-pencil"></i> 수정</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-outline-danger"
+               th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeRemove.do(codeId=${result.codeId})}"
+               onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

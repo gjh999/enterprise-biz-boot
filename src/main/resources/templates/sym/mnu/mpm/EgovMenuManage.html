@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>메뉴목록관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item">내부시스템관리</li>
+            <li class="breadcrumb-item active">메뉴목록관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-list-nested"></i> 메뉴목록관리</h1>
+
+        <form name="menuManageForm" method="get" th:action="@{/sym/mnu/mpm/EgovMenuManageSelect.do}" class="row g-2 mb-3">
+            <div class="col-auto"><label class="col-form-label">메뉴명</label></div>
+            <div class="col-auto">
+                <input class="form-control" name="searchKeyword" type="text" maxlength="60"
+                       th:value="${searchVO != null ? searchVO.searchKeyword : ''}" title="검색조건"/>
+            </div>
+            <div class="col-auto"><button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> 조회</button></div>
+        </form>
+
+        <form name="delForm" method="post" th:action="@{/sym/mnu/mpm/EgovMenuManageListDelete.do}" id="delForm">
+            <input type="hidden" name="checkedMenuNoForDel" id="checkedMenuNoForDel"/>
+            <table class="table table-hover align-middle">
+                <thead class="table-light"><tr>
+                    <th style="width:40px;"><input type="checkbox" id="checkAll"/></th>
+                    <th style="width:90px;">메뉴번호</th>
+                    <th>메뉴명</th>
+                    <th>프로그램파일명</th>
+                    <th>메뉴설명</th>
+                    <th style="width:110px;">상위메뉴번호</th>
+                </tr></thead>
+                <tbody>
+                <tr th:each="item : ${list_menumanage}">
+                    <td><input type="checkbox" class="chkField" th:value="${item.menuNo}"/></td>
+                    <td th:text="${item.menuNo}">0</td>
+                    <td><a class="link-primary" th:href="@{/sym/mnu/mpm/EgovMenuManageListDetailSelect.do(req_menuNo=${item.menuNo})}" th:text="${item.menuNm}">메뉴명</a></td>
+                    <td th:text="${item.progrmFileNm}">프로그램</td>
+                    <td th:text="${item.menuDc}">설명</td>
+                    <td th:text="${item.upperMenuId}">0</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(list_menumanage)}"><td colspan="6" class="text-center text-muted py-4">등록된 메뉴가 없습니다.</td></tr>
+                </tbody>
+            </table>
+        </form>
+
+        <div class="text-end">
+            <a class="btn btn-primary btn-sm" th:href="@{/sym/mnu/mpm/EgovMenuRegistInsert.do}"><i class="bi bi-plus-lg"></i> 등록</a>
+            <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteChecked()"><i class="bi bi-trash"></i> 삭제</button>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        document.getElementById('checkAll').addEventListener('click', function () {
+            document.querySelectorAll('.chkField').forEach(function (c) { c.checked = document.getElementById('checkAll').checked; });
+        });
+        function deleteChecked() {
+            var ids = [];
+            document.querySelectorAll('.chkField:checked').forEach(function (c) { ids.push(c.value); });
+            if (ids.length === 0) { alert('삭제할 메뉴를 선택하세요.'); return; }
+            document.getElementById('checkedMenuNoForDel').value = ids.join(',');
+            document.getElementById('delForm').submit();
+        }
+    </script>
+</main>
+</body>
+</html>

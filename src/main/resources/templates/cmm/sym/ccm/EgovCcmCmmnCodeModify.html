@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>공통코드 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">공통코드관리</a></li>
+            <li class="breadcrumb-item active">수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-card-list"></i> 공통코드 수정</h1>
+
+        <form th:action="@{/sym/ccm/cca/EgovCcmCmmnCodeModify.do}" method="post" th:object="${cmmnCode}">
+            <input type="hidden" th:field="*{clCode}"/>
+            <input type="hidden" th:field="*{codeId}"/>
+            <table class="table table-bordered align-middle">
+                <tbody>
+                <tr><th class="table-light" style="width:190px;">분류코드</th><td th:text="*{clCodeNm}">분류</td></tr>
+                <tr><th class="table-light">코드ID</th><td th:text="*{codeId}">코드ID</td></tr>
+                <tr>
+                    <th class="table-light">코드ID명 <span class="text-danger">*</span></th>
+                    <td>
+                        <input class="form-control" type="text" th:field="*{codeIdNm}" maxlength="60"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('codeIdNm')}" th:errors="*{codeIdNm}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">코드ID설명 <span class="text-danger">*</span></th>
+                    <td>
+                        <textarea class="form-control" rows="4" th:field="*{codeIdDc}"></textarea>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('codeIdDc')}" th:errors="*{codeIdDc}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">사용여부 <span class="text-danger">*</span></th>
+                    <td>
+                        <select class="form-select" th:field="*{useAt}">
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('useAt')}" th:errors="*{useAt}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">목록</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

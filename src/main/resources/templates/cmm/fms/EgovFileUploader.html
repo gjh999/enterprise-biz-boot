@@ -1,0 +1,41 @@
+<!--
+  EgovFileUploader.html : 다중 파일첨부 입력 위젯 프래그먼트
+  - JSP 원본의 MultiSelector(EgovMultiFile.js) 동적 input 추가를 대체한다.
+  - 게시물 등록/수정/답글 폼 안에서 사용한다. (file_1, file_2, ... 이름으로 input 생성
+    → 컨트롤러의 MultipartHttpServletRequest.getFileMap() + EgovFileMngUtil.parseFileInf 처리)
+  - 사용법:
+      <div th:replace="~{cmm/fms/EgovFileUploader ::
+           uploader(${bdMstr != null ? bdMstr.posblAtchFileNumber : null},
+                    ${fileList != null ? #lists.size(fileList) : 0})}"></div>
+    * maxCnt  : 첨부 가능 파일 수(게시판 마스터 posblAtchFileNumber, 0 이하/미지정 시 3개)
+    * existCnt: 기존 첨부파일 수(수정 화면에서 잔여 첨부 가능 수 계산용, 등록 화면은 0)
+-->
+<div xmlns:th="http://www.thymeleaf.org" class="egov-file-uploader"
+     th:fragment="uploader(maxCnt, existCnt)"
+     th:attr="data-max=${maxCnt != null ? maxCnt : ''},data-exist=${existCnt != null ? existCnt : 0}">
+    <input class="form-control mb-2" type="file" name="file_1"/>
+    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="egovAddFileInput(this);">
+        <i class="bi bi-plus-lg"></i> 파일 추가
+    </button>
+    <script th:inline="none">
+        (function () {
+            if (window.egovAddFileInput) { return; }
+            window.egovAddFileInput = function (btn) {
+                var wrap = btn.closest('.egov-file-uploader');
+                var max = parseInt(wrap.getAttribute('data-max'), 10);
+                if (isNaN(max) || max <= 0) { max = 3; } // 미지정 시 기본 3개
+                var exist = parseInt(wrap.getAttribute('data-exist'), 10) || 0;
+                var inputs = wrap.querySelectorAll('input[type="file"]');
+                if (inputs.length + exist >= max) {
+                    alert('첨부 가능한 파일 수를 초과했습니다. (최대 ' + max + '개)');
+                    return;
+                }
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.className = 'form-control mb-2';
+                input.name = 'file_' + (inputs.length + 1);
+                wrap.insertBefore(input, btn);
+            };
+        })();
+    </script>
+</div>

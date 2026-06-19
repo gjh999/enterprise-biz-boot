@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문항목 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">설문항목</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-card-list"></i> 설문항목 등록</h1>
+        <form th:action="@{/uss/olp/qim/EgovQustnrItemManageRegist.do}" th:object="${qustnrItemManageVO}" method="post">
+            <input type="hidden" name="cmd" value="save"/>
+            <div class="row g-3">
+                <div class="col-md-6"><label class="form-label">설문지 ID</label>
+                    <input class="form-control" type="text" th:field="*{qestnrId}"/></div>
+                <div class="col-md-6"><label class="form-label">설문템플릿 ID</label>
+                    <input class="form-control" type="text" th:field="*{qestnrTmplatId}"/></div>
+                <div class="col-md-6"><label class="form-label">설문문항 ID</label>
+                    <input class="form-control" type="text" th:field="*{qestnrQesitmId}"/></div>
+                <div class="col-md-6"><label class="form-label">항목순번 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" th:field="*{iemSn}" maxlength="5" required/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('iemSn')}" th:errors="*{iemSn}"></div></div>
+                <div class="col-12"><label class="form-label">항목내용 <span class="text-danger">*</span></label>
+                    <textarea class="form-control" rows="4" th:field="*{iemCn}" required></textarea>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('iemCn')}" th:errors="*{iemCn}"></div></div>
+                <div class="col-md-6"><label class="form-label">기타답변여부</label>
+                    <select class="form-select" th:field="*{etcAnswerAt}">
+                        <option value="N">N</option>
+                        <option value="Y">Y</option>
+                    </select></div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title layout:title-pattern="$CONTENT_TITLE - 전자정부표준프레임워크">전자정부표준프레임워크</title>
+
+    <!--
+        KRDS (한국 정부 통합 디자인 시스템)
+        공식 CDN: https://uiux.egovframe.go.kr
+        현재: Bootstrap 5 기반 임시 적용 — KRDS 파일 제공 시 krds.css/krds.js로 교체
+    -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/krds.css}"/>
+    <!-- 공통 CSS -->
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <!-- 모던 다크 테마 (전역 오버라이드) -->
+    <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+    <link rel="icon" type="image/svg+xml" th:href="@{/images/logo.svg}"/>
+
+    <!-- 페이지별 추가 CSS -->
+    <th:block layout:fragment="head-css"></th:block>
+</head>
+<body class="egov-body">
+
+<!-- 접근성: 본문 바로가기 -->
+<a href="#content" class="skip-nav">본문 바로가기</a>
+
+<!-- 헤더 -->
+<header class="egov-header" th:replace="~{fragments/header :: header}"></header>
+
+<!-- 네비게이션 -->
+<nav class="egov-nav" th:replace="~{fragments/nav :: nav}"></nav>
+
+<!-- 본문 -->
+<main id="content" class="egov-content container-fluid py-4">
+    <th:block layout:fragment="content">
+        <!-- 페이지별 콘텐츠가 여기에 삽입됩니다 -->
+    </th:block>
+</main>
+
+<!-- 푸터 -->
+<footer class="egov-footer" th:replace="~{fragments/footer :: footer}"></footer>
+
+<!-- Bootstrap 5 JS (로컬) -->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!-- KRDS JS (로컬 오버라이드) -->
+<script th:src="@{/js/krds.js}"></script>
+<!-- 공통 JS -->
+<script th:src="@{/js/common.js}"></script>
+
+<!-- 페이지별 추가 JS -->
+<th:block layout:fragment="body-js"></th:block>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>프로그램파일명 검색</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">프로그램파일명 검색</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-search"></i> 프로그램파일명 검색</h1>
+
+        <form th:action="@{/sym/prm/EgovProgramListSearch.do}" method="post" class="mb-3">
+            <div class="input-group" style="max-width:560px;">
+                <span class="input-group-text">프로그램파일명</span>
+                <input type="text" class="form-control" name="searchKeyword" maxlength="60"
+                       th:value="${searchVO != null ? searchVO.searchKeyword : ''}"/>
+                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> 조회</button>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr>
+                <th>프로그램파일명</th>
+                <th>프로그램명</th>
+                <th style="width:100px;">선택</th>
+            </tr></thead>
+            <tbody>
+            <tr th:each="item : ${list_progrmmanage}">
+                <td th:text="${item.progrmFileNm}">파일명</td>
+                <td th:text="${item.progrmKoreanNm}">프로그램명</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            th:onclick="|choisProgramListSearch('${item.progrmFileNm}')|">선택</button>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(list_progrmmanage)}">
+                <td colspan="3" class="text-center text-muted py-4">검색된 프로그램이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <script th:inline="javascript">
+        function choisProgramListSearch(vFileNm) {
+            if (window.parent && typeof window.parent.fn_egov_returnValue === 'function') {
+                window.parent.fn_egov_returnValue(vFileNm);
+            }
+        }
+    </script>
+</main>
+</body>
+</html>

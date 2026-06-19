@@ -1,0 +1,439 @@
+/* ============================================================
+   eGovFrame 5.0 — 모던 다크 테마 (랜딩 페이지 톤 통일)
+   모든 포털 페이지에 적용되는 전역 오버라이드.
+   bootstrap.min.css / krds.css / common.css 이후에 로드되어 우선 적용된다.
+   ============================================================ */
+
+:root {
+    --t-ink: #0a0e27;
+    --t-ink-2: #121737;
+    --t-surface: #161b3d;
+    --t-surface-2: #1b2150;
+    --t-indigo: #4f6bff;
+    --t-indigo-2: #7a5cff;
+    --t-cyan: #19d3da;
+    --t-accent: #ff5d8f;
+    --t-text: #e7ebff;
+    --t-muted: #aab1d6;
+    --t-line: rgba(255, 255, 255, 0.10);
+    --t-line-strong: rgba(255, 255, 255, 0.18);
+    --t-radius: 18px;
+}
+
+/* ---------- 기본 바탕 ---------- */
+html { scroll-behavior: smooth; }
+
+body.egov-body {
+    background: var(--t-ink);
+    background-image:
+        radial-gradient(1100px 700px at 85% -10%, rgba(79, 107, 255, 0.18), transparent 60%),
+        radial-gradient(900px 600px at -10% 10%, rgba(122, 92, 255, 0.16), transparent 55%),
+        radial-gradient(800px 800px at 50% 120%, rgba(25, 211, 218, 0.10), transparent 60%),
+        linear-gradient(180deg, #0a0e27, #0c1130 60%, #0a0e27);
+    background-attachment: fixed;
+    color: var(--t-text);
+    font-family: "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.egov-content {
+    background: transparent !important;
+    min-height: calc(100vh - 220px);
+}
+
+a { color: #bcd0ff; }
+a:hover { color: #fff; }
+
+/* 스크롤바 */
+* { scrollbar-width: thin; scrollbar-color: rgba(124,150,255,.5) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: linear-gradient(var(--t-indigo), var(--t-indigo-2)); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.skip-nav { background: var(--t-indigo); }
+
+/* ---------- 헤더 ---------- */
+.egov-header.egov-header {
+    background: rgba(10, 14, 39, 0.72) !important;
+    backdrop-filter: blur(18px) saturate(160%);
+    border-bottom: 1px solid var(--t-line) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    transition: background .35s ease, padding .35s ease;
+}
+.egov-header.scrolled { background: rgba(8, 11, 30, 0.9) !important; }
+.egov-header .egov-header-logo img { filter: drop-shadow(0 6px 14px rgba(79,107,255,.45)); }
+.egov-header .egov-header-logo span,
+.egov-header .text-primary { color: #fff !important; }
+.egov-header .egov-header-user .text-muted { color: var(--t-muted) !important; }
+.egov-header .egov-header-user .fw-semibold { color: #fff; }
+
+/* 언어 선택기 */
+.egov-lang { display: inline-flex; align-items: center; gap: 2px; padding: 2px;
+    background: rgba(255,255,255,.06); border: 1px solid var(--t-line); border-radius: 999px; }
+.egov-lang .lang-btn { font-size: 12.5px; font-weight: 600; color: var(--t-muted);
+    text-decoration: none; padding: 4px 11px; border-radius: 999px; transition: background .2s, color .2s; line-height: 1.4; }
+.egov-lang .lang-btn:hover { color: #fff; }
+.egov-lang .lang-btn.active { background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)); color: #fff; }
+
+/* 로그인 페이지 상단 언어 선택기 */
+.login-lang { position: absolute; top: 22px; right: 24px; z-index: 5; }
+
+/* ---------- 네비게이션 ---------- */
+.egov-nav.egov-nav {
+    background: rgba(13, 17, 46, 0.66) !important;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--t-line);
+    position: relative;
+    z-index: 1030;            /* 드롭다운이 페이지 타이틀/콘텐츠 위로 오도록 */
+}
+.egov-nav .nav-link {
+    color: #e7ebff !important;
+    font-size: 14.5px; font-weight: 700;
+    border-bottom: none !important;
+    border-radius: 999px;
+    margin: 4px 2px; padding: 8px 16px !important;
+    transition: color .2s, background .2s;
+}
+.egov-nav .nav-link:hover,
+.egov-nav .nav-link.active {
+    color: #fff !important;
+    background: linear-gradient(135deg, rgba(79,107,255,.9), rgba(122,92,255,.9));
+    box-shadow: 0 8px 22px rgba(79,107,255,.35);
+}
+.egov-nav .navbar-toggler { border-color: var(--t-line-strong); }
+.egov-nav .dropdown-menu {
+    background: rgba(18, 23, 55, 0.98);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--t-line);
+    border-radius: 14px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.5);
+    padding: 8px;
+    z-index: 1050;            /* 콘텐츠보다 확실히 위 */
+}
+.egov-nav .dropdown-item { color: var(--t-muted); border-radius: 9px; padding: 9px 14px; font-size: 14px; }
+.egov-nav .dropdown-item:hover { background: rgba(79,107,255,.18); color: #fff; }
+.egov-nav .dropdown-divider { border-color: var(--t-line); }
+
+/* 모바일: 펼쳐진 네비가 콘텐츠와 겹치지 않도록 솔리드 패널 처리 */
+@media (max-width: 991.98px) {
+    .egov-nav .navbar-collapse {
+        background: rgba(11, 16, 48, 0.99);
+        border: 1px solid var(--t-line);
+        border-radius: 14px;
+        padding: 10px 12px;
+        margin-top: 10px;
+        box-shadow: 0 22px 55px rgba(0,0,0,.55);
+    }
+    .egov-nav .navbar-nav { gap: 2px; }
+    .egov-nav .dropdown-menu {
+        background: rgba(255,255,255,.05);
+        border: 0; box-shadow: none; margin: 4px 0 4px 14px; padding: 4px;
+    }
+}
+
+/* ---------- 페이지 타이틀(히어로 밴드) ---------- */
+.page-title-bar {
+    position: relative;
+    background: linear-gradient(120deg, #161b3d, #1b2150 55%, #241a55) !important;
+    border: 1px solid var(--t-line) !important;
+    border-radius: 22px;
+    margin: 22px 16px 30px;
+    padding: 40px 8px 34px !important;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,.4);
+}
+.page-title-bar::before {
+    content: ""; position: absolute; width: 360px; height: 360px; right: -80px; top: -160px;
+    background: radial-gradient(circle, rgba(79,107,255,.55), transparent 70%); filter: blur(40px);
+}
+.page-title-bar::after {
+    content: ""; position: absolute; width: 280px; height: 280px; left: -60px; bottom: -150px;
+    background: radial-gradient(circle, rgba(25,211,218,.35), transparent 70%); filter: blur(40px);
+}
+.page-title-bar > .container-fluid { position: relative; z-index: 2; }
+.page-title-bar h1, .page-title-bar h2 {
+    color: #fff !important; font-size: 34px !important; font-weight: 800; letter-spacing: -.02em;
+}
+.page-title-bar .breadcrumb { margin-bottom: 12px; }
+.page-title-bar .breadcrumb-item,
+.page-title-bar .breadcrumb-item.active { color: var(--t-muted); font-size: 13px; }
+.page-title-bar .breadcrumb-item a { color: #c4cbf0; text-decoration: none; }
+.page-title-bar .breadcrumb-item a:hover { color: #fff; }
+.page-title-bar .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,.3); }
+
+/* ---------- 카드 ---------- */
+.card, .egov-card {
+    background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.02)) !important;
+    border: 1px solid var(--t-line) !important;
+    border-radius: var(--t-radius) !important;
+    color: var(--t-text) !important;
+    box-shadow: 0 18px 44px rgba(0,0,0,.32);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    position: relative;
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--t-line-strong) !important;
+    box-shadow: 0 28px 60px rgba(20,30,80,.5);
+}
+.card::after {
+    content: ""; position: absolute; left: 0; top: 0; height: 3px; width: 0;
+    background: linear-gradient(90deg, var(--t-indigo), var(--t-cyan)); transition: width .45s ease;
+}
+.card:hover::after { width: 100%; }
+.card-header {
+    background: rgba(255,255,255,.04) !important;
+    border-bottom: 1px solid var(--t-line) !important;
+    color: #fff !important; font-weight: 700; font-size: 15.5px;
+    padding: 16px 20px !important;
+}
+.card-body { color: var(--t-text); }
+.card .text-dark { color: var(--t-text) !important; }
+.card a.text-dark:hover { color: #fff !important; }
+.text-muted { color: var(--t-muted) !important; }
+
+/* 환영 배너(메인) 등 인라인 그라데이션 카드 보정 */
+.card[style*="gradient"] { border: 0 !important; }
+
+/* ---------- 테이블 ---------- */
+.egov-table { color: var(--t-text); }
+.egov-table thead th {
+    background: linear-gradient(135deg, rgba(79,107,255,.28), rgba(122,92,255,.22)) !important;
+    border: 1px solid var(--t-line) !important;
+    color: #eef1ff !important;
+    text-transform: none; letter-spacing: .01em;
+}
+.egov-table tbody td {
+    border: 1px solid var(--t-line) !important;
+    color: var(--t-text) !important;
+    background: transparent;
+}
+.egov-table tbody tr { transition: background .2s; }
+.egov-table tbody tr:hover { background: rgba(79,107,255,.12) !important; }
+.egov-table tbody td a, .egov-table tbody td a.text-dark { color: #d7ddff !important; text-decoration: none; }
+.egov-table tbody td a:hover { color: #fff !important; }
+.egov-table .text-muted { color: var(--t-muted) !important; }
+
+/* Bootstrap table 보정 */
+.table { color: var(--t-text); }
+.table > :not(caption) > * > * { background: transparent; color: var(--t-text); border-color: var(--t-line); }
+.table-bordered > :not(caption) > * > * { border-color: var(--t-line); }
+
+/* ---------- 검색 바 ---------- */
+.search-bar {
+    background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) !important;
+    border: 1px solid var(--t-line) !important;
+    border-radius: var(--t-radius) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.25);
+}
+.search-bar .form-label, .form-label { color: var(--t-muted); }
+
+/* ---------- 폼 ---------- */
+.form-control, .form-select {
+    background: rgba(255,255,255,.05) !important;
+    border: 1px solid var(--t-line-strong) !important;
+    color: var(--t-text) !important;
+    border-radius: 11px !important;
+}
+.form-control::placeholder { color: #7e87b5; }
+.form-control:focus, .form-select:focus {
+    background: rgba(255,255,255,.08) !important;
+    border-color: var(--t-indigo) !important;
+    box-shadow: 0 0 0 3px rgba(79,107,255,.28) !important;
+    color: #fff !important;
+}
+.form-select option { background: #161b3d; color: var(--t-text); }
+.input-group-text {
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid var(--t-line-strong) !important;
+    color: var(--t-muted) !important;
+}
+.input-group-text.bg-white { background: rgba(255,255,255,.06) !important; }
+.input-group-text .text-primary { color: var(--t-cyan) !important; }
+
+/* ---------- 버튼 ---------- */
+.btn { border-radius: 999px !important; font-weight: 600; transition: transform .2s ease, box-shadow .2s ease, filter .2s; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary, .btn-egov {
+    background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)) !important;
+    border: 0 !important; color: #fff !important;
+    box-shadow: 0 10px 26px rgba(79,107,255,.4);
+}
+.btn-primary:hover, .btn-egov:hover { box-shadow: 0 16px 38px rgba(79,107,255,.55); filter: brightness(1.05); }
+.btn-success { background: linear-gradient(135deg, #28c76f, #1ba94c) !important; border: 0 !important; box-shadow: 0 10px 26px rgba(40,199,111,.35); }
+.btn-info { background: linear-gradient(135deg, #19d3da, #1597d6) !important; border: 0 !important; color: #04263b !important; box-shadow: 0 10px 26px rgba(25,211,218,.32); }
+.btn-warning { background: linear-gradient(135deg, #ffb347, #ff8a3d) !important; border: 0 !important; color: #3a2400 !important; }
+.btn-danger { background: linear-gradient(135deg, #ff5d8f, #f0356b) !important; border: 0 !important; }
+.btn-secondary { background: rgba(255,255,255,.10) !important; border: 1px solid var(--t-line-strong) !important; color: #fff !important; }
+
+.btn-outline-primary, .btn-outline-success, .btn-outline-info, .btn-outline-warning, .btn-outline-secondary, .btn-outline-danger, .btn-outline-dark {
+    background: rgba(255,255,255,.04) !important;
+    border: 1px solid var(--t-line-strong) !important;
+    color: var(--t-text) !important;
+}
+.btn-outline-primary:hover { background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 10px 26px rgba(79,107,255,.4); }
+.btn-outline-success:hover { background: linear-gradient(135deg, #28c76f, #1ba94c) !important; border-color: transparent !important; color: #fff !important; }
+.btn-outline-info:hover { background: linear-gradient(135deg, #19d3da, #1597d6) !important; border-color: transparent !important; color: #04263b !important; }
+.btn-outline-warning:hover { background: linear-gradient(135deg, #ffb347, #ff8a3d) !important; border-color: transparent !important; color: #3a2400 !important; }
+.btn-outline-secondary:hover { background: rgba(255,255,255,.14) !important; color: #fff !important; }
+
+.text-primary { color: #8aa0ff !important; }
+.text-success { color: #4fe39a !important; }
+.text-info { color: #54e0e6 !important; }
+.text-warning { color: #ffc878 !important; }
+.text-danger { color: #ff85a9 !important; }
+
+/* ---------- 페이지네이션 ---------- */
+.pagination { gap: 6px; }
+.pagination .page-link {
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--t-line-strong);
+    color: var(--t-text);
+    border-radius: 11px !important;
+    min-width: 40px; text-align: center; font-weight: 600;
+    transition: background .2s, transform .2s, box-shadow .2s;
+}
+.pagination .page-link:hover {
+    background: rgba(79,107,255,.22);
+    color: #fff; transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(79,107,255,.3);
+}
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2));
+    border-color: transparent; color: #fff;
+    box-shadow: 0 10px 24px rgba(79,107,255,.45);
+}
+.pagination .page-item.disabled .page-link {
+    background: rgba(255,255,255,.03); color: #5b6390; border-color: var(--t-line);
+}
+nav[aria-label="페이지 네비게이션"] .text-muted { color: var(--t-muted) !important; }
+
+/* ---------- 알림 ---------- */
+.alert { border-radius: 14px; border: 1px solid var(--t-line-strong); backdrop-filter: blur(8px); color: var(--t-text); }
+.alert-success { background: rgba(40,199,111,.16); border-color: rgba(40,199,111,.4); color: #b6f4d2; }
+.alert-danger  { background: rgba(255,93,143,.16); border-color: rgba(255,93,143,.42); color: #ffc6d6; }
+.alert-warning { background: rgba(255,179,71,.16); border-color: rgba(255,179,71,.42); color: #ffe0b0; }
+.alert-info    { background: rgba(25,211,218,.14); border-color: rgba(25,211,218,.4); color: #bff2f4; }
+.btn-close { filter: invert(1) grayscale(1) brightness(1.6); }
+
+/* ---------- 배지 ---------- */
+.badge.bg-primary, .badge.bg-secondary { background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)) !important; }
+.badge.bg-success { background: linear-gradient(135deg, #28c76f, #1ba94c) !important; }
+.badge-new { background: linear-gradient(135deg, var(--t-accent), #f0356b); }
+
+/* ---------- 게시판 본문 ---------- */
+.bbs-content {
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--t-line);
+    color: var(--t-text);
+    border-radius: 14px;
+}
+
+/* ---------- 푸터 ---------- */
+.egov-footer.egov-footer {
+    background: #060916 !important;
+    border-top: 1px solid var(--t-line);
+    margin-top: 60px !important;
+}
+.egov-footer .text-muted { color: #7e87b5 !important; }
+.egov-footer h6 { color: #fff; }
+
+/* 일반 텍스트 색 보정 (다크 배경) */
+.egov-content .text-dark { color: var(--t-text) !important; }
+hr { border-color: var(--t-line); opacity: 1; }
+
+/* ============================================================
+   로그인 페이지 (다크 히어로 + 글래스 카드)
+   ============================================================ */
+body.egov-login-body {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: var(--t-ink) !important;
+    background-image:
+        radial-gradient(700px 500px at 80% 10%, rgba(79,107,255,.30), transparent 60%),
+        radial-gradient(600px 500px at 15% 90%, rgba(122,92,255,.26), transparent 60%),
+        linear-gradient(180deg, #0a0e27, #0c1130) !important;
+}
+body.egov-login-body::before,
+body.egov-login-body::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(80px); z-index: 0;
+}
+body.egov-login-body::before { width: 520px; height: 520px; background: radial-gradient(circle, rgba(79,107,255,.45), transparent 70%); top: -160px; right: -120px; animation: tFloat 16s ease-in-out infinite; }
+body.egov-login-body::after  { width: 460px; height: 460px; background: radial-gradient(circle, rgba(25,211,218,.30), transparent 70%); bottom: -160px; left: -120px; animation: tFloat 20s ease-in-out infinite reverse; }
+@keyframes tFloat { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-36px)} }
+
+body.egov-login-body .container { position: relative; z-index: 2; }
+
+.login-card {
+    max-width: 440px; width: 100%; margin: 0 auto; padding: 44px 40px;
+    background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.03)) !important;
+    border: 1px solid var(--t-line-strong);
+    border-radius: 24px !important;
+    box-shadow: 0 40px 90px rgba(0,0,0,.55) !important;
+    backdrop-filter: blur(20px) saturate(150%);
+    color: var(--t-text);
+    animation: cardIn .8s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes cardIn { from{opacity:0; transform:translateY(40px) scale(.97)} to{opacity:1; transform:none} }
+.login-card .login-logo h1 { color: #fff !important; font-weight: 800; letter-spacing: -.02em; font-size: 23px; }
+.login-card .login-logo .text-muted { color: var(--t-muted) !important; }
+.login-card .form-label { color: #cfd6ff; }
+.login-card hr { border-color: var(--t-line); }
+.login-card .login-back { color: var(--t-muted); font-size: 13px; text-decoration: none; }
+.login-card .login-back:hover { color: #fff; }
+.login-logo .logo-badge {
+    width: 64px; height: 64px; margin: 0 auto; display: block;
+    filter: drop-shadow(0 12px 30px rgba(79,107,255,.6));
+    animation: tBob 4s ease-in-out infinite;
+}
+@keyframes tBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+/* 회원가입 안내 링크 */
+.login-signup-hint { color: var(--t-muted); font-size: 14px; }
+.login-signup-link { color: #9db2ff; font-weight: 700; text-decoration: none; margin-left: 4px; }
+.login-signup-link:hover { color: #fff; text-decoration: underline; }
+
+/* 구분선 (또는 SNS) */
+.login-divider { display: flex; align-items: center; gap: 12px; margin: 22px 0 18px; color: #8089b5; font-size: 12.5px; }
+.login-divider::before, .login-divider::after { content: ""; flex: 1; height: 1px; background: var(--t-line); }
+
+/* SNS 로그인 버튼 */
+.sns-login { display: flex; flex-direction: column; gap: 10px; }
+.sns-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 11px 14px; border-radius: 12px;
+    font-weight: 700; font-size: 14.5px; text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.sns-btn:hover { transform: translateY(-2px); filter: brightness(1.03); }
+.sns-btn .sns-mark { font-weight: 900; }
+.sns-naver { background: #03c75a; color: #fff !important; box-shadow: 0 8px 20px rgba(3,199,90,.32); }
+.sns-naver:hover { box-shadow: 0 14px 30px rgba(3,199,90,.45); }
+.sns-kakao { background: #fee500; color: #191600 !important; box-shadow: 0 8px 20px rgba(254,229,0,.28); }
+.sns-kakao:hover { box-shadow: 0 14px 30px rgba(254,229,0,.42); }
+
+/* ============================================================
+   스크롤 리빌 애니메이션 (common.js 의 IntersectionObserver 가 토글)
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(34px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.reveal.r-d1 { transition-delay: .07s; }
+.reveal.r-d2 { transition-delay: .14s; }
+.reveal.r-d3 { transition-delay: .21s; }
+.reveal.r-d4 { transition-delay: .28s; }
+.reveal.r-d5 { transition-delay: .35s; }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+    .card:hover, .btn:hover, .pagination .page-link:hover { transform: none; }
+}
+
+/* ---------- 반응형 ---------- */
+@media (max-width: 768px) {
+    .page-title-bar { margin: 14px 8px 22px; padding: 30px 6px 26px !important; }
+    .page-title-bar h1, .page-title-bar h2 { font-size: 26px !important; }
+}

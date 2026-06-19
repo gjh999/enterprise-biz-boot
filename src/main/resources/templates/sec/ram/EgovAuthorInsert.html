@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>권한 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/ram/EgovAuthorListView.do}">권한관리</a></li>
+            <li class="breadcrumb-item active">권한 등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-shield-plus"></i> 권한 등록</h1>
+
+        <form th:action="@{/sec/ram/EgovAuthorInsert.do}" method="post">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="authorCode">권한 코드 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="authorCode" name="authorCode" maxlength="50" required
+                               th:value="${authorManage != null ? authorManage.authorCode : ''}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="authorNm">권한 명 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="authorNm" name="authorNm" maxlength="50" required
+                               th:value="${authorManage != null ? authorManage.authorNm : ''}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="authorDc">설명</label>
+                        <input type="text" class="form-control" id="authorDc" name="authorDc" maxlength="50"
+                               th:value="${authorManage != null ? authorManage.authorDc : ''}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/ram/EgovAuthorListView.do}">목록</a>
+                <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

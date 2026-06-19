@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>그룹관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">그룹관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 그룹관리</h1>
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr><th>그룹ID</th><th>그룹명</th><th>설명</th><th style="width:140px;">생성일</th><th style="width:120px;"></th></tr></thead>
+            <tbody>
+            <tr th:each="item : ${groupList}">
+                <td th:text="${item.groupId}">ID</td>
+                <td th:text="${item.groupNm}">그룹명</td>
+                <td th:text="${item.groupDc}">설명</td>
+                <td class="text-center" th:text="${item.groupCreatDe}">생성일</td>
+                <td class="text-end">
+                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/gmt/EgovGroup.do(groupId=${item.groupId})}"><i class="bi bi-pencil"></i> 수정</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(groupList)}"><td colspan="5" class="text-center text-muted py-4">등록된 그룹이 없습니다.</td></tr>
+            </tbody>
+        </table>
+        <div class="text-end"><a class="btn btn-primary btn-sm" th:href="@{/sec/gmt/EgovGroupInsertView.do}"><i class="bi bi-plus-lg"></i> 그룹 등록</a></div>
+    </div>
+</main>
+</body>
+</html>

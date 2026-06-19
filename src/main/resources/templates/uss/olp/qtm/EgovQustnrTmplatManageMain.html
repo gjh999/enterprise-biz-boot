@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문템플릿 메인</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">설문템플릿 메인</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-layout-text-window"></i> 설문템플릿 관리</h1>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-list-ul"></i> 설문템플릿 목록</h5>
+                        <p class="card-text text-muted">등록된 설문템플릿을 조회하고 관리합니다.</p>
+                        <a class="btn btn-primary btn-sm" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">목록 바로가기</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-plus-square"></i> 설문템플릿 등록</h5>
+                        <p class="card-text text-muted">새로운 설문템플릿을 등록합니다.</p>
+                        <a class="btn btn-outline-primary btn-sm" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageRegist.do}">등록 바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

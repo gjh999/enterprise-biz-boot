@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>일반달력</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
+</head>
+<body class="p-2">
+    <iframe th:src="@{/sym/cmm/EgovselectNormalCalendar.do}" title="일반달력"
+            style="width:100%;height:520px;border:0;"></iframe>
+    <div class="text-end mt-2">
+        <button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.close();">닫기</button>
+    </div>
+</body>
+</html>

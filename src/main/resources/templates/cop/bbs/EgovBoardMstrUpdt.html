@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>게시판 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:860px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cop/bbs/SelectBBSMasterInfs.do}">게시판생성관리</a></li>
+            <li class="breadcrumb-item active">게시판 수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 게시판 수정</h1>
+        <form th:action="@{/cop/bbs/UpdateBBSMasterInf.do}" method="post">
+            <input type="hidden" name="pageIndex" th:value="${searchVO != null ? searchVO.pageIndex : '1'}"/>
+            <input type="hidden" name="bbsId" th:value="${result != null ? result.bbsId : ''}"/>
+            <!-- @EgovNullCheck 통과를 위한 기존값 유지 -->
+            <input type="hidden" name="bbsTyCode" th:value="${result != null ? result.bbsTyCode : ''}"/>
+            <input type="hidden" name="bbsAttrbCode" th:value="${result != null ? result.bbsAttrbCode : ''}"/>
+            <!-- 답장가능여부는 생성 후 변경 불가(JSP 원본과 동일) — @EgovNullCheck 통과용 hidden -->
+            <input type="hidden" name="replyPosblAt" th:value="${result != null ? result.replyPosblAt : 'N'}"/>
+            <input type="hidden" id="tmplatId" name="tmplatId" th:value="${result != null and result.tmplatId != null and !#strings.isEmpty(result.tmplatId) ? result.tmplatId : 'TMPLAT_BOARD_DEFAULT'}"/>
+
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th style="width:190px;">게시판 ID</th>
+                    <td><span class="form-control-plaintext" th:text="${result != null ? result.bbsId : ''}">bbsId</span></td>
+                </tr>
+                <tr>
+                    <th>게시판 명 <span class="text-danger">*</span></th>
+                    <td><input class="form-control" type="text" name="bbsNm" maxlength="120"
+                               th:value="${result != null ? result.bbsNm : ''}" required/></td>
+                </tr>
+                <tr>
+                    <th>게시판 소개 <span class="text-danger">*</span></th>
+                    <td><textarea class="form-control" rows="4" maxlength="2000" name="bbsIntrcn" required
+                                  th:text="${result != null ? result.bbsIntrcn : ''}"></textarea></td>
+                </tr>
+                <tr>
+                    <th>게시판 유형</th>
+                    <td><span class="form-control-plaintext"
+                              th:text="${result != null and result.bbsTyCodeNm != null and !#strings.isEmpty(result.bbsTyCodeNm) ? result.bbsTyCodeNm : (result != null ? result.bbsTyCode : '')}">유형</span></td>
+                </tr>
+                <tr>
+                    <th>게시판 속성</th>
+                    <td><span class="form-control-plaintext"
+                              th:text="${result != null and result.bbsAttrbCodeNm != null and !#strings.isEmpty(result.bbsAttrbCodeNm) ? result.bbsAttrbCodeNm : (result != null ? result.bbsAttrbCode : '')}">속성</span></td>
+                </tr>
+                <tr>
+                    <th>답장가능여부</th>
+                    <td><span class="form-control-plaintext"
+                              th:text="${result != null and result.replyPosblAt == 'Y'} ? '가능' : '불가능'">가능</span></td>
+                </tr>
+                <tr>
+                    <th>파일첨부가능여부 <span class="text-danger">*</span></th>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="fa_y" name="fileAtchPosblAt" value="Y"
+                                   th:checked="${result != null and result.fileAtchPosblAt == 'Y'}"/>
+                            <label class="form-check-label" for="fa_y">Y</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="fa_n" name="fileAtchPosblAt" value="N"
+                                   th:checked="${result != null and result.fileAtchPosblAt == 'N'}"/>
+                            <label class="form-check-label" for="fa_n">N</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>첨부가능파일 숫자</th>
+                    <td>
+                        <select class="form-select" name="posblAtchFileNumber">
+                            <option value="0" th:selected="${result == null or result.posblAtchFileNumber == 0}">선택하세요</option>
+                            <option value="1" th:selected="${result != null and result.posblAtchFileNumber == 1}">1개</option>
+                            <option value="2" th:selected="${result != null and result.posblAtchFileNumber == 2}">2개</option>
+                            <option value="3" th:selected="${result != null and result.posblAtchFileNumber == 3}">3개</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>템플릿 정보 <span class="text-danger">*</span></th>
+                    <td>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="tmplatNm" name="tmplatNm" readonly
+                                   th:value="${result != null and result.tmplatNm != null and !#strings.isEmpty(result.tmplatNm) ? result.tmplatNm : '게시판 기본템플릿'}"/>
+                            <button class="btn btn-outline-secondary" type="button" onclick="fnOpenTmplatPopup();">
+                                <i class="bi bi-search"></i> 조회
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" th:href="@{/cop/bbs/SelectBBSMasterInfs.do}">목록</a>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                </div>
+            </div>
+        </form>
+        <form th:action="@{/cop/bbs/DeleteBBSMasterInf.do}" method="post" class="mt-2 text-end"
+              onsubmit="return confirm('삭제하시겠습니까?');">
+            <input type="hidden" name="bbsId" th:value="${result != null ? result.bbsId : ''}"/>
+            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+        </form>
+    </div>
+</main>
+<th:block layout:fragment="body-js">
+    <script th:inline="javascript">
+        var tmplatPopupUrl = /*[[@{/cop/com/selectTemplateInfsPop.do}]]*/ '/cop/com/selectTemplateInfsPop.do';
+
+        /* 템플릿 선택 팝업 (iframe 모달) */
+        function fnOpenTmplatPopup() {
+            fn_egov_modal_remove();
+            var pan = document.createElement('div');
+            pan.id = 'modalPan';
+            pan.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1050;display:flex;align-items:center;justify-content:center;';
+            pan.innerHTML = '<div style="background:#fff;border-radius:.5rem;width:min(900px,95vw);height:min(600px,90vh);overflow:hidden;">'
+                + '<iframe src="' + tmplatPopupUrl + '" style="border:0;width:100%;height:100%;" title="템플릿 목록"></iframe></div>';
+            pan.addEventListener('click', function (e) { if (e.target === pan) fn_egov_modal_remove(); });
+            document.body.appendChild(pan);
+        }
+
+        /* 팝업(iframe)에서 호출하는 콜백: "tmplatId|tmplatNm" */
+        function showModalDialogCallback(retVal) {
+            if (retVal != null) {
+                var tmp = retVal.split('|');
+                document.getElementById('tmplatId').value = tmp[0];
+                document.getElementById('tmplatNm').value = tmp[1];
+            }
+            fn_egov_modal_remove();
+        }
+
+        function fn_egov_modal_remove() {
+            var pan = document.getElementById('modalPan');
+            if (pan) { pan.remove(); }
+        }
+
+        /* 파일첨부가능여부 N 선택 시 첨부가능파일 숫자 비활성화 */
+        document.addEventListener('DOMContentLoaded', function () {
+            var sel = document.querySelector('select[name="posblAtchFileNumber"]');
+            document.querySelectorAll('input[name="fileAtchPosblAt"]').forEach(function (r) {
+                r.addEventListener('change', function () { if (sel) { sel.disabled = (this.value === 'N'); } });
+                if (r.checked && r.value === 'N' && sel) { sel.disabled = true; }
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

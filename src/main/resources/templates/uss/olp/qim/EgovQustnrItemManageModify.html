@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문항목 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">설문항목</a></li>
+            <li class="breadcrumb-item active">수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 설문항목 수정</h1>
+        <form th:action="@{/uss/olp/qim/EgovQustnrItemManageModify.do}" method="post">
+            <input type="hidden" name="cmd" value="save"/>
+            <input type="hidden" name="qustnrIemId" th:value="${r != null ? r.qustnrIemId : ''}"/>
+            <input type="hidden" name="qestnrQesitmId" th:value="${r != null ? r.qestnrqesitmid : ''}"/>
+            <input type="hidden" name="qestnrId" th:value="${r != null ? r.qestnrId : ''}"/>
+            <input type="hidden" name="qestnrTmplatId" th:value="${r != null ? r.qestnrtmplatid : ''}"/>
+            <div class="row g-3">
+                <div class="col-12"><label class="form-label">설문제목</label>
+                    <input class="form-control-plaintext" type="text" readonly th:value="${r != null ? r.qestnrCn : ''}"/></div>
+                <div class="col-md-6"><label class="form-label">항목순번 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" name="iemSn" th:value="${r != null ? r.iemSn : ''}" maxlength="5" required/></div>
+                <div class="col-md-6"><label class="form-label">기타답변여부</label>
+                    <select class="form-select" name="etcAnswerAt">
+                        <option value="N" th:selected="${r != null and r.etcAnswerAt == 'N'}">N</option>
+                        <option value="Y" th:selected="${r != null and r.etcAnswerAt == 'Y'}">Y</option>
+                    </select></div>
+                <div class="col-12"><label class="form-label">항목내용 <span class="text-danger">*</span></label>
+                    <textarea class="form-control" rows="4" name="iemCn" required th:text="${r != null ? r.iemCn : ''}"></textarea></div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

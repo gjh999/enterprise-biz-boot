@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>온라인설문 메인</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">온라인설문 메인</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> 온라인설문 관리</h1>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card h-100"><div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-clipboard-check"></i> 설문관리</h5>
+                    <p class="card-text text-muted">설문지를 등록하고 관리합니다.</p>
+                    <a class="btn btn-primary btn-sm" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">바로가기</a>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100"><div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-layout-text-window"></i> 설문템플릿</h5>
+                    <p class="card-text text-muted">설문 화면 템플릿을 관리합니다.</p>
+                    <a class="btn btn-primary btn-sm" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">바로가기</a>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100"><div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-ui-checks"></i> 설문조사 참여</h5>
+                    <p class="card-text text-muted">진행 중인 설문에 참여합니다.</p>
+                    <a class="btn btn-primary btn-sm" th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}">바로가기</a>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100"><div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people"></i> 설문응답자</h5>
+                    <p class="card-text text-muted">설문 응답자 정보를 관리합니다.</p>
+                    <a class="btn btn-primary btn-sm" th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}">바로가기</a>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100"><div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-clipboard-data"></i> 응답자결과</h5>
+                    <p class="card-text text-muted">설문 응답 결과를 조회합니다.</p>
+                    <a class="btn btn-primary btn-sm" th:href="@{/uss/olp/qri/EgovQustnrRespondInfoList.do}">바로가기</a>
+                </div></div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

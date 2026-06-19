@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>상세코드 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do}">상세코드관리</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 상세코드 등록</h1>
+
+        <form th:action="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeRegist.do}" method="post" th:object="${cmmnDetailCode}">
+            <table class="table table-bordered align-middle">
+                <tbody>
+                <tr>
+                    <th class="table-light" style="width:190px;">코드ID <span class="text-danger">*</span></th>
+                    <td>
+                        <div class="row g-2">
+                            <div class="col-auto">
+                                <select class="form-select" id="clCodeSel" name="clCode"
+                                        onchange="fnChangeClCode(this);" title="분류코드">
+                                    <option th:each="cl : ${cmmnClCodeList}" th:value="${cl.clCode}"
+                                            th:text="${cl.clCodeNm}" th:selected="${cl.clCode == cmmnCode.clCode}">분류</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select" th:field="*{codeId}" title="코드ID">
+                                    <option value="">선택하세요</option>
+                                    <option th:each="cd : ${cmmnCodeList}" th:value="${cd.codeId}" th:text="${cd.codeIdNm}">코드ID</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('codeId')}" th:errors="*{codeId}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">코드 <span class="text-danger">*</span></th>
+                    <td>
+                        <input class="form-control" type="text" th:field="*{code}" maxlength="15"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">코드명 <span class="text-danger">*</span></th>
+                    <td>
+                        <input class="form-control" type="text" th:field="*{codeNm}" maxlength="60"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('codeNm')}" th:errors="*{codeNm}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">코드설명 <span class="text-danger">*</span></th>
+                    <td>
+                        <textarea class="form-control" rows="4" th:field="*{codeDc}"></textarea>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('codeDc')}" th:errors="*{codeDc}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">사용여부 <span class="text-danger">*</span></th>
+                    <td>
+                        <select class="form-select" th:field="*{useAt}">
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('useAt')}" th:errors="*{useAt}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do}">목록</a>
+            </div>
+        </form>
+    </div>
+    <script th:inline="javascript">
+        function fnChangeClCode(sel) {
+            var clCode = sel.value;
+            var base = /*[[@{/sym/ccm/cde/EgovCcmCmmnDetailCodeRegist.do}]]*/ '/sym/ccm/cde/EgovCcmCmmnDetailCodeRegist.do';
+            if (clCode && clCode.trim() !== '') {
+                location.href = base + '?clCode=' + encodeURIComponent(clCode);
+            } else {
+                location.href = base;
+            }
+        }
+    </script>
+</main>
+</body>
+</html>

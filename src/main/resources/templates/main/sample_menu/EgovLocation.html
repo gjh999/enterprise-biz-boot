@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title>찾아오시는 길</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/EgovPageLink.do(linkIndex=3)}">사이트 소개</a></li>
+                <li class="breadcrumb-item active">찾아오시는 길</li>
+            </ol>
+        </nav>
+
+        <h1 class="h4 mb-2"><i class="bi bi-geo-alt"></i> 사이트 소개</h1>
+        <p class="text-muted">표준프레임워크 경량환경 포털사이트를 소개합니다.</p>
+
+        <h2 class="h5 mb-3">찾아오시는길</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card h-100">
+                    <div class="card-header fw-bold"><i class="bi bi-signpost-2"></i> 표준프레임워크센터 주소</div>
+                    <div class="card-body">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-3">도로명주소</dt>
+                            <dd class="col-sm-9">04513 서울특별시 중구 세종대로 39 대한서울상공회의소 7층</dd>
+                            <dt class="col-sm-3">지번주소</dt>
+                            <dd class="col-sm-9">04513 서울특별시 중구 남대문로4가 45 대한서울상공회의소 7층</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold"><i class="bi bi-qr-code"></i> QR코드로 위치알아보기</div>
+                    <div class="card-body">
+                        <p class="mb-0">스마트폰에서 QR코드 리더를 이용해 사진·지도 등 다양한 정보를 확인하세요.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card h-100">
+                    <div class="card-header fw-bold"><i class="bi bi-train-front"></i> 찾아오시는 길</div>
+                    <div class="card-body">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-3">지하철 2호선</dt>
+                            <dd class="col-sm-9">시청역 9번 출구 5분거리</dd>
+                            <dt class="col-sm-3">지하철 1호선</dt>
+                            <dd class="col-sm-9">서울역 3번 출구 5분거리</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header fw-bold"><i class="bi bi-telephone"></i> 연락처</div>
+                    <div class="card-body">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4">전화</dt>
+                            <dd class="col-sm-8">0000-0000</dd>
+                            <dt class="col-sm-4">이메일</dt>
+                            <dd class="col-sm-8">egovframesupport@gmail.com</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>휴일 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/cal/EgovRestdeList.do}">휴일 관리</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-calendar-plus"></i> 휴일 등록</h1>
+
+        <div class="alert alert-danger" th:if="${message != null and message != ''}" th:text="${message}">오류 메시지</div>
+
+        <form th:action="@{/sym/cal/EgovRestdeRegist.do}" method="post" th:object="${restde}">
+            <input type="hidden" name="cmd" value="Regist"/>
+            <table class="table table-bordered align-middle">
+                <tbody>
+                <tr>
+                    <th class="table-light" style="width:160px;">휴일일자 <span class="text-danger">*</span></th>
+                    <td><input class="form-control" type="text" th:field="*{restdeDe}" maxlength="8"
+                               placeholder="YYYYMMDD" pattern="\d{8}" required/></td>
+                </tr>
+                <tr>
+                    <th class="table-light">휴일명 <span class="text-danger">*</span></th>
+                    <td><input class="form-control" type="text" th:field="*{restdeNm}" maxlength="60" required/></td>
+                </tr>
+                <tr>
+                    <th class="table-light">휴일구분</th>
+                    <td>
+                        <select class="form-select" th:field="*{restdeSeCode}">
+                            <option value="">선택</option>
+                            <option th:each="code : ${restdeCode}" th:value="${code.code}" th:text="${code.codeNm}">구분</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">휴일설명</th>
+                    <td><textarea class="form-control" th:field="*{restdeDc}" rows="3"></textarea></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
+                <a class="btn btn-outline-secondary" th:href="@{/sym/cal/EgovRestdeList.do}">취소</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

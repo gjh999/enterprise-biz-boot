@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">설문관리</a></li>
+            <li class="breadcrumb-item active">상세</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> 설문지 상세</h1>
+        <div class="text-muted" th:if="${r == null}">상세 데이터가 없습니다.</div>
+        <table class="table" th:if="${r != null}">
+            <tbody>
+            <tr><th class="table-light" style="width:180px;">설문제목</th><td th:text="${r['qestnrsj']}"></td></tr>
+            <tr><th class="table-light">설문목적</th><td style="white-space:pre-line;" th:text="${r['qestnrpurps']}"></td></tr>
+            <tr><th class="table-light">설문작성 안내내용</th><td style="white-space:pre-line;" th:text="${r['qestnrwritngguidancecn']}"></td></tr>
+            <tr><th class="table-light">설문대상</th>
+                <td><span th:each="c : ${comCode034}" th:if="${c.code == r['qestnrtrget']}" th:text="${c.codeNm}"></span></td></tr>
+            <tr><th class="table-light">설문기간</th><td><span th:text="${r['qestnrBeginDe']}"></span> ~ <span th:text="${r['qestnrEndDe']}"></span></td></tr>
+            <tr><th class="table-light">템플릿 유형</th>
+                <td>
+                    <span th:text="${r['qestnrTmplatTy']}"></span>
+                    <img class="ms-2" style="max-height:50px;" th:if="${r['qestnrtmplatid'] != null and r['qestnrtmplatid'] != ''}"
+                         th:src="@{/uss/olp/qtm/EgovQustnrTmplatManageImg.do(qestnrTmplatId=${r['qestnrtmplatid']})}" alt="템플릿유형 이미지"/>
+                </td></tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between mt-3" th:if="${r != null}">
+            <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">목록</a>
+            <div sec:authorize="isAuthenticated()">
+                <form class="d-inline" th:action="@{/uss/olp/qmc/EgovQustnrManageModify.do}" method="post">
+                    <input type="hidden" name="qestnrId" th:value="${r['qestnrId']}"/>
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-pencil"></i> 수정</button>
+                </form>
+                <form class="d-inline" th:action="@{/uss/olp/qmc/EgovQustnrManageDetail.do}" method="post"
+                      onsubmit="return confirm('삭제 시 설문관리/항목/문항/응답자/응답 정보가 함께 삭제됩니다. 삭제하시겠습니까?');">
+                    <input type="hidden" name="qestnrId" th:value="${r['qestnrId']}"/>
+                    <input type="hidden" name="cmd" value="del"/>
+                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

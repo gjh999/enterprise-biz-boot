@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>일반달력 연간</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">일반달력 연간</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-calendar3"></i> 일반달력 연간</h1>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-4" th:each="m : ${#numbers.sequence(1, 12)}"
+                 th:with="list=${#ctx.getVariable('RestdeList_' + m)}">
+                <div class="card h-100">
+                    <div class="card-header py-1"><span th:text="${m}">1</span>월</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item py-1 d-flex justify-content-between small" th:each="rd : ${list}">
+                            <span th:text="${rd.restdeDe}">일자</span>
+                            <span class="text-danger" th:text="${rd.restdeNm}">휴일</span>
+                        </li>
+                        <li class="list-group-item py-1 text-muted small" th:if="${list == null or #lists.isEmpty(list)}">휴일 없음</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

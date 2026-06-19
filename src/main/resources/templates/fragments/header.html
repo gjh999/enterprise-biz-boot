@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<body>
+<header th:fragment="header" class="egov-header">
+    <div class="container d-flex align-items-center justify-content-between py-2">
+        <a class="d-flex align-items-center text-decoration-none" th:href="@{/}">
+            <img th:src="@{/images/logo.svg}" alt="로고" width="36" height="36" class="me-2"/>
+            <span class="fs-5 fw-bold">전자정부 표준프레임워크 포털</span>
+        </a>
+        <div class="d-flex align-items-center gap-2">
+            <span sec:authorize="isAuthenticated()" class="me-2">
+                <i class="bi bi-person-circle"></i>
+                <span sec:authentication="principal.username">사용자</span> 님
+            </span>
+            <a sec:authorize="isAuthenticated() and hasRole('ADMIN')"
+               class="btn btn-sm btn-outline-secondary" th:href="@{/uss/umt/mber/EgovMberManage.do}">
+                <i class="bi bi-people"></i> 회원관리
+            </a>
+            <a sec:authorize="!isAuthenticated()" class="btn btn-sm btn-primary"
+               th:href="@{/uat/uia/egovLoginUsr.do}"><i class="bi bi-box-arrow-in-right"></i> 로그인</a>
+            <a sec:authorize="isAuthenticated()" class="btn btn-sm btn-outline-danger"
+               th:href="@{/uat/uia/actionLogout.do}"><i class="bi bi-box-arrow-right"></i> 로그아웃</a>
+        </div>
+    </div>
+</header>
+</body>
+</html>

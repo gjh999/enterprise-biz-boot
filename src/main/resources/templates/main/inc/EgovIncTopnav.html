@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head><meta charset="UTF-8"/><title>상단 메뉴</title></head>
+<body>
+<nav class="egov-biz-topnav border-bottom p-2">
+    <ul class="nav" th:if="${list_headmenu != null}">
+        <li class="nav-item" th:each="m : ${list_headmenu}">
+            <a class="nav-link" th:text="${m.menuNm}">메뉴</a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

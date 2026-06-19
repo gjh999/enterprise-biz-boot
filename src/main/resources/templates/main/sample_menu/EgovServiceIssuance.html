@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title>민원발급</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/EgovPageLink.do(linkIndex=0)}">민원광장</a></li>
+                <li class="breadcrumb-item active">민원발급</li>
+            </ol>
+        </nav>
+
+        <h1 class="h4 mb-2"><i class="bi bi-card-checklist"></i> 민원광장</h1>
+        <p class="text-muted">프레임워크 관련 서비스의 운영개선을 위한 창조적인 의견이나 아이디어 제안을 기다립니다.</p>
+
+        <h2 class="h5 mb-3">민원발급 <span class="badge bg-secondary">샘플화면</span></h2>
+
+        <!-- 검색조건 -->
+        <form class="row g-2 mb-3" onsubmit="return false;">
+            <div class="col-auto">
+                <select class="form-select" id="sel1" title="조건">
+                    <option value="0">민원검색</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="text" style="width:320px;" title="검색어"/>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit">조회</button>
+            </div>
+        </form>
+        <!--// 검색조건 -->
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-2 fw-semibold">소속기관별</div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="sel2" title="조건"><option value="0">통합검색</option></select>
+                    </div>
+                    <div class="col-md-2 fw-semibold">처리기관별</div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="sel3" title="조건"><option value="0">통합검색</option></select>
+                    </div>
+                    <div class="col-md-2 fw-semibold">인증서 필요여부</div>
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="chk1"/>
+                            <label class="form-check-label" for="chk1">필요</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h3 class="h6 mb-0">인터넷 민원신청</h3>
+            <span class="text-muted">총 <strong>1,274</strong> 건</span>
+        </div>
+
+        <!-- 게시판 -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col" style="width:90px;">번호</th>
+                    <th scope="col">민원사무명</th>
+                    <th scope="col" style="width:115px;">인터넷신청</th>
+                    <th scope="col" style="width:115px;">처리기관</th>
+                    <th scope="col" style="width:115px;">소속기관</th>
+                    <th scope="col" style="width:115px;">수령방법</th>
+                    <th scope="col" style="width:115px;">인증서</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>3</td>
+                    <td><a href="#" onclick="return false;">표준프레임워크 인증서 발급</a></td>
+                    <td>신청</td><td>행정안전부</td><td>삼성SDS</td><td>전자발급</td><td>불필요</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><a href="#" onclick="return false;">표준프레임워크 인증서 발급</a></td>
+                    <td>신청</td><td>행정안전부</td><td>삼성SDS</td><td>전자발급</td><td>불필요</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a href="#" onclick="return false;">표준프레임워크 인증서 발급</a></td>
+                    <td>신청</td><td>행정안전부</td><td>삼성SDS</td><td>전자발급</td><td>불필요</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--// 게시판 -->
+    </div>
+</main>
+</body>
+</html>

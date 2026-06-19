@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>회원가입신청</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">회원가입신청</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-person-plus"></i> 회원가입신청</h1>
+        <form th:action="@{/uss/umt/cmm/EgovMberSbscrb.do}" method="post" th:object="${mberManageVO}">
+            <!-- @EgovNullCheck 대상(groupId, mberSttus): 컨트롤러가 재설정하나 @Valid 통과용 hidden -->
+            <input type="hidden" th:field="*{groupId}"/>
+            <input type="hidden" th:field="*{mberSttus}"/>
+            <div class="row g-3">
+                <div class="col-md-6"><label class="form-label">아이디 <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" th:field="*{mberId}" maxlength="20" required/>
+                        <button class="btn btn-outline-secondary" type="button" id="btnIdCheck"><i class="bi bi-search"></i> 중복확인</button>
+                    </div>
+                    <div class="form-text">중복 아이디 검색</div></div>
+                <div class="col-md-6"><label class="form-label">이름 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" th:field="*{mberNm}"
+                           th:value="${mberNm}" maxlength="50" required/></div>
+                <div class="col-md-6"><label class="form-label">비밀번호 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="password" th:field="*{password}" maxlength="20" required/></div>
+                <div class="col-md-6"><label class="form-label">비밀번호 확인 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="password" name="password2" id="password2" maxlength="20" required/></div>
+                <div class="col-md-6"><label class="form-label">비밀번호 힌트 <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{passwordHint}" required>
+                        <option value="">선택하세요</option>
+                        <th:block th:if="${not #lists.isEmpty(passwordHint_result)}">
+                            <option th:each="c : ${passwordHint_result}" th:value="${c.code}" th:text="${c.codeNm}">힌트</option>
+                        </th:block>
+                        <th:block th:if="${#lists.isEmpty(passwordHint_result)}">
+                            <option value="P01">가장 기억에 남는 장소는?</option>
+                            <option value="P02">나의 좌우명은?</option>
+                            <option value="P03">나의 보물 제1호는?</option>
+                            <option value="P04">가장 기억에 남는 선생님 성함은?</option>
+                            <option value="P05">다른 사람은 모르는 나만의 신체비밀은?</option>
+                        </th:block>
+                    </select></div>
+                <div class="col-md-6"><label class="form-label">비밀번호 정답 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" th:field="*{passwordCnsr}" maxlength="100" required/></div>
+                <div class="col-md-6"><label class="form-label">성별</label>
+                    <select class="form-select" th:field="*{sexdstnCode}">
+                        <option value="">선택하세요</option>
+                        <th:block th:if="${not #lists.isEmpty(sexdstnCode_result)}">
+                            <option th:each="c : ${sexdstnCode_result}" th:value="${c.code}" th:text="${c.codeNm}">성별</option>
+                        </th:block>
+                        <th:block th:if="${#lists.isEmpty(sexdstnCode_result)}">
+                            <option value="M">남자</option>
+                            <option value="F">여자</option>
+                        </th:block>
+                    </select></div>
+                <div class="col-md-6"><label class="form-label">핸드폰번호</label>
+                    <input class="form-control" type="text" th:field="*{moblphonNo}" maxlength="15"/></div>
+                <div class="col-md-4"><label class="form-label">지역번호</label>
+                    <input class="form-control" type="text" th:field="*{areaNo}" maxlength="4"/></div>
+                <div class="col-md-4"><label class="form-label">국번</label>
+                    <input class="form-control" type="text" th:field="*{middleTelno}" maxlength="4"/></div>
+                <div class="col-md-4"><label class="form-label">끝번호</label>
+                    <input class="form-control" type="text" th:field="*{endTelno}" maxlength="4"/></div>
+                <div class="col-md-6"><label class="form-label">팩스번호</label>
+                    <input class="form-control" type="text" th:field="*{mberFxnum}" maxlength="15"/></div>
+                <div class="col-md-6"><label class="form-label">이메일주소</label>
+                    <input class="form-control" type="email" th:field="*{mberEmailAdres}" maxlength="50"/></div>
+                <div class="col-md-4"><label class="form-label">우편번호</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" th:field="*{zip}" maxlength="8"/>
+                        <button class="btn btn-outline-secondary" type="button" id="btnZipSearch">
+                            <i class="bi bi-search"></i> 찾기</button>
+                    </div></div>
+                <div class="col-md-8"><label class="form-label">주소</label>
+                    <input class="form-control" type="text" th:field="*{adres}" maxlength="100"/></div>
+                <div class="col-12"><label class="form-label">상세주소</label>
+                    <input class="form-control" type="text" th:field="*{detailAdres}" maxlength="100"/></div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/}">취소</a>
+                <button class="btn btn-primary" type="submit" id="btnSbscrb"><i class="bi bi-check-lg"></i> 가입신청</button>
+            </div>
+        </form>
+    </div>
+    <script th:inline="javascript">
+        document.getElementById('btnIdCheck').addEventListener('click', function () {
+            var id = document.getElementById('mberId').value;
+            window.open([[@{/uss/umt/EgovIdDplctCnfirmView.do}]] + '?checkId=' + encodeURIComponent(id),
+                'idCheck', 'width=600,height=450,scrollbars=yes');
+        });
+        document.getElementById('btnZipSearch').addEventListener('click', function () {
+            window.open([[@{/cmm/sym/zip/EgovCcmZipSearchPopup.do}]],
+                'zipSearch', 'width=560,height=620,scrollbars=yes');
+        });
+        /* 우편번호 검색 팝업 콜백 */
+        window.fnZipReturn = function (zip, addr) {
+            document.getElementById('zip').value = zip;
+            document.getElementById('adres').value = addr;
+        };
+        document.getElementById('btnSbscrb').closest('form').addEventListener('submit', function (e) {
+            var p1 = document.getElementById('password').value;
+            var p2 = document.getElementById('password2').value;
+            if (p1 !== p2) { e.preventDefault(); alert('비밀번호가 일치하지 않습니다.'); }
+        });
+    </script>
+</main>
+</body>
+</html>

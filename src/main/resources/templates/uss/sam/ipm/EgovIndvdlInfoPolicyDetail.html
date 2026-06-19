@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>개인정보처리방침 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/sam/ipm/listIndvdlInfoPolicy.do}">개인정보처리방침</a></li>
+            <li class="breadcrumb-item active">방침 상세</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> 개인정보처리방침 상세</h1>
+        <div class="text-muted text-center py-5" th:if="${indvdlInfoPolicy == null}">상세 데이터가 없습니다.</div>
+        <div th:if="${indvdlInfoPolicy != null}">
+            <table class="table table-bordered align-middle">
+                <tbody>
+                <tr>
+                    <th class="table-light" style="width:190px;">개인정보보호정책 명</th>
+                    <td th:text="${indvdlInfoPolicy.indvdlInfoNm}">정책명</td>
+                </tr>
+                <tr>
+                    <th class="table-light">동의여부</th>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${indvdlInfoPolicy.indvdlInfoYn == 'Y'} ? 'bg-success' : 'bg-secondary'"
+                              th:text="${indvdlInfoPolicy.indvdlInfoYn == 'Y'} ? '예' : '아니오'">동의여부</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-light">개인정보보호정책 내용</th>
+                    <td><div style="white-space:pre-wrap;" th:text="${indvdlInfoPolicy.indvdlInfoDc}">내용</div></td>
+                </tr>
+                <tr>
+                    <th class="table-light">등록일자</th>
+                    <td th:text="${indvdlInfoPolicy.frstRegisterPnttm}">일자</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <form th:action="@{/uss/sam/ipm/detailIndvdlInfoPolicy.do}" method="post"
+                      sec:authorize="hasRole('ROLE_ADMIN')"
+                      onsubmit="return confirm('삭제하시겠습니까?');">
+                    <input type="hidden" name="indvdlInfoId" th:value="${indvdlInfoPolicy.indvdlInfoId}"/>
+                    <input type="hidden" name="cmd" value="del"/>
+                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                </form>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')"
+                       th:href="@{/uss/sam/ipm/updtIndvdlInfoPolicy.do(indvdlInfoId=${indvdlInfoPolicy.indvdlInfoId})}">
+                        <i class="bi bi-pencil"></i> 수정</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/uss/sam/ipm/listIndvdlInfoPolicy.do}">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

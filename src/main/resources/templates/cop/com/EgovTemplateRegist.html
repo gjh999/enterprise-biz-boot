@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>템플릿 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cop/com/selectTemplateInfs.do}">템플릿관리</a></li>
+            <li class="breadcrumb-item active">등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> 게시판 템플릿 등록</h1>
+        <form th:action="@{/cop/com/insertTemplateInf.do}" method="post"
+              th:with="t=${templateInf}">
+            <input type="hidden" name="pageIndex" th:value="${searchVO != null ? searchVO.pageIndex : '1'}"/>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th style="width:190px;">템플릿 명 <span class="text-danger">*</span></th>
+                    <td><input class="form-control" type="text" maxlength="120" name="tmplatNm"
+                               th:value="${t != null ? t.tmplatNm : ''}" required/></td>
+                </tr>
+                <tr>
+                    <th>템플릿 구분 <span class="text-danger">*</span></th>
+                    <td>
+                        <select class="form-select" name="tmplatSeCode" required>
+                            <option value="">선택하세요</option>
+                            <option th:each="c : ${resultList}" th:value="${c.code}" th:text="${c.codeNm}"
+                                    th:selected="${t != null and c.code == t.tmplatSeCode}">구분</option>
+                        </select>
+                        <small class="text-muted">게시판 템플릿(TMPT01)은 CSS만 가능합니다.</small>
+                    </td>
+                </tr>
+                <tr>
+                    <th>템플릿 경로 <span class="text-danger">*</span></th>
+                    <td><input class="form-control" type="text" maxlength="2000" name="tmplatCours"
+                               th:value="${t != null ? t.tmplatCours : ''}"
+                               placeholder="/css/egovframework/cop/bbs/egovBaseTemplate.css" required/></td>
+                </tr>
+                <tr>
+                    <th>사용여부 <span class="text-danger">*</span></th>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="ua_y" name="useAt" value="Y"
+                                   th:checked="${t == null or t.useAt == null or t.useAt == '' or t.useAt == 'Y'}"/>
+                            <label class="form-check-label" for="ua_y">Y</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="ua_n" name="useAt" value="N"
+                                   th:checked="${t != null and t.useAt == 'N'}"/>
+                            <label class="form-check-label" for="ua_n">N</label>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" th:href="@{/cop/com/selectTemplateInfs.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

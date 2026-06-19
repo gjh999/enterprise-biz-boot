@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>일반달력 주간</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">일반달력 주간</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-calendar-week"></i> 일반달력 주간</h1>
+
+        <table class="table table-bordered align-middle">
+            <thead class="table-light text-center">
+            <tr><th class="text-danger">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="text-primary">토</th></tr>
+            </thead>
+            <tbody>
+            <tr style="height:160px; vertical-align:top;">
+                <td th:each="d : ${#numbers.sequence(1, 7)}"
+                    th:with="list=${#ctx.getVariable('RestdeList_' + d)}">
+                    <ul class="list-unstyled mb-0 small">
+                        <li th:each="rd : ${list}" class="text-danger" th:text="${rd.restdeNm}">휴일</li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

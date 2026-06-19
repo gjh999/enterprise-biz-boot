@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문문항 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">설문문항</a></li>
+            <li class="breadcrumb-item active">상세</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ol"></i> 설문문항 상세</h1>
+        <div class="text-muted" th:if="${r == null}">상세 데이터가 없습니다.</div>
+        <table class="table" th:if="${r != null}">
+            <tbody>
+            <tr><th class="table-light" style="width:160px;">설문제목</th><td th:text="${r.qestnrSj}"></td></tr>
+            <tr><th class="table-light">질문순번</th><td th:text="${r.qestnsn}"></td></tr>
+            <tr><th class="table-light">질문유형</th>
+                <td><span th:each="c : ${cmmCode018}" th:if="${c.code == r.qestntycode}" th:text="${c.codeNm}"></span></td></tr>
+            <tr><th class="table-light">최대선택건수</th><td th:text="${r.mxmmchoiseco}"></td></tr>
+            <tr><th class="table-light">질문내용</th><td style="white-space:pre-line;" th:text="${r.qestncn}"></td></tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between mt-3" th:if="${r != null}">
+            <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">목록</a>
+            <div sec:authorize="isAuthenticated()">
+                <form class="d-inline" th:action="@{/uss/olp/qqm/EgovQustnrQestnManageModify.do}" method="post">
+                    <input type="hidden" name="qestnrQesitmId" th:value="${r.qestnrqesitmid}"/>
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-pencil"></i> 수정</button>
+                </form>
+                <form class="d-inline" th:action="@{/uss/olp/qqm/EgovQustnrQestnManageDetail.do}" method="post"
+                      onsubmit="return confirm('삭제하시겠습니까?');">
+                    <input type="hidden" name="qestnrQesitmId" th:value="${r.qestnrqesitmid}"/>
+                    <input type="hidden" name="qestnrId" th:value="${r.qestnrId}"/>
+                    <input type="hidden" name="qestnrTmplatId" th:value="${r.qestnrtmplatid}"/>
+                    <input type="hidden" name="searchMode" value="Y"/>
+                    <input type="hidden" name="cmd" value="del"/>
+                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

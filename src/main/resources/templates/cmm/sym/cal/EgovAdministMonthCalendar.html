@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>행정달력 월간</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">행정달력 월간</li>
+        </ol></nav>
+
+        <div class="d-flex align-items-center justify-content-between mb-3" th:if="${restde != null}"
+             th:with="im=${#conversions.convert(restde.month, 'java.lang.Integer')}">
+            <a class="btn btn-outline-secondary btn-sm"
+               th:href="@{/sym/cal/EgovAdministMonthCalendar.do(year=${restde.year}, month=${im - 1})}">
+                <i class="bi bi-chevron-left"></i> 이전달</a>
+            <h1 class="h4 mb-0"><i class="bi bi-calendar-month"></i>
+                <span th:text="${restde.year}">2026</span>년 <span th:text="${restde.month}">6</span>월 행정달력</h1>
+            <a class="btn btn-outline-secondary btn-sm"
+               th:href="@{/sym/cal/EgovAdministMonthCalendar.do(year=${restde.year}, month=${im + 1})}">
+                다음달 <i class="bi bi-chevron-right"></i></a>
+        </div>
+
+        <table class="table table-bordered text-center align-middle" style="table-layout:fixed;" th:if="${restde != null}">
+            <thead class="table-light">
+            <tr><th class="text-danger">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="text-primary">토</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${#numbers.sequence(0, 5)}">
+                <td th:each="c : ${#numbers.sequence(0, 6)}"
+                    th:with="dd=${r * 7 + c + 2 - restde.startWeekMonth}, dstr=${(dd lt 10 ? '0' : '') + dd}"
+                    th:classappend="${c == 0} ? ' text-danger' : (${c == 6} ? ' text-primary' : '')"
+                    style="height:72px; vertical-align:top;">
+                    <th:block th:if="${dd ge 1 and dd le restde.lastDayMonth}">
+                        <span th:text="${dd}"></span>
+                        <span class="badge bg-danger d-block mt-1"
+                              th:each="rd : ${RestdeList}" th:if="${rd.day == dstr}"
+                              th:text="${rd.restdeNm}"></span>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${restde == null}" class="alert alert-secondary">표시할 달력 데이터가 없습니다.</div>
+
+        <h2 class="h6 mt-4">휴일 목록</h2>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between" th:each="rd : ${RestdeList}">
+                <span th:text="${rd.restdeDe}">일자</span>
+                <span th:text="${rd.restdeNm}">휴일명</span>
+            </li>
+            <li class="list-group-item text-muted text-center" th:if="${RestdeList == null or #lists.isEmpty(RestdeList)}">휴일이 없습니다.</li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

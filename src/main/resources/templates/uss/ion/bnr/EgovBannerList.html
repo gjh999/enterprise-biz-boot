@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>배너관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">배너관리</li>
+        </ol></nav>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h4 mb-0"><i class="bi bi-image"></i> 배너관리</h1>
+            <span class="text-muted small">총 <strong
+                    th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> 건</span>
+        </div>
+
+        <!-- 검색조건 (searchCondition=1: 배너명) -->
+        <form class="row g-2 mb-3" th:action="@{/uss/ion/bnr/selectBannerList.do}" method="get">
+            <input type="hidden" name="searchCondition" value="1"/>
+            <div class="col-auto">
+                <input class="form-control" name="searchKeyword" th:value="${bannerVO?.searchKeyword}"
+                       maxlength="30" placeholder="배너명" title="배너명 검색어"/>
+            </div>
+            <div class="col-auto"><button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
+            <div class="col-auto ms-auto">
+                <a class="btn btn-success" th:href="@{/uss/ion/bnr/addViewBanner.do}"><i class="bi bi-plus-lg"></i> 배너 등록</a>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr>
+                <th style="width:60px;">순서</th><th>배너명</th><th>링크</th><th>설명</th>
+                <th style="width:90px;">반영여부</th><th style="width:110px;">등록일</th>
+            </tr></thead>
+            <tbody>
+            <tr th:each="item : ${bannerList}">
+                <td class="text-center" th:text="${item.sortOrdr}">1</td>
+                <td><a th:href="@{/uss/ion/bnr/getBanner.do(bannerId=${item.bannerId})}" th:text="${item.bannerNm}">배너명</a></td>
+                <td><a th:href="${item.linkUrl}" th:text="${item.linkUrl}" target="_blank">링크</a></td>
+                <td th:text="${item.bannerDc}">설명</td>
+                <td class="text-center">
+                    <span class="badge"
+                          th:classappend="${item.reflctAt == 'Y'} ? 'bg-success' : 'bg-secondary'"
+                          th:text="${item.reflctAt == 'Y'} ? '반영' : '미반영'">반영</span>
+                </td>
+                <td class="text-center" th:text="${item.regDate}">등록일</td>
+            </tr>
+            <tr th:if="${bannerList == null or #lists.isEmpty(bannerList)}"><td colspan="6" class="text-center text-muted py-4">등록된 배너가 없습니다.</td></tr>
+            </tbody>
+        </table>
+
+        <!-- 페이징 -->
+        <div class="mt-3"
+             th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/uss/ion/bnr/selectBannerList.do', searchCondition=${bannerVO?.searchCondition}, searchKeyword=${bannerVO?.searchKeyword})}"></div>
+    </div>
+</main>
+</body>
+</html>

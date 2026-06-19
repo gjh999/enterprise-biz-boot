@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>부서별 권한 관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">부서별 권한 관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 부서별 권한 관리</h1>
+        <p class="text-muted mb-4">부서·사용자에 부여된 권한과 권한별 롤을 관리합니다. 아래 메뉴에서 작업을 선택하세요.</p>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-shield-check"></i> 권한 목록</h5>
+                        <p class="card-text text-muted">시스템에 등록된 권한(Authority)을 조회하고 등록·수정·삭제합니다.</p>
+                        <a class="btn btn-primary btn-sm" th:href="@{/sec/ram/EgovAuthorListView.do}">권한 목록 이동</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-shield-lock"></i> 권한별 롤 관리</h5>
+                        <p class="card-text text-muted">각 권한에 할당된 롤(Role)을 조회하고 등록 여부를 변경합니다.</p>
+                        <a class="btn btn-primary btn-sm" th:href="@{/sec/ram/EgovAuthorRoleListView.do}">권한별 롤 관리 이동</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

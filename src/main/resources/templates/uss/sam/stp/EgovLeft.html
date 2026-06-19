@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>사용자관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">사용자관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-list"></i> 사용자관리</h1>
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" th:href="@{/uss/sam/stp/StplatListInqire.do}">
+                <i class="bi bi-file-text"></i> 이용약관 관리</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/uss/sam/stp/StplatCnRegistView.do}">
+                <i class="bi bi-file-earmark-plus"></i> 이용약관 등록</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

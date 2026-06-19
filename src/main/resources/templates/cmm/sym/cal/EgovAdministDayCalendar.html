@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>행정달력 일간</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">행정달력 일간</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-calendar-day"></i> 행정달력 일간</h1>
+
+        <h2 class="h6 mt-2">휴일</h2>
+        <ul class="list-group mb-4">
+            <li class="list-group-item d-flex justify-content-between" th:each="rd : ${RestdeList}">
+                <span th:text="${rd.restdeDe}">일자</span>
+                <span th:text="${rd.restdeNm}">휴일명</span>
+            </li>
+            <li class="list-group-item text-muted text-center" th:if="${RestdeList == null or #lists.isEmpty(RestdeList)}">휴일이 없습니다.</li>
+        </ul>
+
+        <h2 class="h6">일정</h2>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between" th:each="item : ${resultList}">
+                <span th:text="${item.restdeDe}">일자</span>
+                <span th:text="${item.restdeNm}">휴일명</span>
+            </li>
+            <li class="list-group-item text-muted text-center" th:if="${resultList == null or #lists.isEmpty(resultList)}">일정이 없습니다.</li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

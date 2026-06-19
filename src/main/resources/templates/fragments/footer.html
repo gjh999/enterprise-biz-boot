@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+<footer th:fragment="footer" class="egov-footer border-top mt-5 py-4">
+    <div class="container text-center text-muted small">
+        <p class="mb-1">전자정부 표준프레임워크 포털사이트 (Spring Boot + Thymeleaf)</p>
+        <p class="mb-0">© <span th:text="${#temporals.year(#temporals.createNow())}">2026</span>
+            eGovFramework Portal. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

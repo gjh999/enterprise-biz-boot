@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>우편번호 관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">우편번호 관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-geo-alt"></i> 우편번호 관리</h1>
+
+        <form class="row g-2 mb-3" th:action="@{/sym/ccm/zip/EgovCcmZipList.do}" method="get">
+            <div class="col-auto">
+                <select class="form-select" name="searchCondition">
+                    <option value="2" th:selected="${searchVO.searchCondition == '2'}">시도명</option>
+                    <option value="3" th:selected="${searchVO.searchCondition == '3'}">시군구명</option>
+                    <option value="4" th:selected="${searchVO.searchCondition == '4'}">읍면동명</option>
+                    <option value="1" th:selected="${searchVO.searchCondition == '1'}">우편번호</option>
+                </select>
+            </div>
+            <div class="col-auto"><input class="form-control" name="searchKeyword" th:value="${searchVO.searchKeyword}" placeholder="검색어"/></div>
+            <div class="col-auto"><button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
+            <div class="col-auto ms-auto" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="btn btn-success" th:href="@{/sym/ccm/zip/EgovCcmZipRegist.do}"><i class="bi bi-plus-lg"></i> 등록</a>
+                <a class="btn btn-outline-success" th:href="@{/sym/ccm/zip/EgovCcmExcelZipRegist.do}"><i class="bi bi-file-earmark-excel"></i> 엑셀등록</a>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr><th style="width:90px;">우편번호</th><th>시도</th><th>시군구</th><th>읍면동</th><th>건물/지번</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${resultList}">
+                <td><a th:href="@{/sym/ccm/zip/EgovCcmZipDetail.do(zip=${item.zip}, sn=${item.sn})}" th:text="${item.zip}">우편번호</a></td>
+                <td th:text="${item.ctprvnNm}">시도</td>
+                <td th:text="${item.signguNm}">시군구</td>
+                <td th:text="${item.emdNm}">읍면동</td>
+                <td th:text="${item.liBuldNm}">건물</td>
+            </tr>
+            <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
+                <td colspan="5" class="text-center text-muted py-4">데이터가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이징 -->
+        <div class="mt-3"
+             th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/sym/ccm/zip/EgovCcmZipList.do', searchCondition=${searchVO.searchCondition}, searchKeyword=${searchVO.searchKeyword})}"></div>
+    </div>
+</main>
+</body>
+</html>

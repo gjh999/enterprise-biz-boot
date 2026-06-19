@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>프로그램 변경처리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item">내부시스템관리</li>
+            <li class="breadcrumb-item active">프로그램 변경처리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-gear"></i> 프로그램 변경처리</h1>
+
+        <p class="text-danger small" th:if="${resultMsg != null and resultMsg != ''}" th:text="${resultMsg}"></p>
+
+        <form th:action="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}" method="get" class="mb-3">
+            <div class="input-group" style="max-width:560px;">
+                <select class="form-select" name="searchCondition" style="max-width:160px;">
+                    <option value="">전체</option>
+                    <option value="2" th:selected="${searchVO != null and searchVO.searchCondition == '2'}">처리상태</option>
+                    <option value="4" th:selected="${searchVO != null and searchVO.searchCondition == '4'}">요청자ID</option>
+                </select>
+                <input type="text" class="form-control" name="searchKeyword" maxlength="60"
+                       th:value="${searchVO != null ? searchVO.searchKeyword : ''}" placeholder="검색어 (처리상태 A/P/C/R 등)"/>
+                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> 조회</button>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr>
+                <th>요청제목</th>
+                <th>프로그램파일명</th>
+                <th>요청자</th>
+                <th>처리자</th>
+                <th style="width:110px;">요청일자</th>
+                <th style="width:90px;">처리상태</th>
+            </tr></thead>
+            <tbody>
+            <tr th:each="item : ${list_changerequst}">
+                <td>
+                    <a class="lnk" th:href="@{/sym/prm/EgovProgramChangRequstProcessDetailSelect.do(tmp_progrmNm=${item.progrmFileNm},tmp_rqesterNo=${item.requstNo})}"
+                       th:text="${item.requstSj}">요청제목</a>
+                </td>
+                <td th:text="${item.progrmFileNm}">파일명</td>
+                <td th:text="${item.rqesterId}">요청자</td>
+                <td th:text="${item.opetrId}">처리자</td>
+                <td th:text="${item.requstDe}">요청일자</td>
+                <td th:switch="${item.processSttusCode}" class="text-center">
+                    <span th:case="'A'" class="badge bg-secondary">요청</span>
+                    <span th:case="'P'" class="badge bg-warning text-dark">처리중</span>
+                    <span th:case="'C'" class="badge bg-success">완료</span>
+                    <span th:case="'R'" class="badge bg-danger">반려</span>
+                    <span th:case="*" th:text="${item.processSttusCode}">-</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(list_changerequst)}">
+                <td colspan="6" class="text-center text-muted py-4">조회된 데이터가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/sym/prm/EgovProgramChangeRequstProcessListSelect.do', searchCondition=${searchVO != null ? searchVO.searchCondition : ''}, searchKeyword=${searchVO != null ? searchVO.searchKeyword : ''})}"></div>
+    </div>
+</main>
+</body>
+</html>

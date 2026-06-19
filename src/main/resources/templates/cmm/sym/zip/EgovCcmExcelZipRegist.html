@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>엑셀 우편번호 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">우편번호 관리</a></li>
+            <li class="breadcrumb-item active">엑셀 등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-file-earmark-excel"></i> 엑셀 우편번호 등록</h1>
+
+        <!-- Apache POI 의존성이 없어 엑셀 파싱이 불가하므로 업로드 기능을 비활성화한다. -->
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i>
+            엑셀 일괄등록 기능은 현재 <strong>비활성화</strong> 상태입니다.
+            (Apache POI 라이브러리 미설치 — 의존성 추가 후 사용 가능)
+            개별 등록은 <a class="alert-link" th:href="@{/sym/ccm/zip/EgovCcmZipRegist.do}">우편번호 등록</a> 화면을 이용하세요.
+        </div>
+        <form>
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-muted">우편번호 데이터가 담긴 엑셀 파일을 선택한 후 등록 버튼을 누르세요.</p>
+                    <div class="mb-3">
+                        <label class="form-label" for="excelFile">엑셀 파일</label>
+                        <input class="form-control" type="file" id="excelFile" name="excelFile" accept=".xls,.xlsx" disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-primary" type="button" disabled><i class="bi bi-upload"></i> 등록</button>
+                <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">취소</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

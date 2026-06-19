@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>응답결과 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qri/EgovQustnrRespondInfoList.do}">응답결과</a></li>
+            <li class="breadcrumb-item active">수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 응답결과 수정</h1>
+        <form th:action="@{/uss/olp/qri/EgovQustnrRespondInfoModify.do}" method="post">
+            <input type="hidden" name="cmd" value="save"/>
+            <input type="hidden" name="qestnrQesrspnsId" th:value="${r != null ? r.qestnrqesrspnsid : ''}"/>
+            <input type="hidden" name="qestnrQesitmId" th:value="${r != null ? r.qestnrqesitmid : ''}"/>
+            <input type="hidden" name="qestnrId" th:value="${r != null ? r.qestnrId : ''}"/>
+            <input type="hidden" name="qestnrTmplatId" th:value="${r != null ? r.qestnrtmplatid : ''}"/>
+            <input type="hidden" name="qustnrIemId" th:value="${r != null ? r.qustnrIemId : ''}"/>
+            <div class="row g-3">
+                <div class="col-12"><label class="form-label">설문제목</label>
+                    <input class="form-control-plaintext" type="text" readonly th:value="${r != null ? r.qestnrsj : ''}"/></div>
+                <div class="col-12"><label class="form-label">질문내용</label>
+                    <input class="form-control-plaintext" type="text" readonly th:value="${r != null ? r.qestnCn : ''}"/></div>
+                <div class="col-12"><label class="form-label">응답자명 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" name="respondNm" th:value="${r != null ? r.respondNm : ''}" maxlength="50" required/></div>
+                <div class="col-12"><label class="form-label">응답자답변내용</label>
+                    <textarea class="form-control" rows="3" name="respondAnswerCn" th:text="${r != null ? r.respondAnswerCn : ''}"></textarea></div>
+                <div class="col-12"><label class="form-label">기타답변내용</label>
+                    <textarea class="form-control" rows="2" name="etcAnswerCn" th:text="${r != null ? r.etcAnswerCn : ''}"></textarea></div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qri/EgovQustnrRespondInfoList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

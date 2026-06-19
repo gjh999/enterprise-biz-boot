@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>게시물 수정 (관리자)</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item">
+                <a th:href="@{/cop/bbs/admin/selectBoardList.do(bbsId=${bdMstr != null ? bdMstr.bbsId : ''})}"
+                   th:text="${bdMstr != null ? bdMstr.bbsNm : '게시판'}">게시판</a>
+            </li>
+            <li class="breadcrumb-item active">수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 게시물 수정</h1>
+
+        <!-- 기존 첨부파일 표시/삭제 (JSP: <c:import url="/cmm/fms/selectFileInfsForUpdate.do">)
+             삭제 버튼이 자체 <form>을 가지므로 수정 폼 바깥(중첩 form 방지)에 배치 -->
+        <div class="mb-3 p-3 border rounded bg-light"
+             th:if="${fileList != null and !#lists.isEmpty(fileList)}">
+            <strong class="small d-block mb-2">기존 첨부파일</strong>
+            <div th:replace="~{cmm/fms/EgovFileList :: fileList(${fileList}, 'Y', ${atchFileIdEnc},
+                 '/cop/bbs/admin/forUpdateBoardArticle.do?bbsId=' + ${result.bbsId} + '&amp;nttId=' + ${result.nttId})}"></div>
+        </div>
+
+        <form th:action="@{/cop/bbs/admin/updateBoardArticle.do}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="searchCnd"  th:value="${searchVO != null ? searchVO.searchCnd : ''}"/>
+            <input type="hidden" name="searchWrd"  th:value="${searchVO != null ? searchVO.searchWrd : ''}"/>
+            <input type="hidden" name="pageIndex"  th:value="${searchVO != null ? searchVO.pageIndex : '1'}"/>
+            <input type="hidden" name="bbsId" th:value="${result != null ? result.bbsId : (bdMstr != null ? bdMstr.bbsId : '')}"/>
+            <input type="hidden" name="nttId" th:value="${result != null ? result.nttId : ''}"/>
+            <!-- 인증 사용자(비익명) validator(@EgovNullCheck) 처리를 위한 dummy 값 -->
+            <input type="hidden" name="ntcrNm" value="dummy"/>
+            <input type="hidden" name="password" value="dummy"/>
+
+            <div class="mb-3"><label class="form-label">제목</label>
+                <input class="form-control" type="text" name="nttSj" maxlength="120"
+                       th:value="${result != null ? result.nttSj : ''}" required/></div>
+            <div class="mb-3"><label class="form-label">내용</label>
+                <textarea class="form-control" rows="10" name="nttCn" required
+                          th:text="${result != null ? result.nttCn : ''}"></textarea></div>
+
+            <div class="mb-3" th:if="${bdMstr != null and bdMstr.bbsAttrbCode == 'BBSA01'}">
+                <label class="form-label">게시기간</label>
+                <div class="d-flex align-items-center gap-2">
+                    <input class="form-control" type="date" name="ntceBgnde"
+                           th:value="${result != null ? result.ntceBgnde : ''}" required/>
+                    <span>~</span>
+                    <input class="form-control" type="date" name="ntceEndde"
+                           th:value="${result != null ? result.ntceEndde : ''}" required/>
+                </div>
+            </div>
+            <th:block th:unless="${bdMstr != null and bdMstr.bbsAttrbCode == 'BBSA01'}">
+                <input type="hidden" name="ntceBgnde" value="10000101"/>
+                <input type="hidden" name="ntceEndde" value="99991231"/>
+            </th:block>
+
+            <div class="mb-3" th:if="${bdMstr == null or bdMstr.fileAtchPosblAt == 'Y'}">
+                <label class="form-label">첨부파일 추가</label>
+                <div th:replace="~{cmm/fms/EgovFileUploader ::
+                     uploader(${bdMstr != null ? bdMstr.posblAtchFileNumber : null},
+                              ${fileList != null ? #lists.size(fileList) : 0})}"></div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary"
+                   th:href="@{/cop/bbs/admin/selectBoardArticle.do(bbsId=${result != null ? result.bbsId : ''},nttId=${result != null ? result.nttId : ''})}">취소</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

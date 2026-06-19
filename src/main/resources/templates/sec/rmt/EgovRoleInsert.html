@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>롤 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/rmt/EgovRoleListView.do}">롤관리</a></li>
+            <li class="breadcrumb-item active">롤 등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-key"></i> 롤(Role) 등록</h1>
+
+        <form th:action="@{/sec/rmt/EgovRoleInsert.do}" method="post">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="roleNm">롤 명 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="roleNm" name="roleNm" maxlength="50" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="rolePtn">롤 패턴 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="rolePtn" name="rolePtn" maxlength="50" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="roleDc">설명</label>
+                        <input type="text" class="form-control" id="roleDc" name="roleDc" maxlength="50"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="roleTyp">롤 타입 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="roleTyp" name="roleTyp">
+                            <option th:each="c : ${cmmCodeDetailList}" th:value="${c.code}" th:text="${c.codeNm}">타입</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="roleSort">롤 Sort <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="roleSort" name="roleSort" maxlength="50" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/rmt/EgovRoleListView.do}">목록</a>
+                <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg"></i> 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

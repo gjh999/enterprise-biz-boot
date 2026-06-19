@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>메뉴생성</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do}">메뉴생성관리</a></li>
+            <li class="breadcrumb-item active">메뉴생성</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 메뉴 생성</h1>
+
+        <form name="menuCreatManageForm" th:action="@{/sym/mnu/mcm/EgovMenuCreatInsert.do}" method="post">
+            <input type="hidden" name="checkedMenuNoForInsert" id="checkedMenuNoForInsert"/>
+            <input type="hidden" name="checkedAuthorForInsert" id="checkedAuthorForInsert"
+                   th:value="${resultVO != null} ? ${resultVO.authorCode} : ''"/>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="authorCode" class="col-form-label">권한코드 :</label>
+                        </div>
+                        <div class="col-auto">
+                            <input id="authorCode" class="form-control" name="authorCode" type="text" maxlength="30"
+                                   title="권한코드" th:value="${resultVO != null} ? ${resultVO.authorCode} : ''" readonly="readonly"/>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> 메뉴생성</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-hover align-middle">
+                <caption class="visually-hidden">메뉴 목록</caption>
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" style="width:60px;">선택</th>
+                        <th scope="col" style="width:100px;">메뉴번호</th>
+                        <th scope="col">메뉴명</th>
+                        <th scope="col" style="width:120px;">상위메뉴</th>
+                        <th scope="col" style="width:120px;">생성여부</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(list_menulist)}">
+                        <td colspan="5" class="text-center text-muted py-4">메뉴가 존재하지 않습니다.</td>
+                    </tr>
+                    <tr th:each="result1 : ${list_menulist}">
+                        <td class="text-center">
+                            <input type="checkbox" name="checkField" class="form-check-input"
+                                   th:value="${result1.menuNo}" th:checked="${result1.chkYeoBu != null and result1.chkYeoBu > 0}"/>
+                        </td>
+                        <td th:text="${result1.menuNo}">메뉴번호</td>
+                        <td th:text="${result1.menuNm}">메뉴명</td>
+                        <td class="text-center" th:text="${result1.upperMenuId}">상위메뉴</td>
+                        <td class="text-center" th:text="${result1.chkYeoBu != null and result1.chkYeoBu > 0} ? 'Y' : 'N'">N</td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <script th:inline="javascript">
+        document.querySelector('form[name="menuCreatManageForm"]').addEventListener('submit', function () {
+            var checks = document.querySelectorAll('input[name="checkField"]:checked');
+            var nos = [];
+            checks.forEach(function (c) { nos.push(c.value); });
+            document.getElementById('checkedMenuNoForInsert').value = nos.join(',');
+            document.getElementById('checkedAuthorForInsert').value = document.getElementById('authorCode').value;
+        });
+    </script>
+</main>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>달력</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container"
+         th:with="first=${resultList != null and !#lists.isEmpty(resultList) ? resultList[0] : null},
+                  rows=${resultList != null ? (#lists.size(resultList) / 7) : 0}">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">달력</li>
+        </ol></nav>
+
+        <div class="d-flex align-items-center justify-content-between mb-3" th:if="${first != null}"
+             th:with="im=${#conversions.convert(first.month, 'java.lang.Integer')}">
+            <a class="btn btn-outline-secondary btn-sm"
+               th:href="@{/sym/cmm/callCal.do(year=${first.year}, month=${im - 1})}">
+                <i class="bi bi-chevron-left"></i> 이전달</a>
+            <h1 class="h4 mb-0"><span th:text="${first.year}">2026</span>년 <span th:text="${first.month}">6</span>월</h1>
+            <a class="btn btn-outline-secondary btn-sm"
+               th:href="@{/sym/cmm/callCal.do(year=${first.year}, month=${im + 1})}">
+                다음달 <i class="bi bi-chevron-right"></i></a>
+        </div>
+
+        <table class="table table-bordered text-center align-middle" style="table-layout:fixed;">
+            <thead class="table-light">
+            <tr>
+                <th class="text-danger">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th>
+                <th class="text-primary">토</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${#numbers.sequence(0, rows - 1)}">
+                <td th:each="c : ${#numbers.sequence(0, 6)}"
+                    th:with="cell=${resultList[r * 7 + c]}"
+                    th:classappend="${c == 0} ? ' text-danger' : (${c == 6} ? ' text-primary' : '')"
+                    style="height:64px; vertical-align:top;">
+                    <span th:text="${cell.day}"></span>
+                </td>
+            </tr>
+            <tr th:if="${first == null}"><td colspan="7" class="text-muted py-4">달력 데이터가 없습니다.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

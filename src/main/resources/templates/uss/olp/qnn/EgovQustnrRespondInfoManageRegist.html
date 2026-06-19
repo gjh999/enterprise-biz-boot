@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문 응답</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;"
+         th:with="info=${Comtnqestnrinfo != null and !#lists.isEmpty(Comtnqestnrinfo)} ? ${Comtnqestnrinfo[0]} : null,
+                  emp=${Emplyrinfo != null and !#lists.isEmpty(Emplyrinfo)} ? ${Emplyrinfo[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}">설문조사</a></li>
+            <li class="breadcrumb-item active">응답</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> 설문 응답</h1>
+
+        <div class="card mb-3" th:if="${info != null}"><div class="card-body">
+            <h2 class="h5 mb-1" th:text="${info.qestnrsj}">설문제목</h2>
+            <p class="mb-1 text-muted" th:text="${info.qestnrpurps}">설문목적</p>
+            <p class="mb-0 small" style="white-space:pre-line;" th:text="${info.qestnrwritngguidancecn}">안내</p>
+        </div></div>
+
+        <form th:action="@{/uss/olp/qnn/EgovQustnrRespondInfoManageRegist.do}" method="post">
+            <input type="hidden" name="cmd" value="save"/>
+            <input type="hidden" name="qestnrId" th:value="${qestnrId}"/>
+            <input type="hidden" name="qestnrTmplatId" th:value="${qestnrTmplatId}"/>
+
+            <fieldset class="border rounded p-3 mb-4">
+                <legend class="h6">응답자 정보</legend>
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label">성별</label>
+                        <select class="form-select" name="sexdstnCode">
+                            <option value="">선택</option>
+                            <option th:each="c : ${comCode014}" th:value="${c.code}" th:text="${c.codeNm}"></option>
+                        </select></div>
+                    <div class="col-md-6"><label class="form-label">직업</label>
+                        <select class="form-select" name="occpTyCode">
+                            <option value="">선택</option>
+                            <option th:each="c : ${comCode034}" th:value="${c.code}" th:text="${c.codeNm}"></option>
+                        </select></div>
+                    <div class="col-md-6"><label class="form-label">생년월일(YYYYMMDD)</label>
+                        <input class="form-control" type="text" name="brth" maxlength="8" th:value="${emp != null ? emp.brth : ''}"/></div>
+                    <div class="col-md-6"><label class="form-label">응답자명</label>
+                        <input class="form-control" type="text" name="respondNm" maxlength="50" th:value="${emp != null ? emp.emplyrNm : ''}"/></div>
+                </div>
+            </fieldset>
+
+            <div th:each="q : ${Comtnqustnrqesitm}" class="mb-4">
+                <p class="fw-bold mb-2"><span th:text="${q.qestnSn}"></span>. <span th:text="${q.qestnCn}"></span></p>
+                <input type="hidden" th:name="'TY_' + ${q.qestnrqesitmid}" th:value="${q.qestnTyCode}"/>
+                <!-- 객관식 -->
+                <div th:if="${q.qestnTyCode == '1'}">
+                    <div class="form-check" th:each="iem : ${Comtnqustnriem}" th:if="${iem.qestnrqesitmid == q.qestnrqesitmid}">
+                        <input class="form-check-input"
+                               th:type="${q.mxmmChoiseCo != null and q.mxmmChoiseCo > 1} ? 'checkbox' : 'radio'"
+                               th:name="${q.qestnrqesitmid}" th:value="${iem.qustnrIemId}"/>
+                        <label class="form-check-label" th:text="${iem.iemCn}">항목</label>
+                        <input class="form-control form-control-sm mt-1" style="max-width:300px;" type="text"
+                               th:if="${iem.etcAnswerAt == 'Y'}" th:name="'ETC_' + ${iem.qustnrIemId}" placeholder="기타 의견"/>
+                    </div>
+                </div>
+                <!-- 주관식 -->
+                <div th:if="${q.qestnTyCode == '2'}">
+                    <textarea class="form-control" rows="3" th:name="${q.qestnrqesitmid}"></textarea>
+                </div>
+            </div>
+            <p class="text-muted" th:if="${Comtnqustnrqesitm == null or #lists.isEmpty(Comtnqustnrqesitm)}">등록된 문항이 없습니다.</p>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-send"></i> 설문 제출</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

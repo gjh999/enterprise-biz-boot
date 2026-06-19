@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>게시판 사용정보 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;" th:with="u=${bdUseVO}">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cop/com/selectBBSUseInfs.do}">게시판사용정보</a></li>
+            <li class="breadcrumb-item active">상세</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-info-circle"></i> 게시판 사용정보 상세</h1>
+
+        <form th:action="@{/cop/com/updateBBSUseInf.do}" method="post">
+            <input type="hidden" name="pageIndex" th:value="${searchVO != null ? searchVO.pageIndex : '1'}"/>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th style="width:190px;">게시판 명</th>
+                    <td th:text="${u != null ? u.bbsNm : ''}">게시판명</td>
+                </tr>
+                <tr>
+                    <th>게시판 ID</th>
+                    <td>
+                        <span th:text="${u != null ? u.bbsId : ''}">bbsId</span>
+                        <input type="hidden" name="bbsId" th:value="${u != null ? u.bbsId : ''}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>대상시스템 ID</th>
+                    <td>
+                        <span th:text="${u != null ? u.trgetId : ''}">trgetId</span>
+                        <input type="hidden" name="trgetId" th:value="${u != null ? u.trgetId : ''}"/>
+                    </td>
+                </tr>
+                <tr th:if="${u != null and u.provdUrl != null and !#strings.isEmpty(u.provdUrl)}">
+                    <th>제공 URL</th>
+                    <td><a th:href="@{${u.provdUrl}}" th:text="${u.provdUrl}" target="_blank">url</a></td>
+                </tr>
+                <tr>
+                    <th>등록구분</th>
+                    <td th:text="${u != null ? u.registSeCodeNm : ''}">구분</td>
+                </tr>
+                <tr>
+                    <th>사용여부 <span class="text-danger">*</span></th>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="ua_y" name="useAt" value="Y"
+                                   th:checked="${u == null or u.useAt == 'Y'}"/>
+                            <label class="form-check-label" for="ua_y">Y</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="ua_n" name="useAt" value="N"
+                                   th:checked="${u != null and u.useAt == 'N'}"/>
+                            <label class="form-check-label" for="ua_n">N</label>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" th:href="@{/cop/com/selectBBSUseInfs.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+            </div>
+        </form>
+        <form th:action="@{/cop/com/deleteBBSUseInf.do}" method="post" class="mt-2 text-end"
+              onsubmit="return confirm('삭제하시겠습니까?');">
+            <input type="hidden" name="bbsId" th:value="${u != null ? u.bbsId : ''}"/>
+            <input type="hidden" name="trgetId" th:value="${u != null ? u.trgetId : ''}"/>
+            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

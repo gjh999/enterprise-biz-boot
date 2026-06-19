@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>휴일 관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">휴일 관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-calendar-x"></i> 휴일 관리</h1>
+
+        <form class="row g-2 mb-3" th:action="@{/sym/cal/EgovRestdeList.do}" method="get">
+            <div class="col-auto">
+                <select class="form-select" name="searchCondition">
+                    <option value="restdeNm" th:selected="${searchVO.searchCondition == 'restdeNm'}">휴일명</option>
+                    <option value="restdeDe" th:selected="${searchVO.searchCondition == 'restdeDe'}">휴일일자</option>
+                </select>
+            </div>
+            <div class="col-auto"><input class="form-control" name="searchKeyword" th:value="${searchVO.searchKeyword}" placeholder="검색어"/></div>
+            <div class="col-auto"><button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
+            <div class="col-auto ms-auto">
+                <a class="btn btn-outline-secondary" th:href="@{/sym/cal/EgovNormalMonthCalendar.do}">
+                    <i class="bi bi-calendar-month"></i> 월간달력</a>
+                <a class="btn btn-success" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/sym/cal/EgovRestdeRegist.do}">
+                    <i class="bi bi-plus-lg"></i> 등록</a>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr><th style="width:120px;">휴일일자</th><th>휴일명</th><th style="width:120px;">구분</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${resultList}">
+                <td><a th:href="@{/sym/cal/EgovRestdeDetail.do(restdeNo=${item.restdeNo})}" th:text="${item.restdeDe}">일자</a></td>
+                <td th:text="${item.restdeNm}">휴일명</td>
+                <td th:text="${item.restdeSe}">구분</td>
+            </tr>
+            <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
+                <td colspan="3" class="text-center text-muted py-4">데이터가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이징 -->
+        <div class="mt-3"
+             th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/sym/cal/EgovRestdeList.do', searchCondition=${searchVO.searchCondition}, searchKeyword=${searchVO.searchKeyword})}"></div>
+    </div>
+</main>
+</body>
+</html>

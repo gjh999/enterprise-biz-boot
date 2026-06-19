@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>메뉴 일괄등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/mnu/mpm/EgovMenuManageSelect.do}">메뉴목록관리</a></li>
+            <li class="breadcrumb-item active">메뉴 일괄등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-upload"></i> 메뉴 일괄등록</h1>
+        <div class="alert alert-info" th:if="${resultMsg}" th:text="${resultMsg}">결과 메시지</div>
+        <div class="alert alert-warning">
+            엑셀(POI) 기반 일괄등록 기능은 현재 버전에서 지원하지 않습니다. 메뉴는 개별 등록 화면을 이용해 주세요.
+        </div>
+        <div class="text-end">
+            <a class="btn btn-outline-secondary btn-sm" th:href="@{/sym/mnu/mpm/EgovMenuManageSelect.do}">목록</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

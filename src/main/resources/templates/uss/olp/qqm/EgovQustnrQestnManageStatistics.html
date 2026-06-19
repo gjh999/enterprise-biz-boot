@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문문항 통계</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">설문문항</a></li>
+            <li class="breadcrumb-item active">통계</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-bar-chart"></i> 설문문항 통계</h1>
+        <h2 class="h6" th:if="${r != null}">질문: <span th:text="${r.qestncn}"></span></h2>
+
+        <h3 class="h6 mt-4">객관식 응답 통계</h3>
+        <table class="table table-bordered align-middle">
+            <thead class="table-light"><tr><th>항목내용</th><th style="width:100px;">응답수</th><th style="width:120px;">비율(%)</th></tr></thead>
+            <tbody>
+            <tr th:each="s : ${statisticsList}">
+                <td th:text="${s.iemCn}">항목</td>
+                <td class="text-center" th:text="${s.qustnrIemIdCnt}">0</td>
+                <td class="text-center" th:text="${s.qustnrPercent}">0</td>
+            </tr>
+            <tr th:if="${statisticsList == null or #lists.isEmpty(statisticsList)}"><td colspan="3" class="text-center text-muted">객관식 응답이 없습니다.</td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="h6 mt-4">주관식 응답</h3>
+        <ul class="list-group">
+            <li class="list-group-item" th:each="s : ${statisticsList2}">
+                <span th:text="${s.respondAnswerCn}">답변</span>
+                <span class="text-muted small" th:if="${s.etcAnswerCn != null and s.etcAnswerCn != ''}" th:text="'(' + ${s.etcAnswerCn} + ')'"></span>
+            </li>
+            <li class="list-group-item text-center text-muted" th:if="${statisticsList2 == null or #lists.isEmpty(statisticsList2)}">주관식 응답이 없습니다.</li>
+        </ul>
+
+        <div class="mt-3"><a class="btn btn-outline-secondary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">목록</a></div>
+    </div>
+</main>
+</body>
+</html>

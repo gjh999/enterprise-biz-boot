@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>메뉴생성관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item">내부시스템관리</li>
+            <li class="breadcrumb-item">메뉴관리</li>
+            <li class="breadcrumb-item active">메뉴생성관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 메뉴생성관리</h1>
+
+        <div th:if="${resultMsg != null and !resultMsg.isEmpty()}" class="alert alert-info py-2" th:text="${resultMsg}">메시지</div>
+
+        <form name="menuCreatManageForm" th:action="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do}" method="get" class="row g-2 mb-3">
+            <input type="hidden" name="pageIndex" th:value="${searchVO != null} ? ${searchVO.pageIndex} : 1"/>
+            <div class="col-auto">
+                <label for="searchKeyword" class="col-form-label">보안설정대상 ID :</label>
+            </div>
+            <div class="col-auto">
+                <input id="searchKeyword" class="form-control" name="searchKeyword" type="text" maxlength="60"
+                       th:value="${searchVO != null} ? ${searchVO.searchKeyword} : ''" title="검색조건"/>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <caption class="visually-hidden">메뉴생성관리 목록</caption>
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">권한코드</th>
+                    <th scope="col">권한명</th>
+                    <th scope="col">권한설명</th>
+                    <th scope="col" style="width:120px;">메뉴생성여부</th>
+                    <th scope="col" style="width:120px;">메뉴생성</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(list_menumanage)}">
+                    <td colspan="5" class="text-center text-muted py-4">조회된 데이터가 없습니다.</td>
+                </tr>
+                <tr th:each="result : ${list_menumanage}">
+                    <td th:text="${result.authorCode}">권한코드</td>
+                    <td th:text="${result.authorNm}">권한명</td>
+                    <td th:text="${result.authorDc}">권한설명</td>
+                    <td class="text-center" th:text="${result.chkYeoBu != null and result.chkYeoBu > 0} ? 'Y' : 'N'">N</td>
+                    <td class="text-center">
+                        <a class="btn btn-outline-secondary btn-sm"
+                           th:href="@{/sym/mnu/mcm/EgovMenuCreatSelect.do(authorCode=${result.authorCode})}">
+                            <i class="bi bi-pencil"></i> 메뉴생성</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center" th:if="${paginationInfo != null}">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item" th:if="${paginationInfo.currentPageNo > 1}">
+                        <a class="page-link" th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do(pageIndex=${paginationInfo.currentPageNo - 1}, searchKeyword=${searchVO != null} ? ${searchVO.searchKeyword} : '')}">이전</a>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link" th:text="${paginationInfo.currentPageNo}">1</span>
+                    </li>
+                    <li class="page-item" th:if="${paginationInfo.currentPageNo * paginationInfo.recordCountPerPage < paginationInfo.totalRecordCount}">
+                        <a class="page-link" th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do(pageIndex=${paginationInfo.currentPageNo + 1}, searchKeyword=${searchVO != null} ? ${searchVO.searchKeyword} : '')}">다음</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</main>
+</body>
+</html>

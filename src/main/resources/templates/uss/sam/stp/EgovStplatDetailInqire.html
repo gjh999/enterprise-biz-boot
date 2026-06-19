@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>이용약관 상세</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/sam/stp/StplatListInqire.do}">이용약관</a></li>
+            <li class="breadcrumb-item active">약관 상세</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-file-text"></i> 이용약관 상세</h1>
+        <div class="text-muted text-center py-5" th:if="${result == null}">상세 데이터가 없습니다.</div>
+        <div th:if="${result != null}">
+            <table class="table table-bordered align-middle">
+                <tbody>
+                <tr>
+                    <th class="table-light" style="width:190px;">이용약관명</th>
+                    <td th:text="${result.useStplatNm}">약관명</td>
+                </tr>
+                <tr>
+                    <th class="table-light">이용약관내용</th>
+                    <td><div style="white-space:pre-wrap;" th:text="${result.useStplatCn}">내용</div></td>
+                </tr>
+                <tr>
+                    <th class="table-light">정보제공동의내용</th>
+                    <td><div style="white-space:pre-wrap;" th:text="${result.infoProvdAgreCn}">동의내용</div></td>
+                </tr>
+                <tr>
+                    <th class="table-light">등록일자</th>
+                    <td th:text="${result.lastUpdusrPnttm}">일자</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <form th:action="@{/uss/sam/stp/StplatCnDelete.do}" method="post"
+                      sec:authorize="hasRole('ADMIN')"
+                      onsubmit="return confirm('삭제하시겠습니까?');">
+                    <input type="hidden" name="useStplatId" th:value="${result.useStplatId}"/>
+                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                </form>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-primary" sec:authorize="hasRole('ADMIN')"
+                       th:href="@{/uss/sam/stp/StplatCnUpdtView.do(useStplatId=${result.useStplatId})}">
+                        <i class="bi bi-pencil"></i> 수정</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/uss/sam/stp/StplatListInqire.do}">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

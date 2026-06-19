@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문템플릿 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">설문템플릿</a></li>
+            <li class="breadcrumb-item active">수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 설문템플릿 수정</h1>
+        <form th:action="@{/uss/olp/qtm/EgovQustnrTmplatManageModifyActor.do}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="qestnrTmplatId" th:value="${r != null ? r.qestnrtmplatid : ''}"/>
+            <div class="row g-3">
+                <div class="col-12"><label class="form-label">템플릿유형 <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" name="qestnrTmplatTy" th:value="${r != null ? r.qestnrtmplatty : ''}" maxlength="100" required/></div>
+                <div class="col-12"><label class="form-label">현재 이미지</label><br/>
+                    <img style="max-height:60px;" th:if="${r != null}"
+                         th:src="@{/uss/olp/qtm/EgovQustnrTmplatManageImg.do(qestnrTmplatId=${r.qestnrtmplatid})}" alt="템플릿 이미지"/></div>
+                <div class="col-12"><label class="form-label">템플릿유형 이미지 변경(JPEG)</label>
+                    <input class="form-control" type="file" name="qestnrTmplatImage" accept="image/*"/></div>
+                <div class="col-12"><label class="form-label">템플릿 설명 <span class="text-danger">*</span></label>
+                    <textarea class="form-control" rows="4" name="qestnrTmplatCn" required th:text="${r != null ? r.qestnrtmplatcn : ''}"></textarea></div>
+                <div class="col-12"><label class="form-label">템플릿파일(경로) <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" name="qestnrTmplatCours" th:value="${r != null ? r.qestnrtmplatcours : ''}" maxlength="100" required/></div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">목록</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

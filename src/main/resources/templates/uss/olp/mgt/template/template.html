@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문 템플릿</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;"
+         th:with="info=${Comtnqestnrinfo != null and !#lists.isEmpty(Comtnqestnrinfo)} ? ${Comtnqestnrinfo[0]} : null">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">설문 템플릿</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-layout-text-window"></i> 설문 템플릿</h1>
+
+        <div class="card mb-3" th:if="${info != null}"><div class="card-body">
+            <h2 class="h5 mb-1" th:text="${info['qestnrsj']}">설문제목</h2>
+            <p class="mb-1 text-muted" th:text="${info['qestnrpurps']}">설문목적</p>
+            <p class="mb-0 small" style="white-space:pre-line;" th:text="${info['qestnrwritngguidancecn']}">안내</p>
+        </div></div>
+
+        <div th:each="q : ${Comtnqustnrqesitm}" class="mb-4">
+            <p class="fw-bold mb-2"><span th:text="${q['qestnSn']}"></span>. <span th:text="${q['qestnCn']}"></span></p>
+            <div th:if="${q['qestnTyCode'] == '1'}">
+                <div class="form-check" th:each="iem : ${Comtnqustnriem}" th:if="${iem['qestnrqesitmid'] == q['qestnrqesitmid']}">
+                    <input class="form-check-input" type="radio" disabled/>
+                    <label class="form-check-label" th:text="${iem['iemCn']}">항목</label>
+                </div>
+            </div>
+            <div th:if="${q['qestnTyCode'] == '2'}">
+                <textarea class="form-control" rows="3" disabled></textarea>
+            </div>
+        </div>
+        <p class="text-muted" th:if="${Comtnqustnrqesitm == null or #lists.isEmpty(Comtnqustnrqesitm)}">등록된 문항이 없습니다.</p>
+
+        <div class="mt-3"><a class="btn btn-outline-secondary" th:href="${returnUrl != null ? returnUrl : '/'}">이전으로</a></div>
+    </div>
+</main>
+</body>
+</html>

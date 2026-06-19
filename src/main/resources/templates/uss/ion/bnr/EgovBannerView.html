@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>배너 반영결과</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/ion/bnr/selectBannerList.do}">배너관리</a></li>
+            <li class="breadcrumb-item active">반영결과</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-images"></i> 배너 반영결과
+            <small class="text-muted" th:text="${resultType}">horizontal</small></h1>
+        <div th:classappend="${resultType == 'vertical'} ? 'd-flex flex-column gap-2' : 'd-flex flex-wrap gap-3'">
+            <div th:each="item : ${fileList}">
+                <a th:href="${item.linkUrl}" target="_blank" th:text="${item.linkUrl}">링크</a>
+            </div>
+            <div class="text-center text-muted py-4" th:if="${fileList == null or #lists.isEmpty(fileList)}">
+                반영된 배너가 없습니다.</div>
+        </div>
+        <div class="mt-3"><a class="btn btn-outline-secondary btn-sm" th:href="@{/uss/ion/bnr/selectBannerList.do}">목록</a></div>
+    </div>
+</main>
+</body>
+</html>

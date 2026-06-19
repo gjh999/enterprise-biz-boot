@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '게시판 관리'}">게시판 관리</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+                <li class="breadcrumb-item">게시판 관리</li>
+                <li class="breadcrumb-item active" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '게시판'}">게시판</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h4 mb-0" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '게시판 관리'}">게시판 관리</h1>
+            <span class="text-muted small">총 <strong th:text="${resultCnt}">0</strong> 건</span>
+        </div>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th style="width:80px;">번호</th>
+                <th>제목</th>
+                <th style="width:120px;">작성자</th>
+                <th style="width:160px;">등록일</th>
+                <th style="width:80px;">조회</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${resultList}">
+                <td class="text-center" th:text="${item.nttNo}">1</td>
+                <td>
+                    <a class="text-decoration-none"
+                       th:href="@{/cop/bbs/admin/selectBoardArticle.do(bbsId=${item.bbsId},nttId=${item.nttId})}"
+                       th:text="${item.nttSj}">제목</a>
+                </td>
+                <td class="text-center" th:text="${item.ntcrNm ?: '관리자'}">작성자</td>
+                <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
+                <td class="text-center" th:text="${item.inqireCo ?: 0}">0</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(resultList)}">
+                <td colspan="5" class="text-center text-muted py-4">등록된 게시물이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="text-end" sec:authorize="isAuthenticated()">
+            <a class="btn btn-primary btn-sm"
+               th:href="@{/cop/bbs/admin/addBoardArticle.do(bbsId=${boardVO != null ? boardVO.bbsId : ''})}">
+                <i class="bi bi-pencil-square"></i> 글쓰기
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

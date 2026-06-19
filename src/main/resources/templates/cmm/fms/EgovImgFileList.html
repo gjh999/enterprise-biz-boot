@@ -1,0 +1,16 @@
+<!--
+  EgovImgFileList.html : 이미지 첨부파일 조회 화면(JSP 원본 WEB-INF/jsp/cmm/fms/EgovImgFileList.jsp 의 <c:import> 대체)
+  - 사용법 1(프래그먼트, 권장): 게시물 상세(갤러리 BBSA02) 등 호출 측 템플릿에서
+      <div th:replace="~{cmm/fms/EgovImgFileList :: imgFileList(${imgFileList})}"></div>
+    * fileList : 이미지 FileVO 목록(각 항목의 atchFileId 는 세션 암호화되어 있어야 함 - getImage.do 요구사항)
+  - 사용법 2(독립 URL): /cmm/fms/selectImageFileInfs.do 가 이 템플릿 전체를 반환한다.
+-->
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="imgFileList(fileList)">
+    <th:block th:each="fileVO : ${fileList}">
+        <div class="mb-2">
+            <img th:src="@{/cmm/fms/getImage.do(atchFileId=${fileVO.atchFileId},fileSn=${fileVO.fileSn})}"
+                 th:alt="${fileVO.orignlFileNm}" alt="첨부 이미지"
+                 class="img-fluid rounded border" style="max-height:480px;"/>
+        </div>
+    </th:block>
+</div>

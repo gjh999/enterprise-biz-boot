@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>게시판 정보</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
+</head>
+<body class="p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h5 mb-0">게시판 정보</h1>
+        <button type="button" class="btn-close" aria-label="닫기" onclick="fn_egov_cancel_popup();"></button>
+    </div>
+
+    <!-- 사용정보 미등록(이용 가능) 게시판 마스터만 조회된다 -->
+    <form class="row g-2 mb-3" th:action="@{/cop/bbs/SelectBBSMasterInfsPop.do}" method="get">
+        <div class="col-auto">
+            <select class="form-select form-select-sm" name="searchCnd" title="검색조건 선택">
+                <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">게시판명</option>
+                <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">게시판유형</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <input class="form-control form-control-sm" type="text" name="searchWrd" maxlength="35" title="검색어"
+                   th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어"/>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-sm btn-outline-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+        </div>
+        <div class="col-auto ms-auto">
+            <span class="text-muted small">총 <strong th:text="${resultCnt}">0</strong> 건</span>
+        </div>
+    </form>
+
+    <table class="table table-hover table-sm align-middle">
+        <thead class="table-light">
+        <tr>
+            <th style="width:60px;">번호</th>
+            <th>게시판명</th>
+            <th style="width:110px;">게시판유형</th>
+            <th style="width:110px;">게시판속성</th>
+            <th style="width:100px;">생성일</th>
+            <th style="width:70px;">사용</th>
+            <th style="width:70px;">선택</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item, st : ${resultList}">
+            <td class="text-center"
+                th:text="${searchVO != null ? (searchVO.pageIndex - 1) * searchVO.pageSize + st.count : st.count}">1</td>
+            <td th:text="${item.bbsNm}">게시판명</td>
+            <td th:text="${item.bbsTyCodeNm}">유형</td>
+            <td th:text="${item.bbsAttrbCodeNm}">속성</td>
+            <td class="text-center" th:text="${item.frstRegisterPnttm}">생성일</td>
+            <td class="text-center" th:text="${item.useAt == 'Y'} ? '사용' : '미사용'">사용</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-outline-primary btn-sm"
+                        th:attr="data-bbs-id=${item.bbsId},data-bbs-nm=${item.bbsNm}"
+                        onclick="fn_egov_select_brdMstrInfo(this);">선택</button>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(resultList)}">
+            <td colspan="7" class="text-center text-muted py-4">선택 가능한 게시판이 없습니다.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:replace="~{fragments/pagination :: pagination(paginationInfo=${paginationInfo}, baseUrl='/cop/bbs/SelectBBSMasterInfsPop.do', searchCnd=${searchVO != null ? searchVO.searchCnd : ''}, searchWrd=${searchVO != null ? searchVO.searchWrd : ''})}"></div>
+
+    <script>
+        /* 부모창 콜백으로 "bbsId|bbsNm" 전달 */
+        function fn_egov_select_brdMstrInfo(btn) {
+            var retVal = btn.getAttribute('data-bbs-id') + '|' + btn.getAttribute('data-bbs-nm');
+            try {
+                if (window.parent && typeof window.parent.fn_egov_returnValue === 'function') {
+                    window.parent.fn_egov_returnValue(retVal);
+                } else if (window.opener && typeof window.opener.fn_egov_returnValue === 'function') {
+                    window.opener.fn_egov_returnValue(retVal);
+                    window.close();
+                }
+            } catch (e) { /* cross-window 오류 무시 */ }
+        }
+
+        function fn_egov_cancel_popup() {
+            try {
+                if (window.parent && typeof window.parent.fn_egov_modal_remove === 'function') {
+                    window.parent.fn_egov_modal_remove();
+                } else {
+                    window.close();
+                }
+            } catch (e) { window.close(); }
+        }
+    </script>
+</body>
+</html>

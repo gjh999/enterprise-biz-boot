@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>Q&amp;A 답변 등록 (관리자)</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:760px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olh/qnm/admin/QnaAnswerListInqire.do}">Q&amp;A 답변 관리</a></li>
+            <li class="breadcrumb-item active">답변 등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-reply"></i> 답변 등록/수정</h1>
+
+        <div class="card mb-3">
+            <div class="card-header"><span class="badge bg-primary me-2">Q</span>
+                <strong th:text="${result.qestnSj}">제목</strong></div>
+            <div class="card-body">
+                <div class="text-muted small mb-2">작성자 <span th:text="${result.wrterNm}">작성자</span></div>
+                <p class="mb-0" th:text="${result.qestnCn}">질문 내용</p>
+            </div>
+        </div>
+
+        <form th:action="@{/uss/olh/qnm/admin/QnaCnAnswerUpdt.do}" method="post">
+            <input type="hidden" name="qaId" th:value="${result.qaId}"/>
+            <input type="hidden" name="qestnSj" th:value="${result.qestnSj}"/>
+            <input type="hidden" name="qestnCn" th:value="${result.qestnCn}"/>
+            <input type="hidden" name="wrterNm" th:value="${result.wrterNm}"/>
+            <!-- updateQnaCnAnswer 매퍼는 WRITNG_PASSWORD 를 갱신하지 않음 → 실제 비밀번호 노출 방지용 더미 -->
+            <input type="hidden" name="writngPassword" value="dummy"/>
+            <div class="mb-3">
+                <label class="form-label">처리상태</label>
+                <select class="form-select" name="qnaProcessSttusCode">
+                    <option th:each="code : ${resultList}" th:value="${code.code}" th:text="${code.codeNm}"
+                            th:selected="${code.code == result.qnaProcessSttusCode}">상태</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">답변 내용</label>
+                <textarea class="form-control" rows="8" name="answerCn" required
+                          th:text="${result.answerCn}"></textarea>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" th:href="@{/uss/olh/qnm/admin/QnaAnswerDetailInqire.do(qaId=${result.qaId})}">취소</a>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 답변 저장</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

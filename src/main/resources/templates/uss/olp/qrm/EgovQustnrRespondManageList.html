@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>설문응답자 관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">설문응답자 관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-people"></i> 설문응답자 관리</h1>
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr>
+                <th style="width:60px;">번호</th>
+                <th>설문제목</th>
+                <th style="width:140px;">응답자명</th>
+                <th style="width:120px;">생년월일</th>
+                <th style="width:160px;">연락처</th>
+                <th style="width:120px;">등록일</th>
+            </tr></thead>
+            <tbody>
+            <tr th:each="item, st : ${resultList}">
+                <td class="text-center" th:text="${st.count}">1</td>
+                <td><a th:href="@{/uss/olp/qrm/EgovQustnrRespondManageDetail.do(qestnrRespondId=${item['qestnrrespondid']})}" th:text="${item['qestnrsj']}">설문제목</a></td>
+                <td class="text-center" th:text="${item['respondnm']}">응답자</td>
+                <td class="text-center" th:text="${item['brthdy']}">생년월일</td>
+                <td class="text-center">
+                    <span th:if="${item['areano'] != null}" th:text="${item['areano']} + '-' + ${item['middletelno']} + '-' + ${item['endtelno']}">연락처</span>
+                </td>
+                <td class="text-center" th:text="${item['frstregisterpnttm']}">등록일</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(resultList)}"><td colspan="6" class="text-center text-muted py-4">등록된 응답자가 없습니다.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

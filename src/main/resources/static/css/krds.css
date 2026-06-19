@@ -1,0 +1,115 @@
+/*
+ * KRDS (Korea Representative Design System) CSS
+ * 공식 사이트: https://uiux.egovframe.go.kr
+ *
+ * 이 파일은 공식 KRDS 파일이 제공되면 교체하세요.
+ * 현재는 eGovFrame 정부 디자인 가이드라인 기반 커스텀 스타일 적용
+ */
+
+/* ── 정부 공통 컬러 팔레트 ── */
+:root {
+    /* 주요 색상 */
+    --krds-blue: #0054A6;
+    --krds-blue-dark: #003D7A;
+    --krds-blue-light: #E8F0FB;
+
+    /* 텍스트 */
+    --krds-text-primary: #1A1A1A;
+    --krds-text-secondary: #555555;
+    --krds-text-muted: #888888;
+
+    /* 배경 */
+    --krds-bg-white: #FFFFFF;
+    --krds-bg-gray: #F5F6F8;
+
+    /* 보더 */
+    --krds-border: #DDDDDD;
+    --krds-border-focus: #0054A6;
+
+    /* 상태 */
+    --krds-success: #0EA800;
+    --krds-danger: #E2000F;
+    --krds-warning: #F5A200;
+    --krds-info: #0077C8;
+}
+
+/* ── 기본 타이포그래피 ── */
+body {
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    font-size: 14px;
+    color: var(--krds-text-primary);
+    background-color: var(--krds-bg-gray);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── 헤더 ── */
+.egov-header {
+    height: 64px;
+    background: #fff;
+    border-bottom: 1px solid var(--krds-border);
+}
+
+/* ── 네비게이션 ── */
+.egov-nav {
+    background-color: var(--krds-blue) !important;
+    min-height: 48px;
+}
+
+/* ── 버튼 오버라이드 ── */
+.btn-primary {
+    background-color: var(--krds-blue);
+    border-color: var(--krds-blue);
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--krds-blue-dark);
+    border-color: var(--krds-blue-dark);
+}
+
+/* ── 테이블 ── */
+.table thead th {
+    background-color: #EEF3FA;
+    border-bottom: 2px solid var(--krds-blue);
+    color: var(--krds-text-primary);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ── 폼 컨트롤 ── */
+.form-control:focus, .form-select:focus {
+    border-color: var(--krds-blue);
+    box-shadow: 0 0 0 3px rgba(0, 84, 166, 0.15);
+}
+
+/* ── 페이지네이션 ── */
+.pagination .page-link {
+    color: var(--krds-blue);
+    border-color: var(--krds-border);
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--krds-blue);
+    border-color: var(--krds-blue);
+}
+.pagination .page-link:hover {
+    background-color: var(--krds-blue-light);
+    color: var(--krds-blue-dark);
+}
+
+/* ── 카드 ── */
+.card {
+    border: 1px solid var(--krds-border);
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.card-header {
+    background-color: #F5F7FB;
+    border-bottom: 1px solid var(--krds-border);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 20px;
+}
+
+/* ── 알림창 ── */
+.alert {
+    border-radius: 6px;
+    font-size: 14px;
+}

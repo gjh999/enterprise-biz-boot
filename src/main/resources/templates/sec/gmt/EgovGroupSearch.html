@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>그룹 조회</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">그룹 조회</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-search"></i> 그룹 조회</h1>
+
+        <form th:action="@{/sec/gmt/EgovGroupSearchList.do}" method="post" class="row g-2 mb-3">
+            <div class="col-auto"><label class="col-form-label">그룹 명</label></div>
+            <div class="col-auto">
+                <input type="text" class="form-control" name="searchKeyword"
+                       th:value="${groupManageVO != null ? groupManageVO.searchKeyword : ''}"/>
+                <input type="hidden" name="searchCondition" value="1"/>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-search"></i> 조회</button>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr><th style="width:200px;">그룹ID</th><th>그룹명</th></tr></thead>
+            <tbody>
+            <tr th:each="item : ${groupList}">
+                <td>
+                    <a href="javascript:void(0);" class="groupLink" th:attr="data-groupid=${item.groupId}" th:text="${item.groupId}">ID</a>
+                </td>
+                <td th:text="${item.groupNm}">그룹명</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(groupList)}"><td colspan="2" class="text-center text-muted py-4">조회된 그룹이 없습니다.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.querySelectorAll('.groupLink').forEach(function (a) {
+            a.addEventListener('click', function () { selectGroup(this.getAttribute('data-groupid')); });
+        });
+        function selectGroup(groupId) {
+            try {
+                if (window.opener && window.opener.document.getElementsByName('searchKeyword').length) {
+                    window.opener.document.getElementsByName('searchKeyword')[0].value = groupId;
+                    window.close();
+                    return;
+                }
+                if (parent && typeof parent.fn_egov_returnValue === 'function') {
+                    parent.fn_egov_returnValue(groupId);
+                    return;
+                }
+            } catch (e) { /* ignore cross-window errors */ }
+            alert('선택한 그룹ID: ' + groupId);
+        }
+    </script>
+</main>
+</body>
+</html>

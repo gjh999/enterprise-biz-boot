@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>사용자별 권한 관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">사용자별 권한 관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-person-badge"></i> 사용자별 권한 관리</h1>
+
+        <form id="searchForm" th:action="@{/sec/rgm/EgovAuthorGroupList.do}" method="post" class="row g-2 mb-3">
+            <div class="col-auto">
+                <select class="form-select" name="searchCondition" th:with="sc=${authorGroupVO != null ? authorGroupVO.searchCondition : ''}">
+                    <option value="1" th:selected="${sc == '1'}">사용자 ID</option>
+                    <option value="2" th:selected="${sc == '2'}">사용자 명</option>
+                    <option value="3" th:selected="${sc == '3'}">그룹</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <input type="text" class="form-control" name="searchKeyword"
+                       th:value="${authorGroupVO != null ? authorGroupVO.searchKeyword : ''}" placeholder="검색어"/>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-search"></i> 조회</button>
+            </div>
+        </form>
+
+        <form id="authorGroupForm" method="post">
+            <input type="hidden" name="userIds" id="userIds"/>
+            <input type="hidden" name="authorCodes" id="authorCodes"/>
+            <input type="hidden" name="regYns" id="regYns"/>
+            <input type="hidden" name="mberTyCodes" id="mberTyCodes"/>
+
+            <table class="table table-hover align-middle">
+                <thead class="table-light"><tr>
+                    <th style="width:40px;"><input type="checkbox" id="checkAll"/></th>
+                    <th>사용자ID</th><th>사용자명</th><th>사용자 유형</th><th style="width:200px;">권한</th><th style="width:100px;">등록여부</th>
+                </tr></thead>
+                <tbody>
+                <tr th:each="item : ${authorGroupList}">
+                    <td>
+                        <input type="checkbox" class="rowChk"
+                               th:attr="data-uniqid=${item.uniqId},data-regyn=${item.regYn},data-mbertycode=${item.mberTyCode}"/>
+                    </td>
+                    <td th:text="${item.userId}">ID</td>
+                    <td th:text="${item.userNm}">명</td>
+                    <td th:text="${item.mberTyNm}">유형</td>
+                    <td>
+                        <select class="form-select form-select-sm rowAuthor">
+                            <option th:each="a : ${authorManageList}" th:value="${a.authorCode}" th:text="${a.authorNm}"
+                                    th:selected="${a.authorCode == item.authorCode}">권한</option>
+                        </select>
+                    </td>
+                    <td class="text-center" th:text="${item.regYn}">등록여부</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(authorGroupList)}"><td colspan="6" class="text-center text-muted py-4">조회된 사용자가 없습니다.</td></tr>
+                </tbody>
+            </table>
+            <div class="text-end">
+                <button type="button" class="btn btn-primary btn-sm" onclick="submitAuthorGroup('insert')"><i class="bi bi-save"></i> 권한등록</button>
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="submitAuthorGroup('delete')"><i class="bi bi-x-circle"></i> 등록취소</button>
+            </div>
+        </form>
+    </div>
+    <script th:inline="javascript">
+        var INSERT_URL = /*[[@{/sec/rgm/EgovAuthorGroupInsert.do}]]*/ '';
+        var DELETE_URL = /*[[@{/sec/rgm/EgovAuthorGroupDelete.do}]]*/ '';
+        document.getElementById('checkAll').addEventListener('change', function () {
+            document.querySelectorAll('.rowChk').forEach(c => c.checked = this.checked);
+        });
+        function submitAuthorGroup(mode) {
+            var rows = document.querySelectorAll('#authorGroupForm tbody tr');
+            var ids = [], authors = [], regs = [], mbers = [];
+            rows.forEach(function (tr) {
+                var chk = tr.querySelector('.rowChk');
+                if (chk && chk.checked) {
+                    ids.push(chk.getAttribute('data-uniqid'));
+                    var sel = tr.querySelector('.rowAuthor');
+                    authors.push(sel ? sel.value : '');
+                    regs.push(chk.getAttribute('data-regyn'));
+                    mbers.push(chk.getAttribute('data-mbertycode'));
+                }
+            });
+            if (ids.length === 0) { alert('선택된 항목이 없습니다.'); return; }
+            if (!confirm(mode === 'insert' ? '권한을 등록하시겠습니까?' : '등록을 취소하시겠습니까?')) return;
+            var f = document.getElementById('authorGroupForm');
+            document.getElementById('userIds').value = ids.join(';');
+            document.getElementById('authorCodes').value = authors.join(';');
+            document.getElementById('regYns').value = regs.join(';');
+            document.getElementById('mberTyCodes').value = mbers.join(';');
+            f.action = (mode === 'insert') ? INSERT_URL : DELETE_URL;
+            f.submit();
+        }
+    </script>
+</main>
+</body>
+</html>

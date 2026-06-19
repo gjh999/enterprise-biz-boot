@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>게시판 마스터 목록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active">게시판 마스터 목록</li>
+        </ol></nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h4 mb-0"><i class="bi bi-grid-3x3-gap"></i> 게시판 마스터 목록</h1>
+            <span class="text-muted small">총 <strong th:text="${resultCnt}">0</strong> 건</span>
+        </div>
+
+        <form class="row g-2 mb-3" th:action="@{/cop/bbs/SelectBBSMasterInfs.do}" method="get">
+            <div class="col-auto">
+                <select class="form-select" name="searchCnd" title="검색유형선택">
+                    <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">게시판명</option>
+                    <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">게시판유형</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="text" name="searchWrd" maxlength="35" title="검색어"
+                       th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어"/>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+            </div>
+        </form>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th style="width:90px;">번호</th>
+                <th>게시판명</th>
+                <th style="width:140px;">유형</th>
+                <th style="width:140px;">속성</th>
+                <th style="width:80px;">사용</th>
+                <th style="width:130px;">등록일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item, st : ${resultList}">
+                <td class="text-center"
+                    th:text="${searchVO != null ? (searchVO.pageIndex - 1) * searchVO.pageSize + st.count : st.count}">1</td>
+                <td>
+                    <a class="text-decoration-none"
+                       th:href="@{/cop/bbs/SelectBBSMasterInf.do(bbsId=${item.bbsId})}"
+                       th:text="${item.bbsNm}">게시판명</a>
+                </td>
+                <td th:text="${item.bbsTyCodeNm}">유형</td>
+                <td th:text="${item.bbsAttrbCodeNm}">속성</td>
+                <td class="text-center">
+                    <span class="badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-secondary'"
+                          th:text="${item.useAt == 'Y'} ? '사용' : '미사용'">사용</span>
+                </td>
+                <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(resultList)}">
+                <td colspan="6" class="text-center text-muted py-4">등록된 게시판 마스터가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="~{fragments/pagination :: pagination(paginationInfo=${paginationInfo}, baseUrl='/cop/bbs/SelectBBSMasterInfs.do', searchCnd=${searchVO != null ? searchVO.searchCnd : ''}, searchWrd=${searchVO != null ? searchVO.searchWrd : ''})}"></div>
+
+        <div class="text-end" sec:authorize="isAuthenticated()">
+            <a class="btn btn-primary btn-sm" th:href="@{/cop/bbs/addBBSMaster.do}">
+                <i class="bi bi-plus-lg"></i> 등록
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

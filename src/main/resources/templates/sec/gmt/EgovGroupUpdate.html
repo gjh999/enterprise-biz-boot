@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title>그룹 수정</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/gmt/EgovGroupListView.do}">그룹관리</a></li>
+            <li class="breadcrumb-item active">그룹 수정</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 그룹 수정</h1>
+
+        <form th:action="@{/sec/gmt/EgovGroupUpdate.do}" method="post">
+            <input type="hidden" name="groupId" th:value="${groupManage?.groupId}"/>
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="groupId">그룹 ID</label>
+                        <input type="text" class="form-control" id="groupId" readonly th:value="${groupManage?.groupId}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="groupNm">그룹 명 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="groupNm" name="groupNm" maxlength="50" required th:value="${groupManage?.groupNm}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="groupDc">설명</label>
+                        <input type="text" class="form-control" id="groupDc" name="groupDc" maxlength="50" th:value="${groupManage?.groupDc}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="groupCreatDe">등록일자</label>
+                        <input type="text" class="form-control" id="groupCreatDe" readonly th:value="${groupManage?.groupCreatDe}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <button type="submit" class="btn btn-outline-danger btn-sm"
+                        th:formaction="@{/sec/gmt/EgovGroupDelete.do}"
+                        onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</button>
+                <div>
+                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/gmt/EgovGroupListView.do}">목록</a>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg"></i> 저장</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>
