@@ -14,12 +14,12 @@
                 <span sec:authentication="principal.username">사용자</span> 님
             </span>
             <a sec:authorize="isAuthenticated() and hasRole('ADMIN')"
-               class="btn btn-sm btn-outline-secondary" th:href="@{/uss/umt/mber/EgovMberManage.do}">
+               class="krds-btn tertiary small" th:href="@{/uss/umt/mber/EgovMberManage.do}">
                 <i class="bi bi-people"></i> 회원관리
             </a>
-            <a sec:authorize="!isAuthenticated()" class="btn btn-sm btn-primary"
+            <a sec:authorize="!isAuthenticated()" class="krds-btn primary small"
                th:href="@{/uat/uia/egovLoginUsr.do}"><i class="bi bi-box-arrow-in-right"></i> 로그인</a>
-            <a sec:authorize="isAuthenticated()" class="btn btn-sm btn-outline-danger"
+            <a sec:authorize="isAuthenticated()" class="krds-btn danger small"
                th:href="@{/uat/uia/actionLogout.do}"><i class="bi bi-box-arrow-right"></i> 로그아웃</a>
         </div>
     </div>

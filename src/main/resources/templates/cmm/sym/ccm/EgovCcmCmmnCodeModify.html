@@ -11,7 +11,7 @@
             <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">공통코드관리</a></li>
             <li class="breadcrumb-item active">수정</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-card-list"></i> 공통코드 수정</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 공통코드 수정</h1>
 
         <form th:action="@{/sym/ccm/cca/EgovCcmCmmnCodeModify.do}" method="post" th:object="${cmmnCode}">
             <input type="hidden" th:field="*{clCode}"/>
