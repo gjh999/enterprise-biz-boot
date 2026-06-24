@@ -13,8 +13,8 @@
 <div xmlns:th="http://www.thymeleaf.org" class="egov-file-uploader"
      th:fragment="uploader(maxCnt, existCnt)"
      th:attr="data-max=${maxCnt != null ? maxCnt : ''},data-exist=${existCnt != null ? existCnt : 0}">
-    <input class="form-control mb-2" type="file" name="file_1"/>
-    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="egovAddFileInput(this);">
+    <input class="krds-input mb-2" type="file" name="file_1"/>
+    <button type="button" class="krds-btn tertiary small" onclick="egovAddFileInput(this);">
         <i class="bi bi-plus-lg"></i> 파일 추가
     </button>
     <script th:inline="none">
@@ -32,7 +32,7 @@
                 }
                 var input = document.createElement('input');
                 input.type = 'file';
-                input.className = 'form-control mb-2';
+                input.className = 'krds-input mb-2';
                 input.name = 'file_' + (inputs.length + 1);
                 wrap.insertBefore(input, btn);
             };
