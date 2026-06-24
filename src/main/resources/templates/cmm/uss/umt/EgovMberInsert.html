@@ -17,17 +17,17 @@
                 입력값을 확인하세요. (필수 항목 누락)
             </div>
             <div class="row g-3">
-                <div class="col-md-6"><label class="form-label">아이디 <span class="text-danger">*</span></label>
+                <div class="col-md-6"><label class="form-label">아이디 <span class="frm-rq">*</span></label>
                     <div class="input-group">
-                        <input class="form-control" type="text" th:field="*{mberId}" maxlength="20" required/>
-                        <button class="btn btn-outline-secondary" type="button" id="btnIdCheck"><i class="bi bi-search"></i> 중복확인</button>
+                        <input class="krds-input" type="text" th:field="*{mberId}" maxlength="20" required/>
+                        <button class="krds-btn tertiary" type="button" id="btnIdCheck"><i class="bi bi-search"></i> 중복확인</button>
                     </div></div>
-                <div class="col-md-6"><label class="form-label">비밀번호 <span class="text-danger">*</span></label>
-                    <input class="form-control" type="password" th:field="*{password}" maxlength="20" required/></div>
-                <div class="col-md-6"><label class="form-label">이름 <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" th:field="*{mberNm}" maxlength="50" required/></div>
-                <div class="col-md-6"><label class="form-label">회원상태 <span class="text-danger">*</span></label>
-                    <select class="form-select" th:field="*{mberSttus}">
+                <div class="col-md-6"><label class="form-label">비밀번호 <span class="frm-rq">*</span></label>
+                    <input class="krds-input" type="password" th:field="*{password}" maxlength="20" required/></div>
+                <div class="col-md-6"><label class="form-label">이름 <span class="frm-rq">*</span></label>
+                    <input class="krds-input" type="text" th:field="*{mberNm}" maxlength="50" required/></div>
+                <div class="col-md-6"><label class="form-label">회원상태 <span class="frm-rq">*</span></label>
+                    <select class="krds-form-select" th:field="*{mberSttus}">
                         <th:block th:if="${not #lists.isEmpty(mberSttus_result)}">
                             <option th:each="c : ${mberSttus_result}" th:value="${c.code}" th:text="${c.codeNm}">상태</option>
                         </th:block>
@@ -37,12 +37,12 @@
                             <option value="D">가입삭제</option>
                         </th:block>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">소속그룹 <span class="text-danger">*</span></label>
-                    <select class="form-select" th:field="*{groupId}">
+                <div class="col-md-6"><label class="form-label">소속그룹 <span class="frm-rq">*</span></label>
+                    <select class="krds-form-select" th:field="*{groupId}">
                         <option th:each="c : ${groupId_result}" th:value="${c.code}" th:text="${c.codeNm}">그룹</option>
                     </select></div>
                 <div class="col-md-6"><label class="form-label">성별</label>
-                    <select class="form-select" th:field="*{sexdstnCode}">
+                    <select class="krds-form-select" th:field="*{sexdstnCode}">
                         <option value="">선택</option>
                         <th:block th:if="${not #lists.isEmpty(sexdstnCode_result)}">
                             <option th:each="c : ${sexdstnCode_result}" th:value="${c.code}" th:text="${c.codeNm}">성별</option>
@@ -52,8 +52,8 @@
                             <option value="F">여자</option>
                         </th:block>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">비밀번호 힌트 <span class="text-danger">*</span></label>
-                    <select class="form-select" th:field="*{passwordHint}">
+                <div class="col-md-6"><label class="form-label">비밀번호 힌트 <span class="frm-rq">*</span></label>
+                    <select class="krds-form-select" th:field="*{passwordHint}">
                         <th:block th:if="${not #lists.isEmpty(passwordHint_result)}">
                             <option th:each="c : ${passwordHint_result}" th:value="${c.code}" th:text="${c.codeNm}">힌트</option>
                         </th:block>
@@ -65,26 +65,26 @@
                             <option value="P05">다른 사람은 모르는 나만의 신체비밀은?</option>
                         </th:block>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">비밀번호 정답 <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" th:field="*{passwordCnsr}" maxlength="100" required/></div>
+                <div class="col-md-6"><label class="form-label">비밀번호 정답 <span class="frm-rq">*</span></label>
+                    <input class="krds-input" type="text" th:field="*{passwordCnsr}" maxlength="100" required/></div>
                 <div class="col-md-6"><label class="form-label">이메일</label>
-                    <input class="form-control" type="email" th:field="*{mberEmailAdres}" maxlength="50"/></div>
+                    <input class="krds-input" type="email" th:field="*{mberEmailAdres}" maxlength="50"/></div>
                 <div class="col-md-6"><label class="form-label">휴대전화</label>
-                    <input class="form-control" type="text" th:field="*{moblphonNo}" maxlength="15"/></div>
+                    <input class="krds-input" type="text" th:field="*{moblphonNo}" maxlength="15"/></div>
                 <div class="col-md-4"><label class="form-label">우편번호</label>
                     <div class="input-group">
-                        <input class="form-control" type="text" th:field="*{zip}" maxlength="8"/>
-                        <button class="btn btn-outline-secondary" type="button" onclick="fn_egov_ZipSearch()" title="우편번호 검색">
+                        <input class="krds-input" type="text" th:field="*{zip}" maxlength="8"/>
+                        <button class="krds-btn tertiary" type="button" onclick="fn_egov_ZipSearch()" title="우편번호 검색">
                             <i class="bi bi-search"></i></button>
                     </div></div>
                 <div class="col-md-8"><label class="form-label">주소</label>
-                    <input class="form-control" type="text" th:field="*{adres}" maxlength="100"/></div>
+                    <input class="krds-input" type="text" th:field="*{adres}" maxlength="100"/></div>
                 <div class="col-12"><label class="form-label">상세주소</label>
-                    <input class="form-control" type="text" th:field="*{detailAdres}" maxlength="100"/></div>
+                    <input class="krds-input" type="text" th:field="*{detailAdres}" maxlength="100"/></div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="btn btn-outline-secondary" th:href="@{/uss/umt/mber/EgovMberManage.do}">취소</a>
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/umt/mber/EgovMberManage.do}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
             </div>
         </form>
     </div>
