@@ -15,23 +15,23 @@
         <form th:action="@{/uss/sam/stp/StplatCnUpdt.do}" th:object="${stplatManageVO}" method="post">
             <input type="hidden" th:field="*{useStplatId}"/>
             <div class="mb-3">
-                <label class="form-label">이용약관명 <span class="text-danger">*</span></label>
-                <input class="form-control" type="text" th:field="*{useStplatNm}" maxlength="100" required/>
+                <label>이용약관명 <span class="frm-rq">*</span></label>
+                <input class="krds-input" type="text" th:field="*{useStplatNm}" maxlength="100" required/>
                 <div class="text-danger small" th:if="${#fields.hasErrors('useStplatNm')}" th:errors="*{useStplatNm}"></div>
             </div>
             <div class="mb-3">
-                <label class="form-label">이용약관내용 <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="10" th:field="*{useStplatCn}" required></textarea>
+                <label>이용약관내용 <span class="frm-rq">*</span></label>
+                <textarea class="krds-input" rows="10" th:field="*{useStplatCn}" required></textarea>
                 <div class="text-danger small" th:if="${#fields.hasErrors('useStplatCn')}" th:errors="*{useStplatCn}"></div>
             </div>
             <div class="mb-3">
-                <label class="form-label">정보제공동의내용 <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="8" th:field="*{infoProvdAgreCn}" required></textarea>
+                <label>정보제공동의내용 <span class="frm-rq">*</span></label>
+                <textarea class="krds-input" rows="8" th:field="*{infoProvdAgreCn}" required></textarea>
                 <div class="text-danger small" th:if="${#fields.hasErrors('infoProvdAgreCn')}" th:errors="*{infoProvdAgreCn}"></div>
             </div>
             <div class="d-flex justify-content-between">
-                <a class="btn btn-outline-secondary" th:href="@{/uss/sam/stp/StplatListInqire.do}">목록</a>
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/sam/stp/StplatListInqire.do}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
             </div>
         </form>
     </div>

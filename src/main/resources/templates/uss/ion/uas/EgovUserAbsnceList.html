@@ -15,29 +15,30 @@
 
         <form name="listForm" method="get" th:action="@{/uss/ion/uas/selectUserAbsnceList.do}" class="row g-2 mb-3">
             <input type="hidden" name="searchCondition" value="1"/>
-            <div class="col-auto"><label class="col-form-label" for="searchKeyword">사용자 명</label></div>
+            <div class="col-auto"><label for="searchKeyword">사용자 명</label></div>
             <div class="col-auto">
-                <input id="searchKeyword" class="form-control" name="searchKeyword" type="text"
+                <input id="searchKeyword" class="krds-input" name="searchKeyword" type="text"
                        th:value="${userAbsnceVO != null} ? ${userAbsnceVO.searchKeyword} : ''" title="검색"/>
             </div>
-            <div class="col-auto"><label class="col-form-label" for="selAbsnceAt">부재여부</label></div>
+            <div class="col-auto"><label for="selAbsnceAt">부재여부</label></div>
             <div class="col-auto">
-                <select id="selAbsnceAt" name="selAbsnceAt" class="form-select"
+                <select id="selAbsnceAt" name="selAbsnceAt" class="krds-form-select"
                         th:with="sel=${userAbsnceVO != null} ? ${userAbsnceVO.selAbsnceAt} : 'A'">
                     <option value="A" th:selected="${sel == 'A'}">전체</option>
                     <option value="Y" th:selected="${sel == 'Y'}">Y</option>
                     <option value="N" th:selected="${sel == 'N'}">N</option>
                 </select>
             </div>
-            <div class="col-auto"><button class="btn btn-primary" type="submit">조회</button></div>
+            <div class="col-auto"><button class="krds-btn primary" type="submit">조회</button></div>
         </form>
 
-        <table class="table table-hover align-middle">
+        <div class="krds-table-wrap">
+        <table class="tbl">
             <caption class="visually-hidden">사용자부재정보에 대한 목록을 제공한다.</caption>
-            <thead class="table-light"><tr>
-                <th>사용자 ID</th><th>사용자명</th><th style="width:100px;">부재여부</th>
-                <th style="width:100px;">등록여부</th><th style="width:140px;">등록일시</th>
-                <th style="width:90px;"></th>
+            <thead><tr>
+                <th scope="col">사용자 ID</th><th scope="col">사용자명</th><th scope="col" style="width:100px;">부재여부</th>
+                <th scope="col" style="width:100px;">등록여부</th><th scope="col" style="width:140px;">등록일시</th>
+                <th scope="col" style="width:90px;"></th>
             </tr></thead>
             <tbody>
             <tr th:if="${#lists.isEmpty(userAbsnceList)}">
@@ -50,7 +51,7 @@
                 <td class="text-center" th:text="${item.regYn}">등록</td>
                 <td class="text-center" th:text="${item.lastUpdusrPnttm}">등록일시</td>
                 <td class="text-end">
-                    <a class="btn btn-outline-secondary btn-sm"
+                    <a class="krds-btn tertiary small"
                        th:href="${item.regYn == 'N'}
                                 ? @{/uss/ion/uas/addViewUserAbsnce.do(userId=${item.userId})}
                                 : @{/uss/ion/uas/getUserAbsnce.do(userId=${item.userId})}">등록</a>
@@ -58,6 +59,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </main>
 </body>

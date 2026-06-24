@@ -15,43 +15,45 @@
         <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> 개인정보처리방침 상세</h1>
         <div class="text-muted text-center py-5" th:if="${indvdlInfoPolicy == null}">상세 데이터가 없습니다.</div>
         <div th:if="${indvdlInfoPolicy != null}">
-            <table class="table table-bordered align-middle">
+            <div class="krds-table-wrap">
+            <table class="tbl col">
                 <tbody>
                 <tr>
-                    <th class="table-light" style="width:190px;">개인정보보호정책 명</th>
+                    <th scope="row" style="width:190px;">개인정보보호정책 명</th>
                     <td th:text="${indvdlInfoPolicy.indvdlInfoNm}">정책명</td>
                 </tr>
                 <tr>
-                    <th class="table-light">동의여부</th>
+                    <th scope="row">동의여부</th>
                     <td>
-                        <span class="badge"
+                        <span class="krds-badge"
                               th:classappend="${indvdlInfoPolicy.indvdlInfoYn == 'Y'} ? 'bg-success' : 'bg-secondary'"
                               th:text="${indvdlInfoPolicy.indvdlInfoYn == 'Y'} ? '예' : '아니오'">동의여부</span>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">개인정보보호정책 내용</th>
+                    <th scope="row">개인정보보호정책 내용</th>
                     <td><div style="white-space:pre-wrap;" th:text="${indvdlInfoPolicy.indvdlInfoDc}">내용</div></td>
                 </tr>
                 <tr>
-                    <th class="table-light">등록일자</th>
+                    <th scope="row">등록일자</th>
                     <td th:text="${indvdlInfoPolicy.frstRegisterPnttm}">일자</td>
                 </tr>
                 </tbody>
             </table>
+            </div>
             <div class="d-flex justify-content-between">
                 <form th:action="@{/uss/sam/ipm/detailIndvdlInfoPolicy.do}" method="post"
                       sec:authorize="hasRole('ROLE_ADMIN')"
                       onsubmit="return confirm('삭제하시겠습니까?');">
                     <input type="hidden" name="indvdlInfoId" th:value="${indvdlInfoPolicy.indvdlInfoId}"/>
                     <input type="hidden" name="cmd" value="del"/>
-                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                    <button class="krds-btn danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
                 </form>
                 <div class="d-flex gap-2">
-                    <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')"
+                    <a class="krds-btn primary" sec:authorize="hasRole('ROLE_ADMIN')"
                        th:href="@{/uss/sam/ipm/updtIndvdlInfoPolicy.do(indvdlInfoId=${indvdlInfoPolicy.indvdlInfoId})}">
                         <i class="bi bi-pencil"></i> 수정</a>
-                    <a class="btn btn-outline-secondary" th:href="@{/uss/sam/ipm/listIndvdlInfoPolicy.do}">목록</a>
+                    <a class="krds-btn tertiary" th:href="@{/uss/sam/ipm/listIndvdlInfoPolicy.do}">목록</a>
                 </div>
             </div>
         </div>

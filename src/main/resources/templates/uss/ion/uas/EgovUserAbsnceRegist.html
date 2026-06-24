@@ -15,24 +15,24 @@
 
         <form id="userAbsnce" name="userAbsnce" method="post"
               th:action="@{/uss/ion/uas/addUserAbsnce.do}" th:object="${userAbsnce}">
-            <table class="table">
+            <table class="tbl col">
                 <colgroup><col style="width:190px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th class="table-light">사용자ID</th>
-                    <td><input class="form-control" th:field="*{userId}" type="text" readonly title="사용자ID"/></td>
+                    <th scope="row">사용자ID</th>
+                    <td><input class="krds-input" th:field="*{userId}" type="text" readonly title="사용자ID"/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">사용자명 <span class="text-danger">*</span></th>
+                    <th scope="row">사용자명 <span class="frm-rq">*</span></th>
                     <td>
-                        <input class="form-control" th:field="*{userNm}" type="text" readonly title="사용자명"/>
+                        <input class="krds-input" th:field="*{userNm}" type="text" readonly title="사용자명"/>
                         <span class="text-danger" th:if="${#fields.hasErrors('userNm')}" th:errors="*{userNm}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">부재여부</th>
+                    <th scope="row">부재여부</th>
                     <td>
-                        <select name="userAbsnceAt" id="userAbsnceAt" class="form-select" title="부재여부"
+                        <select name="userAbsnceAt" id="userAbsnceAt" class="krds-form-select" title="부재여부"
                                 style="width:auto;display:inline-block;">
                             <option value="Y" th:selected="*{userAbsnceAt} == 'Y'">Y</option>
                             <option value="N" th:selected="*{userAbsnceAt} == 'N'">N</option>
@@ -40,8 +40,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">등록일시</th>
-                    <td><input class="form-control" th:field="*{lastUpdusrPnttm}" type="text" readonly title="등록일시"/></td>
+                    <th scope="row">등록일시</th>
+                    <td><input class="krds-input" th:field="*{lastUpdusrPnttm}" type="text" readonly title="등록일시"/></td>
                 </tr>
                 </tbody>
             </table>
@@ -52,8 +52,8 @@
             <input type="hidden" name="selAbsnceAt" th:value="${userAbsnceVO != null} ? ${userAbsnceVO.selAbsnceAt} : ''"/>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">저장</button>
-                <a class="btn btn-outline-secondary" th:href="@{/uss/ion/uas/selectUserAbsnceList.do}">목록</a>
+                <button type="submit" class="krds-btn primary">저장</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/ion/uas/selectUserAbsnceList.do}">목록</a>
             </div>
         </form>
     </div>

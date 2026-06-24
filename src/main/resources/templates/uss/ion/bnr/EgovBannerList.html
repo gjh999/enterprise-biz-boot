@@ -20,19 +20,20 @@
         <form class="row g-2 mb-3" th:action="@{/uss/ion/bnr/selectBannerList.do}" method="get">
             <input type="hidden" name="searchCondition" value="1"/>
             <div class="col-auto">
-                <input class="form-control" name="searchKeyword" th:value="${bannerVO?.searchKeyword}"
+                <input class="krds-input" name="searchKeyword" th:value="${bannerVO?.searchKeyword}"
                        maxlength="30" placeholder="배너명" title="배너명 검색어"/>
             </div>
-            <div class="col-auto"><button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
+            <div class="col-auto"><button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
             <div class="col-auto ms-auto">
-                <a class="btn btn-success" th:href="@{/uss/ion/bnr/addViewBanner.do}"><i class="bi bi-plus-lg"></i> 배너 등록</a>
+                <a class="krds-btn primary" th:href="@{/uss/ion/bnr/addViewBanner.do}"><i class="bi bi-plus-lg"></i> 배너 등록</a>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light"><tr>
-                <th style="width:60px;">순서</th><th>배너명</th><th>링크</th><th>설명</th>
-                <th style="width:90px;">반영여부</th><th style="width:110px;">등록일</th>
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <thead><tr>
+                <th scope="col" style="width:60px;">순서</th><th scope="col">배너명</th><th scope="col">링크</th><th scope="col">설명</th>
+                <th scope="col" style="width:90px;">반영여부</th><th scope="col" style="width:110px;">등록일</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${bannerList}">
@@ -41,8 +42,8 @@
                 <td><a th:href="${item.linkUrl}" th:text="${item.linkUrl}" target="_blank">링크</a></td>
                 <td th:text="${item.bannerDc}">설명</td>
                 <td class="text-center">
-                    <span class="badge"
-                          th:classappend="${item.reflctAt == 'Y'} ? 'bg-success' : 'bg-secondary'"
+                    <span class="krds-badge"
+                          th:classappend="${item.reflctAt == 'Y'} ? 'bg-success' : 'bg-gray'"
                           th:text="${item.reflctAt == 'Y'} ? '반영' : '미반영'">반영</span>
                 </td>
                 <td class="text-center" th:text="${item.regDate}">등록일</td>
@@ -50,6 +51,7 @@
             <tr th:if="${bannerList == null or #lists.isEmpty(bannerList)}"><td colspan="6" class="text-center text-muted py-4">등록된 배너가 없습니다.</td></tr>
             </tbody>
         </table>
+        </div>
 
         <!-- 페이징 -->
         <div class="mt-3"

@@ -17,13 +17,13 @@
             <input type="hidden" name="cmd" value="save"/>
             <input type="hidden" th:field="*{indvdlInfoId}"/>
             <div class="mb-3">
-                <label class="form-label">개인정보보호정책 명 <span class="text-danger">*</span></label>
-                <input class="form-control" type="text" th:field="*{indvdlInfoNm}" maxlength="255" required/>
+                <label>개인정보보호정책 명 <span class="frm-rq">*</span></label>
+                <input class="krds-input" type="text" th:field="*{indvdlInfoNm}" maxlength="255" required/>
                 <div class="text-danger small" th:if="${#fields.hasErrors('indvdlInfoNm')}" th:errors="*{indvdlInfoNm}"></div>
             </div>
             <div class="mb-3">
-                <label class="form-label">동의여부 <span class="text-danger">*</span></label>
-                <select class="form-select" th:field="*{indvdlInfoYn}" required>
+                <label>동의여부 <span class="frm-rq">*</span></label>
+                <select class="krds-form-select" th:field="*{indvdlInfoYn}" required>
                     <option value="">선택</option>
                     <option value="Y">예</option>
                     <option value="N">아니오</option>
@@ -31,13 +31,13 @@
                 <div class="text-danger small" th:if="${#fields.hasErrors('indvdlInfoYn')}" th:errors="*{indvdlInfoYn}"></div>
             </div>
             <div class="mb-3">
-                <label class="form-label">개인정보보호정책 내용 <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="10" th:field="*{indvdlInfoDc}" maxlength="2500" required></textarea>
+                <label>개인정보보호정책 내용 <span class="frm-rq">*</span></label>
+                <textarea class="krds-input" rows="10" th:field="*{indvdlInfoDc}" maxlength="2500" required></textarea>
                 <div class="text-danger small" th:if="${#fields.hasErrors('indvdlInfoDc')}" th:errors="*{indvdlInfoDc}"></div>
             </div>
             <div class="d-flex justify-content-between">
-                <a class="btn btn-outline-secondary" th:href="@{/uss/sam/ipm/listIndvdlInfoPolicy.do}">목록</a>
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/sam/ipm/listIndvdlInfoPolicy.do}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
             </div>
         </form>
     </div>

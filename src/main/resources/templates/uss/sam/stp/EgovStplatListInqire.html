@@ -20,24 +20,25 @@
         <!-- 검색조건 -->
         <form class="row g-2 mb-3" th:action="@{/uss/sam/stp/StplatListInqire.do}" method="get">
             <div class="col-auto">
-                <select class="form-select form-select-sm" name="searchCondition" title="검색조건 선택">
+                <select class="krds-form-select" name="searchCondition" title="검색조건 선택">
                     <option value="">선택</option>
                     <option value="useStplatNm" th:selected="${searchVO.searchCondition == 'useStplatNm'}">이용약관명</option>
                     <option value="useStplatCn" th:selected="${searchVO.searchCondition == 'useStplatCn'}">이용약관내용</option>
                 </select>
             </div>
             <div class="col-auto">
-                <input class="form-control form-control-sm" type="text" name="searchKeyword"
+                <input class="krds-input" type="text" name="searchKeyword"
                        th:value="${searchVO.searchKeyword}" maxlength="35" title="검색어 입력"/>
             </div>
             <div class="col-auto">
-                <button class="btn btn-secondary btn-sm" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
+        <div class="krds-table-wrap">
+        <table class="tbl">
             <caption class="visually-hidden">약관목록</caption>
-            <thead class="table-light">
+            <thead>
             <tr>
                 <th scope="col" style="width:70px;" class="text-center">순번</th>
                 <th scope="col" style="width:220px;">이용약관명</th>
@@ -65,13 +66,14 @@
             </tr>
             </tbody>
         </table>
+        </div>
 
         <!-- 페이징 -->
         <div class="mt-3"
              th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/uss/sam/stp/StplatListInqire.do', searchCondition=${searchVO.searchCondition}, searchKeyword=${searchVO.searchKeyword})}"></div>
 
         <div class="text-end mt-3" sec:authorize="hasRole('ADMIN')">
-            <a class="btn btn-primary btn-sm" th:href="@{/uss/sam/stp/StplatCnRegistView.do}"><i class="bi bi-plus-lg"></i> 약관 등록</a>
+            <a class="krds-btn primary small" th:href="@{/uss/sam/stp/StplatCnRegistView.do}"><i class="bi bi-plus-lg"></i> 약관 등록</a>
         </div>
     </div>
 </main>
