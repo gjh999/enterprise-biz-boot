@@ -16,28 +16,28 @@
             <input type="hidden" name="cmd" value="save"/>
             <input type="hidden" th:field="*{qestnrId}"/>
             <div class="row g-3">
-                <div class="col-12"><label class="form-label">설문제목 <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" th:field="*{qestnrSj}" maxlength="250" required/>
+                <div class="col-12"><label>설문제목 <span class="text-danger">*</span></label>
+                    <input class="krds-input" type="text" th:field="*{qestnrSj}" maxlength="250" required/>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnrSj')}" th:errors="*{qestnrSj}"></div></div>
-                <div class="col-12"><label class="form-label">설문목적 <span class="text-danger">*</span></label>
-                    <textarea class="form-control" rows="3" th:field="*{qestnrPurps}" required></textarea>
+                <div class="col-12"><label>설문목적 <span class="text-danger">*</span></label>
+                    <textarea class="krds-input" rows="3" th:field="*{qestnrPurps}" required></textarea>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnrPurps')}" th:errors="*{qestnrPurps}"></div></div>
-                <div class="col-12"><label class="form-label">설문작성 안내내용 <span class="text-danger">*</span></label>
-                    <textarea class="form-control" rows="3" th:field="*{qestnrWritngGuidanceCn}" required></textarea>
+                <div class="col-12"><label>설문작성 안내내용 <span class="text-danger">*</span></label>
+                    <textarea class="krds-input" rows="3" th:field="*{qestnrWritngGuidanceCn}" required></textarea>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnrWritngGuidanceCn')}" th:errors="*{qestnrWritngGuidanceCn}"></div></div>
-                <div class="col-md-6"><label class="form-label">설문대상 <span class="text-danger">*</span></label>
-                    <select class="form-select" th:field="*{qestnrTrget}" required>
+                <div class="col-md-6"><label>설문대상 <span class="text-danger">*</span></label>
+                    <select class="krds-form-select" th:field="*{qestnrTrget}" required>
                         <option value="">선택</option>
                         <option th:each="c : ${comCode034}" th:value="${c.code}" th:text="${c.codeNm}"></option>
                     </select>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnrTrget')}" th:errors="*{qestnrTrget}"></div></div>
-                <div class="col-md-3"><label class="form-label">설문 시작일 <span class="text-danger">*</span></label>
-                    <input class="form-control" type="date" th:field="*{qestnrBeginDe}" required/>
+                <div class="col-md-3"><label>설문 시작일 <span class="text-danger">*</span></label>
+                    <input class="krds-input" type="date" th:field="*{qestnrBeginDe}" required/>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnrBeginDe')}" th:errors="*{qestnrBeginDe}"></div></div>
-                <div class="col-md-3"><label class="form-label">설문 종료일 <span class="text-danger">*</span></label>
-                    <input class="form-control" type="date" th:field="*{qestnrEndDe}" required/>
+                <div class="col-md-3"><label>설문 종료일 <span class="text-danger">*</span></label>
+                    <input class="krds-input" type="date" th:field="*{qestnrEndDe}" required/>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnrEndDe')}" th:errors="*{qestnrEndDe}"></div></div>
-                <div class="col-12"><label class="form-label">템플릿 유형</label>
+                <div class="col-12"><label>템플릿 유형</label>
                     <div>
                         <div class="form-check form-check-inline" th:each="t : ${listQustnrTmplat}">
                             <input class="form-check-input" type="radio" name="qestnrTmplatId"
@@ -49,8 +49,8 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">목록</a>
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
             </div>
         </form>
     </div>

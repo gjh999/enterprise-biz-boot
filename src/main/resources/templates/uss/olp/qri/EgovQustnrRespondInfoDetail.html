@@ -14,28 +14,28 @@
         </ol></nav>
         <h1 class="h4 mb-3"><i class="bi bi-clipboard-data"></i> 응답결과 상세</h1>
         <div class="text-muted" th:if="${r == null}">상세 데이터가 없습니다.</div>
-        <table class="table" th:if="${r != null}">
+        <div class="krds-table-wrap" th:if="${r != null}"><table class="tbl col">
             <tbody>
-            <tr><th class="table-light" style="width:160px;">설문제목</th><td th:text="${r.qestnrsj}"></td></tr>
-            <tr><th class="table-light">질문내용</th><td th:text="${r.qestnCn}"></td></tr>
-            <tr><th class="table-light">선택항목</th><td th:text="${r.iemCn}"></td></tr>
-            <tr><th class="table-light">응답자명</th><td th:text="${r.respondNm}"></td></tr>
-            <tr><th class="table-light">응답자답변내용</th><td style="white-space:pre-line;" th:text="${r.respondAnswerCn}"></td></tr>
-            <tr><th class="table-light">기타답변내용</th><td style="white-space:pre-line;" th:text="${r.etcAnswerCn}"></td></tr>
+            <tr><th scope="row" style="width:160px;">설문제목</th><td th:text="${r.qestnrsj}"></td></tr>
+            <tr><th scope="row">질문내용</th><td th:text="${r.qestnCn}"></td></tr>
+            <tr><th scope="row">선택항목</th><td th:text="${r.iemCn}"></td></tr>
+            <tr><th scope="row">응답자명</th><td th:text="${r.respondNm}"></td></tr>
+            <tr><th scope="row">응답자답변내용</th><td style="white-space:pre-line;" th:text="${r.respondAnswerCn}"></td></tr>
+            <tr><th scope="row">기타답변내용</th><td style="white-space:pre-line;" th:text="${r.etcAnswerCn}"></td></tr>
             </tbody>
-        </table>
+        </table></div>
         <div class="d-flex justify-content-between mt-3" th:if="${r != null}">
-            <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qri/EgovQustnrRespondInfoList.do}">목록</a>
+            <a class="krds-btn tertiary" th:href="@{/uss/olp/qri/EgovQustnrRespondInfoList.do}">목록</a>
             <div sec:authorize="isAuthenticated()">
                 <form class="d-inline" th:action="@{/uss/olp/qri/EgovQustnrRespondInfoModify.do}" method="post">
                     <input type="hidden" name="qestnrQesrspnsId" th:value="${r.qestnrqesrspnsid}"/>
-                    <button class="btn btn-primary" type="submit"><i class="bi bi-pencil"></i> 수정</button>
+                    <button class="krds-btn primary" type="submit"><i class="bi bi-pencil"></i> 수정</button>
                 </form>
                 <form class="d-inline" th:action="@{/uss/olp/qri/EgovQustnrRespondInfoDetail.do}" method="post"
                       onsubmit="return confirm('삭제하시겠습니까?');">
                     <input type="hidden" name="qestnrQesrspnsId" th:value="${r.qestnrqesrspnsid}"/>
                     <input type="hidden" name="cmd" value="del"/>
-                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                    <button class="krds-btn danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
                 </form>
             </div>
         </div>

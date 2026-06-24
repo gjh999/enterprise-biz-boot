@@ -19,21 +19,21 @@
             <input type="hidden" name="qestnrId" th:value="${r != null ? r.qestnrId : ''}"/>
             <input type="hidden" name="qestnrTmplatId" th:value="${r != null ? r.qestnrtmplatid : ''}"/>
             <div class="row g-3">
-                <div class="col-12"><label class="form-label">설문제목</label>
-                    <input class="form-control-plaintext" type="text" readonly th:value="${r != null ? r.qestnrCn : ''}"/></div>
-                <div class="col-md-6"><label class="form-label">항목순번 <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" name="iemSn" th:value="${r != null ? r.iemSn : ''}" maxlength="5" required/></div>
-                <div class="col-md-6"><label class="form-label">기타답변여부</label>
-                    <select class="form-select" name="etcAnswerAt">
+                <div class="col-12"><label>설문제목</label>
+                    <input class="krds-input" type="text" readonly th:value="${r != null ? r.qestnrCn : ''}"/></div>
+                <div class="col-md-6"><label>항목순번 <span class="text-danger">*</span></label>
+                    <input class="krds-input" type="text" name="iemSn" th:value="${r != null ? r.iemSn : ''}" maxlength="5" required/></div>
+                <div class="col-md-6"><label>기타답변여부</label>
+                    <select class="krds-form-select" name="etcAnswerAt">
                         <option value="N" th:selected="${r != null and r.etcAnswerAt == 'N'}">N</option>
                         <option value="Y" th:selected="${r != null and r.etcAnswerAt == 'Y'}">Y</option>
                     </select></div>
-                <div class="col-12"><label class="form-label">항목내용 <span class="text-danger">*</span></label>
-                    <textarea class="form-control" rows="4" name="iemCn" required th:text="${r != null ? r.iemCn : ''}"></textarea></div>
+                <div class="col-12"><label>항목내용 <span class="text-danger">*</span></label>
+                    <textarea class="krds-input" rows="4" name="iemCn" required th:text="${r != null ? r.iemCn : ''}"></textarea></div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">목록</a>
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
             </div>
         </form>
     </div>

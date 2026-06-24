@@ -15,8 +15,8 @@
         <h2 class="h6" th:if="${r != null}">질문: <span th:text="${r.qestncn}"></span></h2>
 
         <h3 class="h6 mt-4">객관식 응답 통계</h3>
-        <table class="table table-bordered align-middle">
-            <thead class="table-light"><tr><th>항목내용</th><th style="width:100px;">응답수</th><th style="width:120px;">비율(%)</th></tr></thead>
+        <div class="krds-table-wrap"><table class="tbl">
+            <thead><tr><th scope="col">항목내용</th><th scope="col" style="width:100px;">응답수</th><th scope="col" style="width:120px;">비율(%)</th></tr></thead>
             <tbody>
             <tr th:each="s : ${statisticsList}">
                 <td th:text="${s.iemCn}">항목</td>
@@ -25,7 +25,7 @@
             </tr>
             <tr th:if="${statisticsList == null or #lists.isEmpty(statisticsList)}"><td colspan="3" class="text-center text-muted">객관식 응답이 없습니다.</td></tr>
             </tbody>
-        </table>
+        </table></div>
 
         <h3 class="h6 mt-4">주관식 응답</h3>
         <ul class="list-group">
@@ -36,7 +36,7 @@
             <li class="list-group-item text-center text-muted" th:if="${statisticsList2 == null or #lists.isEmpty(statisticsList2)}">주관식 응답이 없습니다.</li>
         </ul>
 
-        <div class="mt-3"><a class="btn btn-outline-secondary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">목록</a></div>
+        <div class="mt-3"><a class="krds-btn tertiary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">목록</a></div>
     </div>
 </main>
 </body>

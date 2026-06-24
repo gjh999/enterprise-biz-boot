@@ -14,15 +14,16 @@
         </ol></nav>
         <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> 설문지 상세</h1>
         <div class="text-muted" th:if="${r == null}">상세 데이터가 없습니다.</div>
-        <table class="table" th:if="${r != null}">
+        <div class="krds-table-wrap" th:if="${r != null}">
+        <table class="tbl col">
             <tbody>
-            <tr><th class="table-light" style="width:180px;">설문제목</th><td th:text="${r['qestnrsj']}"></td></tr>
-            <tr><th class="table-light">설문목적</th><td style="white-space:pre-line;" th:text="${r['qestnrpurps']}"></td></tr>
-            <tr><th class="table-light">설문작성 안내내용</th><td style="white-space:pre-line;" th:text="${r['qestnrwritngguidancecn']}"></td></tr>
-            <tr><th class="table-light">설문대상</th>
+            <tr><th scope="row" style="width:180px;">설문제목</th><td th:text="${r['qestnrsj']}"></td></tr>
+            <tr><th scope="row">설문목적</th><td style="white-space:pre-line;" th:text="${r['qestnrpurps']}"></td></tr>
+            <tr><th scope="row">설문작성 안내내용</th><td style="white-space:pre-line;" th:text="${r['qestnrwritngguidancecn']}"></td></tr>
+            <tr><th scope="row">설문대상</th>
                 <td><span th:each="c : ${comCode034}" th:if="${c.code == r['qestnrtrget']}" th:text="${c.codeNm}"></span></td></tr>
-            <tr><th class="table-light">설문기간</th><td><span th:text="${r['qestnrBeginDe']}"></span> ~ <span th:text="${r['qestnrEndDe']}"></span></td></tr>
-            <tr><th class="table-light">템플릿 유형</th>
+            <tr><th scope="row">설문기간</th><td><span th:text="${r['qestnrBeginDe']}"></span> ~ <span th:text="${r['qestnrEndDe']}"></span></td></tr>
+            <tr><th scope="row">템플릿 유형</th>
                 <td>
                     <span th:text="${r['qestnrTmplatTy']}"></span>
                     <img class="ms-2" style="max-height:50px;" th:if="${r['qestnrtmplatid'] != null and r['qestnrtmplatid'] != ''}"
@@ -30,18 +31,19 @@
                 </td></tr>
             </tbody>
         </table>
+        </div>
         <div class="d-flex justify-content-between mt-3" th:if="${r != null}">
-            <a class="btn btn-outline-secondary" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">목록</a>
+            <a class="krds-btn tertiary" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">목록</a>
             <div sec:authorize="isAuthenticated()">
                 <form class="d-inline" th:action="@{/uss/olp/qmc/EgovQustnrManageModify.do}" method="post">
                     <input type="hidden" name="qestnrId" th:value="${r['qestnrId']}"/>
-                    <button class="btn btn-primary" type="submit"><i class="bi bi-pencil"></i> 수정</button>
+                    <button class="krds-btn primary" type="submit"><i class="bi bi-pencil"></i> 수정</button>
                 </form>
                 <form class="d-inline" th:action="@{/uss/olp/qmc/EgovQustnrManageDetail.do}" method="post"
                       onsubmit="return confirm('삭제 시 설문관리/항목/문항/응답자/응답 정보가 함께 삭제됩니다. 삭제하시겠습니까?');">
                     <input type="hidden" name="qestnrId" th:value="${r['qestnrId']}"/>
                     <input type="hidden" name="cmd" value="del"/>
-                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                    <button class="krds-btn danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
                 </form>
             </div>
         </div>

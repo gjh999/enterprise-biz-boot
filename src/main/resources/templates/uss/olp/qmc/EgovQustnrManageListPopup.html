@@ -11,13 +11,13 @@
             <li class="breadcrumb-item active">설문관리 목록(팝업)</li>
         </ol></nav>
         <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> 설문관리 목록</h1>
-        <table class="table table-hover align-middle">
-            <thead class="table-light"><tr>
-                <th style="width:60px;">번호</th>
-                <th>설문제목</th>
-                <th style="width:200px;">설문기간</th>
-                <th style="width:120px;">등록자</th>
-                <th style="width:120px;">등록일</th>
+        <div class="krds-table-wrap"><table class="tbl">
+            <thead><tr>
+                <th scope="col" style="width:60px;">번호</th>
+                <th scope="col">설문제목</th>
+                <th scope="col" style="width:200px;">설문기간</th>
+                <th scope="col" style="width:120px;">등록자</th>
+                <th scope="col" style="width:120px;">등록일</th>
             </tr></thead>
             <tbody>
             <tr th:each="item, st : ${resultList}">
@@ -29,7 +29,7 @@
             </tr>
             <tr th:if="${#lists.isEmpty(resultList)}"><td colspan="5" class="text-center text-muted py-4">등록된 설문이 없습니다.</td></tr>
             </tbody>
-        </table>
+        </table></div>
     </div>
 </main>
 </body>
