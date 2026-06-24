@@ -58,7 +58,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				response.setDateHeader("Expires", 0);
 				return true;
 			}
-		}).excludePathPatterns("/css/**", "/js/**", "/images/**", "/fonts/**",
+		}).excludePathPatterns("/css/**", "/js/**", "/images/**", "/fonts/**", "/krds/**",
 				"/static/**", "/favicon.ico", "/webjars/**", "/swagger-ui/**", "/v3/api-docs/**",
 				"/cmm/fms/**", "/sym/cmm/EgovImgView.do");
 	}

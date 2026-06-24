@@ -10,15 +10,25 @@
     <title layout:title-pattern="$CONTENT_TITLE - 전자정부표준프레임워크">전자정부표준프레임워크</title>
 
     <!--
-        KRDS (한국 정부 통합 디자인 시스템)
-        공식 CDN: https://uiux.egovframe.go.kr
-        현재: Bootstrap 5 기반 임시 적용 — KRDS 파일 제공 시 krds.css/krds.js로 교체
+        KRDS (디지털정부 표준 디자인시스템) — 공식 자산 로컬 적용
+        Bootstrap 프레임워크 제거. Bootstrap Icons(bi-*)는 아이콘 폰트로 유지.
+        로드순서: bootstrap-icons → krds.min.css(공식) → common → krds-compat → krds (→ theme 전역 오버라이드)
     -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- Pretendard GOV 폰트 preload (FOUT 방지) -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          th:href="@{/krds/resources/fonts/PretendardGOV-Regular.subset.woff2}"/>
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          th:href="@{/krds/resources/fonts/PretendardGOV-Bold.subset.woff2}"/>
+    <!-- 아이콘 폰트(프레임워크 아님) -->
     <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}">
-    <link rel="stylesheet" th:href="@{/css/krds.css}"/>
+    <!-- 공식 KRDS 디자인시스템 -->
+    <link rel="stylesheet" th:href="@{/krds/resources/cdn/krds.min.css}"/>
     <!-- 공통 CSS -->
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <!-- KRDS 호환/구조 레이어(그리드·유틸·GNB) -->
+    <link rel="stylesheet" th:href="@{/css/krds-compat.css}"/>
+    <!-- KRDS 스킨 미세조정(최종 권위) -->
+    <link rel="stylesheet" th:href="@{/css/krds.css}"/>
     <!-- 모던 다크 테마 (전역 오버라이드) -->
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
     <link rel="icon" type="image/svg+xml" th:href="@{/images/logo.svg}"/>
@@ -47,11 +57,10 @@
 <!-- 푸터 -->
 <footer class="egov-footer" th:replace="~{fragments/footer :: footer}"></footer>
 
-<!-- Bootstrap 5 JS (로컬) -->
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<!-- KRDS JS (로컬 오버라이드) -->
+<!-- KRDS JS: 공식(탭·아코디언) → compat(data-bs-* 대체) → 스킨 → 공통 -->
+<script th:src="@{/krds/resources/cdn/krds.min.js}"></script>
+<script th:src="@{/js/krds-compat.js}"></script>
 <script th:src="@{/js/krds.js}"></script>
-<!-- 공통 JS -->
 <script th:src="@{/js/common.js}"></script>
 
 <!-- 페이지별 추가 JS -->

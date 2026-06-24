@@ -6,10 +6,15 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title layout:title-pattern="$CONTENT_TITLE - 전자정부표준프레임워크">로그인</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          th:href="@{/krds/resources/fonts/PretendardGOV-Regular.subset.woff2}"/>
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          th:href="@{/krds/resources/fonts/PretendardGOV-Bold.subset.woff2}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/krds.css}"/>
+    <link rel="stylesheet" th:href="@{/krds/resources/cdn/krds.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/krds-compat.css}"/>
+    <link rel="stylesheet" th:href="@{/css/krds.css}"/>
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
     <link rel="icon" type="image/svg+xml" th:href="@{/images/logo.svg}"/>
     <th:block layout:fragment="head-css"></th:block>
@@ -25,7 +30,8 @@
         <!-- 로그인 페이지 콘텐츠 -->
     </th:block>
 </div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/krds/resources/cdn/krds.min.js}"></script>
+<script th:src="@{/js/krds-compat.js}"></script>
 <script th:src="@{/js/krds.js}"></script>
 <th:block layout:fragment="body-js"></th:block>
 </body>

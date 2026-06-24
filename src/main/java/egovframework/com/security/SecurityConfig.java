@@ -45,6 +45,8 @@ public class SecurityConfig {
 			"/validator.do",         // validation rule JS
 			// 정적 리소스
 			"/css/**", "/js/**", "/images/**", "/fonts/**", "/static/**",
+			"/krds/**",              // 공식 KRDS 디자인시스템 자산
+
 			"/favicon.ico",
 			// swagger
 			"/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui.html",
