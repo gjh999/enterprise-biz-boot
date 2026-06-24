@@ -12,19 +12,19 @@
             <li class="breadcrumb-item"><a th:href="@{/uss/olh/faq/admin/FaqListInqire.do}">FAQ 관리</a></li>
             <li class="breadcrumb-item active">상세</li>
         </ol></nav>
-        <div class="card">
-            <div class="card-header d-flex justify-content-between">
-                <span><span class="badge bg-primary me-2">Q</span>
+        <div class="krds-panel">
+            <div class="krds-panel-head d-flex justify-content-between">
+                <span><span class="krds-badge bg-primary me-2">Q</span>
                     <strong th:text="${result.qestnSj}">질문</strong></span>
                 <span class="text-muted small">
                     등록일 <span th:text="${result.frstRegisterPnttm}">등록일</span>
                     · 조회 <span th:text="${result.inqireCo ?: 0}">0</span>
                 </span>
             </div>
-            <div class="card-body">
+            <div class="krds-panel-body">
                 <p class="text-muted" th:text="${result.qestnCn}">질문 내용</p>
                 <hr/>
-                <p><span class="badge bg-success me-2">A</span><span th:utext="${result.answerCn}">답변</span></p>
+                <p><span class="krds-badge bg-success me-2">A</span><span th:utext="${result.answerCn}">답변</span></p>
                 <div class="mt-3" th:if="${fileList != null and !#lists.isEmpty(fileList)}">
                     <strong class="small text-muted"><i class="bi bi-paperclip"></i> 첨부파일</strong>
                     <ul class="list-unstyled small mb-0">
@@ -38,11 +38,11 @@
             </div>
         </div>
         <div class="d-flex justify-content-between mt-3">
-            <a class="btn btn-outline-secondary btn-sm" th:href="@{/uss/olh/faq/admin/FaqListInqire.do}"><i class="bi bi-list"></i> 목록</a>
+            <a class="krds-btn tertiary small" th:href="@{/uss/olh/faq/admin/FaqListInqire.do}"><i class="bi bi-list"></i> 목록</a>
             <div sec:authorize="hasRole('ADMIN')">
-                <a class="btn btn-outline-primary btn-sm"
+                <a class="krds-btn secondary small"
                    th:href="@{/uss/olh/faq/admin/FaqCnUpdtView.do(faqId=${result.faqId})}"><i class="bi bi-pencil"></i> 수정</a>
-                <a class="btn btn-outline-danger btn-sm"
+                <a class="krds-btn danger small"
                    th:href="@{/uss/olh/faq/admin/FaqCnDelete.do(faqId=${result.faqId},atchFileId=${result.atchFileId})}"
                    onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</a>
             </div>
