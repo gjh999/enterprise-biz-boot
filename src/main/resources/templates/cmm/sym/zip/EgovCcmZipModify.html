@@ -19,39 +19,41 @@
         <form th:if="${zip != null}" th:action="@{/sym/ccm/zip/EgovCcmZipModify.do}" method="post" th:object="${zip}">
             <input type="hidden" name="cmd" value="Modify"/>
             <input type="hidden" th:field="*{sn}"/>
-            <table class="table table-bordered align-middle">
+            <table class="tbl col">
+                <caption class="visually-hidden">우편번호 수정</caption>
+                <colgroup><col style="width:160px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th class="table-light" style="width:160px;">우편번호</th>
+                    <th scope="row">우편번호</th>
                     <td>
-                        <input class="form-control-plaintext" type="text" th:field="*{zip}" readonly/>
+                        <input class="krds-input" type="text" th:field="*{zip}" readonly/>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">시도명 <span class="text-danger">*</span></th>
-                    <td><input class="form-control" type="text" th:field="*{ctprvnNm}" maxlength="20" required/></td>
+                    <th scope="row">시도명 <span class="frm-rq">*</span></th>
+                    <td><input class="krds-input" type="text" th:field="*{ctprvnNm}" maxlength="20" required/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">시군구명 <span class="text-danger">*</span></th>
-                    <td><input class="form-control" type="text" th:field="*{signguNm}" maxlength="20" required/></td>
+                    <th scope="row">시군구명 <span class="frm-rq">*</span></th>
+                    <td><input class="krds-input" type="text" th:field="*{signguNm}" maxlength="20" required/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">읍면동명 <span class="text-danger">*</span></th>
-                    <td><input class="form-control" type="text" th:field="*{emdNm}" maxlength="30" required/></td>
+                    <th scope="row">읍면동명 <span class="frm-rq">*</span></th>
+                    <td><input class="krds-input" type="text" th:field="*{emdNm}" maxlength="30" required/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">리/건물명</th>
-                    <td><input class="form-control" type="text" th:field="*{liBuldNm}" maxlength="60"/></td>
+                    <th scope="row">리/건물명</th>
+                    <td><input class="krds-input" type="text" th:field="*{liBuldNm}" maxlength="60"/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">번지/동호</th>
-                    <td><input class="form-control" type="text" th:field="*{lnbrDongHo}" maxlength="20"/></td>
+                    <th scope="row">번지/동호</th>
+                    <td><input class="krds-input" type="text" th:field="*{lnbrDongHo}" maxlength="20"/></td>
                 </tr>
                 </tbody>
             </table>
             <div class="d-flex gap-2">
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
-                <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">취소</a>
             </div>
         </form>
     </div>

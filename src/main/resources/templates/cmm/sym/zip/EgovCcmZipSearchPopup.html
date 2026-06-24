@@ -4,15 +4,18 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>우편번호 검색</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
+    <link rel="stylesheet" th:href="@{/krds/resources/cdn/krds.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/krds-compat.css}"/>
+    <link rel="stylesheet" th:href="@{/css/krds.css}"/>
 </head>
 <body class="p-3">
     <h1 class="h5 mb-3"><i class="bi bi-geo-alt"></i> 우편번호 검색</h1>
 
     <form class="row g-2 mb-3" th:action="@{/cmm/sym/zip/EgovCcmZipSearchPopup.do}" method="get">
         <div class="col-auto">
-            <select class="form-select form-select-sm" name="searchCondition" title="검색조건">
+            <select class="krds-form-select" name="searchCondition" title="검색조건">
                 <option value="4" th:selected="${searchVO.searchCondition == '4'}">읍면동명</option>
                 <option value="2" th:selected="${searchVO.searchCondition == '2'}">시도명</option>
                 <option value="3" th:selected="${searchVO.searchCondition == '3'}">시군구명</option>
@@ -20,17 +23,19 @@
             </select>
         </div>
         <div class="col-auto">
-            <input class="form-control form-control-sm" name="searchKeyword" th:value="${searchVO.searchKeyword}"
+            <input class="krds-input" name="searchKeyword" th:value="${searchVO.searchKeyword}"
                    maxlength="20" placeholder="검색어" title="검색어" autofocus/>
         </div>
         <div class="col-auto">
-            <button class="btn btn-sm btn-primary" type="submit"><i class="bi bi-search"></i> 검색</button>
+            <button class="krds-btn primary small" type="submit"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>
 
-    <table class="table table-sm table-hover align-middle">
-        <thead class="table-light">
-        <tr><th style="width:90px;">우편번호</th><th>주소</th><th style="width:70px;">선택</th></tr>
+    <div class="krds-table-wrap">
+    <table class="tbl">
+        <caption class="visually-hidden">우편번호 검색 결과 목록</caption>
+        <thead>
+        <tr><th scope="col" style="width:90px;">우편번호</th><th scope="col">주소</th><th scope="col" style="width:70px;">선택</th></tr>
         </thead>
         <tbody>
         <tr th:each="item : ${resultList}"
@@ -40,7 +45,7 @@
             <td th:text="${item.zip}">우편번호</td>
             <td th:text="${addr}">주소</td>
             <td>
-                <button type="button" class="btn btn-sm btn-outline-primary"
+                <button type="button" class="krds-btn secondary small"
                         th:attr="data-zip=${item.zip},data-addr=${addr}"
                         onclick="fnSelectZip(this);">선택</button>
             </td>
@@ -53,12 +58,13 @@
         </tr>
         </tbody>
     </table>
+    </div>
 
     <!-- 페이징 -->
     <div th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/cmm/sym/zip/EgovCcmZipSearchPopup.do', searchCondition=${searchVO.searchCondition}, searchKeyword=${searchVO.searchKeyword})}"></div>
 
     <div class="mt-2 text-end">
-        <button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.close();">닫기</button>
+        <button class="krds-btn tertiary small" type="button" onclick="window.close();">닫기</button>
     </div>
 
     <script>
