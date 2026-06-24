@@ -18,26 +18,27 @@
             <input type="hidden" name="checkedAuthorForInsert" id="checkedAuthorForInsert"
                    th:value="${resultVO != null} ? ${resultVO.authorCode} : ''"/>
 
-            <div class="card mb-3">
-                <div class="card-body">
+            <div class="krds-panel mb-3">
+                <div class="krds-panel-body">
                     <div class="row g-2 align-items-center">
                         <div class="col-auto">
                             <label for="authorCode" class="col-form-label">권한코드 :</label>
                         </div>
                         <div class="col-auto">
-                            <input id="authorCode" class="form-control" name="authorCode" type="text" maxlength="30"
+                            <input id="authorCode" class="krds-input" name="authorCode" type="text" maxlength="30"
                                    title="권한코드" th:value="${resultVO != null} ? ${resultVO.authorCode} : ''" readonly="readonly"/>
                         </div>
                         <div class="col-auto">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> 메뉴생성</button>
+                            <button type="submit" class="krds-btn primary"><i class="bi bi-check-lg"></i> 메뉴생성</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <table class="table table-hover align-middle">
+            <div class="krds-table-wrap">
+            <table class="tbl">
                 <caption class="visually-hidden">메뉴 목록</caption>
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th scope="col" style="width:60px;">선택</th>
                         <th scope="col" style="width:100px;">메뉴번호</th>
@@ -62,6 +63,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </form>
     </div>
 

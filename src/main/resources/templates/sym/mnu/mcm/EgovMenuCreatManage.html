@@ -22,17 +22,18 @@
                 <label for="searchKeyword" class="col-form-label">보안설정대상 ID :</label>
             </div>
             <div class="col-auto">
-                <input id="searchKeyword" class="form-control" name="searchKeyword" type="text" maxlength="60"
+                <input id="searchKeyword" class="krds-input" name="searchKeyword" type="text" maxlength="60"
                        th:value="${searchVO != null} ? ${searchVO.searchKeyword} : ''" title="검색조건"/>
             </div>
             <div class="col-auto">
-                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
+        <div class="krds-table-wrap">
+        <table class="tbl">
             <caption class="visually-hidden">메뉴생성관리 목록</caption>
-            <thead class="table-light">
+            <thead>
                 <tr>
                     <th scope="col">권한코드</th>
                     <th scope="col">권한명</th>
@@ -51,13 +52,14 @@
                     <td th:text="${result.authorDc}">권한설명</td>
                     <td class="text-center" th:text="${result.chkYeoBu != null and result.chkYeoBu > 0} ? 'Y' : 'N'">N</td>
                     <td class="text-center">
-                        <a class="btn btn-outline-secondary btn-sm"
+                        <a class="krds-btn tertiary small"
                            th:href="@{/sym/mnu/mcm/EgovMenuCreatSelect.do(authorCode=${result.authorCode})}">
                             <i class="bi bi-pencil"></i> 메뉴생성</a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        </div>
 
         <div class="d-flex justify-content-center" th:if="${paginationInfo != null}">
             <nav>

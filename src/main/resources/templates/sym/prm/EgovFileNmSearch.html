@@ -15,24 +15,25 @@
         <form th:action="@{/sym/prm/EgovProgramListSearch.do}" method="post" class="mb-3">
             <div class="input-group" style="max-width:560px;">
                 <span class="input-group-text">프로그램파일명</span>
-                <input type="text" class="form-control" name="searchKeyword" maxlength="60"
+                <input type="text" class="krds-input" name="searchKeyword" maxlength="60"
                        th:value="${searchVO != null ? searchVO.searchKeyword : ''}"/>
-                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light"><tr>
-                <th>프로그램파일명</th>
-                <th>프로그램명</th>
-                <th style="width:100px;">선택</th>
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <thead><tr>
+                <th scope="col">프로그램파일명</th>
+                <th scope="col">프로그램명</th>
+                <th scope="col" style="width:100px;">선택</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${list_progrmmanage}">
                 <td th:text="${item.progrmFileNm}">파일명</td>
                 <td th:text="${item.progrmKoreanNm}">프로그램명</td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm"
+                    <button type="button" class="krds-btn primary small"
                             th:onclick="|choisProgramListSearch('${item.progrmFileNm}')|">선택</button>
                 </td>
             </tr>
@@ -41,6 +42,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
     <script th:inline="javascript">
         function choisProgramListSearch(vFileNm) {

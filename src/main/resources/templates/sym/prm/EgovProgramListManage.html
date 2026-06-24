@@ -16,18 +16,19 @@
         <form th:action="@{/sym/prm/EgovProgramListManageSelect.do}" method="get" class="mb-3">
             <div class="input-group" style="max-width:480px;">
                 <span class="input-group-text">프로그램 한글명</span>
-                <input type="text" class="form-control" name="searchKeyword" maxlength="60"
+                <input type="text" class="krds-input" name="searchKeyword" maxlength="60"
                        th:value="${searchVO != null ? searchVO.searchKeyword : ''}"/>
-                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light"><tr>
-                <th>프로그램파일명</th>
-                <th>프로그램 한글명</th>
-                <th>URL</th>
-                <th>프로그램설명</th>
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <thead><tr>
+                <th scope="col">프로그램파일명</th>
+                <th scope="col">프로그램 한글명</th>
+                <th scope="col">URL</th>
+                <th scope="col">프로그램설명</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${list_progrmmanage}">
@@ -44,9 +45,10 @@
             </tr>
             </tbody>
         </table>
+        </div>
 
         <div class="text-end">
-            <a class="btn btn-primary btn-sm" th:href="@{/sym/prm/EgovProgramListRegist.do}"><i class="bi bi-plus-lg"></i> 등록</a>
+            <a class="krds-btn primary small" th:href="@{/sym/prm/EgovProgramListRegist.do}"><i class="bi bi-plus-lg"></i> 등록</a>
         </div>
     </div>
 </main>

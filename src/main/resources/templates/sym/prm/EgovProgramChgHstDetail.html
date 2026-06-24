@@ -13,8 +13,8 @@
         </ol></nav>
         <h1 class="h4 mb-3"><i class="bi bi-clock-history"></i> 변경이력 상세</h1>
 
-        <div class="card" th:object="${resultVO}">
-            <div class="card-body">
+        <div class="krds-panel" th:object="${resultVO}">
+            <div class="krds-panel-body">
                 <dl class="row mb-0">
                     <dt class="col-sm-3">프로그램파일명</dt>
                     <dd class="col-sm-9" th:text="*{progrmFileNm}">파일명</dd>
@@ -32,10 +32,10 @@
                     <dd class="col-sm-9" th:text="*{opetrId}">처리자</dd>
                     <dt class="col-sm-3">처리상태</dt>
                     <dd class="col-sm-9" th:switch="*{processSttus}">
-                        <span th:case="'A'" class="badge bg-secondary">요청</span>
-                        <span th:case="'P'" class="badge bg-warning text-dark">처리중</span>
-                        <span th:case="'C'" class="badge bg-success">완료</span>
-                        <span th:case="'R'" class="badge bg-danger">반려</span>
+                        <span th:case="'A'" class="krds-badge bg-gray">요청</span>
+                        <span th:case="'P'" class="krds-badge bg-warning text-dark">처리중</span>
+                        <span th:case="'C'" class="krds-badge bg-success">완료</span>
+                        <span th:case="'R'" class="krds-badge bg-danger">반려</span>
                         <span th:case="*" th:text="*{processSttus}">-</span>
                     </dd>
                     <dt class="col-sm-3">처리일자</dt>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="text-end mt-3">
-            <a class="btn btn-outline-secondary btn-sm" th:href="@{/sym/prm/EgovProgramChgHstListSelect.do}">목록</a>
+            <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChgHstListSelect.do}">목록</a>
         </div>
     </div>
 </main>

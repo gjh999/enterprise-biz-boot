@@ -20,37 +20,37 @@
             <input type="hidden" th:field="*{rqesterNo}"/>
             <input type="hidden" th:field="*{rqesterPersonId}"/>
             <input type="hidden" th:field="*{opetrId}"/>
-            <div class="card mb-3">
-                <div class="card-header">변경요청 내용</div>
-                <div class="card-body">
+            <div class="krds-panel mb-3">
+                <div class="krds-panel-head">변경요청 내용</div>
+                <div class="krds-panel-body">
                     <div class="mb-3">
-                        <label class="form-label">프로그램파일명</label>
-                        <input type="text" class="form-control" readonly th:value="*{progrmFileNm}"/>
+                        <div class="form-tit"><label>프로그램파일명</label></div>
+                        <input type="text" class="krds-input" readonly th:value="*{progrmFileNm}"/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">요청제목</label>
-                        <input type="text" class="form-control" readonly th:value="*{rqesterSj}"/>
+                        <div class="form-tit"><label>요청제목</label></div>
+                        <input type="text" class="krds-input" readonly th:value="*{rqesterSj}"/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">요청자ID</label>
-                        <input type="text" class="form-control" readonly th:value="*{rqesterPersonId}"/>
+                        <div class="form-tit"><label>요청자ID</label></div>
+                        <input type="text" class="krds-input" readonly th:value="*{rqesterPersonId}"/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">변경요청내용</label>
-                        <textarea class="form-control" readonly rows="4" th:text="*{changerqesterCn}"></textarea>
+                        <div class="form-tit"><label>변경요청내용</label></div>
+                        <textarea class="krds-input" readonly rows="4" th:text="*{changerqesterCn}"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">변경처리 정보</div>
-                <div class="card-body">
+            <div class="krds-panel">
+                <div class="krds-panel-head">변경처리 정보</div>
+                <div class="krds-panel-body">
                     <div class="mb-3">
-                        <label class="form-label" for="opetrIdView">처리자ID</label>
-                        <input type="text" class="form-control" id="opetrIdView" readonly th:value="*{opetrId}"/>
+                        <div class="form-tit"><label for="opetrIdView">처리자ID</label></div>
+                        <input type="text" class="krds-input" id="opetrIdView" readonly th:value="*{opetrId}"/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="processSttus">처리상태</label>
-                        <select class="form-select" id="processSttus" th:field="*{processSttus}">
+                        <div class="form-tit"><label for="processSttus">처리상태</label></div>
+                        <select class="krds-form-select" id="processSttus" th:field="*{processSttus}">
                             <option value="A">요청</option>
                             <option value="P">처리중</option>
                             <option value="C">완료</option>
@@ -58,22 +58,22 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="processDe">처리일자</label>
-                        <input type="text" class="form-control" id="processDe" th:field="*{processDe}" maxlength="20" placeholder="예) 20250101"/>
+                        <div class="form-tit"><label for="processDe">처리일자</label></div>
+                        <input type="text" class="krds-input" id="processDe" th:field="*{processDe}" maxlength="20" placeholder="예) 20250101"/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="rqesterProcessCn">요청처리내용</label>
-                        <textarea class="form-control" id="rqesterProcessCn" th:field="*{rqesterProcessCn}" rows="6"></textarea>
+                        <div class="form-tit"><label for="rqesterProcessCn">요청처리내용</label></div>
+                        <textarea class="krds-input" id="rqesterProcessCn" th:field="*{rqesterProcessCn}" rows="6"></textarea>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-between mt-3">
-                <button type="submit" class="btn btn-outline-danger btn-sm"
+                <button type="submit" class="krds-btn danger small"
                         th:formaction="@{/sym/prm/EgovProgramChangRequstProcessDelete.do}"
                         onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</button>
                 <div>
-                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}">목록</a>
-                    <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg"></i> 처리저장</button>
+                    <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}">목록</a>
+                    <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> 처리저장</button>
                 </div>
             </div>
         </form>
