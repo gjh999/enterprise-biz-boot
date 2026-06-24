@@ -14,54 +14,56 @@
         <h1 class="h4 mb-3"><i class="bi bi-card-list"></i> 공통코드 등록</h1>
 
         <form th:action="@{/sym/ccm/cca/EgovCcmCmmnCodeRegist.do}" method="post" th:object="${cmmnCode}">
-            <table class="table table-bordered align-middle">
+            <table class="tbl col">
+                <caption class="visually-hidden">공통코드 등록</caption>
+                <colgroup><col style="width:190px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th class="table-light" style="width:190px;">분류코드 <span class="text-danger">*</span></th>
+                    <th scope="row">분류코드 <span class="frm-rq">*</span></th>
                     <td>
-                        <select class="form-select" th:field="*{clCode}">
+                        <select class="krds-form-select" th:field="*{clCode}">
                             <option value="">선택하세요</option>
                             <option th:each="result : ${cmmnClCode}" th:value="${result.clCode}" th:text="${result.clCodeNm}">분류</option>
                         </select>
-                        <div class="text-danger small" th:if="${#fields.hasErrors('clCode')}" th:errors="*{clCode}"></div>
+                        <span class="text-danger" th:if="${#fields.hasErrors('clCode')}" th:errors="*{clCode}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">코드ID <span class="text-danger">*</span></th>
+                    <th scope="row">코드ID <span class="frm-rq">*</span></th>
                     <td>
-                        <input class="form-control" type="text" th:field="*{codeId}" maxlength="6"/>
-                        <div class="text-danger small" th:if="${#fields.hasErrors('codeId')}" th:errors="*{codeId}"></div>
+                        <input class="krds-input" type="text" th:field="*{codeId}" maxlength="6"/>
+                        <span class="text-danger" th:if="${#fields.hasErrors('codeId')}" th:errors="*{codeId}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">코드ID명 <span class="text-danger">*</span></th>
+                    <th scope="row">코드ID명 <span class="frm-rq">*</span></th>
                     <td>
-                        <input class="form-control" type="text" th:field="*{codeIdNm}" maxlength="60"/>
-                        <div class="text-danger small" th:if="${#fields.hasErrors('codeIdNm')}" th:errors="*{codeIdNm}"></div>
+                        <input class="krds-input" type="text" th:field="*{codeIdNm}" maxlength="60"/>
+                        <span class="text-danger" th:if="${#fields.hasErrors('codeIdNm')}" th:errors="*{codeIdNm}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">코드ID설명 <span class="text-danger">*</span></th>
+                    <th scope="row">코드ID설명 <span class="frm-rq">*</span></th>
                     <td>
-                        <textarea class="form-control" rows="4" th:field="*{codeIdDc}"></textarea>
-                        <div class="text-danger small" th:if="${#fields.hasErrors('codeIdDc')}" th:errors="*{codeIdDc}"></div>
+                        <textarea class="krds-input" rows="4" th:field="*{codeIdDc}"></textarea>
+                        <span class="text-danger" th:if="${#fields.hasErrors('codeIdDc')}" th:errors="*{codeIdDc}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">사용여부 <span class="text-danger">*</span></th>
+                    <th scope="row">사용여부 <span class="frm-rq">*</span></th>
                     <td>
-                        <select class="form-select" th:field="*{useAt}">
+                        <select class="krds-form-select" th:field="*{useAt}">
                             <option value="Y">Yes</option>
                             <option value="N">No</option>
                         </select>
-                        <div class="text-danger small" th:if="${#fields.hasErrors('useAt')}" th:errors="*{useAt}"></div>
+                        <span class="text-danger" th:if="${#fields.hasErrors('useAt')}" th:errors="*{useAt}"></span>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <div class="d-flex gap-2">
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
-                <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">목록</a>
             </div>
         </form>
     </div>

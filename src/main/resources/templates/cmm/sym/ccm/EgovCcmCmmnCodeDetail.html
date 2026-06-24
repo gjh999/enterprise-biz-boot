@@ -16,21 +16,23 @@
 
         <div th:if="${result == null}" class="alert alert-warning">상세 데이터가 없습니다.</div>
 
-        <table class="table table-bordered align-middle" th:if="${result != null}">
+        <table class="tbl col" th:if="${result != null}">
+            <caption class="visually-hidden">공통코드 상세</caption>
+            <colgroup><col style="width:190px;"><col></colgroup>
             <tbody>
-            <tr><th class="table-light" style="width:190px;">분류코드</th><td th:text="${result.clCodeNm}">분류</td></tr>
-            <tr><th class="table-light">코드ID</th><td th:text="${result.codeId}">코드ID</td></tr>
-            <tr><th class="table-light">코드ID명</th><td th:text="${result.codeIdNm}">코드ID명</td></tr>
-            <tr><th class="table-light">코드ID설명</th><td th:text="${result.codeIdDc}">설명</td></tr>
-            <tr><th class="table-light">사용여부</th><td th:text="${result.useAt == 'Y'} ? 'Yes' : 'No'">Yes</td></tr>
+            <tr><th scope="row">분류코드</th><td th:text="${result.clCodeNm}">분류</td></tr>
+            <tr><th scope="row">코드ID</th><td th:text="${result.codeId}">코드ID</td></tr>
+            <tr><th scope="row">코드ID명</th><td th:text="${result.codeIdNm}">코드ID명</td></tr>
+            <tr><th scope="row">코드ID설명</th><td th:text="${result.codeIdDc}">설명</td></tr>
+            <tr><th scope="row">사용여부</th><td th:text="${result.useAt == 'Y'} ? 'Yes' : 'No'">Yes</td></tr>
             </tbody>
         </table>
 
         <div class="d-flex gap-2" th:if="${result != null}">
-            <a class="btn btn-outline-secondary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}"><i class="bi bi-list"></i> 목록</a>
-            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary"
+            <a class="krds-btn tertiary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}"><i class="bi bi-list"></i> 목록</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="krds-btn primary"
                th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeModify.do(codeId=${result.codeId})}"><i class="bi bi-pencil"></i> 수정</a>
-            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-outline-danger"
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="krds-btn danger"
                th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeRemove.do(codeId=${result.codeId})}"
                onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</a>
         </div>
