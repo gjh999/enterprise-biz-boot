@@ -21,20 +21,22 @@
             <input type="hidden" name="searchCondition" value="1"/>
             <div class="col-auto"><label class="col-form-label col-form-label-sm">권한명</label></div>
             <div class="col-auto">
-                <input class="form-control form-control-sm" type="text" name="searchKeyword"
+                <input class="krds-input" type="text" name="searchKeyword"
                        th:value="${authorManageVO != null ? authorManageVO.searchKeyword : ''}" maxlength="35"/>
             </div>
             <div class="col-auto">
-                <button class="btn btn-secondary btn-sm" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
         <form id="listForm" th:action="@{/sec/ram/EgovAuthorListDelete.do}" method="post">
             <input type="hidden" name="authorCodes" id="authorCodes"/>
-            <table class="table table-hover align-middle">
-                <thead class="table-light"><tr>
-                    <th style="width:40px;"><input type="checkbox" id="checkAll" title="전체선택"/></th>
-                    <th>권한코드</th><th>권한명</th><th>설명</th><th style="width:140px;">생성일</th><th style="width:120px;"></th>
+            <div class="krds-table-wrap">
+            <table class="tbl">
+                <caption class="visually-hidden">권한 목록</caption>
+                <thead><tr>
+                    <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll" title="전체선택"/></th>
+                    <th scope="col">권한코드</th><th scope="col">권한명</th><th scope="col">설명</th><th scope="col" style="width:140px;">생성일</th><th scope="col" style="width:120px;"></th>
                 </tr></thead>
                 <tbody>
                 <tr th:each="item : ${authorList}">
@@ -44,21 +46,22 @@
                     <td th:text="${item.authorDc}">설명</td>
                     <td class="text-center" th:text="${item.authorCreatDe}">생성일</td>
                     <td class="text-end">
-                        <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/ram/EgovAuthor.do(authorCode=${item.authorCode})}"><i class="bi bi-pencil"></i> 수정</a>
+                        <a class="krds-btn tertiary small" th:href="@{/sec/ram/EgovAuthor.do(authorCode=${item.authorCode})}"><i class="bi bi-pencil"></i> 수정</a>
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(authorList)}"><td colspan="6" class="text-center text-muted py-4">등록된 권한이 없습니다.</td></tr>
                 </tbody>
             </table>
+            </div>
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteChecked()">
+                <button type="button" class="krds-btn danger small" onclick="deleteChecked()">
                     <i class="bi bi-trash"></i> 선택 삭제</button>
                 <div>
-                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/ram/EgovAuthorRoleListView.do}">
+                    <a class="krds-btn tertiary small" th:href="@{/sec/ram/EgovAuthorRoleListView.do}">
                         <i class="bi bi-shield-lock"></i> 권한별 롤 관리</a>
-                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/sec/rgm/EgovAuthorGroupListView.do}">
+                    <a class="krds-btn tertiary small" th:href="@{/sec/rgm/EgovAuthorGroupListView.do}">
                         <i class="bi bi-person-badge"></i> 사용자별 권한 관리</a>
-                    <a class="btn btn-primary btn-sm" th:href="@{/sec/ram/EgovAuthorInsertView.do}">
+                    <a class="krds-btn primary small" th:href="@{/sec/ram/EgovAuthorInsertView.do}">
                         <i class="bi bi-plus-lg"></i> 권한 등록</a>
                 </div>
             </div>

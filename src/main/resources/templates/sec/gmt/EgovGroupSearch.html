@@ -15,17 +15,19 @@
         <form th:action="@{/sec/gmt/EgovGroupSearchList.do}" method="post" class="row g-2 mb-3">
             <div class="col-auto"><label class="col-form-label">그룹 명</label></div>
             <div class="col-auto">
-                <input type="text" class="form-control" name="searchKeyword"
+                <input type="text" class="krds-input" name="searchKeyword"
                        th:value="${groupManageVO != null ? groupManageVO.searchKeyword : ''}"/>
                 <input type="hidden" name="searchCondition" value="1"/>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-search"></i> 조회</button>
+                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light"><tr><th style="width:200px;">그룹ID</th><th>그룹명</th></tr></thead>
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <caption class="visually-hidden">그룹 목록</caption>
+            <thead><tr><th scope="col" style="width:200px;">그룹ID</th><th scope="col">그룹명</th></tr></thead>
             <tbody>
             <tr th:each="item : ${groupList}">
                 <td>
@@ -36,6 +38,7 @@
             <tr th:if="${#lists.isEmpty(groupList)}"><td colspan="2" class="text-center text-muted py-4">조회된 그룹이 없습니다.</td></tr>
             </tbody>
         </table>
+        </div>
     </div>
     <script>
         document.querySelectorAll('.groupLink').forEach(function (a) {

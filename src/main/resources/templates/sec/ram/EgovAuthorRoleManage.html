@@ -18,11 +18,11 @@
                 <label class="col-form-label">권한코드</label>
             </div>
             <div class="col-auto">
-                <input type="text" class="form-control" name="searchKeyword"
+                <input type="text" class="krds-input" name="searchKeyword"
                        th:value="${authorRoleManageVO != null ? authorRoleManageVO.searchKeyword : ''}" placeholder="권한코드 입력"/>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-search"></i> 조회</button>
+                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
@@ -32,10 +32,12 @@
             <input type="hidden" name="roleCodes" id="roleCodes"/>
             <input type="hidden" name="regYns" id="regYns"/>
 
-            <table class="table table-hover align-middle">
-                <thead class="table-light"><tr>
-                    <th style="width:40px;"><input type="checkbox" id="checkAll"/></th>
-                    <th>롤ID</th><th>롤명</th><th>롤타입</th><th>롤Sort</th><th>롤 설명</th><th style="width:120px;">등록일자</th><th style="width:120px;">등록여부</th>
+            <div class="krds-table-wrap">
+            <table class="tbl">
+                <caption class="visually-hidden">권한별 롤 목록</caption>
+                <thead><tr>
+                    <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll"/></th>
+                    <th scope="col">롤ID</th><th scope="col">롤명</th><th scope="col">롤타입</th><th scope="col">롤Sort</th><th scope="col">롤 설명</th><th scope="col" style="width:120px;">등록일자</th><th scope="col" style="width:120px;">등록여부</th>
                 </tr></thead>
                 <tbody>
                 <tr th:each="item : ${authorRoleList}">
@@ -47,7 +49,7 @@
                     <td th:text="${item.roleDc}">설명</td>
                     <td class="text-center" th:text="${item.creatDt}">등록일자</td>
                     <td>
-                        <select class="form-select form-select-sm rowReg">
+                        <select class="krds-form-select rowReg">
                             <option value="Y" th:selected="${item.regYn == 'Y'}">등록</option>
                             <option value="N" th:selected="${item.regYn == 'N'}">미등록</option>
                         </select>
@@ -56,8 +58,9 @@
                 <tr th:if="${#lists.isEmpty(authorRoleList)}"><td colspan="8" class="text-center text-muted py-4">조회된 롤이 없습니다. 권한코드로 조회하세요.</td></tr>
                 </tbody>
             </table>
+            </div>
             <div class="text-end">
-                <button type="button" class="btn btn-primary btn-sm" onclick="submitAuthorRole()"><i class="bi bi-save"></i> 권한별 롤정보 저장</button>
+                <button type="button" class="krds-btn primary small" onclick="submitAuthorRole()"><i class="bi bi-save"></i> 권한별 롤정보 저장</button>
             </div>
         </form>
     </div>

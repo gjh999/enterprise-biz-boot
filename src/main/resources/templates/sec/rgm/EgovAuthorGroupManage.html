@@ -14,18 +14,18 @@
 
         <form id="searchForm" th:action="@{/sec/rgm/EgovAuthorGroupList.do}" method="post" class="row g-2 mb-3">
             <div class="col-auto">
-                <select class="form-select" name="searchCondition" th:with="sc=${authorGroupVO != null ? authorGroupVO.searchCondition : ''}">
+                <select class="krds-form-select" name="searchCondition" th:with="sc=${authorGroupVO != null ? authorGroupVO.searchCondition : ''}">
                     <option value="1" th:selected="${sc == '1'}">사용자 ID</option>
                     <option value="2" th:selected="${sc == '2'}">사용자 명</option>
                     <option value="3" th:selected="${sc == '3'}">그룹</option>
                 </select>
             </div>
             <div class="col-auto">
-                <input type="text" class="form-control" name="searchKeyword"
+                <input type="text" class="krds-input" name="searchKeyword"
                        th:value="${authorGroupVO != null ? authorGroupVO.searchKeyword : ''}" placeholder="검색어"/>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-search"></i> 조회</button>
+                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
@@ -35,10 +35,12 @@
             <input type="hidden" name="regYns" id="regYns"/>
             <input type="hidden" name="mberTyCodes" id="mberTyCodes"/>
 
-            <table class="table table-hover align-middle">
-                <thead class="table-light"><tr>
-                    <th style="width:40px;"><input type="checkbox" id="checkAll"/></th>
-                    <th>사용자ID</th><th>사용자명</th><th>사용자 유형</th><th style="width:200px;">권한</th><th style="width:100px;">등록여부</th>
+            <div class="krds-table-wrap">
+            <table class="tbl">
+                <caption class="visually-hidden">사용자별 권한 목록</caption>
+                <thead><tr>
+                    <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll"/></th>
+                    <th scope="col">사용자ID</th><th scope="col">사용자명</th><th scope="col">사용자 유형</th><th scope="col" style="width:200px;">권한</th><th scope="col" style="width:100px;">등록여부</th>
                 </tr></thead>
                 <tbody>
                 <tr th:each="item : ${authorGroupList}">
@@ -50,7 +52,7 @@
                     <td th:text="${item.userNm}">명</td>
                     <td th:text="${item.mberTyNm}">유형</td>
                     <td>
-                        <select class="form-select form-select-sm rowAuthor">
+                        <select class="krds-form-select rowAuthor">
                             <option th:each="a : ${authorManageList}" th:value="${a.authorCode}" th:text="${a.authorNm}"
                                     th:selected="${a.authorCode == item.authorCode}">권한</option>
                         </select>
@@ -60,9 +62,10 @@
                 <tr th:if="${#lists.isEmpty(authorGroupList)}"><td colspan="6" class="text-center text-muted py-4">조회된 사용자가 없습니다.</td></tr>
                 </tbody>
             </table>
+            </div>
             <div class="text-end">
-                <button type="button" class="btn btn-primary btn-sm" onclick="submitAuthorGroup('insert')"><i class="bi bi-save"></i> 권한등록</button>
-                <button type="button" class="btn btn-outline-danger btn-sm" onclick="submitAuthorGroup('delete')"><i class="bi bi-x-circle"></i> 등록취소</button>
+                <button type="button" class="krds-btn primary small" onclick="submitAuthorGroup('insert')"><i class="bi bi-save"></i> 권한등록</button>
+                <button type="button" class="krds-btn danger small" onclick="submitAuthorGroup('delete')"><i class="bi bi-x-circle"></i> 등록취소</button>
             </div>
         </form>
     </div>
