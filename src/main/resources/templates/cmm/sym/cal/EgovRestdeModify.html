@@ -19,38 +19,40 @@
         <form th:if="${restde != null}" th:action="@{/sym/cal/EgovRestdeModify.do}" method="post" th:object="${restde}">
             <input type="hidden" name="cmd" value="Modify"/>
             <input type="hidden" th:field="*{restdeNo}"/>
-            <table class="table table-bordered align-middle">
+            <table class="tbl col">
+                <caption class="visually-hidden">휴일 수정 입력</caption>
+                <colgroup><col style="width:160px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th class="table-light" style="width:160px;">휴일번호</th>
-                    <td><input class="form-control-plaintext" type="text" th:value="*{restdeNo}" readonly/></td>
+                    <th scope="row">휴일번호</th>
+                    <td><input class="krds-input" type="text" th:value="*{restdeNo}" readonly/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">휴일일자</th>
-                    <td><input class="form-control" type="text" th:field="*{restdeDe}" maxlength="8" placeholder="YYYYMMDD"/></td>
+                    <th scope="row">휴일일자</th>
+                    <td><input class="krds-input" type="text" th:field="*{restdeDe}" maxlength="8" placeholder="YYYYMMDD"/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">휴일명</th>
-                    <td><input class="form-control" type="text" th:field="*{restdeNm}" maxlength="60"/></td>
+                    <th scope="row">휴일명</th>
+                    <td><input class="krds-input" type="text" th:field="*{restdeNm}" maxlength="60"/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">휴일구분</th>
+                    <th scope="row">휴일구분</th>
                     <td>
-                        <select class="form-select" th:field="*{restdeSeCode}">
+                        <select class="krds-form-select" th:field="*{restdeSeCode}">
                             <option value="">선택</option>
                             <option th:each="code : ${restdeCode}" th:value="${code.code}" th:text="${code.codeNm}">구분</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">휴일설명</th>
-                    <td><textarea class="form-control" th:field="*{restdeDc}" rows="3"></textarea></td>
+                    <th scope="row">휴일설명</th>
+                    <td><textarea class="krds-input" th:field="*{restdeDc}" rows="3"></textarea></td>
                 </tr>
                 </tbody>
             </table>
             <div class="d-flex gap-2">
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
-                <a class="btn btn-outline-secondary" th:href="@{/sym/cal/EgovRestdeList.do}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/sym/cal/EgovRestdeList.do}">취소</a>
             </div>
         </form>
     </div>

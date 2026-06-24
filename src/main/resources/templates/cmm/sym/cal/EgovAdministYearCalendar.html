@@ -15,8 +15,8 @@
         <div class="row g-3">
             <div class="col-12 col-md-4" th:each="m : ${#numbers.sequence(1, 12)}"
                  th:with="list=${#ctx.getVariable('RestdeList_' + m)}">
-                <div class="card h-100">
-                    <div class="card-header py-1"><span th:text="${m}">1</span>월</div>
+                <div class="krds-panel h-100">
+                    <div class="krds-panel-head py-1"><span th:text="${m}">1</span>월</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item py-1 d-flex justify-content-between small" th:each="rd : ${list}">
                             <span th:text="${rd.restdeDe}">일자</span>

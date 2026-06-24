@@ -13,18 +13,18 @@
 
         <div class="d-flex align-items-center justify-content-between mb-3" th:if="${restde != null}"
              th:with="im=${#conversions.convert(restde.month, 'java.lang.Integer')}">
-            <a class="btn btn-outline-secondary btn-sm"
+            <a class="krds-btn tertiary small"
                th:href="@{/sym/cmm/EgovselectAdministCalendar.do(year=${restde.year}, month=${im - 1})}">
                 <i class="bi bi-chevron-left"></i> 이전달</a>
             <h1 class="h4 mb-0"><i class="bi bi-calendar3"></i>
                 <span th:text="${restde.year}">2026</span>년 <span th:text="${restde.month}">6</span>월 행정달력</h1>
-            <a class="btn btn-outline-secondary btn-sm"
+            <a class="krds-btn tertiary small"
                th:href="@{/sym/cmm/EgovselectAdministCalendar.do(year=${restde.year}, month=${im + 1})}">
                 다음달 <i class="bi bi-chevron-right"></i></a>
         </div>
 
-        <table class="table table-bordered text-center align-middle" style="table-layout:fixed;" th:if="${restde != null}">
-            <thead class="table-light">
+        <table class="tbl text-center align-middle" style="table-layout:fixed;" th:if="${restde != null}">
+            <thead>
             <tr><th class="text-danger">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="text-primary">토</th></tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                     style="height:72px; vertical-align:top;">
                     <th:block th:if="${dd ge 1 and dd le restde.lastDayMonth}">
                         <span th:text="${dd}"></span>
-                        <span class="badge bg-danger d-block mt-1"
+                        <span class="krds-badge bg-danger d-block mt-1"
                               th:each="rd : ${resultList}" th:if="${rd.day == dstr}"
                               th:text="${rd.restdeNm}"></span>
                     </th:block>

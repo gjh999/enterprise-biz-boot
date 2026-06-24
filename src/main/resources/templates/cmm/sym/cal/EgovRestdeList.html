@@ -15,24 +15,26 @@
 
         <form class="row g-2 mb-3" th:action="@{/sym/cal/EgovRestdeList.do}" method="get">
             <div class="col-auto">
-                <select class="form-select" name="searchCondition">
+                <select class="krds-form-select" name="searchCondition">
                     <option value="restdeNm" th:selected="${searchVO.searchCondition == 'restdeNm'}">휴일명</option>
                     <option value="restdeDe" th:selected="${searchVO.searchCondition == 'restdeDe'}">휴일일자</option>
                 </select>
             </div>
-            <div class="col-auto"><input class="form-control" name="searchKeyword" th:value="${searchVO.searchKeyword}" placeholder="검색어"/></div>
-            <div class="col-auto"><button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
+            <div class="col-auto"><input class="krds-input" name="searchKeyword" th:value="${searchVO.searchKeyword}" placeholder="검색어"/></div>
+            <div class="col-auto"><button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
             <div class="col-auto ms-auto">
-                <a class="btn btn-outline-secondary" th:href="@{/sym/cal/EgovNormalMonthCalendar.do}">
+                <a class="krds-btn tertiary" th:href="@{/sym/cal/EgovNormalMonthCalendar.do}">
                     <i class="bi bi-calendar-month"></i> 월간달력</a>
-                <a class="btn btn-success" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/sym/cal/EgovRestdeRegist.do}">
+                <a class="krds-btn primary" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/sym/cal/EgovRestdeRegist.do}">
                     <i class="bi bi-plus-lg"></i> 등록</a>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
-            <tr><th style="width:120px;">휴일일자</th><th>휴일명</th><th style="width:120px;">구분</th></tr>
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <caption class="visually-hidden">휴일에 대한 목록</caption>
+            <thead>
+            <tr><th scope="col" style="width:120px;">휴일일자</th><th scope="col">휴일명</th><th scope="col" style="width:120px;">구분</th></tr>
             </thead>
             <tbody>
             <tr th:each="item : ${resultList}">
@@ -45,6 +47,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
 
         <!-- 페이징 -->
         <div class="mt-3"
