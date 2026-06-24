@@ -113,3 +113,91 @@ body {
     border-radius: 6px;
     font-size: 14px;
 }
+
+/* ============================================================
+   KRDS 네이티브 컴포넌트 — 구조/크기 정규화 (Phase B1: uss 전환)
+   krds.min.css(공식)가 .krds-btn / .tbl / .btn-accordion / .krds-badge 구조를 제공하나,
+   본 프로젝트 root 16px 기준에서 KRDS 토큰(10px 기준)이 1.6배 과대해지므로 보정.
+   색상은 다크 테마(theme.css)가 최종 적용 — 여기선 구조/사이즈/라이트 기본만.
+   .krds-panel 은 KRDS에 카드 컴포넌트가 없어 토큰 기반 박스로 자체 정의.
+   ============================================================ */
+
+/* 버튼 — 사이즈 토큰 무력화 + 균형 패딩/폰트 */
+.krds-btn{
+  height: auto; min-height: 0; line-height: 1.4; gap: .4em;
+  font-size: .95rem; padding: .5rem 1rem; border-radius: 6px;
+}
+.krds-btn.xsmall,.krds-btn.small,.krds-btn.medium,.krds-btn.large,.krds-btn.xlarge{ height: auto; min-height: 0; }
+.krds-btn.xsmall,.krds-btn.small{ font-size: .85rem; padding: .35rem .75rem; }
+.krds-btn.medium{ font-size: .95rem; padding: .5rem 1rem; }
+.krds-btn.large{ font-size: 1.05rem; padding: .6rem 1.25rem; }
+.krds-btn.xlarge{ font-size: 1.1rem; padding: .7rem 1.4rem; }
+.krds-btn.icon{ padding: .45rem; }
+/* 위험 동작 버튼(KRDS 기본 변형에 없음 → 보조 정의) */
+.krds-btn.danger{ background:#fff; color: var(--krds-danger,#E2000F); border:1px solid var(--krds-danger,#E2000F); }
+.krds-btn.danger:hover{ background: #FDECEE; color: var(--krds-danger,#E2000F); }
+
+/* 폼 입력/셀렉트 — 사이즈 보정 */
+.krds-input,.krds-form-select{ height: auto; font-size: .95rem; padding: .5rem .75rem; line-height: 1.5; }
+/* 네이티브 <select>: KRDS 커스텀 mask 제거 + 표준 셀렉트 + 셰브론 */
+select.krds-form-select{
+  -webkit-mask-image:none!important; mask-image:none!important;
+  -webkit-appearance:none!important; -moz-appearance:none!important; appearance:none!important;
+  display:inline-block; width:auto; min-width:120px; max-width:100%; height:auto;
+  padding:.5rem 2.1rem .5rem .75rem!important; font-size:.95rem; line-height:1.5;
+  border-radius:6px!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%2358616A' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important; background-position:right .65rem center!important; background-size:1.05em!important;
+}
+
+/* 표(.tbl) — 16px 루트에서 과대 → 강제 정규화(구조/사이즈만) */
+.krds-table-wrap{ width:100%; overflow-x:auto; margin:0 0 1rem; }
+.krds-table-wrap table.tbl{ width:100%!important; border-collapse:collapse!important; margin:0; font-size:.95rem!important; }
+.krds-table-wrap table.tbl th,.krds-table-wrap table.tbl td{
+  font-size:.95rem!important; padding:.7rem .75rem!important; vertical-align:middle; }
+.krds-table-wrap table.tbl thead th{ text-align:center; }
+.krds-table-wrap table.tbl.col th[scope="row"]{ text-align:left!important; font-weight:700; white-space:nowrap; }
+.krds-table-wrap table.tbl.col td{ text-align:left; }
+
+/* 페이지네이션 / 배지 사이즈 */
+.krds-pagination .page-link,.krds-pagination .page-navi{
+  min-width: 2.1rem !important; height: 2.1rem !important; padding: 0 .55rem !important; font-size: .9rem !important; }
+.krds-badge{ font-size: .8rem !important; }
+
+/* 아코디언 — 제목/본문 글자 균형 + 본문 여백 */
+.krds-accordion .accordion-item .btn-accordion{ font-size: 1.05rem !important; padding: .9rem 1.1rem !important; }
+.krds-accordion .accordion-item.active .accordion-body{
+  font-size: .95rem !important; line-height: 1.65 !important; padding: 1rem 1.1rem 1.15rem !important; }
+
+/* KRDS 패널(카드 대체: KRDS엔 card 컴포넌트가 없어 토큰 기반 박스) — 라이트 기본 */
+.krds-panel{ display:flex; flex-direction:column; background:#fff;
+  border:1px solid var(--krds-border,#DDD); border-radius:12px; overflow:hidden; }
+.krds-panel-head{ display:flex; justify-content:space-between; align-items:center;
+  gap:.5rem; padding:.8rem 1.1rem; background:var(--krds-bg-gray,#F5F6F8);
+  border-bottom:1px solid var(--krds-border,#DDD); font-weight:700; font-size:1rem; }
+.krds-panel-body{ flex:1 1 auto; padding:1rem 1.1rem; }
+.krds-panel-body.flush{ padding:0; }
+.krds-panel .tbl{ border-radius:0; }
+.krds-panel-title{ font-size:1.05rem; font-weight:700; margin:0 0 .5rem; }
+
+/* 폼 섹션(등록/수정) — 라벨은 항상 입력칸 위. krds-form-section 네임스페이스(충돌 회피) */
+.krds-form-section{ border:1px solid var(--krds-border,#DDD); border-radius:12px; padding:18px 20px 6px; margin:0 0 20px; }
+.krds-form-section > .krds-form-section-title{ font-size:1rem; font-weight:700; margin:0 0 14px; padding:0; line-height:1.4; }
+
+/* form-group / form-tit / form-conts / form-hint / 필수표시 */
+.form-group{ margin-bottom:1rem; }
+.form-group .form-tit{ font-weight:600; margin:0 0 6px; }
+.form-group .form-tit > label{ display:inline-block; }
+.form-group .form-conts > .krds-input,
+.form-group .form-conts > .krds-form-select{ width:100%; }
+.form-hint{ font-size:.85rem; color:var(--krds-text-muted,#888); margin:.3rem 0 0; }
+.frm-rq{ color:var(--krds-danger,#E2000F); }
+
+/* input-group(우편번호/전화 등) 가로 레이아웃 보정 — KRDS .input-group(세로 옵션그룹)과 충돌 교정 */
+.input-group{ display:flex !important; flex-direction:row !important; flex-wrap:nowrap !important;
+  align-items:stretch !important; width:100% !important; gap:0 !important; }
+.input-group > .krds-input, .input-group > .form-control{ flex:1 1 auto !important; width:1% !important; min-width:0 !important; }
+.input-group > .krds-btn, .input-group > .input-group-text, .input-group > .krds-form-select{
+  flex:0 0 auto !important; width:auto !important; white-space:nowrap; }
+.input-group > :not(:first-child){ border-top-left-radius:0; border-bottom-left-radius:0; margin-left:-1px; }
+.input-group > :not(:last-child){ border-top-right-radius:0; border-bottom-right-radius:0; }

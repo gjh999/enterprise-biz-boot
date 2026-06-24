@@ -437,3 +437,144 @@ body.egov-login-body .container { position: relative; z-index: 2; }
     .page-title-bar { margin: 14px 8px 22px; padding: 30px 6px 26px !important; }
     .page-title-bar h1, .page-title-bar h2 { font-size: 26px !important; }
 }
+
+/* ============================================================
+   KRDS 네이티브 컴포넌트 다크 테마 오버라이드 (Phase B1: uss 전환)
+   uss 모듈을 Bootstrap → KRDS 네이티브로 전환함에 따라, 기존 다크 테마가
+   krds-* 클래스를 인지하지 못해 라이트로 깨지는 문제를 보정한다.
+   위 Bootstrap 컴포넌트 다크 스타일과 동일 톤으로 KRDS 네이티브에 매핑.
+   ============================================================ */
+
+/* ── KRDS 패널(.krds-panel = .card 다크 대응) ── */
+.krds-panel {
+    background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.02)) !important;
+    border: 1px solid var(--t-line) !important;
+    border-radius: var(--t-radius) !important;
+    color: var(--t-text) !important;
+    box-shadow: 0 18px 44px rgba(0,0,0,.32);
+    overflow: hidden;
+}
+.krds-panel-head {
+    background: rgba(255,255,255,.04) !important;
+    border-bottom: 1px solid var(--t-line) !important;
+    color: #fff !important; font-weight: 700;
+}
+.krds-panel-body { color: var(--t-text); }
+
+/* ── KRDS 표(table.tbl = .egov-table 다크 대응) ── */
+.krds-table-wrap table.tbl { color: var(--t-text); background: transparent !important; }
+.krds-table-wrap table.tbl thead th {
+    background: linear-gradient(135deg, rgba(79,107,255,.28), rgba(122,92,255,.22)) !important;
+    border: 1px solid var(--t-line) !important;
+    color: #eef1ff !important;
+}
+.krds-table-wrap table.tbl tbody td,
+.krds-table-wrap table.tbl tbody th {
+    border: 1px solid var(--t-line) !important;
+    color: var(--t-text) !important;
+    background: transparent;
+}
+.krds-table-wrap table.tbl tbody tr { transition: background .2s; }
+.krds-table-wrap table.tbl tbody tr:hover { background: rgba(79,107,255,.12) !important; }
+.krds-table-wrap table.tbl td a { color: #d7ddff !important; text-decoration: none; }
+.krds-table-wrap table.tbl td a:hover { color: #fff !important; }
+/* 라벨-값 정의표(.tbl.col): 라벨 칸 강조 배경 */
+.krds-table-wrap table.tbl.col th[scope="row"] {
+    background: rgba(79,107,255,.14) !important; color: #eef1ff !important;
+}
+
+/* ── KRDS 폼 입력/셀렉트(.krds-input/.krds-form-select = .form-control/.form-select 다크 대응) ── */
+.krds-input, select.krds-form-select, textarea.krds-input {
+    background: rgba(255,255,255,.05) !important;
+    border: 1px solid var(--t-line-strong) !important;
+    color: var(--t-text) !important;
+    border-radius: 11px !important;
+}
+.krds-input::placeholder { color: #7e87b5; }
+.krds-input:focus, select.krds-form-select:focus, textarea.krds-input:focus {
+    background: rgba(255,255,255,.08) !important;
+    border-color: var(--t-indigo) !important;
+    box-shadow: 0 0 0 3px rgba(79,107,255,.28) !important;
+    color: #fff !important;
+}
+select.krds-form-select option { background: #161b3d; color: var(--t-text); }
+/* 셰브론 아이콘 밝게(다크 배경 대비) */
+select.krds-form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23aab1d6' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important; background-position: right .65rem center !important; background-size: 1.05em !important;
+}
+.form-group .form-tit, .form-group .form-tit > label { color: var(--t-muted); }
+.form-hint { color: var(--t-muted) !important; }
+.krds-form-section { border: 1px solid var(--t-line) !important; border-radius: var(--t-radius) !important;
+    background: linear-gradient(160deg, rgba(255,255,255,.04), rgba(255,255,255,.015)) !important; }
+.krds-form-section > .krds-form-section-title { color: #fff !important; }
+
+/* ── KRDS 버튼(.krds-btn 변형 = .btn-* 다크 대응) ── */
+.krds-btn { border-radius: 999px !important; font-weight: 600; transition: transform .2s ease, box-shadow .2s ease, filter .2s; }
+.krds-btn:hover { transform: translateY(-2px); }
+.krds-btn.primary {
+    background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)) !important;
+    border: 0 !important; color: #fff !important;
+    box-shadow: 0 10px 26px rgba(79,107,255,.4);
+}
+.krds-btn.primary:hover { box-shadow: 0 16px 38px rgba(79,107,255,.55); filter: brightness(1.05); }
+.krds-btn.secondary {
+    background: rgba(255,255,255,.04) !important;
+    border: 1px solid var(--t-line-strong) !important;
+    color: var(--t-text) !important;
+}
+.krds-btn.secondary:hover { background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 10px 26px rgba(79,107,255,.4); }
+.krds-btn.tertiary {
+    background: rgba(255,255,255,.10) !important;
+    border: 1px solid var(--t-line-strong) !important;
+    color: #fff !important;
+}
+.krds-btn.tertiary:hover { background: rgba(255,255,255,.16) !important; color: #fff !important; }
+.krds-btn.danger {
+    background: linear-gradient(135deg, #ff5d8f, #f0356b) !important;
+    border: 0 !important; color: #fff !important;
+}
+.krds-btn.danger:hover { box-shadow: 0 10px 26px rgba(240,53,107,.4); filter: brightness(1.05); }
+
+/* ── KRDS 페이지네이션(.krds-pagination = .pagination 다크 대응) ── */
+.krds-pagination { display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap; padding: 0; list-style: none; }
+.krds-pagination .page-link, .krds-pagination .page-navi {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--t-line-strong);
+    color: var(--t-text);
+    border-radius: 11px !important;
+    text-decoration: none; font-weight: 600;
+    transition: background .2s, transform .2s, box-shadow .2s;
+}
+.krds-pagination .page-link:hover, .krds-pagination .page-navi:hover {
+    background: rgba(79,107,255,.22); color: #fff; transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(79,107,255,.3);
+}
+.krds-pagination .page-link.active {
+    background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2));
+    border-color: transparent; color: #fff;
+    box-shadow: 0 10px 24px rgba(79,107,255,.45);
+}
+
+/* ── KRDS 배지(.krds-badge = .badge 다크 대응) ── */
+.krds-badge.bg-primary, .krds-badge.bg-gray, .krds-badge.bg-secondary { background: linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)) !important; color: #fff !important; }
+.krds-badge.bg-success { background: linear-gradient(135deg, #28c76f, #1ba94c) !important; color: #fff !important; }
+.krds-badge.bg-danger { background: linear-gradient(135deg, #ff5d8f, #f0356b) !important; color: #fff !important; }
+.krds-badge.bg-warning { background: linear-gradient(135deg, #ffb347, #ff8a3d) !important; color: #3a2400 !important; }
+.krds-badge.bg-info { background: linear-gradient(135deg, #19d3da, #1597d6) !important; color: #04263b !important; }
+
+/* ── KRDS 아코디언(.krds-accordion / .btn-accordion 다크 대응) ── */
+.krds-accordion .accordion-item { background: rgba(255,255,255,.03); border: 1px solid var(--t-line); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+.krds-accordion .btn-accordion { background: transparent !important; color: var(--t-text) !important; width: 100%; text-align: left; border: 0; display: flex; align-items: center; }
+.krds-accordion .btn-accordion:hover { background: rgba(79,107,255,.10) !important; }
+.krds-accordion .accordion-body { color: var(--t-text); }
+.krds-accordion .accordion-body p { color: var(--t-muted); }
+
+/* ── KRDS 검색바(.krds-search = .search-bar 다크 대응) ── */
+.krds-search {
+    background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) !important;
+    border: 1px solid var(--t-line) !important;
+    border-radius: var(--t-radius) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.25);
+}
