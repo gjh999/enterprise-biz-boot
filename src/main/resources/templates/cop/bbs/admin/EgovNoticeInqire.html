@@ -20,8 +20,8 @@
             </ol>
         </nav>
 
-        <div class="card">
-            <div class="card-header">
+        <div class="krds-panel">
+            <div class="krds-panel-head">
                 <h1 class="h5 mb-1" th:text="${result.nttSj}">제목</h1>
                 <div class="text-muted small">
                     작성자 <span th:text="${result.ntcrNm ?: '관리자'}">관리자</span> ·
@@ -29,7 +29,7 @@
                     조회 <span th:text="${result.inqireCo ?: 0}">0</span>
                 </div>
             </div>
-            <div class="card-body" style="min-height: 200px;">
+            <div class="krds-panel-body" style="min-height: 200px;">
                 <!-- 갤러리(BBSA02) 첨부 이미지 미리보기 (JSP: <c:import url="/cmm/fms/selectImageFileInfs.do">) -->
                 <div class="mb-3" th:if="${imgFileList != null and !#lists.isEmpty(imgFileList)}">
                     <div th:replace="~{cmm/fms/EgovImgFileList :: imgFileList(${imgFileList})}"></div>
@@ -37,24 +37,24 @@
                 <div th:utext="${result.nttCn}">본문 내용</div>
             </div>
             <!-- 첨부파일 목록 + 다운로드 링크 (JSP: <c:import url="/cmm/fms/selectFileInfs.do">) -->
-            <div class="card-footer" th:if="${fileList != null and !#lists.isEmpty(fileList)}">
+            <div class="krds-panel-body" style="border-top:1px solid var(--krds-gray-10,#E7E8EA);" th:if="${fileList != null and !#lists.isEmpty(fileList)}">
                 <strong class="small d-block mb-1">첨부파일</strong>
                 <div th:replace="~{cmm/fms/EgovFileList :: fileList(${fileList}, 'N', null, null)}"></div>
             </div>
         </div>
 
         <div class="d-flex justify-content-between mt-3">
-            <a class="btn btn-outline-secondary btn-sm"
+            <a class="krds-btn tertiary small"
                th:href="@{/cop/bbs/admin/selectBoardList.do(bbsId=${result.bbsId})}">
                 <i class="bi bi-list"></i> 목록
             </a>
             <span sec:authorize="isAuthenticated()" class="d-flex gap-2">
-                <a class="btn btn-outline-secondary btn-sm"
+                <a class="krds-btn tertiary small"
                    th:if="${brdMstrVO == null or brdMstrVO.replyPosblAt == 'Y'}"
                    th:href="@{/cop/bbs/admin/addReplyBoardArticle.do(bbsId=${result.bbsId},nttId=${result.nttId},sortOrdr=${result.sortOrdr},replyLc=${result.replyLc})}">
                     <i class="bi bi-reply"></i> 답글
                 </a>
-                <a class="btn btn-outline-primary btn-sm"
+                <a class="krds-btn secondary small"
                    th:href="@{/cop/bbs/admin/forUpdateBoardArticle.do(bbsId=${result.bbsId},nttId=${result.nttId})}">
                     <i class="bi bi-pencil"></i> 수정
                 </a>
@@ -63,7 +63,7 @@
                     <input type="hidden" name="bbsId" th:value="${result.bbsId}"/>
                     <input type="hidden" name="nttId" th:value="${result.nttId}"/>
                     <input type="hidden" name="nttSj" th:value="${result.nttSj}"/>
-                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <button type="submit" class="krds-btn danger small">
                         <i class="bi bi-trash"></i> 삭제
                     </button>
                 </form>

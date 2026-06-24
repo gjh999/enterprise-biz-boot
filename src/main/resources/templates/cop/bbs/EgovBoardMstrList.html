@@ -12,36 +12,55 @@
             <li class="breadcrumb-item active">게시판 마스터 목록</li>
         </ol></nav>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0"><i class="bi bi-grid-3x3-gap"></i> 게시판 마스터 목록</h1>
-            <span class="text-muted small">총 <strong th:text="${resultCnt}">0</strong> 건</span>
-        </div>
+        <h1 class="h4 mb-3"><i class="bi bi-grid-3x3-gap"></i> 게시판 마스터 목록</h1>
 
-        <form class="row g-2 mb-3" th:action="@{/cop/bbs/SelectBBSMasterInfs.do}" method="get">
-            <div class="col-auto">
-                <select class="form-select" name="searchCnd" title="검색유형선택">
-                    <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">게시판명</option>
-                    <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">게시판유형</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <input class="form-control" type="text" name="searchWrd" maxlength="35" title="검색어"
-                       th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어"/>
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+        <!-- 검색 영역 (게시판 목록 표준) — 검색구분 + 검색어 -->
+        <form th:action="@{/cop/bbs/SelectBBSMasterInfs.do}" method="get" class="search-bar krds-search mb-3">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="form-tit"><label for="searchCnd">검색구분</label></div>
+                        <div class="form-conts">
+                            <select id="searchCnd" name="searchCnd" class="krds-form-select" title="검색구분 선택">
+                                <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">게시판명</option>
+                                <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">게시판유형</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="form-tit"><label for="searchWrd">검색어</label></div>
+                        <div class="form-conts">
+                            <input type="text" id="searchWrd" name="searchWrd" class="krds-input"
+                                   th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어를 입력하세요" maxlength="35"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="krds-btn primary medium w-100"><i class="bi bi-search"></i> 검색</button>
+                </div>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
+        <!-- 목록 헤더: 전체 건수 + 등록 버튼(우측) -->
+        <div class="d-flex justify-content-between align-items-center mb-2 mt-3">
+            <span class="text-muted">전체 <strong th:text="${resultCnt}">0</strong>건</span>
+            <a class="krds-btn primary small" sec:authorize="isAuthenticated()" th:href="@{/cop/bbs/addBBSMaster.do}">
+                <i class="bi bi-plus-lg"></i> 등록
+            </a>
+        </div>
+
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <thead>
             <tr>
-                <th style="width:90px;">번호</th>
-                <th>게시판명</th>
-                <th style="width:140px;">유형</th>
-                <th style="width:140px;">속성</th>
-                <th style="width:80px;">사용</th>
-                <th style="width:130px;">등록일</th>
+                <th scope="col" style="width:90px;">번호</th>
+                <th scope="col">게시판명</th>
+                <th scope="col" style="width:140px;">유형</th>
+                <th scope="col" style="width:140px;">속성</th>
+                <th scope="col" style="width:80px;">사용</th>
+                <th scope="col" style="width:130px;">등록일</th>
             </tr>
             </thead>
             <tbody>
@@ -56,7 +75,7 @@
                 <td th:text="${item.bbsTyCodeNm}">유형</td>
                 <td th:text="${item.bbsAttrbCodeNm}">속성</td>
                 <td class="text-center">
-                    <span class="badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-secondary'"
+                    <span class="krds-badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-gray'"
                           th:text="${item.useAt == 'Y'} ? '사용' : '미사용'">사용</span>
                 </td>
                 <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
@@ -66,14 +85,9 @@
             </tr>
             </tbody>
         </table>
+        </div>
 
         <div th:replace="~{fragments/pagination :: pagination(paginationInfo=${paginationInfo}, baseUrl='/cop/bbs/SelectBBSMasterInfs.do', searchCnd=${searchVO != null ? searchVO.searchCnd : ''}, searchWrd=${searchVO != null ? searchVO.searchWrd : ''})}"></div>
-
-        <div class="text-end" sec:authorize="isAuthenticated()">
-            <a class="btn btn-primary btn-sm" th:href="@{/cop/bbs/addBBSMaster.do}">
-                <i class="bi bi-plus-lg"></i> 등록
-            </a>
-        </div>
     </div>
 </main>
 </body>

@@ -22,7 +22,7 @@
                th:each="item : ${resultList}"
                th:href="@{/cop/bbs/selectBoardList.do(bbsId=${item.bbsId})}">
                 <span th:text="${item.bbsNm}">게시판명</span>
-                <span class="badge bg-secondary" th:text="${item.bbsTyCode}">유형</span>
+                <span class="krds-badge bg-gray" th:text="${item.bbsTyCode}">유형</span>
             </a>
             <div class="list-group-item text-center text-muted py-4"
                  th:if="${resultList == null or #lists.isEmpty(resultList)}">등록된 게시판이 없습니다.</div>

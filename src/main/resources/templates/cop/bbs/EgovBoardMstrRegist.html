@@ -18,36 +18,37 @@
             <input type="hidden" id="tmplatId" name="tmplatId"
                    th:value="${boardMaster != null and boardMaster.tmplatId != null and !#strings.isEmpty(boardMaster.tmplatId) ? boardMaster.tmplatId : 'TMPLAT_BOARD_DEFAULT'}"/>
 
-            <table class="table">
+            <div class="krds-table-wrap">
+            <table class="tbl col">
                 <tbody>
                 <tr>
-                    <th style="width:190px;">게시판 명 <span class="text-danger">*</span></th>
-                    <td><input class="form-control" type="text" maxlength="120" th:field="*{bbsNm}" required/></td>
+                    <th scope="row" style="width:190px;">게시판 명 <span class="text-danger">*</span></th>
+                    <td><input class="krds-input" type="text" maxlength="120" th:field="*{bbsNm}" required/></td>
                 </tr>
                 <tr>
-                    <th>게시판 소개 <span class="text-danger">*</span></th>
-                    <td><textarea class="form-control" rows="4" maxlength="2000" th:field="*{bbsIntrcn}" required></textarea></td>
+                    <th scope="row">게시판 소개 <span class="text-danger">*</span></th>
+                    <td><textarea class="krds-input" rows="4" maxlength="2000" th:field="*{bbsIntrcn}" required></textarea></td>
                 </tr>
                 <tr>
-                    <th>게시판 유형 <span class="text-danger">*</span></th>
+                    <th scope="row">게시판 유형 <span class="text-danger">*</span></th>
                     <td>
-                        <select class="form-select" th:field="*{bbsTyCode}" required>
+                        <select class="krds-form-select" th:field="*{bbsTyCode}" required>
                             <option value="">선택하세요</option>
                             <option th:each="c : ${typeList}" th:value="${c.code}" th:text="${c.codeNm}">유형</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th>게시판 속성 <span class="text-danger">*</span></th>
+                    <th scope="row">게시판 속성 <span class="text-danger">*</span></th>
                     <td>
-                        <select class="form-select" th:field="*{bbsAttrbCode}" required>
+                        <select class="krds-form-select" th:field="*{bbsAttrbCode}" required>
                             <option value="">선택하세요</option>
                             <option th:each="c : ${attrbList}" th:value="${c.code}" th:text="${c.codeNm}">속성</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th>답장가능여부 <span class="text-danger">*</span></th>
+                    <th scope="row">답장가능여부 <span class="text-danger">*</span></th>
                     <td>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="rp_y" th:field="*{replyPosblAt}" value="Y"/>
@@ -60,7 +61,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>파일첨부가능여부 <span class="text-danger">*</span></th>
+                    <th scope="row">파일첨부가능여부 <span class="text-danger">*</span></th>
                     <td>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="fa_y" th:field="*{fileAtchPosblAt}" value="Y"/>
@@ -73,9 +74,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>첨부가능파일 숫자</th>
+                    <th scope="row">첨부가능파일 숫자</th>
                     <td>
-                        <select class="form-select" th:field="*{posblAtchFileNumber}">
+                        <select class="krds-form-select" th:field="*{posblAtchFileNumber}">
                             <option value="0">선택하세요</option>
                             <option value="1">1개</option>
                             <option value="2">2개</option>
@@ -84,21 +85,21 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>템플릿 정보 <span class="text-danger">*</span></th>
+                    <th scope="row">템플릿 정보 <span class="text-danger">*</span></th>
                     <td>
                         <div class="input-group">
-                            <input class="form-control" type="text" id="tmplatNm" name="tmplatNm" readonly
+                            <input class="krds-input" type="text" id="tmplatNm" name="tmplatNm" readonly
                                    th:value="${boardMaster != null and boardMaster.tmplatNm != null and !#strings.isEmpty(boardMaster.tmplatNm) ? boardMaster.tmplatNm : '게시판 기본템플릿'}"/>
-                            <button class="btn btn-outline-secondary" type="button" onclick="fnOpenTmplatPopup();">
+                            <button class="krds-btn tertiary" type="button" onclick="fnOpenTmplatPopup();">
                                 <i class="bi bi-search"></i> 조회
                             </button>
                         </div>
                     </td>
                 </tr>
                 <tr th:if="${addedOptions == 'true'}">
-                    <th>추가 선택사항</th>
+                    <th scope="row">추가 선택사항</th>
                     <td>
-                        <select class="form-select" th:field="*{option}">
+                        <select class="krds-form-select" th:field="*{option}">
                             <option value="">미선택</option>
                             <option value="comment">댓글</option>
                             <option value="stsfdg">만족도조사</option>
@@ -107,10 +108,11 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
 
             <div class="d-flex justify-content-between">
-                <a class="btn btn-outline-secondary" th:href="@{/cop/bbs/SelectBBSMasterInfs.do}">목록</a>
-                <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/cop/bbs/SelectBBSMasterInfs.do}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
             </div>
         </form>
     </div>

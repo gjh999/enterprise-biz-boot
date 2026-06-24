@@ -19,12 +19,12 @@
         </div>
 
         <!-- 작성/수정 폼 : 방명록은 목록 화면에서 바로 등록한다 -->
-        <div class="card mb-4" sec:authorize="isAuthenticated()">
-            <div class="card-header py-2">
+        <div class="krds-panel mb-4" sec:authorize="isAuthenticated()">
+            <div class="krds-panel-head py-2">
                 <i class="bi bi-pencil-square"></i>
                 <span th:text="${editMode} ? '방명록 수정' : '방명록 작성'">방명록 작성</span>
             </div>
-            <div class="card-body">
+            <div class="krds-panel-body">
                 <form th:action="${editMode} ? @{/cop/bbs/updateGuestList.do} : @{/cop/bbs/insertGuestList.do}"
                       method="post" onsubmit="return fnValidateGuest(this);">
                     <input type="hidden" name="bbsId" th:value="${bbsId}"/>
@@ -37,13 +37,13 @@
                     <input type="hidden" name="ntceBgnde" value="10000101"/>
                     <input type="hidden" name="ntceEndde" value="99991231"/>
 
-                    <textarea class="form-control mb-2" name="nttCn" rows="3" maxlength="2400" required
+                    <textarea class="krds-input mb-2" name="nttCn" rows="3" maxlength="2400" required
                               placeholder="방명록 내용을 입력하세요."
                               th:text="${editMode} ? ${boardVO.nttCn} : ''"></textarea>
                     <div class="text-end">
-                        <a class="btn btn-outline-secondary btn-sm" th:if="${editMode}"
+                        <a class="krds-btn tertiary small" th:if="${editMode}"
                            th:href="@{/cop/bbs/selectGuestList.do(bbsId=${bbsId})}">취소</a>
-                        <button class="btn btn-primary btn-sm" type="submit">
+                        <button class="krds-btn primary small" type="submit">
                             <i class="bi bi-check-lg"></i> <span th:text="${editMode} ? '수정' : '등록'">등록</span>
                         </button>
                     </div>
@@ -52,8 +52,8 @@
         </div>
 
         <div class="vstack gap-2">
-            <div class="card" th:each="item : ${resultList}">
-                <div class="card-body py-2">
+            <div class="krds-panel" th:each="item : ${resultList}">
+                <div class="krds-panel-body py-2">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <span class="fw-semibold"><i class="bi bi-person-circle"></i>
                             <span th:text="${item.frstRegisterNm ?: item.ntcrNm}">작성자</span></span>
@@ -62,13 +62,13 @@
                     <div class="text-body" style="white-space:pre-line;" th:text="${item.nttCn}">내용</div>
                     <div class="d-flex justify-content-end gap-1 mt-1" sec:authorize="isAuthenticated()"
                          th:if="${sessionUniqId != null and sessionUniqId == item.frstRegisterId}">
-                        <a class="btn btn-outline-secondary btn-sm"
+                        <a class="krds-btn tertiary small"
                            th:href="@{/cop/bbs/selectSingleGuestList.do(bbsId=${item.bbsId},nttId=${item.nttId})}">수정</a>
                         <form th:action="@{/cop/bbs/deleteGuestList.do}" method="post" class="d-inline"
                               onsubmit="return confirm('삭제하시겠습니까?');">
                             <input type="hidden" name="bbsId" th:value="${item.bbsId}"/>
                             <input type="hidden" name="nttId" th:value="${item.nttId}"/>
-                            <button class="btn btn-outline-danger btn-sm" type="submit">삭제</button>
+                            <button class="krds-btn danger small" type="submit">삭제</button>
                         </form>
                     </div>
                     <!-- 관리자는 타인 글도 삭제 가능 -->
@@ -78,7 +78,7 @@
                               onsubmit="return confirm('삭제하시겠습니까?');">
                             <input type="hidden" name="bbsId" th:value="${item.bbsId}"/>
                             <input type="hidden" name="nttId" th:value="${item.nttId}"/>
-                            <button class="btn btn-outline-danger btn-sm" type="submit">삭제</button>
+                            <button class="krds-btn danger small" type="submit">삭제</button>
                         </form>
                     </div>
                 </div>
