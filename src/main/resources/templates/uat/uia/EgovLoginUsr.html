@@ -8,32 +8,32 @@
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width: 460px;">
-        <div class="card shadow-sm mt-4">
-            <div class="card-body p-4">
+        <div class="krds-panel shadow-sm mt-4">
+            <div class="krds-panel-body p-4">
                 <h1 class="h4 text-center mb-4"><i class="bi bi-shield-lock"></i> 로그인</h1>
 
                 <div class="alert alert-danger py-2" th:if="${message}" th:text="${message}">오류</div>
 
                 <form th:action="@{/uat/uia/actionSecurityLogin.do}" method="post">
                     <div class="mb-3">
-                        <label class="form-label" for="userSe">사용자 구분</label>
-                        <select class="form-select" id="userSe" name="userSe">
+                        <div class="form-tit"><label for="userSe">사용자 구분</label></div>
+                        <select class="krds-form-select" id="userSe" name="userSe">
                             <option value="USR">업무사용자(직원)</option>
                             <option value="GNR">일반회원</option>
                             <option value="ENT">기업회원</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="id">아이디</label>
-                        <input class="form-control" id="id" name="id" type="text" required autofocus
+                        <div class="form-tit"><label for="id">아이디</label></div>
+                        <input class="krds-input" id="id" name="id" type="text" required autofocus
                                placeholder="아이디"/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="password">비밀번호</label>
-                        <input class="form-control" id="password" name="password" type="password" required
+                        <div class="form-tit"><label for="password">비밀번호</label></div>
+                        <input class="krds-input" id="password" name="password" type="password" required
                                placeholder="비밀번호"/>
                     </div>
-                    <button class="btn btn-primary w-100" type="submit">
+                    <button class="krds-btn primary w-100" type="submit">
                         <i class="bi bi-box-arrow-in-right"></i> 로그인
                     </button>
                 </form>

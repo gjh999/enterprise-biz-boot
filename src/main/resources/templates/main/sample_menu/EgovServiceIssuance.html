@@ -16,37 +16,37 @@
             </ol>
         </nav>
 
-        <h1 class="h4 mb-2"><i class="bi bi-card-checklist"></i> 민원광장</h1>
+        <h1 class="h4 mb-2"><i class="bi bi-clipboard-check"></i> 민원광장</h1>
         <p class="text-muted">프레임워크 관련 서비스의 운영개선을 위한 창조적인 의견이나 아이디어 제안을 기다립니다.</p>
 
-        <h2 class="h5 mb-3">민원발급 <span class="badge bg-secondary">샘플화면</span></h2>
+        <h2 class="h5 mb-3">민원발급 <span class="krds-badge bg-gray">샘플화면</span></h2>
 
         <!-- 검색조건 -->
         <form class="row g-2 mb-3" onsubmit="return false;">
             <div class="col-auto">
-                <select class="form-select" id="sel1" title="조건">
+                <select class="krds-form-select" id="sel1" title="조건">
                     <option value="0">민원검색</option>
                 </select>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="text" style="width:320px;" title="검색어"/>
+                <input class="krds-input" type="text" style="width:320px;" title="검색어"/>
             </div>
             <div class="col-auto">
-                <button class="btn btn-primary" type="submit">조회</button>
+                <button class="krds-btn primary" type="submit">조회</button>
             </div>
         </form>
         <!--// 검색조건 -->
 
-        <div class="card mb-4">
-            <div class="card-body">
+        <div class="krds-panel mb-4">
+            <div class="krds-panel-body">
                 <div class="row g-3 align-items-center">
                     <div class="col-md-2 fw-semibold">소속기관별</div>
                     <div class="col-md-4">
-                        <select class="form-select" id="sel2" title="조건"><option value="0">통합검색</option></select>
+                        <select class="krds-form-select" id="sel2" title="조건"><option value="0">통합검색</option></select>
                     </div>
                     <div class="col-md-2 fw-semibold">처리기관별</div>
                     <div class="col-md-4">
-                        <select class="form-select" id="sel3" title="조건"><option value="0">통합검색</option></select>
+                        <select class="krds-form-select" id="sel3" title="조건"><option value="0">통합검색</option></select>
                     </div>
                     <div class="col-md-2 fw-semibold">인증서 필요여부</div>
                     <div class="col-md-4">
@@ -65,9 +65,10 @@
         </div>
 
         <!-- 게시판 -->
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
+        <div class="krds-table-wrap">
+            <table class="tbl">
+                <caption>인터넷 민원신청 목록</caption>
+                <thead>
                 <tr>
                     <th scope="col" style="width:90px;">번호</th>
                     <th scope="col">민원사무명</th>

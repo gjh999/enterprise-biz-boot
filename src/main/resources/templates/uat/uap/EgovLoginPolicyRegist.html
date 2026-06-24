@@ -17,31 +17,32 @@
               th:action="@{/uat/uap/addLoginPolicy.do}" th:object="${loginPolicy}">
             <input type="hidden" name="dplctPermAt" value="Y"/>
             <input type="hidden" th:field="*{emplyrNm}"/>
-            <table class="table">
+            <table class="tbl col">
+                <caption class="visually-hidden">로그인정책 등록</caption>
                 <colgroup><col style="width:190px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th class="table-light">사용자ID <span class="text-danger">*</span></th>
+                    <th scope="row">사용자ID <span class="frm-rq">*</span></th>
                     <td>
-                        <input class="form-control" th:value="*{emplyrId}" disabled title="사용자ID(화면출력용)"/>
+                        <input class="krds-input" th:value="*{emplyrId}" disabled title="사용자ID(화면출력용)"/>
                         <input type="hidden" th:field="*{emplyrId}"/>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">사용자명 <span class="text-danger">*</span></th>
-                    <td><input class="form-control" th:value="*{emplyrNm}" disabled title="사용자명(화면출력용)"/></td>
+                    <th scope="row">사용자명 <span class="frm-rq">*</span></th>
+                    <td><input class="krds-input" th:value="*{emplyrNm}" disabled title="사용자명(화면출력용)"/></td>
                 </tr>
                 <tr>
-                    <th class="table-light">IP정보 <span class="text-danger">*</span></th>
+                    <th scope="row">IP정보 <span class="frm-rq">*</span></th>
                     <td>
-                        <input id="ipInfo" class="form-control" th:field="*{ipInfo}" type="text" maxlength="23" title="IP정보"/>
-                        <span class="text-danger" th:if="${#fields.hasErrors('ipInfo')}" th:errors="*{ipInfo}"></span>
+                        <input id="ipInfo" class="krds-input" th:field="*{ipInfo}" type="text" maxlength="23" title="IP정보"/>
+                        <span class="text-danger small" th:if="${#fields.hasErrors('ipInfo')}" th:errors="*{ipInfo}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th class="table-light">IP제한여부</th>
+                    <th scope="row">IP제한여부</th>
                     <td>
-                        <select name="lmttAt" id="lmttAt" class="form-select" title="IP제한여부" style="width:auto;display:inline-block;">
+                        <select name="lmttAt" id="lmttAt" class="krds-form-select" title="IP제한여부" style="width:auto;display:inline-block;">
                             <option value="Y">Y</option>
                             <option value="N">N</option>
                         </select>
@@ -56,8 +57,8 @@
             <input type="hidden" name="pageIndex" th:value="${loginPolicyVO != null} ? ${loginPolicyVO.pageIndex} : ''"/>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">저장</button>
-                <a class="btn btn-outline-secondary" th:href="@{/uat/uap/selectLoginPolicyList.do}">목록</a>
+                <button type="submit" class="krds-btn primary">저장</button>
+                <a class="krds-btn tertiary" th:href="@{/uat/uap/selectLoginPolicyList.do}">목록</a>
             </div>
         </form>
     </div>

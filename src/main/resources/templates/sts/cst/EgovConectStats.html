@@ -26,40 +26,41 @@
             <input type="hidden" name="toDate" id="toDate" th:value="${statsInfo != null ? statsInfo.toDate : ''}"/>
 
             <div class="col-auto">
-                <label class="form-label" for="searchBgnDe">시작일자</label>
-                <input type="date" id="searchBgnDe" class="form-control" title="시작일자입력"/>
+                <div class="form-tit"><label for="searchBgnDe">시작일자</label></div>
+                <input type="date" id="searchBgnDe" class="krds-input" title="시작일자입력"/>
             </div>
             <div class="col-auto">
-                <label class="form-label" for="searchEndDe">종료일자</label>
-                <input type="date" id="searchEndDe" class="form-control" title="종료일자입력"/>
+                <div class="form-tit"><label for="searchEndDe">종료일자</label></div>
+                <input type="date" id="searchEndDe" class="krds-input" title="종료일자입력"/>
             </div>
             <div class="col-auto">
-                <label class="form-label" for="pdKind">기간구분</label>
-                <select id="pdKind" name="pdKind" class="form-select" title="기간구분 선택">
+                <div class="form-tit"><label for="pdKind">기간구분</label></div>
+                <select id="pdKind" name="pdKind" class="krds-form-select" title="기간구분 선택">
                     <option value="Y" th:selected="${statsInfo == null or statsInfo.pdKind == null or statsInfo.pdKind == '' or statsInfo.pdKind == 'Y'}">연도별</option>
                     <option value="M" th:selected="${statsInfo != null and statsInfo.pdKind == 'M'}">월별</option>
                     <option value="D" th:selected="${statsInfo != null and statsInfo.pdKind == 'D'}">일별</option>
                 </select>
             </div>
             <div class="col-auto">
-                <label class="form-label" for="statsKind">통계구분</label>
-                <select id="statsKind" name="statsKind" class="form-select" title="통계구분 선택">
+                <div class="form-tit"><label for="statsKind">통계구분</label></div>
+                <select id="statsKind" name="statsKind" class="krds-form-select" title="통계구분 선택">
                     <option value="SERVICE" th:selected="${statsInfo == null or statsInfo.statsKind == null or statsInfo.statsKind == '' or statsInfo.statsKind == 'SERVICE'}">서비스별</option>
                 </select>
             </div>
             <input type="hidden" name="detailStatsKind" id="detailStatsKind" value=""/>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary">조회</button>
+                <button type="submit" class="krds-btn primary">조회</button>
             </div>
         </form>
 
         <!-- 서비스별 결과 -->
         <div th:if="${statsInfo != null and statsInfo.statsKind == 'SERVICE'}" class="board_list">
             <h3 class="h6">서비스별 접속 통계</h3>
-            <table class="table table-bordered text-center align-middle"
+            <div class="krds-table-wrap">
+            <table class="tbl text-center align-middle"
                    summary="기간, 기간구분, 통계구분을 입력하여 접속통계를 조회한다.">
                 <caption class="visually-hidden">서비스별 접속 통계</caption>
-                <thead class="table-light">
+                <thead>
                 <tr>
                     <th scope="col">일자</th>
                     <th scope="col">메소드명</th>
@@ -87,12 +88,14 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- 개인별 결과 -->
         <div th:if="${statsInfo != null and statsInfo.statsKind == 'PRSONAL'}" class="board_list">
             <p class="fw-bold mb-1">1. 그래프 (단위, 횟수)</p>
-            <table class="table table-sm">
+            <div class="krds-table-wrap">
+            <table class="tbl col">
                 <tbody>
                 <tr th:each="resultInfo : ${conectStats}">
                     <th scope="row" class="text-nowrap" th:text="${resultInfo.statsDate}"></th>
@@ -104,9 +107,11 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
 
             <p class="fw-bold mb-1 mt-3">2. 텍스트 (단위, 횟수)</p>
-            <table class="table table-sm table-bordered">
+            <div class="krds-table-wrap">
+            <table class="tbl">
                 <tbody>
                 <tr th:each="resultInfo : ${conectStats}">
                     <td th:text="${resultInfo.statsDate}"></td>
@@ -114,6 +119,7 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 
