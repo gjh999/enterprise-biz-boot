@@ -17,15 +17,16 @@
             <span class="text-muted small">총 <strong th:text="${resultCnt}">0</strong> 건</span>
         </div>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <thead>
             <tr>
-                <th style="width:90px;">번호</th>
-                <th>게시판명</th>
-                <th style="width:140px;">등록자</th>
-                <th style="width:160px;">등록구분</th>
-                <th style="width:80px;">사용</th>
-                <th style="width:130px;">등록일</th>
+                <th scope="col" style="width:90px;">번호</th>
+                <th scope="col">게시판명</th>
+                <th scope="col" style="width:140px;">등록자</th>
+                <th scope="col" style="width:160px;">등록구분</th>
+                <th scope="col" style="width:80px;">사용</th>
+                <th scope="col" style="width:130px;">등록일</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +36,7 @@
                 <td th:text="${item.userNm}">등록자</td>
                 <td th:text="${item.registSeCodeNm}">등록구분</td>
                 <td class="text-center">
-                    <span class="badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-secondary'"
+                    <span class="krds-badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-gray'"
                           th:text="${item.useAt == 'Y'} ? '사용' : '미사용'">사용</span>
                 </td>
                 <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
@@ -45,6 +46,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </main>
 </body>

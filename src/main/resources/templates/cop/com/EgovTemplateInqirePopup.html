@@ -4,8 +4,11 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>템플릿 목록</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
+    <link rel="stylesheet" th:href="@{/krds/resources/cdn/krds.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/krds-compat.css}"/>
+    <link rel="stylesheet" th:href="@{/css/krds.css}"/>
 </head>
 <body class="p-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -15,29 +18,30 @@
 
     <form class="row g-2 mb-3" th:action="@{/cop/com/selectTemplateInfsPop.do}" method="get">
         <div class="col-auto">
-            <select class="form-select form-select-sm" name="searchCnd" title="검색조건">
+            <select class="krds-form-select" name="searchCnd" title="검색조건">
                 <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">템플릿명</option>
                 <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">템플릿구분</option>
             </select>
         </div>
         <div class="col-auto">
-            <input class="form-control form-control-sm" type="text" name="searchWrd" maxlength="35" title="검색어"
+            <input class="krds-input" type="text" name="searchWrd" maxlength="35" title="검색어"
                    th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어"/>
         </div>
         <div class="col-auto">
-            <button class="btn btn-sm btn-outline-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+            <button class="krds-btn secondary small" type="submit"><i class="bi bi-search"></i> 조회</button>
         </div>
         <div class="col-auto ms-auto">
             <span class="text-muted small">총 <strong th:text="${resultCnt ?: 0}">0</strong> 건</span>
         </div>
     </form>
 
-    <table class="table table-hover table-sm align-middle">
-        <thead class="table-light">
+    <div class="krds-table-wrap">
+    <table class="tbl">
+        <thead>
         <tr>
-            <th>템플릿 명</th>
-            <th>경로</th>
-            <th style="width:90px;">선택</th>
+            <th scope="col">템플릿 명</th>
+            <th scope="col">경로</th>
+            <th scope="col" style="width:90px;">선택</th>
         </tr>
         </thead>
         <tbody>
@@ -45,7 +49,7 @@
             <td th:text="${item.tmplatNm}">명</td>
             <td class="small text-muted" th:text="${item.tmplatCours}">경로</td>
             <td class="text-center">
-                <button type="button" class="btn btn-sm btn-primary"
+                <button type="button" class="krds-btn primary small"
                         th:attr="data-id=${item.tmplatId},data-nm=${item.tmplatNm}"
                         onclick="selectTmplat(this)">선택</button>
             </td>
@@ -55,6 +59,7 @@
         </tr>
         </tbody>
     </table>
+    </div>
 
     <div th:replace="~{fragments/pagination :: pagination(paginationInfo=${paginationInfo}, baseUrl='/cop/com/selectTemplateInfsPop.do', searchCnd=${searchVO != null ? searchVO.searchCnd : ''}, searchWrd=${searchVO != null ? searchVO.searchWrd : ''})}"></div>
 

@@ -19,28 +19,29 @@
 
         <form class="row g-2 mb-3" th:action="@{/cop/com/selectTemplateInfs.do}" method="get">
             <div class="col-auto">
-                <select class="form-select" name="searchCnd" title="검색조건">
+                <select class="krds-form-select" name="searchCnd" title="검색조건">
                     <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">템플릿명</option>
                     <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">템플릿구분</option>
                 </select>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="text" name="searchWrd" maxlength="35" title="검색어"
+                <input class="krds-input" type="text" name="searchWrd" maxlength="35" title="검색어"
                        th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어"/>
             </div>
             <div class="col-auto">
-                <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn secondary" type="submit"><i class="bi bi-search"></i> 조회</button>
             </div>
         </form>
 
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <thead>
             <tr>
-                <th style="width:110px;">번호</th>
-                <th>템플릿명</th>
-                <th style="width:160px;">구분</th>
-                <th style="width:80px;">사용</th>
-                <th style="width:130px;">등록일</th>
+                <th scope="col" style="width:110px;">번호</th>
+                <th scope="col">템플릿명</th>
+                <th scope="col" style="width:160px;">구분</th>
+                <th scope="col" style="width:80px;">사용</th>
+                <th scope="col" style="width:130px;">등록일</th>
             </tr>
             </thead>
             <tbody>
@@ -54,7 +55,7 @@
                 </td>
                 <td th:text="${item.tmplatSeCodeNm}">구분</td>
                 <td class="text-center">
-                    <span class="badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-secondary'"
+                    <span class="krds-badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-gray'"
                           th:text="${item.useAt == 'Y'} ? '사용' : '미사용'">사용</span>
                 </td>
                 <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
@@ -64,11 +65,12 @@
             </tr>
             </tbody>
         </table>
+        </div>
 
         <div th:replace="~{fragments/pagination :: pagination(paginationInfo=${paginationInfo}, baseUrl='/cop/com/selectTemplateInfs.do', searchCnd=${searchVO != null ? searchVO.searchCnd : ''}, searchWrd=${searchVO != null ? searchVO.searchWrd : ''})}"></div>
 
         <div class="text-end" sec:authorize="isAuthenticated()">
-            <a class="btn btn-primary btn-sm" th:href="@{/cop/com/addTemplateInf.do}">
+            <a class="krds-btn primary small" th:href="@{/cop/com/addTemplateInf.do}">
                 <i class="bi bi-plus-lg"></i> 등록
             </a>
         </div>
