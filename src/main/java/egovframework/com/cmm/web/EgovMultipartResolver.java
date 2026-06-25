@@ -71,6 +71,14 @@ public class EgovMultipartResolver extends StandardServletMultipartResolver {
 	@Override
 	public MultipartHttpServletRequest resolveMultipart(HttpServletRequest request) throws MultipartException {
 		try {
+			// 멀티파트 텍스트 파트(한글) 디코딩이 ISO-8859-1로 떨어지는 문제 방지:
+			// 파트 파싱 전에 요청 인코딩을 UTF-8로 강제한다.
+			try {
+				request.setCharacterEncoding("UTF-8");
+			} catch (java.io.UnsupportedEncodingException uee) {
+				LOGGER.warn("Failed to set UTF-8 request encoding for multipart: {}", uee.getMessage());
+			}
+
 			MultipartHttpServletRequest multipartRequest = super.resolveMultipart(request);
 			
 			// 파일 업로드 보안 검증 수행
