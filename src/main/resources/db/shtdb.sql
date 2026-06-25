@@ -595,3 +595,22 @@ CREATE MEMORY TABLE TB_PROGRM_CHANGE_DTLS (
 INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovProgramListManage.do',1,'프로그램목록관리','admin','목록 페이징 오류 수정 요청','',NULL,'A',NULL,'20250101','목록 페이징 오류');
 INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovCcmCmmnCodeList.do',1,'공통코드관리','admin','공통코드 검색조건 추가 요청','담당자 배정 후 분석 진행중','admin','P',NULL,'20250115','공통코드 검색조건 추가');
 INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovMenuManage.do',1,'메뉴목록관리','admin','메뉴 정렬순서 변경 요청','정렬순서 변경 반영 완료','admin','C','20250220','20250201','메뉴 정렬순서 변경');
+
+-- TB_PROGRM_LIST 시드: 메뉴 등록 시 PROGRM_FILE_NM 참조용 대표 프로그램 목록 (실제 *.do 매핑 기준)
+-- 개정이력: 2026.06.25  구재호   메뉴 등록이 항상 반려되던 문제(프로그램 시드 0건) 해소 - 대표 프로그램 16건 시드 추가
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovProgramListManageSelect', '/sym/prm', '프로그램관리', '프로그램목록 관리 화면', '/sym/prm/EgovProgramListManageSelect.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovMenuManageSelect', '/sym/mnu/mpm', '메뉴관리', '메뉴목록 관리 화면', '/sym/mnu/mpm/EgovMenuManageSelect.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovMenuCreatManageSelect', '/sym/mnu/mcm', '메뉴생성관리', '권한별 메뉴생성 관리 화면', '/sym/mnu/mcm/EgovMenuCreatManageSelect.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovCcmCmmnClCodeList', '/sym/ccm/ccc', '공통분류코드관리', '공통분류코드 관리 화면', '/sym/ccm/ccc/EgovCcmCmmnClCodeList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovCcmCmmnCodeList', '/sym/ccm/cca', '공통코드관리', '공통코드 관리 화면', '/sym/ccm/cca/EgovCcmCmmnCodeList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovCcmCmmnDetailCodeList', '/sym/ccm/cde', '공통상세코드관리', '공통상세코드 관리 화면', '/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovUserManage', '/uss/umt/user', '회원관리', '사용자(회원) 관리 화면', '/uss/umt/user/EgovUserManage.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovGroupList', '/sec/gmt', '그룹관리', '사용자 그룹 관리 화면', '/sec/gmt/EgovGroupList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovRoleList', '/sec/rmt', '롤관리', '롤(Role) 관리 화면', '/sec/rmt/EgovRoleList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovAuthorList', '/sec/ram', '권한관리', '권한 관리 화면', '/sec/ram/EgovAuthorList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovAuthorGroupList', '/sec/rgm', '권한그룹관리', '권한별 그룹 관리 화면', '/sec/rgm/EgovAuthorGroupList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('SelectBBSMasterInfs', '/cop/bbs', '게시판관리', '게시판 마스터 관리 화면', '/cop/bbs/SelectBBSMasterInfs.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovQustnrTmplatManageList', '/uss/olp/qtm', '설문템플릿관리', '설문 템플릿 관리 화면', '/uss/olp/qtm/EgovQustnrTmplatManageList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovQustnrManageList', '/uss/olp/qmc', '설문관리', '설문 관리 화면', '/uss/olp/qmc/EgovQustnrManageList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('selectBannerList', '/uss/ion/bnr', '배너관리', '배너 관리 화면', '/uss/ion/bnr/selectBannerList.do');
+INSERT INTO TB_PROGRM_LIST (PROGRM_FILE_NM, PROGRM_STRE_PATH, PROGRM_KOREAN_NM, PROGRM_DC, URL) VALUES ('EgovRestdeList', '/sym/cal', '휴일관리', '휴일(달력) 관리 화면', '/sym/cal/EgovRestdeList.do');

@@ -7,16 +7,16 @@
 
 	<select id="selectMenuManageList_D" parameterType="comDefaultVO" resultType="egovMap">
 		
-			SELECT 
-				  MENU_NO AS menuNo
-				, MENU_ORDR AS menuOrdr
-				, MENU_NM AS menuNm
-				, UPPER_MENU_NO AS upperMenuId
-				, MENU_DC AS menuDc
-				, RELATE_IMAGE_PATH AS relateImagePath
-				, RELATE_IMAGE_NM AS relateImageNm
-				, PROGRM_FILE_NM AS progrmFileNm
-			FROM TB_MENU_INFO 
+			SELECT
+				  MENU_NO AS MENU_NO
+				, MENU_ORDR AS MENU_ORDR
+				, MENU_NM AS MENU_NM
+				, UPPER_MENU_NO AS UPPER_MENU_ID
+				, MENU_DC AS MENU_DC
+				, RELATE_IMAGE_PATH AS RELATE_IMAGE_PATH
+				, RELATE_IMAGE_NM AS RELATE_IMAGE_NM
+				, PROGRM_FILE_NM AS PROGRM_FILE_NM
+			FROM TB_MENU_INFO
 			WHERE CAST(MENU_NM as BINARY) like CONCAT('%', #{searchKeyword}, '%')
 			LIMIT  #{recordCountPerPage} OFFSET #{firstIndex}
 		 
@@ -112,16 +112,16 @@
 	<select id="selectMenuListT_D" parameterType="comDefaultVO" resultType="egovMap">
 		 
             SELECT
-			      MENU_NO AS menuNo
-				, MENU_ORDR AS menuOrdr
-				, MENU_NM AS menuNm
-				, UPPER_MENU_NO AS upperMenuId
-				, MENU_DC AS menuDc
-				, RELATE_IMAGE_PATH AS relateImagePath
-				, RELATE_IMAGE_NM AS relateImageNm
-				, PROGRM_FILE_NM AS progrmFileNm
-			FROM TB_MENU_INFO 
-			WHERE Menu_NO &gt; 0 
+			      MENU_NO AS MENU_NO
+				, MENU_ORDR AS MENU_ORDR
+				, MENU_NM AS MENU_NM
+				, UPPER_MENU_NO AS UPPER_MENU_ID
+				, MENU_DC AS MENU_DC
+				, RELATE_IMAGE_PATH AS RELATE_IMAGE_PATH
+				, RELATE_IMAGE_NM AS RELATE_IMAGE_NM
+				, PROGRM_FILE_NM AS PROGRM_FILE_NM
+			FROM TB_MENU_INFO
+			WHERE Menu_NO &gt; 0
 			ORDER BY MENU_ORDR
 		 
 	</select>
