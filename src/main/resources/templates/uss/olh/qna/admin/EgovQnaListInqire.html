@@ -3,32 +3,32 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>Q&amp;A 관리목록</title></head>
+<head><title th:text="#{qna.manage.list.title}">Q&amp;A 관리목록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">Q&amp;A 관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{qna.manage.title}">Q&amp;A 관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-chat-dots"></i> Q&amp;A 관리목록</h1>
-        <p class="text-muted">총 <strong th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> 건</p>
+        <h1 class="h4 mb-3"><i class="bi bi-chat-dots"></i> <span th:text="#{qna.manage.list.title}">Q&amp;A 관리목록</span></h1>
+        <p class="text-muted"><span th:text="#{common.total}">총</span> <strong th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> <span th:text="#{common.unit.case}">건</span></p>
 
         <!-- 검색조건 -->
         <form class="row g-2 mb-3" th:action="@{/uss/olh/qna/admin/QnaListInqire.do}" method="get">
             <div class="col-auto">
-                <select class="krds-form-select" name="searchCondition" title="조회조건 선택">
-                    <option value="">선택</option>
-                    <option value="qestnSj" th:selected="${searchVO.searchCondition == 'qestnSj'}">질문제목</option>
-                    <option value="wrterNm" th:selected="${searchVO.searchCondition == 'wrterNm'}">작성자</option>
+                <select class="krds-form-select" name="searchCondition" title="조회조건 선택" th:title="#{qna.search.condition}">
+                    <option value="" th:text="#{qna.search.select}">선택</option>
+                    <option value="qestnSj" th:selected="${searchVO.searchCondition == 'qestnSj'}" th:text="#{qna.search.qestnSj}">질문제목</option>
+                    <option value="wrterNm" th:selected="${searchVO.searchCondition == 'wrterNm'}" th:text="#{qna.search.wrterNm}">작성자</option>
                 </select>
             </div>
             <div class="col-auto">
                 <input class="krds-input" type="text" name="searchKeyword"
-                       th:value="${searchVO.searchKeyword}" maxlength="35" title="검색어 입력"/>
+                       th:value="${searchVO.searchKeyword}" maxlength="35" title="검색어 입력" th:title="#{common.search.ph}"/>
             </div>
             <div class="col-auto">
-                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
@@ -36,11 +36,11 @@
         <table class="tbl">
             <thead>
             <tr>
-                <th scope="col" style="width:90px;">상태</th>
-                <th scope="col">제목</th>
-                <th scope="col" style="width:120px;">작성자</th>
-                <th scope="col" style="width:130px;">작성일</th>
-                <th scope="col" style="width:80px;">조회</th>
+                <th scope="col" style="width:90px;" th:text="#{qna.col.sttus}">상태</th>
+                <th scope="col" th:text="#{qna.col.title}">제목</th>
+                <th scope="col" style="width:120px;" th:text="#{qna.col.wrterNm}">작성자</th>
+                <th scope="col" style="width:130px;" th:text="#{qna.col.writngDe}">작성일</th>
+                <th scope="col" style="width:80px;" th:text="#{qna.col.inqireCo}">조회</th>
             </tr>
             </thead>
             <tbody>
@@ -48,7 +48,7 @@
                 <td class="text-center">
                     <span class="krds-badge"
                           th:classappend="${item['qnaProcessSttusCode'] == '3'} ? 'bg-success' : 'bg-gray'"
-                          th:text="${item['qnaProcessSttusCodeNm'] ?: '접수'}">상태</span>
+                          th:text="${item['qnaProcessSttusCodeNm'] ?: #messages.msg('qna.sttus.receipt')}">상태</span>
                 </td>
                 <td>
                     <a class="text-decoration-none"
@@ -60,7 +60,7 @@
                 <td class="text-center" th:text="${item['inqireco'] ?: 0}">0</td>
             </tr>
             <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
-                <td colspan="5" class="text-center text-muted py-4">등록된 질문이 없습니다.</td>
+                <td colspan="5" class="text-center text-muted py-4" th:text="#{qna.empty}">등록된 질문이 없습니다.</td>
             </tr>
             </tbody>
         </table>
@@ -72,10 +72,10 @@
 
         <div class="text-end">
             <a class="krds-btn tertiary small" th:href="@{/uss/olh/qnm/admin/QnaAnswerListInqire.do}">
-                <i class="bi bi-chat-square-text"></i> 답변 관리
+                <i class="bi bi-chat-square-text"></i> <span th:text="#{qna.manage.answer.title}">답변 관리</span>
             </a>
             <a class="krds-btn primary small" th:href="@{/uss/olh/qna/admin/QnaCnRegistView.do}">
-                <i class="bi bi-pencil-square"></i> 질문 등록
+                <i class="bi bi-pencil-square"></i> <span th:text="#{qna.regist.title}">질문 등록</span>
             </a>
         </div>
     </div>

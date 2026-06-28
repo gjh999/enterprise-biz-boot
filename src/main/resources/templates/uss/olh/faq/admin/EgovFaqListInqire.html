@@ -3,31 +3,31 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>FAQ 관리목록</title></head>
+<head><title th:text="#{faq.manage.list.title}">FAQ 관리목록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">FAQ 관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{faq.manage.title}">FAQ 관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-question-circle"></i> FAQ 관리목록</h1>
-        <p class="text-muted">총 <strong th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> 건</p>
+        <h1 class="h4 mb-3"><i class="bi bi-question-circle"></i> <span th:text="#{faq.manage.list.title}">FAQ 관리목록</span></h1>
+        <p class="text-muted"><span th:text="#{common.total}">총</span> <strong th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> <span th:text="#{common.unit.case}">건</span></p>
 
         <!-- 검색조건 -->
         <form class="row g-2 mb-3" th:action="@{/uss/olh/faq/admin/FaqListInqire.do}" method="get">
             <div class="col-auto">
-                <select class="krds-form-select" name="searchCondition" title="조회조건 선택">
-                    <option value="">선택</option>
-                    <option value="qestnSj" th:selected="${searchVO.searchCondition == 'qestnSj'}">질문제목</option>
+                <select class="krds-form-select" name="searchCondition" th:title="#{faq.search.condition}" title="조회조건 선택">
+                    <option value="" th:text="#{faq.search.select}">선택</option>
+                    <option value="qestnSj" th:selected="${searchVO.searchCondition == 'qestnSj'}" th:text="#{faq.search.qestnSj}">질문제목</option>
                 </select>
             </div>
             <div class="col-auto">
                 <input class="krds-input" type="text" name="searchKeyword"
-                       th:value="${searchVO.searchKeyword}" maxlength="35" title="검색어 입력"/>
+                       th:value="${searchVO.searchKeyword}" maxlength="35" th:title="#{common.search.ph}" title="검색어 입력"/>
             </div>
             <div class="col-auto">
-                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
@@ -35,10 +35,10 @@
         <table class="tbl">
             <thead>
             <tr>
-                <th scope="col" style="width:80px;">번호</th>
-                <th scope="col">질문</th>
-                <th scope="col" style="width:110px;">조회수</th>
-                <th scope="col" style="width:130px;">등록일</th>
+                <th scope="col" style="width:80px;" th:text="#{common.no}">번호</th>
+                <th scope="col" th:text="#{faq.col.question}">질문</th>
+                <th scope="col" style="width:110px;" th:text="#{faq.col.inqireCo}">조회수</th>
+                <th scope="col" style="width:130px;" th:text="#{common.regdate}">등록일</th>
             </tr>
             </thead>
             <tbody>
@@ -53,7 +53,7 @@
                 <td class="text-center" th:text="${item['frstRegistPnttm']}">등록일</td>
             </tr>
             <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
-                <td colspan="4" class="text-center text-muted py-4">등록된 FAQ가 없습니다.</td>
+                <td colspan="4" class="text-center text-muted py-4" th:text="#{main.empty.faq}">등록된 FAQ가 없습니다.</td>
             </tr>
             </tbody>
         </table>
@@ -65,7 +65,7 @@
 
         <div class="text-end">
             <a class="krds-btn primary small" th:href="@{/uss/olh/faq/admin/FaqCnRegistView.do}">
-                <i class="bi bi-pencil-square"></i> FAQ 등록
+                <i class="bi bi-pencil-square"></i> <span th:text="#{faq.regist.button}">FAQ 등록</span>
             </a>
         </div>
     </div>

@@ -3,27 +3,27 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>배너 메인 목록</title></head>
+<head><title th:text="#{bnr.main.title}">배너 메인 목록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">배너 메인 목록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{bnr.main.title}">배너 메인 목록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-images"></i> 배너 메인 목록</h1>
-        <p class="text-muted">총 <strong th:text="${bannerList != null ? #lists.size(bannerList) : 0}">0</strong> 건</p>
+        <h1 class="h4 mb-3"><i class="bi bi-images"></i> <span th:text="#{bnr.main.title}">배너 메인 목록</span></h1>
+        <p class="text-muted"><span th:text="#{common.total}">총</span> <strong th:text="${bannerList != null ? #lists.size(bannerList) : 0}">0</strong> <span th:text="#{common.unit.case}">건</span></p>
 
         <div class="krds-table-wrap">
         <table class="tbl">
             <thead>
             <tr>
-                <th scope="col" style="width:60px;">순서</th>
-                <th scope="col">배너명</th>
-                <th scope="col">링크 URL</th>
-                <th scope="col">설명</th>
-                <th scope="col" style="width:90px;">반영여부</th>
-                <th scope="col" style="width:120px;">등록일</th>
+                <th scope="col" style="width:60px;" th:text="#{bnr.col.sortOrdr}">순서</th>
+                <th scope="col" th:text="#{bnr.col.bannerNm}">배너명</th>
+                <th scope="col" th:text="#{bnr.col.linkUrl2}">링크 URL</th>
+                <th scope="col" th:text="#{bnr.col.bannerDc}">설명</th>
+                <th scope="col" style="width:90px;" th:text="#{bnr.col.reflctAt}">반영여부</th>
+                <th scope="col" style="width:120px;" th:text="#{bnr.col.regDate}">등록일</th>
             </tr>
             </thead>
             <tbody>
@@ -43,12 +43,12 @@
                 <td class="text-center">
                     <span class="krds-badge"
                           th:classappend="${item.reflctAt == 'Y'} ? 'bg-success' : 'bg-gray'"
-                          th:text="${item.reflctAt == 'Y'} ? '반영' : '미반영'">반영</span>
+                          th:text="${item.reflctAt == 'Y'} ? #{bnr.reflct.y} : #{bnr.reflct.n}">반영</span>
                 </td>
                 <td class="text-center" th:text="${item.regDate}">등록일</td>
             </tr>
             <tr th:if="${bannerList == null or #lists.isEmpty(bannerList)}">
-                <td colspan="6" class="text-center text-muted py-4">등록된 배너가 없습니다.</td>
+                <td colspan="6" class="text-center text-muted py-4" th:text="#{bnr.empty}">등록된 배너가 없습니다.</td>
             </tr>
             </tbody>
         </table>
@@ -56,10 +56,10 @@
 
         <div class="text-end" sec:authorize="hasRole('ADMIN')">
             <a class="krds-btn tertiary small" th:href="@{/uss/ion/bnr/selectBannerList.do}">
-                <i class="bi bi-list-ul"></i> 배너 관리
+                <i class="bi bi-list-ul"></i> <span th:text="#{bnr.manage.button}">배너 관리</span>
             </a>
             <a class="krds-btn primary small" th:href="@{/uss/ion/bnr/addViewBanner.do}">
-                <i class="bi bi-plus-lg"></i> 배너 등록
+                <i class="bi bi-plus-lg"></i> <span th:text="#{bnr.regist.button}">배너 등록</span>
             </a>
         </div>
     </div>

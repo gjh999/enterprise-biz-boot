@@ -3,33 +3,33 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>FAQ</title></head>
+<head><title th:text="#{faq.title}">FAQ</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">FAQ</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{faq.title}">FAQ</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-question-circle"></i> 자주 묻는 질문 (FAQ)</h1>
-        <p class="text-muted mb-4">자주 묻는 질문과 답변을 확인하세요.</p>
+        <h1 class="h4 mb-3"><i class="bi bi-question-circle"></i> <span th:text="#{faq.main.heading}">자주 묻는 질문 (FAQ)</span></h1>
+        <p class="text-muted mb-4" th:text="#{faq.main.desc}">자주 묻는 질문과 답변을 확인하세요.</p>
 
         <div class="row g-3">
             <div class="col-md-6">
                 <div class="krds-panel h-100 shadow-sm">
                     <div class="krds-panel-body">
-                        <h5 class="krds-panel-title"><i class="bi bi-list-ul"></i> FAQ 목록</h5>
-                        <p class="text-muted">등록된 자주 묻는 질문을 조회합니다.</p>
-                        <a class="krds-btn primary small" th:href="@{/uss/olh/faq/FaqListInqire.do}">FAQ 보기</a>
+                        <h5 class="krds-panel-title"><i class="bi bi-list-ul"></i> <span th:text="#{faq.list.title}">FAQ 목록</span></h5>
+                        <p class="text-muted" th:text="#{faq.list.desc}">등록된 자주 묻는 질문을 조회합니다.</p>
+                        <a class="krds-btn primary small" th:href="@{/uss/olh/faq/FaqListInqire.do}" th:text="#{faq.list.view}">FAQ 보기</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6" sec:authorize="hasRole('ADMIN')">
                 <div class="krds-panel h-100 shadow-sm">
                     <div class="krds-panel-body">
-                        <h5 class="krds-panel-title"><i class="bi bi-gear"></i> FAQ 관리</h5>
-                        <p class="text-muted">FAQ를 등록·수정·삭제합니다. (관리자)</p>
-                        <a class="krds-btn secondary small" th:href="@{/uss/olh/faq/admin/FaqListInqire.do}">FAQ 관리</a>
+                        <h5 class="krds-panel-title"><i class="bi bi-gear"></i> <span th:text="#{faq.manage.title}">FAQ 관리</span></h5>
+                        <p class="text-muted" th:text="#{faq.manage.desc}">FAQ를 등록·수정·삭제합니다. (관리자)</p>
+                        <a class="krds-btn secondary small" th:href="@{/uss/olh/faq/admin/FaqListInqire.do}" th:text="#{faq.manage.title}">FAQ 관리</a>
                     </div>
                 </div>
             </div>

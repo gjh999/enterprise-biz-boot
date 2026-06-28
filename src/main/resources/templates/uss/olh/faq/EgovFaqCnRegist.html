@@ -2,27 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>FAQ 등록</title></head>
+<head><title th:text="#{faq.regist.title}">FAQ 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olh/faq/FaqListInqire.do}">FAQ</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olh/faq/FaqListInqire.do}" th:text="#{faq.title}">FAQ</a></li>
+            <li class="breadcrumb-item active" th:text="#{button.register}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> FAQ 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> <span th:text="#{faq.regist.title}">FAQ 등록</span></h1>
         <form th:action="@{/uss/olh/faq/FaqCnRegist.do}" method="post" th:object="${faqManageVO}"
               enctype="multipart/form-data">
-            <div class="mb-3"><label>질문 제목</label>
+            <div class="mb-3"><label th:text="#{faq.col.qestnSj}">질문 제목</label>
                 <input class="krds-input" type="text" th:field="*{qestnSj}" required/></div>
-            <div class="mb-3"><label>질문 내용</label>
+            <div class="mb-3"><label th:text="#{faq.col.questionCn}">질문 내용</label>
                 <textarea class="krds-input" rows="4" th:field="*{qestnCn}" required></textarea></div>
-            <div class="mb-3"><label>답변 내용</label>
+            <div class="mb-3"><label th:text="#{faq.col.answerCn}">답변 내용</label>
                 <textarea class="krds-input" rows="6" th:field="*{answerCn}" required></textarea></div>
             <div class="d-flex justify-content-between">
-                <a class="krds-btn tertiary" th:href="@{/uss/olh/faq/FaqListInqire.do}">취소</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olh/faq/FaqListInqire.do}" th:text="#{button.cancel}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.register}">등록</span></button>
             </div>
         </form>
     </div>

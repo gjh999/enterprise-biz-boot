@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>Q&amp;A 수정</title></head>
+<head><title th:text="#{qna.updt.title}">Q&amp;A 수정</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olh/qna/QnaListInqire.do}">Q&amp;A</a></li>
-            <li class="breadcrumb-item active">수정</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olh/qna/QnaListInqire.do}" th:text="#{qna.title}">Q&amp;A</a></li>
+            <li class="breadcrumb-item active" th:text="#{button.modify}">수정</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 질문 수정</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> <span th:text="#{qna.updt.title}">질문 수정</span></h1>
         <form th:action="@{/uss/olh/qna/QnaCnUpdt.do}" method="post" th:object="${qnaManageVO}">
             <input type="hidden" th:field="*{qaId}"/>
             <input type="hidden" th:field="*{emailAdres}"/>
@@ -26,18 +26,18 @@
             <input type="hidden" name="answerCn"
                    th:value="${qnaManageVO.answerCn != null and !#strings.isEmpty(qnaManageVO.answerCn)} ? ${qnaManageVO.answerCn} : ' '"/>
             <div class="row g-3">
-                <div class="col-md-6"><label>작성자 <span class="text-muted small">(최대 4자)</span></label>
+                <div class="col-md-6"><label><span th:text="#{qna.col.wrterNm}">작성자</span> <span class="text-muted small" th:text="#{qna.col.wrterNm.hint}">(최대 4자)</span></label>
                     <input class="krds-input" type="text" th:field="*{wrterNm}" maxlength="4" required/></div>
-                <div class="col-md-6"><label>비밀번호(수정/삭제용)</label>
+                <div class="col-md-6"><label th:text="#{qna.col.password}">비밀번호(수정/삭제용)</label>
                     <input class="krds-input" type="password" th:field="*{writngPassword}" maxlength="20" required/></div>
-                <div class="col-12"><label>제목</label>
+                <div class="col-12"><label th:text="#{qna.col.title}">제목</label>
                     <input class="krds-input" type="text" th:field="*{qestnSj}" maxlength="250" required/></div>
-                <div class="col-12"><label>질문 내용</label>
+                <div class="col-12"><label th:text="#{qna.col.qestnCn}">질문 내용</label>
                     <textarea class="krds-input" rows="6" th:field="*{qestnCn}" required></textarea></div>
             </div>
             <div class="d-flex justify-content-between mt-3">
-                <a class="krds-btn tertiary" th:href="@{/uss/olh/qna/QnaListInqire.do}">취소</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olh/qna/QnaListInqire.do}" th:text="#{button.cancel}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.modify}">수정</span></button>
             </div>
         </form>
     </div>

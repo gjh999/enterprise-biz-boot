@@ -2,30 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>FAQ 수정</title></head>
+<head><title th:text="#{faq.updt.title}">FAQ 수정</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olh/faq/FaqListInqire.do}">FAQ</a></li>
-            <li class="breadcrumb-item active">수정</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olh/faq/FaqListInqire.do}" th:text="#{faq.title}">FAQ</a></li>
+            <li class="breadcrumb-item active" th:text="#{button.modify}">수정</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> FAQ 수정</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> <span th:text="#{faq.updt.title}">FAQ 수정</span></h1>
         <form th:action="@{/uss/olh/faq/FaqCnUpdt.do}" method="post" th:object="${faqManageVO}"
               enctype="multipart/form-data">
             <input type="hidden" th:field="*{faqId}"/>
             <input type="hidden" th:field="*{atchFileId}"/>
             <input type="hidden" name="atchFileAt" th:value="${faqManageVO.atchFileId != null and !faqManageVO.atchFileId.isEmpty()} ? 'Y' : 'N'"/>
-            <div class="mb-3"><label>질문 제목</label>
+            <div class="mb-3"><label th:text="#{faq.col.qestnSj}">질문 제목</label>
                 <input class="krds-input" type="text" th:field="*{qestnSj}" required/></div>
-            <div class="mb-3"><label>질문 내용</label>
+            <div class="mb-3"><label th:text="#{faq.col.questionCn}">질문 내용</label>
                 <textarea class="krds-input" rows="4" th:field="*{qestnCn}" required></textarea></div>
-            <div class="mb-3"><label>답변 내용</label>
+            <div class="mb-3"><label th:text="#{faq.col.answerCn}">답변 내용</label>
                 <textarea class="krds-input" rows="6" th:field="*{answerCn}" required></textarea></div>
             <div class="d-flex justify-content-between">
-                <a class="krds-btn tertiary" th:href="@{/uss/olh/faq/FaqListDetailInqire.do(faqId=*{faqId})}">취소</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olh/faq/FaqListDetailInqire.do(faqId=*{faqId})}" th:text="#{button.cancel}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.modify}">수정</span></button>
             </div>
         </form>
     </div>
