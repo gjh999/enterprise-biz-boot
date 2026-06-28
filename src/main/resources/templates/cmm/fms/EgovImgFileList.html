@@ -9,7 +9,7 @@
     <th:block th:each="fileVO : ${fileList}">
         <div class="mb-2">
             <img th:src="@{/cmm/fms/getImage.do(atchFileId=${fileVO.atchFileId},fileSn=${fileVO.fileSn})}"
-                 th:alt="${fileVO.orignlFileNm}" alt="첨부 이미지"
+                 th:alt="${fileVO.orignlFileNm} ?: #{file.img.alt}" alt="첨부 이미지"
                  class="img-fluid rounded border" style="max-height:480px;"/>
         </div>
     </th:block>

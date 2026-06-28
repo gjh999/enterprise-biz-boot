@@ -3,109 +3,109 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
 <head>
-    <title>포탈사이트 템플릿 소개</title>
+    <title th:text="#{intro.template.title}">포탈사이트 템플릿 소개</title>
 </head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-                <li class="breadcrumb-item active">포탈사이트 템플릿 소개</li>
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{about.crumb.home}">홈</a></li>
+                <li class="breadcrumb-item active" th:text="#{intro.template.title}">포탈사이트 템플릿 소개</li>
             </ol>
         </nav>
 
-        <h1 class="h4 mb-3"><i class="bi bi-info-circle"></i> 포탈사이트 템플릿 소개</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-info-circle"></i> <span th:text="#{intro.template.title}">포탈사이트 템플릿 소개</span></h1>
 
         <ul class="list-group list-group-flush mb-4">
-            <li class="list-group-item">경량환경 템플릿은 개발자가 프레임워크 쉽게 이해하고 활용할 수 있도록 지원합니다.</li>
-            <li class="list-group-item">홈페이지 템플릿은 공통컴포넌트를 기반으로 아래 그림과 같이 메뉴가 구성됩니다.</li>
-            <li class="list-group-item">관리자로 로그인하면 관리자용 메뉴를 추가로 사용할 수 있습니다.</li>
-            <li class="list-group-item">기울임체로 표시된 메뉴는 구성을 위한 샘플페이지가 제공되며 기능은 구현되지 않은 상태입니다.</li>
+            <li class="list-group-item" th:text="#{intro.template.li1}">경량환경 템플릿은 개발자가 프레임워크 쉽게 이해하고 활용할 수 있도록 지원합니다.</li>
+            <li class="list-group-item" th:text="#{intro.template.li2}">홈페이지 템플릿은 공통컴포넌트를 기반으로 아래 그림과 같이 메뉴가 구성됩니다.</li>
+            <li class="list-group-item" th:text="#{intro.template.li3}">관리자로 로그인하면 관리자용 메뉴를 추가로 사용할 수 있습니다.</li>
+            <li class="list-group-item" th:text="#{intro.template.li4}">기울임체로 표시된 메뉴는 구성을 위한 샘플페이지가 제공되며 기능은 구현되지 않은 상태입니다.</li>
         </ul>
 
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="krds-panel h-100">
-                    <div class="krds-panel-head fw-bold">사이트소개</div>
+                    <div class="krds-panel-head fw-bold" th:text="#{intro.group.aboutSite}">사이트소개</div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">사이트소개</li>
-                        <li class="list-group-item">연혁</li>
-                        <li class="list-group-item">조직소개</li>
-                        <li class="list-group-item">찾아오시는길</li>
+                        <li class="list-group-item" th:text="#{intro.item.aboutSite}">사이트소개</li>
+                        <li class="list-group-item" th:text="#{intro.item.history}">연혁</li>
+                        <li class="list-group-item" th:text="#{intro.item.org}">조직소개</li>
+                        <li class="list-group-item" th:text="#{intro.item.location}">찾아오시는길</li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="krds-panel h-100">
-                    <div class="krds-panel-head fw-bold">민원광장</div>
+                    <div class="krds-panel-head fw-bold" th:text="#{intro.group.minwon}">민원광장</div>
                     <ul class="list-group list-group-flush fst-italic">
-                        <li class="list-group-item">민원신청</li>
-                        <li class="list-group-item">민원결과확인</li>
+                        <li class="list-group-item" th:text="#{intro.item.minwonApply}">민원신청</li>
+                        <li class="list-group-item" th:text="#{intro.item.minwonResult}">민원결과확인</li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="krds-panel h-100">
-                    <div class="krds-panel-head fw-bold">알림마당</div>
+                    <div class="krds-panel-head fw-bold" th:text="#{intro.group.notice}">알림마당</div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">공지사항</li>
-                        <li class="list-group-item">자유게시판</li>
+                        <li class="list-group-item" th:text="#{intro.item.notice}">공지사항</li>
+                        <li class="list-group-item" th:text="#{intro.item.freeBoard}">자유게시판</li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="krds-panel h-100">
-                    <div class="krds-panel-head fw-bold">정보마당</div>
+                    <div class="krds-panel-head fw-bold" th:text="#{intro.group.info}">정보마당</div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">FAQ</li>
-                        <li class="list-group-item">QnA</li>
-                        <li class="list-group-item">설문조사</li>
+                        <li class="list-group-item" th:text="#{intro.item.faq}">FAQ</li>
+                        <li class="list-group-item" th:text="#{intro.item.qna}">QnA</li>
+                        <li class="list-group-item" th:text="#{intro.item.survey}">설문조사</li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="krds-panel h-100">
-                    <div class="krds-panel-head fw-bold">서비스관리</div>
+                    <div class="krds-panel-head fw-bold" th:text="#{intro.group.svcManage}">서비스관리</div>
                     <div class="krds-panel-body py-2">
-                        <p class="fw-semibold mb-1 mt-2">설문관리</p>
+                        <p class="fw-semibold mb-1 mt-2" th:text="#{intro.svc.surveyManage}">설문관리</p>
                         <ul class="list-unstyled text-muted small mb-2">
-                            <li>- 설문지</li>
-                            <li>- 설문템플릿</li>
-                            <li>- 설문문항</li>
-                            <li>- 설문항목</li>
-                            <li>- 설문응답결과</li>
+                            <li>- <span th:text="#{intro.svc.survey.paper}">설문지</span></li>
+                            <li>- <span th:text="#{intro.svc.survey.tmpl}">설문템플릿</span></li>
+                            <li>- <span th:text="#{intro.svc.survey.item}">설문문항</span></li>
+                            <li>- <span th:text="#{intro.svc.survey.option}">설문항목</span></li>
+                            <li>- <span th:text="#{intro.svc.survey.result}">설문응답결과</span></li>
                         </ul>
-                        <p class="fw-semibold mb-1">서비스관리</p>
+                        <p class="fw-semibold mb-1" th:text="#{intro.svc.serviceManage}">서비스관리</p>
                         <ul class="list-unstyled text-muted small mb-2">
-                            <li>- FAQ관리</li>
-                            <li>- QnA관리</li>
-                            <li>- QnA답변관리</li>
-                            <li>- 게시판생성관리</li>
-                            <li>- 게시판사용관리</li>
-                            <li>- 공지사항관리</li>
-                            <li>- 자유게시판관리</li>
-                            <li>- 배너관리</li>
+                            <li>- <span th:text="#{intro.svc.faqManage}">FAQ관리</span></li>
+                            <li>- <span th:text="#{intro.svc.qnaManage}">QnA관리</span></li>
+                            <li>- <span th:text="#{intro.svc.qnaAnswerManage}">QnA답변관리</span></li>
+                            <li>- <span th:text="#{intro.svc.bbsCreatManage}">게시판생성관리</span></li>
+                            <li>- <span th:text="#{intro.svc.bbsUseManage}">게시판사용관리</span></li>
+                            <li>- <span th:text="#{intro.svc.noticeManage}">공지사항관리</span></li>
+                            <li>- <span th:text="#{intro.svc.freeBoardManage}">자유게시판관리</span></li>
+                            <li>- <span th:text="#{intro.svc.bnrManage}">배너관리</span></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="krds-panel h-100">
-                    <div class="krds-panel-head fw-bold">시스템관리</div>
+                    <div class="krds-panel-head fw-bold" th:text="#{intro.group.sysManage}">시스템관리</div>
                     <div class="krds-panel-body py-2">
-                        <p class="fw-semibold mb-1 mt-2">사용자관리</p>
+                        <p class="fw-semibold mb-1 mt-2" th:text="#{intro.sys.userManage}">사용자관리</p>
                         <ul class="list-unstyled text-muted small mb-2">
-                            <li>- 회원관리</li>
-                            <li>- 이용약관관리</li>
-                            <li>- 개인정보보호관리</li>
+                            <li>- <span th:text="#{intro.sys.memberManage}">회원관리</span></li>
+                            <li>- <span th:text="#{intro.sys.termsManage}">이용약관관리</span></li>
+                            <li>- <span th:text="#{intro.sys.prvcyManage}">개인정보보호관리</span></li>
                         </ul>
-                        <p class="fw-semibold mb-1">사용자권한관리</p>
+                        <p class="fw-semibold mb-1" th:text="#{intro.sys.userAuthManage}">사용자권한관리</p>
                         <ul class="list-unstyled text-muted small mb-2">
-                            <li>- 권한관리</li>
-                            <li>- 사용자그룹관리</li>
-                            <li>- 사용자별권한관리</li>
-                            <li>- 롤관리</li>
+                            <li>- <span th:text="#{intro.sys.authorManage}">권한관리</span></li>
+                            <li>- <span th:text="#{intro.sys.groupManage}">사용자그룹관리</span></li>
+                            <li>- <span th:text="#{intro.sys.userAuthorManage}">사용자별권한관리</span></li>
+                            <li>- <span th:text="#{intro.sys.roleManage}">롤관리</span></li>
                         </ul>
                     </div>
                 </div>

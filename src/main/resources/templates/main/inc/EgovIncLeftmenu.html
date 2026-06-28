@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
-<head><meta charset="UTF-8"/><title>좌측 메뉴</title></head>
+<head><meta charset="UTF-8"/><title th:text="#{inc.title.leftmenu}">좌측 메뉴</title></head>
 <body>
 <nav class="egov-biz-leftmenu p-2">
     <ul class="nav flex-column" th:if="${list_menulist != null}">
@@ -9,7 +9,7 @@
             <a class="nav-link" th:text="${m.menuNm}">메뉴</a>
         </li>
     </ul>
-    <p class="text-muted small" th:if="${list_menulist == null}">메뉴 정보가 없습니다.</p>
+    <p class="text-muted small" th:if="${list_menulist == null}" th:text="#{inc.menu.empty}">메뉴 정보가 없습니다.</p>
 </nav>
 </body>
 </html>

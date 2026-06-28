@@ -12,10 +12,10 @@
 -->
 <div xmlns:th="http://www.thymeleaf.org" class="egov-file-uploader"
      th:fragment="uploader(maxCnt, existCnt)"
-     th:attr="data-max=${maxCnt != null ? maxCnt : ''},data-exist=${existCnt != null ? existCnt : 0}">
+     th:attr="data-max=${maxCnt != null ? maxCnt : ''},data-exist=${existCnt != null ? existCnt : 0},data-msg-max=#{file.upload.maxExceeded}">
     <input class="krds-input mb-2" type="file" name="file_1"/>
     <button type="button" class="krds-btn tertiary small" onclick="egovAddFileInput(this);">
-        <i class="bi bi-plus-lg"></i> 파일 추가
+        <i class="bi bi-plus-lg"></i> <span th:text="#{file.upload.add}">파일 추가</span>
     </button>
     <script th:inline="none">
         (function () {
@@ -27,7 +27,8 @@
                 var exist = parseInt(wrap.getAttribute('data-exist'), 10) || 0;
                 var inputs = wrap.querySelectorAll('input[type="file"]');
                 if (inputs.length + exist >= max) {
-                    alert('첨부 가능한 파일 수를 초과했습니다. (최대 ' + max + '개)');
+                    var msg = wrap.getAttribute('data-msg-max') || '';
+                    alert(msg.replace('{0}', max));
                     return;
                 }
                 var input = document.createElement('input');

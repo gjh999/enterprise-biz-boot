@@ -20,11 +20,11 @@
             <span th:text="${fileVO.orignlFileNm}">파일명</span>
             <span class="text-muted small">[<span th:text="${fileVO.fileMg}">0</span>&nbsp;byte]</span>
             <form th:action="@{/cmm/fms/deleteFileInfs.do}" method="post" class="d-inline m-0"
-                  onsubmit="return confirm('첨부파일을 삭제하시겠습니까?');">
+                  th:attr="onsubmit=|return confirm('${#messages.msg('file.list.deleteConfirm')}');|">
                 <input type="hidden" name="atchFileId" th:value="${atchFileId}"/>
                 <input type="hidden" name="fileSn" th:value="${fileVO.fileSn}"/>
                 <input type="hidden" name="returnUrl" th:value="${returnUrl}"/>
-                <button type="submit" class="krds-btn danger small py-0">삭제</button>
+                <button type="submit" class="krds-btn danger small py-0" th:text="#{button.delete}">삭제</button>
             </form>
         </div>
         <!-- 조회 모드: 다운로드 링크 -->
@@ -36,7 +36,7 @@
             <span class="text-muted small">[<span th:text="${fileVO.fileMg}">0</span>&nbsp;byte]</span>
         </div>
     </th:block>
-    <div th:if="${fileList == null or #lists.isEmpty(fileList)}" class="text-muted small">
+    <div th:if="${fileList == null or #lists.isEmpty(fileList)}" class="text-muted small" th:text="#{file.list.empty}">
         첨부된 파일이 없습니다.
     </div>
 </div>
