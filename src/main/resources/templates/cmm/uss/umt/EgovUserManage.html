@@ -3,59 +3,59 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
 <head>
-    <title>업무사용자관리</title>
+    <title th:text="#{usr.manage.title}">업무사용자관리</title>
 </head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-                <li class="breadcrumb-item">내부시스템관리</li>
-                <li class="breadcrumb-item active">업무사용자관리</li>
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+                <li class="breadcrumb-item" th:text="#{usr.manage.crumb.internal}">내부시스템관리</li>
+                <li class="breadcrumb-item active" th:text="#{usr.manage.title}">업무사용자관리</li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0"><i class="bi bi-person-badge"></i> 업무사용자관리</h1>
-            <span class="text-muted small">총 <strong
+            <h1 class="h4 mb-0"><i class="bi bi-person-badge"></i> <span th:text="#{usr.manage.title}">업무사용자관리</span></h1>
+            <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong
                     th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> 명</span>
         </div>
 
-        <div class="alert alert-success py-2" th:if="${param.resultMsg != null and param.resultMsg[0] == 'success.common.insert'}">등록되었습니다.</div>
-        <div class="alert alert-success py-2" th:if="${param.resultMsg != null and param.resultMsg[0] == 'success.common.update'}">수정되었습니다.</div>
-        <div class="alert alert-success py-2" th:if="${param.resultMsg != null and param.resultMsg[0] == 'success.common.delete'}">삭제되었습니다.</div>
+        <div class="alert alert-success py-2" th:if="${param.resultMsg != null and param.resultMsg[0] == 'success.common.insert'}" th:text="#{mber.msg.insert}">등록되었습니다.</div>
+        <div class="alert alert-success py-2" th:if="${param.resultMsg != null and param.resultMsg[0] == 'success.common.update'}" th:text="#{mber.msg.update}">수정되었습니다.</div>
+        <div class="alert alert-success py-2" th:if="${param.resultMsg != null and param.resultMsg[0] == 'success.common.delete'}" th:text="#{mber.msg.delete}">삭제되었습니다.</div>
 
         <!-- 검색조건 (사용자상태 sbscrbSttus / 조건 searchCondition 0=아이디·1=이름 / 키워드) -->
         <form class="row g-2 mb-3" th:action="@{/uss/umt/user/EgovUserManage.do}" method="get">
             <div class="col-auto">
-                <select class="krds-form-select" name="sbscrbSttus" title="사용자상태 선택"
+                <select class="krds-form-select" name="sbscrbSttus" th:title="#{mber.manage.searchSttus}"
                         th:with="ss=${userSearchVO.sbscrbSttus}">
-                    <option value="0" th:selected="${ss == '0'}">상태 전체</option>
+                    <option value="0" th:selected="${ss == '0'}" th:text="#{mber.manage.sttus.all}">상태 전체</option>
                     <th:block th:if="${not #lists.isEmpty(emplyrSttusCode_result)}">
                         <option th:each="c : ${emplyrSttusCode_result}" th:value="${c.code}" th:text="${c.codeNm}"
                                 th:selected="${ss == c.code}">상태</option>
                     </th:block>
                     <th:block th:if="${#lists.isEmpty(emplyrSttusCode_result)}">
-                        <option value="A" th:selected="${ss == 'A'}">가입신청</option>
-                        <option value="P" th:selected="${ss == 'P'}">승인</option>
-                        <option value="D" th:selected="${ss == 'D'}">삭제</option>
+                        <option value="A" th:selected="${ss == 'A'}" th:text="#{mber.sttus.apply}">가입신청</option>
+                        <option value="P" th:selected="${ss == 'P'}" th:text="#{usr.manage.sttus.approve}">승인</option>
+                        <option value="D" th:selected="${ss == 'D'}" th:text="#{usr.manage.sttus.delete}">삭제</option>
                     </th:block>
                 </select>
             </div>
             <div class="col-auto">
-                <select class="krds-form-select" name="searchCondition" title="검색조건 선택"
+                <select class="krds-form-select" name="searchCondition" th:title="#{mber.search.cond}"
                         th:with="sc=${userSearchVO.searchCondition}">
-                    <option value="" th:selected="${sc == ''}">선택</option>
-                    <option value="0" th:selected="${sc == '0'}">아이디</option>
-                    <option value="1" th:selected="${sc == '1'}">이름</option>
+                    <option value="" th:selected="${sc == ''}" th:text="#{mber.opt.select}">선택</option>
+                    <option value="0" th:selected="${sc == '0'}" th:text="#{mber.search.cond.id}">아이디</option>
+                    <option value="1" th:selected="${sc == '1'}" th:text="#{mber.search.cond.name}">이름</option>
                 </select>
             </div>
             <div class="col-auto">
                 <input class="krds-input" type="text" name="searchKeyword"
-                       th:value="${userSearchVO.searchKeyword}" maxlength="35" title="검색어 입력"/>
+                       th:value="${userSearchVO.searchKeyword}" maxlength="35" th:title="#{common.search.ph}" title="검색어 입력"/>
             </div>
             <div class="col-auto">
-                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
@@ -63,23 +63,23 @@
             <input type="hidden" name="checkedIdForDel" id="checkedIdForDel"/>
             <div class="krds-table-wrap">
             <table class="tbl">
-                <caption class="visually-hidden">업무사용자 목록</caption>
+                <caption class="visually-hidden" th:text="#{usr.manage.title}">업무사용자 목록</caption>
                 <thead>
                 <tr>
-                    <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll" title="전체선택"/></th>
-                    <th scope="col">아이디</th>
-                    <th scope="col">이름</th>
-                    <th scope="col">이메일</th>
-                    <th scope="col">전화번호</th>
-                    <th scope="col" style="width:100px;">상태</th>
-                    <th scope="col" style="width:130px;">가입일</th>
+                    <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll" th:title="#{sec.author.checkAll}"/></th>
+                    <th scope="col" th:text="#{mber.col.id}">아이디</th>
+                    <th scope="col" th:text="#{mber.col.name}">이름</th>
+                    <th scope="col" th:text="#{mber.col.email}">이메일</th>
+                    <th scope="col" th:text="#{usr.col.telno}">전화번호</th>
+                    <th scope="col" style="width:100px;" th:text="#{mber.col.sttus}">상태</th>
+                    <th scope="col" style="width:130px;" th:text="#{mber.col.sbscrbde}">가입일</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="item : ${resultList}">
                     <td>
                         <input type="checkbox" class="rowChk"
-                               th:attr="data-delid=${item.userTy} + ':' + ${item.uniqId}" title="선택"/>
+                               th:attr="data-delid=${item.userTy} + ':' + ${item.uniqId}" th:title="#{sec.author.rowSelect}"/>
                     </td>
                     <td>
                         <a class="text-decoration-none"
@@ -92,12 +92,12 @@
                     <td class="text-center">
                         <span class="krds-badge"
                               th:classappend="${item.sttus == 'P'} ? 'bg-success' : (${item.sttus == 'D'} ? 'bg-danger' : 'bg-gray')"
-                              th:text="${item.sttus == 'A'} ? '신청' : (${item.sttus == 'P'} ? '승인' : (${item.sttus == 'D'} ? '삭제' : ${item.sttus}))">상태</span>
+                              th:text="${item.sttus == 'A'} ? #{mber.badge.apply} : (${item.sttus == 'P'} ? #{mber.badge.approve} : (${item.sttus == 'D'} ? #{mber.badge.delete} : ${item.sttus}))">상태</span>
                     </td>
                     <td class="text-center" th:text="${item.sbscrbDe}">가입일</td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(resultList)}">
-                    <td colspan="7" class="text-center text-muted py-4">등록된 사용자가 없습니다.</td>
+                    <td colspan="7" class="text-center text-muted py-4" th:text="#{usr.empty}">등록된 사용자가 없습니다.</td>
                 </tr>
                 </tbody>
             </table>
@@ -105,20 +105,20 @@
 
             <div class="d-flex justify-content-between">
                 <button type="button" class="krds-btn danger small" onclick="deleteChecked()">
-                    <i class="bi bi-trash"></i> 선택 삭제
+                    <i class="bi bi-trash"></i> <span th:text="#{mber.btn.deleteSelected}">선택 삭제</span>
                 </button>
                 <a class="krds-btn primary small" th:href="@{/uss/umt/user/EgovUserInsertView.do}">
-                    <i class="bi bi-person-plus"></i> 사용자 등록
+                    <i class="bi bi-person-plus"></i> <span th:text="#{usr.btn.register}">사용자 등록</span>
                 </a>
             </div>
         </form>
 
         <!-- 페이징 (검색조건 유지: sbscrbSttus/searchCondition/searchKeyword) -->
-        <nav aria-label="페이지 네비게이션" class="mt-3"
+        <nav th:aria-label="#{common.pageNav}" aria-label="페이지 네비게이션" class="mt-3"
              th:if="${paginationInfo != null and paginationInfo.totalRecordCount > 0}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${paginationInfo.firstPageNoOnPageList == 1} ? 'disabled' : ''">
-                    <a class="page-link" aria-label="이전"
+                    <a class="page-link" th:aria-label="#{common.prev}"
                        th:href="${paginationInfo.firstPageNoOnPageList > 1}
                                 ? @{/uss/umt/user/EgovUserManage.do(pageIndex=${paginationInfo.firstPageNoOnPageList - 1},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}
                                 : '#'"><span aria-hidden="true">&laquo;</span></a>
@@ -132,7 +132,7 @@
                 </th:block>
                 <li class="page-item"
                     th:classappend="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount} ? 'disabled' : ''">
-                    <a class="page-link" aria-label="다음"
+                    <a class="page-link" th:aria-label="#{common.next}"
                        th:href="${paginationInfo.lastPageNoOnPageList < paginationInfo.totalPageCount}
                                 ? @{/uss/umt/user/EgovUserManage.do(pageIndex=${paginationInfo.lastPageNoOnPageList + 1},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}
                                 : '#'"><span aria-hidden="true">&raquo;</span></a>
@@ -140,7 +140,7 @@
             </ul>
         </nav>
     </div>
-    <script>
+    <script th:inline="javascript">
         document.getElementById('checkAll').addEventListener('change', function () {
             document.querySelectorAll('.rowChk').forEach(c => c.checked = this.checked);
         });
@@ -149,8 +149,8 @@
             document.querySelectorAll('.rowChk:checked').forEach(function (c) {
                 ids.push(c.getAttribute('data-delid'));
             });
-            if (ids.length === 0) { alert('삭제할 사용자를 선택하세요.'); return; }
-            if (!confirm('선택한 ' + ids.length + '명의 사용자를 삭제하시겠습니까?')) return;
+            if (ids.length === 0) { alert([[#{usr.js.selectDelete}]]); return; }
+            if (!confirm([[#{mber.js.confirmDelete1}]] + ' ' + ids.length + [[#{usr.js.confirmDelete2}]])) return;
             document.getElementById('checkedIdForDel').value = ids.join(',');
             document.getElementById('listForm').submit();
         }

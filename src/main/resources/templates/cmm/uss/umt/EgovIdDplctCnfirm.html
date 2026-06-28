@@ -2,29 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>ID 중복확인</title></head>
+<head><title th:text="#{mber.iddupl.title}">ID 중복확인</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:520px;">
-        <h1 class="h5 mb-3"><i class="bi bi-person-check"></i> 아이디 중복확인</h1>
+        <h1 class="h5 mb-3"><i class="bi bi-person-check"></i> <span th:text="#{mber.iddupl.title}">아이디 중복확인</span></h1>
         <form th:action="@{/uss/umt/cmm/EgovIdDplctCnfirm.do}" method="post" name="checkForm">
             <div class="mb-3">
-                <label class="form-label" for="checkId">사용할 아이디</label>
+                <label class="form-label" for="checkId" th:text="#{mber.iddupl.useId}">사용할 아이디</label>
                 <div class="input-group">
                     <input class="krds-input" type="text" id="checkId" name="checkId"
                            th:value="${checkId}" maxlength="20" required autofocus/>
-                    <button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                    <button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
                 </div>
             </div>
         </form>
         <div th:with="cnt=${usedCnt != null ? #strings.toString(usedCnt) : '-1'}">
-            <p class="alert alert-secondary" th:if="${cnt == '-1'}">중복확인을 실행하십시오.</p>
+            <p class="alert alert-secondary" th:if="${cnt == '-1'}" th:text="#{mber.iddupl.run}">중복확인을 실행하십시오.</p>
             <p class="alert alert-success" th:if="${cnt == '0'}">
-                <strong th:text="${checkId}">아이디</strong> 는 사용가능한 아이디입니다.
-                <button type="button" class="krds-btn primary small ms-2" id="btnUse">사용</button>
+                <strong th:text="${checkId}">아이디</strong> <span th:text="#{mber.iddupl.available1}"> 는 사용가능한 아이디입니다.</span>
+                <button type="button" class="krds-btn primary small ms-2" id="btnUse" th:text="#{mber.iddupl.use}">사용</button>
             </p>
             <p class="alert alert-danger" th:if="${cnt != '-1' and cnt != '0'}">
-                <strong th:text="${checkId}">아이디</strong> 는 사용할 수 없는 아이디입니다.</p>
+                <strong th:text="${checkId}">아이디</strong> <span th:text="#{mber.iddupl.unavailable1}"> 는 사용할 수 없는 아이디입니다.</span></p>
         </div>
     </div>
     <script th:inline="javascript">

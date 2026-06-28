@@ -2,89 +2,89 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>업무사용자 상세조회(수정)</title></head>
+<head><title th:text="#{usr.update.title}">업무사용자 상세조회(수정)</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:900px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/umt/user/EgovUserManage.do}">업무사용자관리</a></li>
-            <li class="breadcrumb-item active">상세조회(수정)</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/umt/user/EgovUserManage.do}" th:text="#{usr.manage.title}">업무사용자관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{usr.update.crumb}">상세조회(수정)</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-person-gear"></i> 업무사용자 상세조회(수정)</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-person-gear"></i> <span th:text="#{usr.update.title}">업무사용자 상세조회(수정)</span></h1>
         <form th:action="@{/uss/umt/user/EgovUserSelectUpdt.do}" method="post" th:object="${userManageVO}" id="userForm">
             <input type="hidden" th:field="*{uniqId}"/>
             <input type="hidden" th:field="*{userTy}"/>
             <input type="hidden" th:field="*{subDn}"/>
             <input type="hidden" name="userTyForPassword" th:value="*{userTy}"/>
-            <div class="alert alert-danger py-2" th:if="${#fields.hasAnyErrors()}">
+            <div class="alert alert-danger py-2" th:if="${#fields.hasAnyErrors()}" th:text="#{mber.form.error}">
                 입력값을 확인하세요. (필수 항목 누락)
             </div>
             <div class="row g-3">
-                <div class="col-md-6"><label class="form-label">사용자아이디 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{usr.label.id}">사용자아이디</span> <span class="frm-rq">*</span></label>
                     <input class="krds-input" type="text" th:field="*{emplyrId}" maxlength="20" readonly/></div>
-                <div class="col-md-6"><label class="form-label">핸드폰번호</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{usr.label.moblphon}">핸드폰번호</label>
                     <input class="krds-input" type="text" th:field="*{moblphonNo}" maxlength="15"/></div>
 
-                <div class="col-md-6"><label class="form-label">비밀번호 힌트 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.pwdHint}">비밀번호 힌트</span> <span class="frm-rq">*</span></label>
                     <select class="krds-form-select" th:field="*{passwordHint}">
-                        <option value="">선택하세요</option>
+                        <option value="" th:text="#{mber.opt.selectPlease}">선택하세요</option>
                         <option th:each="c : ${passwordHint_result}" th:value="${c.code}" th:text="${c.codeNm}">힌트</option>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">비밀번호 정답 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.pwdCnsr}">비밀번호 정답</span> <span class="frm-rq">*</span></label>
                     <input class="krds-input" type="text" th:field="*{passwordCnsr}" maxlength="100"/></div>
 
-                <div class="col-md-6"><label class="form-label">이름 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.name}">이름</span> <span class="frm-rq">*</span></label>
                     <input class="krds-input" type="text" th:field="*{emplyrNm}" maxlength="60"/></div>
-                <div class="col-md-6"><label class="form-label">소속기관</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{usr.label.instt}">소속기관</label>
                     <select class="krds-form-select" th:field="*{insttCode}">
-                        <option value="">선택하세요</option>
+                        <option value="" th:text="#{mber.opt.selectPlease}">선택하세요</option>
                         <option th:each="c : ${insttCode_result}" th:value="${c.code}" th:text="${c.codeNm}">기관</option>
                     </select></div>
 
-                <div class="col-md-6"><label class="form-label">부서 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{usr.label.dept}">부서</span> <span class="frm-rq">*</span></label>
                     <select class="krds-form-select" th:field="*{orgnztId}">
-                        <option value="">선택하세요</option>
+                        <option value="" th:text="#{mber.opt.selectPlease}">선택하세요</option>
                         <option th:each="c : ${orgnztId_result}" th:value="${c.code}" th:text="${c.codeNm}">조직</option>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">직위명</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{usr.label.ofcps}">직위명</label>
                     <input class="krds-input" type="text" th:field="*{ofcpsNm}" maxlength="30"/></div>
 
-                <div class="col-md-6"><label class="form-label">이메일주소</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{usr.label.email}">이메일주소</label>
                     <input class="krds-input" type="email" th:field="*{emailAdres}" maxlength="50"/></div>
-                <div class="col-md-6"><label class="form-label">집전화</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{usr.label.homeTel}">집전화</label>
                     <div class="input-group">
-                        <input class="krds-input" type="text" th:field="*{areaNo}" maxlength="4" title="지역번호"/>
+                        <input class="krds-input" type="text" th:field="*{areaNo}" maxlength="4" th:title="#{mber.label.areaNo}"/>
                         <span class="input-group-text">-</span>
-                        <input class="krds-input" type="text" th:field="*{homemiddleTelno}" maxlength="4" title="국번"/>
+                        <input class="krds-input" type="text" th:field="*{homemiddleTelno}" maxlength="4" th:title="#{mber.sbscrb.label.kukbun}"/>
                         <span class="input-group-text">-</span>
-                        <input class="krds-input" type="text" th:field="*{homeendTelno}" maxlength="4" title="번호"/>
+                        <input class="krds-input" type="text" th:field="*{homeendTelno}" maxlength="4" th:title="#{mber.sbscrb.label.endno}"/>
                     </div></div>
 
-                <div class="col-md-6"><label class="form-label">사무실 전화번호</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{usr.label.offmTel}">사무실 전화번호</label>
                     <input class="krds-input" type="text" th:field="*{offmTelno}" maxlength="15"/></div>
-                <div class="col-md-6"><label class="form-label">팩스번호</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{mber.sbscrb.label.fxnum}">팩스번호</label>
                     <input class="krds-input" type="text" th:field="*{fxnum}" maxlength="15"/></div>
 
-                <div class="col-md-4"><label class="form-label">우편번호</label>
+                <div class="col-md-4"><label class="form-label" th:text="#{mber.label.zip}">우편번호</label>
                     <div class="input-group">
                         <input class="krds-input" type="text" th:field="*{zip}" id="zip" maxlength="6"/>
-                        <button class="krds-btn tertiary" type="button" onclick="fn_egov_ZipSearch()" title="우편번호 검색">
+                        <button class="krds-btn tertiary" type="button" onclick="fn_egov_ZipSearch()" th:title="#{mber.zip.search}">
                             <i class="bi bi-search"></i></button>
                     </div></div>
-                <div class="col-md-8"><label class="form-label">주소</label>
+                <div class="col-md-8"><label class="form-label" th:text="#{mber.label.adres}">주소</label>
                     <input class="krds-input" type="text" th:field="*{homeadres}" id="homeadres" maxlength="100"/></div>
-                <div class="col-12"><label class="form-label">상세주소</label>
+                <div class="col-12"><label class="form-label" th:text="#{mber.label.detailAdres}">상세주소</label>
                     <input class="krds-input" type="text" th:field="*{detailAdres}" maxlength="100"/></div>
 
-                <div class="col-md-6"><label class="form-label">사용자상태코드 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{usr.label.sttusCode}">사용자상태코드</span> <span class="frm-rq">*</span></label>
                     <select class="krds-form-select" th:field="*{emplyrSttusCode}">
-                        <option value="">선택하세요</option>
+                        <option value="" th:text="#{mber.opt.selectPlease}">선택하세요</option>
                         <option th:each="c : ${emplyrSttusCode_result}" th:value="${c.code}" th:text="${c.codeNm}">상태</option>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">권한그룹 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{usr.label.authGroup}">권한그룹</span> <span class="frm-rq">*</span></label>
                     <select class="krds-form-select" th:field="*{groupId}">
-                        <option value="">선택하세요</option>
+                        <option value="" th:text="#{mber.opt.selectPlease}">선택하세요</option>
                         <option th:each="c : ${groupId_result}" th:value="${c.code}" th:text="${c.codeNm}">그룹</option>
                     </select></div>
             </div>
@@ -97,13 +97,13 @@
 
             <div class="d-flex justify-content-between mt-4">
                 <div>
-                    <button type="button" class="krds-btn danger" onclick="fnDeleteUser()"><i class="bi bi-trash"></i> 삭제</button>
+                    <button type="button" class="krds-btn danger" onclick="fnDeleteUser()"><i class="bi bi-trash"></i> <span th:text="#{button.delete}">삭제</span></button>
                     <a class="krds-btn tertiary"
-                       th:href="@{/uss/umt/user/EgovUserPasswordUpdtView.do(userTyForPassword=*{userTy},emplyrId=*{emplyrId},uniqId=*{uniqId})}">비밀번호변경</a>
+                       th:href="@{/uss/umt/user/EgovUserPasswordUpdtView.do(userTyForPassword=*{userTy},emplyrId=*{emplyrId},uniqId=*{uniqId})}" th:text="#{usr.update.toPwd}">비밀번호변경</a>
                 </div>
                 <div>
-                    <a class="krds-btn tertiary" th:href="@{/uss/umt/user/EgovUserManage.do}">목록</a>
-                    <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                    <a class="krds-btn tertiary" th:href="@{/uss/umt/user/EgovUserManage.do}" th:text="#{button.list}">목록</a>
+                    <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
                 </div>
             </div>
         </form>
@@ -114,7 +114,7 @@
     </div>
     <script th:inline="javascript">
         function fnDeleteUser() {
-            if (!confirm('삭제하시겠습니까?')) return;
+            if (!confirm([[#{usr.js.confirmDelete}]])) return;
             var delId = [[${userManageVO.userTy}]] + ':' + [[${userManageVO.uniqId}]];
             document.getElementById('checkedIdForDel').value = delId;
             document.getElementById('delForm').submit();

@@ -2,89 +2,89 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>회원 등록</title></head>
+<head><title th:text="#{mber.insert.title}">회원 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:820px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/umt/mber/EgovMberManage.do}">회원관리</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/umt/mber/EgovMberManage.do}" th:text="#{mber.manage.title}">회원관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{mber.insert.crumb}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-person-plus"></i> 회원 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-person-plus"></i> <span th:text="#{mber.insert.title}">회원 등록</span></h1>
         <form th:action="@{/uss/umt/mber/EgovMberInsert.do}" method="post" th:object="${mberManageVO}">
-            <div class="alert alert-danger py-2" th:if="${#fields.hasAnyErrors()}">
+            <div class="alert alert-danger py-2" th:if="${#fields.hasAnyErrors()}" th:text="#{mber.form.error}">
                 입력값을 확인하세요. (필수 항목 누락)
             </div>
             <div class="row g-3">
-                <div class="col-md-6"><label class="form-label">아이디 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.id}">아이디</span> <span class="frm-rq">*</span></label>
                     <div class="input-group">
                         <input class="krds-input" type="text" th:field="*{mberId}" maxlength="20" required/>
-                        <button class="krds-btn tertiary" type="button" id="btnIdCheck"><i class="bi bi-search"></i> 중복확인</button>
+                        <button class="krds-btn tertiary" type="button" id="btnIdCheck"><i class="bi bi-search"></i> <span th:text="#{mber.btn.idCheck}">중복확인</span></button>
                     </div></div>
-                <div class="col-md-6"><label class="form-label">비밀번호 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.password}">비밀번호</span> <span class="frm-rq">*</span></label>
                     <input class="krds-input" type="password" th:field="*{password}" maxlength="20" required/></div>
-                <div class="col-md-6"><label class="form-label">이름 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.name}">이름</span> <span class="frm-rq">*</span></label>
                     <input class="krds-input" type="text" th:field="*{mberNm}" maxlength="50" required/></div>
-                <div class="col-md-6"><label class="form-label">회원상태 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.sttus}">회원상태</span> <span class="frm-rq">*</span></label>
                     <select class="krds-form-select" th:field="*{mberSttus}">
                         <th:block th:if="${not #lists.isEmpty(mberSttus_result)}">
                             <option th:each="c : ${mberSttus_result}" th:value="${c.code}" th:text="${c.codeNm}">상태</option>
                         </th:block>
                         <th:block th:if="${#lists.isEmpty(mberSttus_result)}">
-                            <option value="A">가입신청</option>
-                            <option value="P">가입승인</option>
-                            <option value="D">가입삭제</option>
+                            <option value="A" th:text="#{mber.sttus.apply}">가입신청</option>
+                            <option value="P" th:text="#{mber.sttus.approve}">가입승인</option>
+                            <option value="D" th:text="#{mber.sttus.delete}">가입삭제</option>
                         </th:block>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">소속그룹 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.group}">소속그룹</span> <span class="frm-rq">*</span></label>
                     <select class="krds-form-select" th:field="*{groupId}">
                         <option th:each="c : ${groupId_result}" th:value="${c.code}" th:text="${c.codeNm}">그룹</option>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">성별</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{mber.label.sexdstn}">성별</label>
                     <select class="krds-form-select" th:field="*{sexdstnCode}">
-                        <option value="">선택</option>
+                        <option value="" th:text="#{mber.opt.select}">선택</option>
                         <th:block th:if="${not #lists.isEmpty(sexdstnCode_result)}">
                             <option th:each="c : ${sexdstnCode_result}" th:value="${c.code}" th:text="${c.codeNm}">성별</option>
                         </th:block>
                         <th:block th:if="${#lists.isEmpty(sexdstnCode_result)}">
-                            <option value="M">남자</option>
-                            <option value="F">여자</option>
+                            <option value="M" th:text="#{mber.sex.male}">남자</option>
+                            <option value="F" th:text="#{mber.sex.female}">여자</option>
                         </th:block>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">비밀번호 힌트 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.pwdHint}">비밀번호 힌트</span> <span class="frm-rq">*</span></label>
                     <select class="krds-form-select" th:field="*{passwordHint}">
                         <th:block th:if="${not #lists.isEmpty(passwordHint_result)}">
                             <option th:each="c : ${passwordHint_result}" th:value="${c.code}" th:text="${c.codeNm}">힌트</option>
                         </th:block>
                         <th:block th:if="${#lists.isEmpty(passwordHint_result)}">
-                            <option value="P01">가장 기억에 남는 장소는?</option>
-                            <option value="P02">나의 좌우명은?</option>
-                            <option value="P03">나의 보물 제1호는?</option>
-                            <option value="P04">가장 기억에 남는 선생님 성함은?</option>
-                            <option value="P05">다른 사람은 모르는 나만의 신체비밀은?</option>
+                            <option value="P01" th:text="#{mber.pwdHint.p01}">가장 기억에 남는 장소는?</option>
+                            <option value="P02" th:text="#{mber.pwdHint.p02}">나의 좌우명은?</option>
+                            <option value="P03" th:text="#{mber.pwdHint.p03}">나의 보물 제1호는?</option>
+                            <option value="P04" th:text="#{mber.pwdHint.p04}">가장 기억에 남는 선생님 성함은?</option>
+                            <option value="P05" th:text="#{mber.pwdHint.p05}">다른 사람은 모르는 나만의 신체비밀은?</option>
                         </th:block>
                     </select></div>
-                <div class="col-md-6"><label class="form-label">비밀번호 정답 <span class="frm-rq">*</span></label>
+                <div class="col-md-6"><label class="form-label"><span th:text="#{mber.label.pwdCnsr}">비밀번호 정답</span> <span class="frm-rq">*</span></label>
                     <input class="krds-input" type="text" th:field="*{passwordCnsr}" maxlength="100" required/></div>
-                <div class="col-md-6"><label class="form-label">이메일</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{mber.label.email}">이메일</label>
                     <input class="krds-input" type="email" th:field="*{mberEmailAdres}" maxlength="50"/></div>
-                <div class="col-md-6"><label class="form-label">휴대전화</label>
+                <div class="col-md-6"><label class="form-label" th:text="#{mber.label.moblphon}">휴대전화</label>
                     <input class="krds-input" type="text" th:field="*{moblphonNo}" maxlength="15"/></div>
-                <div class="col-md-4"><label class="form-label">우편번호</label>
+                <div class="col-md-4"><label class="form-label" th:text="#{mber.label.zip}">우편번호</label>
                     <div class="input-group">
                         <input class="krds-input" type="text" th:field="*{zip}" maxlength="8"/>
-                        <button class="krds-btn tertiary" type="button" onclick="fn_egov_ZipSearch()" title="우편번호 검색">
+                        <button class="krds-btn tertiary" type="button" onclick="fn_egov_ZipSearch()" th:title="#{mber.zip.search}" title="우편번호 검색">
                             <i class="bi bi-search"></i></button>
                     </div></div>
-                <div class="col-md-8"><label class="form-label">주소</label>
+                <div class="col-md-8"><label class="form-label" th:text="#{mber.label.adres}">주소</label>
                     <input class="krds-input" type="text" th:field="*{adres}" maxlength="100"/></div>
-                <div class="col-12"><label class="form-label">상세주소</label>
+                <div class="col-12"><label class="form-label" th:text="#{mber.label.detailAdres}">상세주소</label>
                     <input class="krds-input" type="text" th:field="*{detailAdres}" maxlength="100"/></div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="krds-btn tertiary" th:href="@{/uss/umt/mber/EgovMberManage.do}">취소</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/umt/mber/EgovMberManage.do}" th:text="#{button.cancel}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{mber.btn.register2}">등록</span></button>
             </div>
         </form>
     </div>
