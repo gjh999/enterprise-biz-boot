@@ -2,36 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>상세코드 등록</title></head>
+<head><title th:text="#{ccm.detail.regist.title}">상세코드 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do}">상세코드관리</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do}" th:text="#{nav.detailCode}">상세코드관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{ccm.regist.nav}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 상세코드 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> <span th:text="#{ccm.detail.regist.title}">상세코드 등록</span></h1>
 
         <form th:action="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeRegist.do}" method="post" th:object="${cmmnDetailCode}">
             <table class="tbl col">
-                <caption class="visually-hidden">상세코드 등록</caption>
+                <caption class="visually-hidden" th:text="#{ccm.detail.regist.caption}">상세코드 등록</caption>
                 <colgroup><col style="width:190px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th scope="row">코드ID <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{ccm.codeId}">코드ID</span> <span class="frm-rq">*</span></th>
                     <td>
                         <div class="row g-2">
                             <div class="col-auto">
                                 <select class="krds-form-select" id="clCodeSel" name="clCode"
-                                        onchange="fnChangeClCode(this);" title="분류코드">
+                                        onchange="fnChangeClCode(this);" th:title="#{ccm.cl.clCode}" title="분류코드">
                                     <option th:each="cl : ${cmmnClCodeList}" th:value="${cl.clCode}"
                                             th:text="${cl.clCodeNm}" th:selected="${cl.clCode == cmmnCode.clCode}">분류</option>
                                 </select>
                             </div>
                             <div class="col-auto">
-                                <select class="krds-form-select" th:field="*{codeId}" title="코드ID">
-                                    <option value="">선택하세요</option>
+                                <select class="krds-form-select" th:field="*{codeId}" th:title="#{ccm.codeId}" title="코드ID">
+                                    <option value="" th:text="#{ccm.search.select}">선택하세요</option>
                                     <option th:each="cd : ${cmmnCodeList}" th:value="${cd.codeId}" th:text="${cd.codeIdNm}">코드ID</option>
                                 </select>
                             </div>
@@ -40,28 +40,28 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">코드 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{ccm.code}">코드</span> <span class="frm-rq">*</span></th>
                     <td>
                         <input class="krds-input" type="text" th:field="*{code}" maxlength="15"/>
                         <span class="text-danger" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">코드명 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{ccm.codeNm}">코드명</span> <span class="frm-rq">*</span></th>
                     <td>
                         <input class="krds-input" type="text" th:field="*{codeNm}" maxlength="60"/>
                         <span class="text-danger" th:if="${#fields.hasErrors('codeNm')}" th:errors="*{codeNm}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">코드설명 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{ccm.codeDc}">코드설명</span> <span class="frm-rq">*</span></th>
                     <td>
                         <textarea class="krds-input" rows="4" th:field="*{codeDc}"></textarea>
                         <span class="text-danger" th:if="${#fields.hasErrors('codeDc')}" th:errors="*{codeDc}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">사용여부 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{ccm.useAt}">사용여부</span> <span class="frm-rq">*</span></th>
                     <td>
                         <select class="krds-form-select" th:field="*{useAt}">
                             <option value="Y">Yes</option>
@@ -73,8 +73,8 @@
                 </tbody>
             </table>
             <div class="d-flex gap-2">
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
-                <a class="krds-btn tertiary" th:href="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
+                <a class="krds-btn tertiary" th:href="@{/sym/ccm/cde/EgovCcmCmmnDetailCodeList.do}" th:text="#{button.list}">목록</a>
             </div>
         </form>
     </div>

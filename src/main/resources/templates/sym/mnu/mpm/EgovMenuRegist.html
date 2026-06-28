@@ -2,34 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>메뉴정보 등록</title></head>
+<head><title th:text="#{menu.regist.title}">메뉴정보 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/mnu/mpm/EgovMenuManageSelect.do}">메뉴목록관리</a></li>
-            <li class="breadcrumb-item active">메뉴 등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/mnu/mpm/EgovMenuManageSelect.do}" th:text="#{nav.menuList}">메뉴목록관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{menu.regist}">메뉴 등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-plus-square"></i> 메뉴정보 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-plus-square"></i> <span th:text="#{menu.regist.title}">메뉴정보 등록</span></h1>
 
         <form method="post" th:action="@{/sym/mnu/mpm/EgovMenuRegistInsert.do}" th:object="${menuManageVO}">
             <table class="tbl col">
-                <caption class="visually-hidden">메뉴정보 등록</caption>
+                <caption class="visually-hidden" th:text="#{menu.regist.title}">메뉴정보 등록</caption>
                 <tbody>
-                <tr><th scope="row" style="width:180px;">메뉴번호</th><td><input class="krds-input" type="number" th:field="*{menuNo}" required/></td></tr>
-                <tr><th scope="row">메뉴명</th><td><input class="krds-input" type="text" th:field="*{menuNm}" maxlength="50" required/></td></tr>
-                <tr><th scope="row">메뉴순서</th><td><input class="krds-input" type="number" th:field="*{menuOrdr}" required/></td></tr>
-                <tr><th scope="row">상위메뉴번호</th><td><input class="krds-input" type="number" th:field="*{upperMenuId}" required/></td></tr>
-                <tr><th scope="row">프로그램파일명</th><td><input class="krds-input" type="text" th:field="*{progrmFileNm}" maxlength="50" required/></td></tr>
-                <tr><th scope="row">메뉴설명</th><td><input class="krds-input" type="text" th:field="*{menuDc}" maxlength="100"/></td></tr>
-                <tr><th scope="row">관련이미지경로</th><td><input class="krds-input" type="text" th:field="*{relateImagePath}" maxlength="100"/></td></tr>
-                <tr><th scope="row">관련이미지명</th><td><input class="krds-input" type="text" th:field="*{relateImageNm}" maxlength="50"/></td></tr>
+                <tr><th scope="row" style="width:180px;" th:text="#{menu.no}">메뉴번호</th><td><input class="krds-input" type="number" th:field="*{menuNo}" required/></td></tr>
+                <tr><th scope="row" th:text="#{menu.nm}">메뉴명</th><td><input class="krds-input" type="text" th:field="*{menuNm}" maxlength="50" required/></td></tr>
+                <tr><th scope="row" th:text="#{menu.ordr}">메뉴순서</th><td><input class="krds-input" type="number" th:field="*{menuOrdr}" required/></td></tr>
+                <tr><th scope="row" th:text="#{menu.upperMenuNo}">상위메뉴번호</th><td><input class="krds-input" type="number" th:field="*{upperMenuId}" required/></td></tr>
+                <tr><th scope="row" th:text="#{menu.progrmFileNm}">프로그램파일명</th><td><input class="krds-input" type="text" th:field="*{progrmFileNm}" maxlength="50" required/></td></tr>
+                <tr><th scope="row" th:text="#{menu.dc}">메뉴설명</th><td><input class="krds-input" type="text" th:field="*{menuDc}" maxlength="100"/></td></tr>
+                <tr><th scope="row" th:text="#{menu.relateImagePath}">관련이미지경로</th><td><input class="krds-input" type="text" th:field="*{relateImagePath}" maxlength="100"/></td></tr>
+                <tr><th scope="row" th:text="#{menu.relateImageNm}">관련이미지명</th><td><input class="krds-input" type="text" th:field="*{relateImageNm}" maxlength="50"/></td></tr>
                 </tbody>
             </table>
             <div class="text-end">
-                <a class="krds-btn tertiary small" th:href="@{/sym/mnu/mpm/EgovMenuManageSelect.do}">목록</a>
-                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary small" th:href="@{/sym/mnu/mpm/EgovMenuManageSelect.do}" th:text="#{button.list}">목록</a>
+                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>

@@ -2,32 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>프로그램목록 등록</title></head>
+<head><title th:text="#{prgm.regist.title}">프로그램목록 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramListManageSelect.do}">프로그램목록관리</a></li>
-            <li class="breadcrumb-item active">프로그램목록 등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramListManageSelect.do}" th:text="#{prgm.list.title}">프로그램목록관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{prgm.regist.title}">프로그램목록 등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 프로그램목록 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> <span th:text="#{prgm.regist.title}">프로그램목록 등록</span></h1>
 
         <form th:action="@{/sym/prm/EgovProgramListRegist.do}" method="post" th:object="${progrmManageVO}">
             <div class="krds-panel">
                 <div class="krds-panel-body">
                     <div class="mb-3">
-                        <div class="form-tit"><label for="progrmFileNm">프로그램파일명 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="progrmFileNm"><span th:text="#{prgm.fileNm}">프로그램파일명</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="progrmFileNm" th:field="*{progrmFileNm}" maxlength="50" required/>
                         <div class="text-danger small" th:if="${#fields.hasErrors('progrmFileNm')}" th:errors="*{progrmFileNm}"></div>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="progrmStrePath">저장경로 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="progrmStrePath"><span th:text="#{prgm.strePath}">저장경로</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="progrmStrePath" th:field="*{progrmStrePath}" maxlength="60" required/>
                         <div class="text-danger small" th:if="${#fields.hasErrors('progrmStrePath')}" th:errors="*{progrmStrePath}"></div>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="progrmKoreanNm">프로그램 한글명 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="progrmKoreanNm"><span th:text="#{prgm.korNm}">프로그램 한글명</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="progrmKoreanNm" th:field="*{progrmKoreanNm}" maxlength="50" required/>
                         <div class="text-danger small" th:if="${#fields.hasErrors('progrmKoreanNm')}" th:errors="*{progrmKoreanNm}"></div>
                     </div>
@@ -37,14 +37,14 @@
                         <div class="text-danger small" th:if="${#fields.hasErrors('URL')}" th:errors="*{URL}"></div>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="progrmDc">프로그램설명</label></div>
+                        <div class="form-tit"><label for="progrmDc" th:text="#{prgm.dc}">프로그램설명</label></div>
                         <textarea class="krds-input" id="progrmDc" th:field="*{progrmDc}" rows="6"></textarea>
                     </div>
                 </div>
             </div>
             <div class="text-end mt-3">
-                <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramListManageSelect.do}">목록</a>
-                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramListManageSelect.do}" th:text="#{button.list}">목록</a>
+                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>

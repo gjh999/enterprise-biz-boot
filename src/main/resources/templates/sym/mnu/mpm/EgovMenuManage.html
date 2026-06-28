@@ -2,24 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>메뉴목록관리</title></head>
+<head><title th:text="#{menu.list.title}">메뉴목록관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item">내부시스템관리</li>
-            <li class="breadcrumb-item active">메뉴목록관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item" th:text="#{nav.systemManage}">내부시스템관리</li>
+            <li class="breadcrumb-item active" th:text="#{menu.list.title}">메뉴목록관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-nested"></i> 메뉴목록관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-nested"></i> <span th:text="#{menu.list.title}">메뉴목록관리</span></h1>
 
         <form name="menuManageForm" method="get" th:action="@{/sym/mnu/mpm/EgovMenuManageSelect.do}" class="row g-2 mb-3">
-            <div class="col-auto"><label class="col-form-label">메뉴명</label></div>
+            <div class="col-auto"><label class="col-form-label" th:text="#{menu.nm}">메뉴명</label></div>
             <div class="col-auto">
                 <input class="krds-input" name="searchKeyword" type="text" maxlength="60"
-                       th:value="${searchVO != null ? searchVO.searchKeyword : ''}" title="검색조건"/>
+                       th:value="${searchVO != null ? searchVO.searchKeyword : ''}" title="검색조건" th:title="#{menu.searchCondition}"/>
             </div>
-            <div class="col-auto"><button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> 조회</button></div>
+            <div class="col-auto"><button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button></div>
         </form>
 
         <form name="delForm" method="post" th:action="@{/sym/mnu/mpm/EgovMenuManageListDelete.do}" id="delForm">
@@ -28,11 +28,11 @@
             <table class="tbl">
                 <thead><tr>
                     <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll"/></th>
-                    <th scope="col" style="width:90px;">메뉴번호</th>
-                    <th scope="col">메뉴명</th>
-                    <th scope="col">프로그램파일명</th>
-                    <th scope="col">메뉴설명</th>
-                    <th scope="col" style="width:110px;">상위메뉴번호</th>
+                    <th scope="col" style="width:90px;" th:text="#{menu.no}">메뉴번호</th>
+                    <th scope="col" th:text="#{menu.nm}">메뉴명</th>
+                    <th scope="col" th:text="#{menu.progrmFileNm}">프로그램파일명</th>
+                    <th scope="col" th:text="#{menu.dc}">메뉴설명</th>
+                    <th scope="col" style="width:110px;" th:text="#{menu.upperMenuNo}">상위메뉴번호</th>
                 </tr></thead>
                 <tbody>
                 <tr th:each="item : ${list_menumanage}">
@@ -43,15 +43,15 @@
                     <td th:text="${item.menuDc}">설명</td>
                     <td th:text="${item.upperMenuId}">0</td>
                 </tr>
-                <tr th:if="${#lists.isEmpty(list_menumanage)}"><td colspan="6" class="text-center text-muted py-4">등록된 메뉴가 없습니다.</td></tr>
+                <tr th:if="${#lists.isEmpty(list_menumanage)}"><td colspan="6" class="text-center text-muted py-4" th:text="#{menu.noRegistered}">등록된 메뉴가 없습니다.</td></tr>
                 </tbody>
             </table>
             </div>
         </form>
 
         <div class="text-end">
-            <a class="krds-btn primary small" th:href="@{/sym/mnu/mpm/EgovMenuRegistInsert.do}"><i class="bi bi-plus-lg"></i> 등록</a>
-            <button type="button" class="krds-btn danger small" onclick="deleteChecked()"><i class="bi bi-trash"></i> 삭제</button>
+            <a class="krds-btn primary small" th:href="@{/sym/mnu/mpm/EgovMenuRegistInsert.do}"><i class="bi bi-plus-lg"></i> <span th:text="#{button.register}">등록</span></a>
+            <button type="button" class="krds-btn danger small" onclick="deleteChecked()"><i class="bi bi-trash"></i> <span th:text="#{button.delete}">삭제</span></button>
         </div>
     </div>
     <script th:inline="javascript">

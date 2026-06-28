@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>일반달력</title>
+    <title th:text="#{cal.normal.title}">일반달력</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
     <link rel="stylesheet" th:href="@{/krds/resources/cdn/krds.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
@@ -11,10 +11,10 @@
     <link rel="stylesheet" th:href="@{/css/krds.css}"/>
 </head>
 <body class="p-2">
-    <iframe th:src="@{/sym/cmm/EgovselectNormalCalendar.do}" title="일반달력"
+    <iframe th:src="@{/sym/cmm/EgovselectNormalCalendar.do}" title="일반달력" th:title="#{cal.normal.title}"
             style="width:100%;height:520px;border:0;"></iframe>
     <div class="text-end mt-2">
-        <button class="krds-btn tertiary small" type="button" onclick="window.close();">닫기</button>
+        <button class="krds-btn tertiary small" type="button" onclick="window.close();" th:text="#{button.close}">닫기</button>
     </div>
 </body>
 </html>

@@ -2,51 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>프로그램 변경이력 상세</title></head>
+<head><title th:text="#{prgm.chgHst.detail.head}">프로그램 변경이력 상세</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramChgHstListSelect.do}">프로그램 변경이력</a></li>
-            <li class="breadcrumb-item active">변경이력 상세</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramChgHstListSelect.do}" th:text="#{prgm.chgHst.title}">프로그램 변경이력</a></li>
+            <li class="breadcrumb-item active" th:text="#{prgm.chgHst.detail.head}">변경이력 상세</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clock-history"></i> 변경이력 상세</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clock-history"></i> <span th:text="#{prgm.chgHst.detail.head}">변경이력 상세</span></h1>
 
         <div class="krds-panel" th:object="${resultVO}">
             <div class="krds-panel-body">
                 <dl class="row mb-0">
-                    <dt class="col-sm-3">프로그램파일명</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.fileNm}">프로그램파일명</dt>
                     <dd class="col-sm-9" th:text="*{progrmFileNm}">파일명</dd>
-                    <dt class="col-sm-3">요청번호</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.requstNo}">요청번호</dt>
                     <dd class="col-sm-9" th:text="*{rqesterNo}">0</dd>
-                    <dt class="col-sm-3">요청제목</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.requstSj}">요청제목</dt>
                     <dd class="col-sm-9" th:text="*{rqesterSj}">제목</dd>
-                    <dt class="col-sm-3">요청자ID</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.requstrId}">요청자ID</dt>
                     <dd class="col-sm-9" th:text="*{rqesterPersonId}">요청자</dd>
-                    <dt class="col-sm-3">요청일자</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.requstDe}">요청일자</dt>
                     <dd class="col-sm-9" th:text="*{rqesterDe}">요청일자</dd>
-                    <dt class="col-sm-3">변경요청내용</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.changeRequstCn}">변경요청내용</dt>
                     <dd class="col-sm-9" style="white-space:pre-line" th:text="*{changerqesterCn}">내용</dd>
-                    <dt class="col-sm-3">처리자ID</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.processrId}">처리자ID</dt>
                     <dd class="col-sm-9" th:text="*{opetrId}">처리자</dd>
-                    <dt class="col-sm-3">처리상태</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.sttus}">처리상태</dt>
                     <dd class="col-sm-9" th:switch="*{processSttus}">
-                        <span th:case="'A'" class="krds-badge bg-gray">요청</span>
-                        <span th:case="'P'" class="krds-badge bg-warning text-dark">처리중</span>
-                        <span th:case="'C'" class="krds-badge bg-success">완료</span>
-                        <span th:case="'R'" class="krds-badge bg-danger">반려</span>
+                        <span th:case="'A'" class="krds-badge bg-gray" th:text="#{prgm.sttus.requst}">요청</span>
+                        <span th:case="'P'" class="krds-badge bg-warning text-dark" th:text="#{prgm.sttus.process}">처리중</span>
+                        <span th:case="'C'" class="krds-badge bg-success" th:text="#{prgm.sttus.complete}">완료</span>
+                        <span th:case="'R'" class="krds-badge bg-danger" th:text="#{prgm.sttus.return}">반려</span>
                         <span th:case="*" th:text="*{processSttus}">-</span>
                     </dd>
-                    <dt class="col-sm-3">처리일자</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.processDe}">처리일자</dt>
                     <dd class="col-sm-9" th:text="*{processDe}">처리일자</dd>
-                    <dt class="col-sm-3">요청처리내용</dt>
+                    <dt class="col-sm-3" th:text="#{prgm.requstProcessCn}">요청처리내용</dt>
                     <dd class="col-sm-9" style="white-space:pre-line" th:text="*{rqesterProcessCn}">처리내용</dd>
                 </dl>
             </div>
         </div>
         <div class="text-end mt-3">
-            <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChgHstListSelect.do}">목록</a>
+            <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChgHstListSelect.do}" th:text="#{button.list}">목록</a>
         </div>
     </div>
 </main>

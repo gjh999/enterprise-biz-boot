@@ -3,37 +3,37 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>공통코드 관리</title></head>
+<head><title th:text="#{ccm.code.list.title}">공통코드 관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item">내부시스템관리</li>
-            <li class="breadcrumb-item active">공통코드관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item" th:text="#{nav.systemManage}">내부시스템관리</li>
+            <li class="breadcrumb-item active" th:text="#{nav.cmmnCode}">공통코드관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 공통코드관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> <span th:text="#{nav.cmmnCode}">공통코드관리</span></h1>
 
         <form class="row g-2 mb-3" th:action="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}" method="get">
             <div class="col-auto">
                 <select class="krds-form-select" name="searchCondition">
-                    <option value="" th:selected="${searchVO.searchCondition == ''}">선택하세요</option>
-                    <option value="1" th:selected="${searchVO.searchCondition == '1'}">코드ID</option>
-                    <option value="2" th:selected="${searchVO.searchCondition == '2'}">코드ID명</option>
+                    <option value="" th:selected="${searchVO.searchCondition == ''}" th:text="#{ccm.search.select}">선택하세요</option>
+                    <option value="1" th:selected="${searchVO.searchCondition == '1'}" th:text="#{ccm.codeId}">코드ID</option>
+                    <option value="2" th:selected="${searchVO.searchCondition == '2'}" th:text="#{ccm.codeIdNm}">코드ID명</option>
                 </select>
             </div>
-            <div class="col-auto"><input class="krds-input" name="searchKeyword" th:value="${searchVO.searchKeyword}" maxlength="35" placeholder="검색어"/></div>
-            <div class="col-auto"><button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> 조회</button></div>
+            <div class="col-auto"><input class="krds-input" name="searchKeyword" th:value="${searchVO.searchKeyword}" maxlength="35" th:placeholder="#{common.search.ph}" placeholder="검색어"/></div>
+            <div class="col-auto"><button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button></div>
             <div class="col-auto ms-auto" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="krds-btn primary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeRegist.do}"><i class="bi bi-plus-lg"></i> 등록</a>
+                <a class="krds-btn primary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeRegist.do}"><i class="bi bi-plus-lg"></i> <span th:text="#{button.register}">등록</span></a>
             </div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
-            <caption class="visually-hidden">공통코드 목록</caption>
+            <caption class="visually-hidden" th:text="#{ccm.code.list.caption}">공통코드 목록</caption>
             <thead>
-            <tr><th scope="col" style="width:80px;">순번</th><th scope="col">분류명</th><th scope="col">코드ID</th><th scope="col">코드ID명</th><th scope="col" style="width:100px;">사용여부</th></tr>
+            <tr><th scope="col" style="width:80px;" th:text="#{ccm.seq}">순번</th><th scope="col" th:text="#{ccm.clCodeNm}">분류명</th><th scope="col" th:text="#{ccm.codeId}">코드ID</th><th scope="col" th:text="#{ccm.codeIdNm}">코드ID명</th><th scope="col" style="width:100px;" th:text="#{ccm.useAt}">사용여부</th></tr>
             </thead>
             <tbody>
             <tr th:each="item,stat : ${resultList}">
@@ -41,10 +41,10 @@
                 <td><a th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeDetail.do(codeId=${item.codeId})}" th:text="${item.clCodeNm}">분류명</a></td>
                 <td th:text="${item.codeId}">코드ID</td>
                 <td th:text="${item.codeIdNm}">코드ID명</td>
-                <td th:text="${item.useAt == 'Y'} ? '사용' : '미사용'">사용</td>
+                <td th:text="${item.useAt == 'Y'} ? #{ccm.use.y} : #{ccm.use.n}">사용</td>
             </tr>
             <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
-                <td colspan="5" class="text-center text-muted py-4">데이터가 없습니다.</td>
+                <td colspan="5" class="text-center text-muted py-4" th:text="#{ccm.empty}">데이터가 없습니다.</td>
             </tr>
             </tbody>
         </table>

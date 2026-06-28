@@ -2,33 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>프로그램목록관리</title></head>
+<head><title th:text="#{prgm.list.title}">프로그램목록관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item">내부시스템관리</li>
-            <li class="breadcrumb-item active">프로그램목록관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item" th:text="#{nav.systemManage}">내부시스템관리</li>
+            <li class="breadcrumb-item active" th:text="#{prgm.list.title}">프로그램목록관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 프로그램목록관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> <span th:text="#{prgm.list.title}">프로그램목록관리</span></h1>
 
         <form th:action="@{/sym/prm/EgovProgramListManageSelect.do}" method="get" class="mb-3">
             <div class="input-group" style="max-width:480px;">
-                <span class="input-group-text">프로그램 한글명</span>
+                <span class="input-group-text" th:text="#{prgm.korNm}">프로그램 한글명</span>
                 <input type="text" class="krds-input" name="searchKeyword" maxlength="60"
                        th:value="${searchVO != null ? searchVO.searchKeyword : ''}"/>
-                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
             <thead><tr>
-                <th scope="col">프로그램파일명</th>
-                <th scope="col">프로그램 한글명</th>
-                <th scope="col">URL</th>
-                <th scope="col">프로그램설명</th>
+                <th scope="col" th:text="#{prgm.fileNm}">프로그램파일명</th>
+                <th scope="col" th:text="#{prgm.korNm}">프로그램 한글명</th>
+                <th scope="col" th:text="#{prgm.url}">URL</th>
+                <th scope="col" th:text="#{prgm.dc}">프로그램설명</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${list_progrmmanage}">
@@ -41,14 +41,14 @@
                 <td th:text="${item.progrmDc}">설명</td>
             </tr>
             <tr th:if="${#lists.isEmpty(list_progrmmanage)}">
-                <td colspan="4" class="text-center text-muted py-4">등록된 프로그램이 없습니다.</td>
+                <td colspan="4" class="text-center text-muted py-4" th:text="#{prgm.list.empty}">등록된 프로그램이 없습니다.</td>
             </tr>
             </tbody>
         </table>
         </div>
 
         <div class="text-end">
-            <a class="krds-btn primary small" th:href="@{/sym/prm/EgovProgramListRegist.do}"><i class="bi bi-plus-lg"></i> 등록</a>
+            <a class="krds-btn primary small" th:href="@{/sym/prm/EgovProgramListRegist.do}"><i class="bi bi-plus-lg"></i> <span th:text="#{button.register}">등록</span></a>
         </div>
     </div>
 </main>

@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>행정달력 주간</title></head>
+<head><title th:text="#{cal.admin.week.title}">행정달력 주간</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">행정달력 주간</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{cal.admin.week.title}">행정달력 주간</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-calendar-week"></i> 행정달력 주간</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-calendar-week"></i> <span th:text="#{cal.admin.week.title}">행정달력 주간</span></h1>
 
         <table class="tbl align-middle">
             <thead class="text-center">
-            <tr><th class="text-danger">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="text-primary">토</th></tr>
+            <tr><th class="text-danger" th:text="#{cal.weekday.sun}">일</th><th th:text="#{cal.weekday.mon}">월</th><th th:text="#{cal.weekday.tue}">화</th><th th:text="#{cal.weekday.wed}">수</th><th th:text="#{cal.weekday.thu}">목</th><th th:text="#{cal.weekday.fri}">금</th><th class="text-primary" th:text="#{cal.weekday.sat}">토</th></tr>
             </thead>
             <tbody>
             <tr style="height:160px; vertical-align:top;">

@@ -2,51 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>우편번호 등록</title></head>
+<head><title th:text="#{zip.regist.title}">우편번호 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">우편번호 관리</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/zip/EgovCcmZipList.do}" th:text="#{nav.zip}">우편번호 관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{zip.regist.crumb}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-geo-alt"></i> 우편번호 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-geo-alt"></i> <span th:text="#{zip.regist.title}">우편번호 등록</span></h1>
 
         <form th:action="@{/sym/ccm/zip/EgovCcmZipRegist.do}" method="post" th:object="${zip}">
             <table class="tbl col">
-                <caption class="visually-hidden">우편번호 등록</caption>
+                <caption class="visually-hidden" th:text="#{zip.regist.caption}">우편번호 등록</caption>
                 <colgroup><col style="width:160px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th scope="row">우편번호 <span class="frm-rq">*</span></th>
-                    <td><input class="krds-input" type="text" th:field="*{zip}" maxlength="6" required placeholder="예: 12345"/></td>
+                    <th scope="row"><span th:text="#{zip.field.zip}">우편번호</span> <span class="frm-rq">*</span></th>
+                    <td><input class="krds-input" type="text" th:field="*{zip}" maxlength="6" required th:placeholder="#{zip.regist.zip.ph}" placeholder="예: 12345"/></td>
                 </tr>
                 <tr>
-                    <th scope="row">시도명 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{zip.field.ctprvnNm}">시도명</span> <span class="frm-rq">*</span></th>
                     <td><input class="krds-input" type="text" th:field="*{ctprvnNm}" maxlength="20" required/></td>
                 </tr>
                 <tr>
-                    <th scope="row">시군구명 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{zip.field.signguNm}">시군구명</span> <span class="frm-rq">*</span></th>
                     <td><input class="krds-input" type="text" th:field="*{signguNm}" maxlength="20" required/></td>
                 </tr>
                 <tr>
-                    <th scope="row">읍면동명 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{zip.field.emdNm}">읍면동명</span> <span class="frm-rq">*</span></th>
                     <td><input class="krds-input" type="text" th:field="*{emdNm}" maxlength="30" required/></td>
                 </tr>
                 <tr>
-                    <th scope="row">리/건물명</th>
+                    <th scope="row" th:text="#{zip.field.liBuldNm}">리/건물명</th>
                     <td><input class="krds-input" type="text" th:field="*{liBuldNm}" maxlength="60"/></td>
                 </tr>
                 <tr>
-                    <th scope="row">번지/동호</th>
+                    <th scope="row" th:text="#{zip.field.lnbrDongHo}">번지/동호</th>
                     <td><input class="krds-input" type="text" th:field="*{lnbrDongHo}" maxlength="20"/></td>
                 </tr>
                 </tbody>
             </table>
             <div class="d-flex gap-2">
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
-                <a class="krds-btn tertiary" th:href="@{/sym/ccm/zip/EgovCcmZipList.do}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.register}">등록</span></button>
+                <a class="krds-btn tertiary" th:href="@{/sym/ccm/zip/EgovCcmZipList.do}" th:text="#{button.cancel}">취소</a>
             </div>
         </form>
     </div>

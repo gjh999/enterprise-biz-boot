@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>프로그램 변경요청 등록</title></head>
+<head><title th:text="#{prgm.chgRequst.regist.head}">프로그램 변경요청 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramChangeRequstSelect.do}">프로그램 변경요청</a></li>
-            <li class="breadcrumb-item active">변경요청 등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramChangeRequstSelect.do}" th:text="#{prgm.chgRequst.title}">프로그램 변경요청</a></li>
+            <li class="breadcrumb-item active" th:text="#{prgm.chgRequst.regist}">변경요청 등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-plus-square"></i> 변경요청 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-plus-square"></i> <span th:text="#{prgm.chgRequst.regist}">변경요청 등록</span></h1>
 
         <form th:action="@{/sym/prm/EgovProgramChangRequstStre.do}" method="post" th:object="${progrmManageDtlVO}">
             <input type="hidden" name="cmd" value="insert"/>
@@ -20,27 +20,27 @@
             <div class="krds-panel">
                 <div class="krds-panel-body">
                     <div class="mb-3">
-                        <div class="form-tit"><label for="progrmFileNm">프로그램파일명 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="progrmFileNm"><span th:text="#{prgm.fileNm}">프로그램파일명</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="progrmFileNm" th:field="*{progrmFileNm}" maxlength="50" required/>
                         <div class="text-danger small" th:if="${#fields.hasErrors('progrmFileNm')}" th:errors="*{progrmFileNm}"></div>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="rqesterSj">요청제목</label></div>
+                        <div class="form-tit"><label for="rqesterSj" th:text="#{prgm.requstSj}">요청제목</label></div>
                         <input type="text" class="krds-input" id="rqesterSj" th:field="*{rqesterSj}" maxlength="100"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="rqesterDe">요청일자</label></div>
+                        <div class="form-tit"><label for="rqesterDe" th:text="#{prgm.requstDe}">요청일자</label></div>
                         <input type="text" class="krds-input" id="rqesterDe" th:field="*{rqesterDe}" maxlength="20" placeholder="예) 20250101"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="changerqesterCn">변경요청내용</label></div>
+                        <div class="form-tit"><label for="changerqesterCn" th:text="#{prgm.changeRequstCn}">변경요청내용</label></div>
                         <textarea class="krds-input" id="changerqesterCn" th:field="*{changerqesterCn}" rows="6"></textarea>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-3 gap-2">
-                <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChangeRequstSelect.do}">목록</a>
-                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> 등록</button>
+                <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChangeRequstSelect.do}" th:text="#{button.list}">목록</a>
+                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> <span th:text="#{button.register}">등록</span></button>
             </div>
         </form>
     </div>

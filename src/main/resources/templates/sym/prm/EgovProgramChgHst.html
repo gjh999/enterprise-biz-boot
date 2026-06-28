@@ -2,36 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>프로그램 변경이력</title></head>
+<head><title th:text="#{prgm.chgHst.title}">프로그램 변경이력</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item">내부시스템관리</li>
-            <li class="breadcrumb-item active">프로그램 변경이력</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item" th:text="#{nav.systemManage}">내부시스템관리</li>
+            <li class="breadcrumb-item active" th:text="#{prgm.chgHst.title}">프로그램 변경이력</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clock-history"></i> 프로그램 변경이력</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clock-history"></i> <span th:text="#{prgm.chgHst.title}">프로그램 변경이력</span></h1>
 
         <form th:action="@{/sym/prm/EgovProgramChgHstListSelect.do}" method="get" class="mb-3">
             <div class="input-group" style="max-width:480px;">
-                <span class="input-group-text">프로그램 한글명</span>
+                <span class="input-group-text" th:text="#{prgm.korNm}">프로그램 한글명</span>
                 <input type="text" class="krds-input" name="searchKeyword" maxlength="60"
                        th:value="${searchVO != null ? searchVO.searchKeyword : ''}"/>
-                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
             <thead><tr>
-                <th scope="col">요청제목</th>
-                <th scope="col">프로그램파일명</th>
-                <th scope="col">요청자</th>
-                <th scope="col">처리자</th>
-                <th scope="col" style="width:110px;">요청일자</th>
-                <th scope="col" style="width:110px;">처리일자</th>
-                <th scope="col" style="width:90px;">처리상태</th>
+                <th scope="col" th:text="#{prgm.requstSj}">요청제목</th>
+                <th scope="col" th:text="#{prgm.fileNm}">프로그램파일명</th>
+                <th scope="col" th:text="#{prgm.requstr}">요청자</th>
+                <th scope="col" th:text="#{prgm.processr}">처리자</th>
+                <th scope="col" style="width:110px;" th:text="#{prgm.requstDe}">요청일자</th>
+                <th scope="col" style="width:110px;" th:text="#{prgm.processDe}">처리일자</th>
+                <th scope="col" style="width:90px;" th:text="#{prgm.sttus}">처리상태</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${list_changerequst}">
@@ -45,15 +45,15 @@
                 <td th:text="${item.requstDe}">요청일자</td>
                 <td th:text="${item.processDe}">처리일자</td>
                 <td th:switch="${item.processSttusCode}" class="text-center">
-                    <span th:case="'A'" class="krds-badge bg-gray">요청</span>
-                    <span th:case="'P'" class="krds-badge bg-warning text-dark">처리중</span>
-                    <span th:case="'C'" class="krds-badge bg-success">완료</span>
-                    <span th:case="'R'" class="krds-badge bg-danger">반려</span>
+                    <span th:case="'A'" class="krds-badge bg-gray" th:text="#{prgm.sttus.requst}">요청</span>
+                    <span th:case="'P'" class="krds-badge bg-warning text-dark" th:text="#{prgm.sttus.process}">처리중</span>
+                    <span th:case="'C'" class="krds-badge bg-success" th:text="#{prgm.sttus.complete}">완료</span>
+                    <span th:case="'R'" class="krds-badge bg-danger" th:text="#{prgm.sttus.return}">반려</span>
                     <span th:case="*" th:text="${item.processSttusCode}">-</span>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list_changerequst)}">
-                <td colspan="7" class="text-center text-muted py-4">조회된 데이터가 없습니다.</td>
+                <td colspan="7" class="text-center text-muted py-4" th:text="#{prgm.list.noData}">조회된 데이터가 없습니다.</td>
             </tr>
             </tbody>
         </table>

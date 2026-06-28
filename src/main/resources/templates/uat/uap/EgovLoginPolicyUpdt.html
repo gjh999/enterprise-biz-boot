@@ -2,56 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>로그인정책수정</title></head>
+<head><title th:text="#{policy.updt.title}">로그인정책수정</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item">내부서비스관리</li>
-            <li class="breadcrumb-item active">로그인정책관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item" th:text="#{policy.nav.internalService}">내부서비스관리</li>
+            <li class="breadcrumb-item active" th:text="#{nav.loginPolicy}">로그인정책관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> 로그인정책 수정</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> <span th:text="#{policy.updt.title}">로그인정책 수정</span></h1>
 
         <form id="loginPolicy" name="loginPolicy" method="post"
               th:action="@{/uat/uap/updtLoginPolicy.do}" th:object="${loginPolicy}">
             <input type="hidden" name="dplctPermAt" value="Y"/>
             <input type="hidden" th:field="*{emplyrNm}"/>
             <table class="tbl col">
-                <caption class="visually-hidden">로그인정책 수정</caption>
+                <caption class="visually-hidden" th:text="#{policy.updt.title}">로그인정책 수정</caption>
                 <colgroup><col style="width:190px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th scope="row">사용자ID <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{policy.userId}">사용자ID</span> <span class="frm-rq">*</span></th>
                     <td>
                         <input class="krds-input" th:value="*{emplyrId}" disabled title="사용자ID(화면출력용)"/>
                         <input type="hidden" th:field="*{emplyrId}"/>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">사용자명 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{policy.userNm}">사용자명</span> <span class="frm-rq">*</span></th>
                     <td><input class="krds-input" th:value="*{emplyrNm}" disabled title="사용자명(화면출력용)"/></td>
                 </tr>
                 <tr>
-                    <th scope="row">IP정보 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{policy.ipInfo}">IP정보</span> <span class="frm-rq">*</span></th>
                     <td>
                         <input id="ipInfo" class="krds-input" th:field="*{ipInfo}" type="text" maxlength="23" title="IP정보"/>
                         <span class="text-danger small" th:if="${#fields.hasErrors('ipInfo')}" th:errors="*{ipInfo}"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">IP제한여부</th>
+                    <th scope="row" th:text="#{policy.ipLmttAt}">IP제한여부</th>
                     <td>
-                        <select name="lmttAt" id="lmttAt" class="krds-form-select" title="IP제한여부" style="width:auto;display:inline-block;">
+                        <select name="lmttAt" id="lmttAt" class="krds-form-select" th:title="#{policy.ipLmttAt}" title="IP제한여부" style="width:auto;display:inline-block;">
                             <option value="Y" th:selected="*{lmttAt} == 'Y'">Y</option>
                             <option value="N" th:selected="*{lmttAt} == 'N'">N</option>
                         </select>
-                        <span class="ms-2 text-muted">(Y로 설정되면 등록된 IP에서의 접속만을 허용하도록 제한됨)</span>
+                        <span class="ms-2 text-muted" th:text="#{policy.ipLmttAt.desc}">(Y로 설정되면 등록된 IP에서의 접속만을 허용하도록 제한됨)</span>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">등록일시</th>
-                    <td><input name="regDate" class="krds-input" th:value="*{regDate}" readonly title="등록일시"/></td>
+                    <th scope="row" th:text="#{policy.regDate}">등록일시</th>
+                    <td><input name="regDate" class="krds-input" th:value="*{regDate}" readonly th:title="#{policy.regDate}" title="등록일시"/></td>
                 </tr>
                 </tbody>
             </table>
@@ -63,16 +63,17 @@
             <div class="d-flex justify-content-between">
                 <div></div>
                 <div>
-                    <button type="submit" class="krds-btn primary">저장</button>
-                    <a class="krds-btn tertiary" th:href="@{/uat/uap/selectLoginPolicyList.do}">목록</a>
+                    <button type="submit" class="krds-btn primary" th:text="#{button.save}">저장</button>
+                    <a class="krds-btn tertiary" th:href="@{/uat/uap/selectLoginPolicyList.do}" th:text="#{button.list}">목록</a>
                 </div>
             </div>
         </form>
 
         <form method="post" th:action="@{/uat/uap/removeLoginPolicy.do}" class="mt-2"
+              th:onsubmit="'return confirm(\'' + #{common.confirm.delete} + '\');'"
               onsubmit="return confirm('삭제하시겠습니까?');">
             <input type="hidden" name="emplyrId" th:value="${loginPolicy.emplyrId}"/>
-            <button type="submit" class="krds-btn danger">삭제</button>
+            <button type="submit" class="krds-btn danger" th:text="#{button.delete}">삭제</button>
         </form>
     </div>
 </main>

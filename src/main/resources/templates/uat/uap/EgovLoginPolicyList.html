@@ -2,36 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>로그인정책관리</title></head>
+<head><title th:text="#{policy.list.title}">로그인정책관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item">내부서비스관리</li>
-            <li class="breadcrumb-item active">로그인정책관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item" th:text="#{policy.nav.internalService}">내부서비스관리</li>
+            <li class="breadcrumb-item active" th:text="#{nav.loginPolicy}">로그인정책관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> 로그인정책관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> <span th:text="#{nav.loginPolicy}">로그인정책관리</span></h1>
 
         <form name="listForm" method="get" th:action="@{/uat/uap/selectLoginPolicyList.do}" class="row g-2 mb-3">
             <input type="hidden" name="searchCondition" value="1"/>
             <div class="col-auto">
-                <label class="col-form-label" for="searchKeyword">사용자 명</label>
+                <label class="col-form-label" for="searchKeyword" th:text="#{policy.userNm}">사용자 명</label>
             </div>
             <div class="col-auto">
                 <input id="searchKeyword" class="krds-input" name="searchKeyword" type="text"
-                       th:value="${loginPolicyVO != null} ? ${loginPolicyVO.searchKeyword} : ''" title="검색"/>
+                       th:value="${loginPolicyVO != null} ? ${loginPolicyVO.searchKeyword} : ''" th:title="#{button.search}" title="검색"/>
             </div>
             <div class="col-auto">
-                <button class="krds-btn primary" type="submit">조회</button>
+                <button class="krds-btn primary" type="submit" th:text="#{button.inquiry}">조회</button>
             </div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
-            <caption class="visually-hidden">로그인정책에 대한 목록을 제공한다.</caption>
+            <caption class="visually-hidden" th:text="#{policy.list.caption}">로그인정책에 대한 목록을 제공한다.</caption>
             <thead><tr>
-                <th scope="col">사용자ID</th><th scope="col">사용자 명</th><th scope="col">IP 정보</th><th scope="col" style="width:120px;">제한여부</th>
+                <th scope="col" th:text="#{policy.userId}">사용자ID</th><th scope="col" th:text="#{policy.userNm}">사용자 명</th><th scope="col" th:text="#{policy.ipInfo}">IP 정보</th><th scope="col" style="width:120px;" th:text="#{policy.lmttAt}">제한여부</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${loginPolicyList}">
@@ -44,7 +44,7 @@
                 <td class="text-center" th:text="${item.lmttAt}">제한</td>
             </tr>
             <tr th:if="${#lists.isEmpty(loginPolicyList)}">
-                <td colspan="4" class="text-center text-muted py-4">조회된 결과가 없습니다.</td>
+                <td colspan="4" class="text-center text-muted py-4" th:text="#{policy.noResult}">조회된 결과가 없습니다.</td>
             </tr>
             </tbody>
         </table>

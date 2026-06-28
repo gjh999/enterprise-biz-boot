@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>프로그램 변경처리 상세</title></head>
+<head><title th:text="#{prgm.chgProcess.detail.head}">프로그램 변경처리 상세</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}">프로그램 변경처리</a></li>
-            <li class="breadcrumb-item active">변경처리 상세/수정</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}" th:text="#{prgm.chgProcess.title}">프로그램 변경처리</a></li>
+            <li class="breadcrumb-item active" th:text="#{prgm.chgProcess.detail.head}">변경처리 상세/수정</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-gear"></i> 변경처리 상세/수정</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-gear"></i> <span th:text="#{prgm.chgProcess.detail.head}">변경처리 상세/수정</span></h1>
 
         <p class="text-danger small" th:if="${resultMsg != null and resultMsg != ''}" th:text="${resultMsg}"></p>
 
@@ -21,48 +21,48 @@
             <input type="hidden" th:field="*{rqesterPersonId}"/>
             <input type="hidden" th:field="*{opetrId}"/>
             <div class="krds-panel mb-3">
-                <div class="krds-panel-head">변경요청 내용</div>
+                <div class="krds-panel-head" th:text="#{prgm.chgRequst.panelHead}">변경요청 내용</div>
                 <div class="krds-panel-body">
                     <div class="mb-3">
-                        <div class="form-tit"><label>프로그램파일명</label></div>
+                        <div class="form-tit"><label th:text="#{prgm.fileNm}">프로그램파일명</label></div>
                         <input type="text" class="krds-input" readonly th:value="*{progrmFileNm}"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label>요청제목</label></div>
+                        <div class="form-tit"><label th:text="#{prgm.requstSj}">요청제목</label></div>
                         <input type="text" class="krds-input" readonly th:value="*{rqesterSj}"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label>요청자ID</label></div>
+                        <div class="form-tit"><label th:text="#{prgm.requstrId}">요청자ID</label></div>
                         <input type="text" class="krds-input" readonly th:value="*{rqesterPersonId}"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label>변경요청내용</label></div>
+                        <div class="form-tit"><label th:text="#{prgm.changeRequstCn}">변경요청내용</label></div>
                         <textarea class="krds-input" readonly rows="4" th:text="*{changerqesterCn}"></textarea>
                     </div>
                 </div>
             </div>
             <div class="krds-panel">
-                <div class="krds-panel-head">변경처리 정보</div>
+                <div class="krds-panel-head" th:text="#{prgm.chgProcess.panelHead}">변경처리 정보</div>
                 <div class="krds-panel-body">
                     <div class="mb-3">
-                        <div class="form-tit"><label for="opetrIdView">처리자ID</label></div>
+                        <div class="form-tit"><label for="opetrIdView" th:text="#{prgm.processrId}">처리자ID</label></div>
                         <input type="text" class="krds-input" id="opetrIdView" readonly th:value="*{opetrId}"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="processSttus">처리상태</label></div>
+                        <div class="form-tit"><label for="processSttus" th:text="#{prgm.sttus}">처리상태</label></div>
                         <select class="krds-form-select" id="processSttus" th:field="*{processSttus}">
-                            <option value="A">요청</option>
-                            <option value="P">처리중</option>
-                            <option value="C">완료</option>
-                            <option value="R">반려</option>
+                            <option value="A" th:text="#{prgm.sttus.requst}">요청</option>
+                            <option value="P" th:text="#{prgm.sttus.process}">처리중</option>
+                            <option value="C" th:text="#{prgm.sttus.complete}">완료</option>
+                            <option value="R" th:text="#{prgm.sttus.return}">반려</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="processDe">처리일자</label></div>
+                        <div class="form-tit"><label for="processDe" th:text="#{prgm.processDe}">처리일자</label></div>
                         <input type="text" class="krds-input" id="processDe" th:field="*{processDe}" maxlength="20" placeholder="예) 20250101"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="rqesterProcessCn">요청처리내용</label></div>
+                        <div class="form-tit"><label for="rqesterProcessCn" th:text="#{prgm.requstProcessCn}">요청처리내용</label></div>
                         <textarea class="krds-input" id="rqesterProcessCn" th:field="*{rqesterProcessCn}" rows="6"></textarea>
                     </div>
                 </div>
@@ -70,10 +70,10 @@
             <div class="d-flex justify-content-between mt-3">
                 <button type="submit" class="krds-btn danger small"
                         th:formaction="@{/sym/prm/EgovProgramChangRequstProcessDelete.do}"
-                        onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</button>
+                        onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> <span th:text="#{button.delete}">삭제</span></button>
                 <div>
-                    <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}">목록</a>
-                    <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> 처리저장</button>
+                    <a class="krds-btn tertiary small" th:href="@{/sym/prm/EgovProgramChangeRequstProcessListSelect.do}" th:text="#{button.list}">목록</a>
+                    <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> <span th:text="#{prgm.processSave}">처리저장</span></button>
                 </div>
             </div>
         </form>

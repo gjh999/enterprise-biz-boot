@@ -2,47 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>사용자부재관리</title></head>
+<head><title th:text="#{absnce.list.title}">사용자부재관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item">내부시스템관리</li>
-            <li class="breadcrumb-item active">사용자부재관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item" th:text="#{nav.systemManage}">내부시스템관리</li>
+            <li class="breadcrumb-item active" th:text="#{nav.userAbsnce}">사용자부재관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-person-dash"></i> 사용자부재관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-person-dash"></i> <span th:text="#{nav.userAbsnce}">사용자부재관리</span></h1>
 
         <form name="listForm" method="get" th:action="@{/uss/ion/uas/selectUserAbsnceList.do}" class="row g-2 mb-3">
             <input type="hidden" name="searchCondition" value="1"/>
-            <div class="col-auto"><label for="searchKeyword">사용자 명</label></div>
+            <div class="col-auto"><label for="searchKeyword" th:text="#{absnce.userNm}">사용자 명</label></div>
             <div class="col-auto">
                 <input id="searchKeyword" class="krds-input" name="searchKeyword" type="text"
-                       th:value="${userAbsnceVO != null} ? ${userAbsnceVO.searchKeyword} : ''" title="검색"/>
+                       th:value="${userAbsnceVO != null} ? ${userAbsnceVO.searchKeyword} : ''" th:title="#{button.search}" title="검색"/>
             </div>
-            <div class="col-auto"><label for="selAbsnceAt">부재여부</label></div>
+            <div class="col-auto"><label for="selAbsnceAt" th:text="#{absnce.absnceAt}">부재여부</label></div>
             <div class="col-auto">
                 <select id="selAbsnceAt" name="selAbsnceAt" class="krds-form-select"
                         th:with="sel=${userAbsnceVO != null} ? ${userAbsnceVO.selAbsnceAt} : 'A'">
-                    <option value="A" th:selected="${sel == 'A'}">전체</option>
+                    <option value="A" th:selected="${sel == 'A'}" th:text="#{absnce.all}">전체</option>
                     <option value="Y" th:selected="${sel == 'Y'}">Y</option>
                     <option value="N" th:selected="${sel == 'N'}">N</option>
                 </select>
             </div>
-            <div class="col-auto"><button class="krds-btn primary" type="submit">조회</button></div>
+            <div class="col-auto"><button class="krds-btn primary" type="submit" th:text="#{button.inquiry}">조회</button></div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
-            <caption class="visually-hidden">사용자부재정보에 대한 목록을 제공한다.</caption>
+            <caption class="visually-hidden" th:text="#{absnce.list.caption}">사용자부재정보에 대한 목록을 제공한다.</caption>
             <thead><tr>
-                <th scope="col">사용자 ID</th><th scope="col">사용자명</th><th scope="col" style="width:100px;">부재여부</th>
-                <th scope="col" style="width:100px;">등록여부</th><th scope="col" style="width:140px;">등록일시</th>
+                <th scope="col" th:text="#{absnce.userId}">사용자 ID</th><th scope="col" th:text="#{absnce.userNm}">사용자명</th><th scope="col" style="width:100px;" th:text="#{absnce.absnceAt}">부재여부</th>
+                <th scope="col" style="width:100px;" th:text="#{absnce.regAt}">등록여부</th><th scope="col" style="width:140px;" th:text="#{absnce.regDate}">등록일시</th>
                 <th scope="col" style="width:90px;"></th>
             </tr></thead>
             <tbody>
             <tr th:if="${#lists.isEmpty(userAbsnceList)}">
-                <td colspan="6" class="text-center text-muted py-4">검색된 값이 없습니다.</td>
+                <td colspan="6" class="text-center text-muted py-4" th:text="#{absnce.noResult}">검색된 값이 없습니다.</td>
             </tr>
             <tr th:each="item : ${userAbsnceList}">
                 <td th:text="${item.userId}">ID</td>
@@ -54,7 +54,7 @@
                     <a class="krds-btn tertiary small"
                        th:href="${item.regYn == 'N'}
                                 ? @{/uss/ion/uas/addViewUserAbsnce.do(userId=${item.userId})}
-                                : @{/uss/ion/uas/getUserAbsnce.do(userId=${item.userId})}">등록</a>
+                                : @{/uss/ion/uas/getUserAbsnce.do(userId=${item.userId})}" th:text="#{button.register}">등록</a>
                 </td>
             </tr>
             </tbody>

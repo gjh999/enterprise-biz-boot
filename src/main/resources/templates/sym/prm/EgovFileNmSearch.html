@@ -2,31 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>프로그램파일명 검색</title></head>
+<head><title th:text="#{prgm.fileSearch.title}">프로그램파일명 검색</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">프로그램파일명 검색</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{prgm.fileSearch.title}">프로그램파일명 검색</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-search"></i> 프로그램파일명 검색</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-search"></i> <span th:text="#{prgm.fileSearch.title}">프로그램파일명 검색</span></h1>
 
         <form th:action="@{/sym/prm/EgovProgramListSearch.do}" method="post" class="mb-3">
             <div class="input-group" style="max-width:560px;">
-                <span class="input-group-text">프로그램파일명</span>
+                <span class="input-group-text" th:text="#{prgm.fileNm}">프로그램파일명</span>
                 <input type="text" class="krds-input" name="searchKeyword" maxlength="60"
                        th:value="${searchVO != null ? searchVO.searchKeyword : ''}"/>
-                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
             <thead><tr>
-                <th scope="col">프로그램파일명</th>
-                <th scope="col">프로그램명</th>
-                <th scope="col" style="width:100px;">선택</th>
+                <th scope="col" th:text="#{prgm.fileNm}">프로그램파일명</th>
+                <th scope="col" th:text="#{prgm.nm}">프로그램명</th>
+                <th scope="col" style="width:100px;" th:text="#{prgm.select}">선택</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${list_progrmmanage}">
@@ -34,11 +34,11 @@
                 <td th:text="${item.progrmKoreanNm}">프로그램명</td>
                 <td>
                     <button type="button" class="krds-btn primary small"
-                            th:onclick="|choisProgramListSearch('${item.progrmFileNm}')|">선택</button>
+                            th:onclick="|choisProgramListSearch('${item.progrmFileNm}')|" th:text="#{prgm.select}">선택</button>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list_progrmmanage)}">
-                <td colspan="3" class="text-center text-muted py-4">검색된 프로그램이 없습니다.</td>
+                <td colspan="3" class="text-center text-muted py-4" th:text="#{prgm.fileSearch.empty}">검색된 프로그램이 없습니다.</td>
             </tr>
             </tbody>
         </table>

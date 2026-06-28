@@ -2,52 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>휴일 등록</title></head>
+<head><title th:text="#{cal.restde.regist.title}">휴일 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/cal/EgovRestdeList.do}">휴일 관리</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/cal/EgovRestdeList.do}" th:text="#{cal.restde.manage}">휴일 관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{button.register}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-calendar-plus"></i> 휴일 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-calendar-plus"></i> <span th:text="#{cal.restde.regist}">휴일 등록</span></h1>
 
         <div class="alert alert-danger" th:if="${message != null and message != ''}" th:text="${message}">오류 메시지</div>
 
         <form th:action="@{/sym/cal/EgovRestdeRegist.do}" method="post" th:object="${restde}">
             <input type="hidden" name="cmd" value="Regist"/>
             <table class="tbl col">
-                <caption class="visually-hidden">휴일 등록 입력</caption>
+                <caption class="visually-hidden" th:text="#{cal.restde.regist.caption}">휴일 등록 입력</caption>
                 <colgroup><col style="width:160px;"><col></colgroup>
                 <tbody>
                 <tr>
-                    <th scope="row">휴일일자 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{cal.restde.de}">휴일일자</span> <span class="frm-rq">*</span></th>
                     <td><input class="krds-input" type="text" th:field="*{restdeDe}" maxlength="8"
                                placeholder="YYYYMMDD" pattern="\d{8}" required/></td>
                 </tr>
                 <tr>
-                    <th scope="row">휴일명 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{cal.restde.nm}">휴일명</span> <span class="frm-rq">*</span></th>
                     <td><input class="krds-input" type="text" th:field="*{restdeNm}" maxlength="60" required/></td>
                 </tr>
                 <tr>
-                    <th scope="row">휴일구분</th>
+                    <th scope="row" th:text="#{cal.restde.se}">휴일구분</th>
                     <td>
                         <select class="krds-form-select" th:field="*{restdeSeCode}">
-                            <option value="">선택</option>
+                            <option value="" th:text="#{cal.select}">선택</option>
                             <option th:each="code : ${restdeCode}" th:value="${code.code}" th:text="${code.codeNm}">구분</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">휴일설명</th>
+                    <th scope="row" th:text="#{cal.restde.dc}">휴일설명</th>
                     <td><textarea class="krds-input" th:field="*{restdeDc}" rows="3"></textarea></td>
                 </tr>
                 </tbody>
             </table>
             <div class="d-flex gap-2">
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 등록</button>
-                <a class="krds-btn tertiary" th:href="@{/sym/cal/EgovRestdeList.do}">취소</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.register}">등록</span></button>
+                <a class="krds-btn tertiary" th:href="@{/sym/cal/EgovRestdeList.do}" th:text="#{button.cancel}">취소</a>
             </div>
         </form>
     </div>

@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>메뉴생성</title></head>
+<head><title th:text="#{menu.creat.title}">메뉴생성</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do}">메뉴생성관리</a></li>
-            <li class="breadcrumb-item active">메뉴생성</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do}" th:text="#{nav.menuCreat}">메뉴생성관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{menu.creat.title}">메뉴생성</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 메뉴 생성</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> <span th:text="#{menu.creat.heading}">메뉴 생성</span></h1>
 
         <form name="menuCreatManageForm" th:action="@{/sym/mnu/mcm/EgovMenuCreatInsert.do}" method="post">
             <input type="hidden" name="checkedMenuNoForInsert" id="checkedMenuNoForInsert"/>
@@ -22,14 +22,14 @@
                 <div class="krds-panel-body">
                     <div class="row g-2 align-items-center">
                         <div class="col-auto">
-                            <label for="authorCode" class="col-form-label">권한코드 :</label>
+                            <label for="authorCode" class="col-form-label"><span th:text="#{menu.authorCode}">권한코드</span> :</label>
                         </div>
                         <div class="col-auto">
                             <input id="authorCode" class="krds-input" name="authorCode" type="text" maxlength="30"
-                                   title="권한코드" th:value="${resultVO != null} ? ${resultVO.authorCode} : ''" readonly="readonly"/>
+                                   title="권한코드" th:title="#{menu.authorCode}" th:value="${resultVO != null} ? ${resultVO.authorCode} : ''" readonly="readonly"/>
                         </div>
                         <div class="col-auto">
-                            <button type="submit" class="krds-btn primary"><i class="bi bi-check-lg"></i> 메뉴생성</button>
+                            <button type="submit" class="krds-btn primary"><i class="bi bi-check-lg"></i> <span th:text="#{menu.creat.title}">메뉴생성</span></button>
                         </div>
                     </div>
                 </div>
@@ -37,19 +37,19 @@
 
             <div class="krds-table-wrap">
             <table class="tbl">
-                <caption class="visually-hidden">메뉴 목록</caption>
+                <caption class="visually-hidden" th:text="#{menu.list}">메뉴 목록</caption>
                 <thead>
                     <tr>
-                        <th scope="col" style="width:60px;">선택</th>
-                        <th scope="col" style="width:100px;">메뉴번호</th>
-                        <th scope="col">메뉴명</th>
-                        <th scope="col" style="width:120px;">상위메뉴</th>
-                        <th scope="col" style="width:120px;">생성여부</th>
+                        <th scope="col" style="width:60px;" th:text="#{menu.select}">선택</th>
+                        <th scope="col" style="width:100px;" th:text="#{menu.no}">메뉴번호</th>
+                        <th scope="col" th:text="#{menu.nm}">메뉴명</th>
+                        <th scope="col" style="width:120px;" th:text="#{menu.upperMenuNo}">상위메뉴</th>
+                        <th scope="col" style="width:120px;" th:text="#{menu.creatYn}">생성여부</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:if="${#lists.isEmpty(list_menulist)}">
-                        <td colspan="5" class="text-center text-muted py-4">메뉴가 존재하지 않습니다.</td>
+                        <td colspan="5" class="text-center text-muted py-4" th:text="#{menu.empty}">메뉴가 존재하지 않습니다.</td>
                     </tr>
                     <tr th:each="result1 : ${list_menulist}">
                         <td class="text-center">

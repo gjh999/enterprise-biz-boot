@@ -3,38 +3,39 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>공통코드 상세</title></head>
+<head><title th:text="#{ccm.code.detail.title}">공통코드 상세</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}">공통코드관리</a></li>
-            <li class="breadcrumb-item active">상세</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}" th:text="#{nav.cmmnCode}">공통코드관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{ccm.detail.nav}">상세</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 공통코드 상세</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> <span th:text="#{ccm.code.detail.title}">공통코드 상세</span></h1>
 
-        <div th:if="${result == null}" class="alert alert-warning">상세 데이터가 없습니다.</div>
+        <div th:if="${result == null}" class="alert alert-warning" th:text="#{ccm.detail.empty}">상세 데이터가 없습니다.</div>
 
         <table class="tbl col" th:if="${result != null}">
-            <caption class="visually-hidden">공통코드 상세</caption>
+            <caption class="visually-hidden" th:text="#{ccm.code.detail.caption}">공통코드 상세</caption>
             <colgroup><col style="width:190px;"><col></colgroup>
             <tbody>
-            <tr><th scope="row">분류코드</th><td th:text="${result.clCodeNm}">분류</td></tr>
-            <tr><th scope="row">코드ID</th><td th:text="${result.codeId}">코드ID</td></tr>
-            <tr><th scope="row">코드ID명</th><td th:text="${result.codeIdNm}">코드ID명</td></tr>
-            <tr><th scope="row">코드ID설명</th><td th:text="${result.codeIdDc}">설명</td></tr>
-            <tr><th scope="row">사용여부</th><td th:text="${result.useAt == 'Y'} ? 'Yes' : 'No'">Yes</td></tr>
+            <tr><th scope="row" th:text="#{ccm.cl.clCode}">분류코드</th><td th:text="${result.clCodeNm}">분류</td></tr>
+            <tr><th scope="row" th:text="#{ccm.codeId}">코드ID</th><td th:text="${result.codeId}">코드ID</td></tr>
+            <tr><th scope="row" th:text="#{ccm.codeIdNm}">코드ID명</th><td th:text="${result.codeIdNm}">코드ID명</td></tr>
+            <tr><th scope="row" th:text="#{ccm.codeIdDc}">코드ID설명</th><td th:text="${result.codeIdDc}">설명</td></tr>
+            <tr><th scope="row" th:text="#{ccm.useAt}">사용여부</th><td th:text="${result.useAt == 'Y'} ? 'Yes' : 'No'">Yes</td></tr>
             </tbody>
         </table>
 
         <div class="d-flex gap-2" th:if="${result != null}">
-            <a class="krds-btn tertiary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}"><i class="bi bi-list"></i> 목록</a>
+            <a class="krds-btn tertiary" th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeList.do}"><i class="bi bi-list"></i> <span th:text="#{button.list}">목록</span></a>
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="krds-btn primary"
-               th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeModify.do(codeId=${result.codeId})}"><i class="bi bi-pencil"></i> 수정</a>
+               th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeModify.do(codeId=${result.codeId})}"><i class="bi bi-pencil"></i> <span th:text="#{button.modify}">수정</span></a>
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="krds-btn danger"
                th:href="@{/sym/ccm/cca/EgovCcmCmmnCodeRemove.do(codeId=${result.codeId})}"
-               onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> 삭제</a>
+               th:onclick="'return confirm(\'' + #{ccm.confirm.delete} + '\');'"
+               onclick="return confirm('삭제하시겠습니까?');"><i class="bi bi-trash"></i> <span th:text="#{button.delete}">삭제</span></a>
         </div>
     </div>
 </main>
