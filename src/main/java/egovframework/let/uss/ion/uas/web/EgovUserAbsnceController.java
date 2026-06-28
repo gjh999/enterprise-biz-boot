@@ -119,7 +119,14 @@ public class EgovUserAbsnceController {
 	@GetMapping("/uss/ion/uas/addViewUserAbsnce.do")
 	public String insertUserAbsnceView(@RequestParam("userId") String userId, @ModelAttribute("userAbsnceVO") UserAbsnceVO userAbsnceVO, Model model) throws Exception {
 		userAbsnceVO.setUserId(userId);
-		model.addAttribute("userAbsnce", egovUserAbsnceService.selectUserAbsnce(userAbsnceVO));
+		UserAbsnceVO selectedVO = egovUserAbsnceService.selectUserAbsnce(userAbsnceVO);
+
+		// 부재 이력이 없는 신규 대상자도 등록폼이 정상 표시되도록 빈 객체에 userId를 채워 바인딩한다.
+		if (selectedVO == null) {
+			selectedVO = new UserAbsnceVO();
+			selectedVO.setUserId(userId);
+		}
+		model.addAttribute("userAbsnce", selectedVO);
 		model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
 
 		return "uss/ion/uas/EgovUserAbsnceRegist";
@@ -165,7 +172,8 @@ public class EgovUserAbsnceController {
 			userAbsnce.setLastUpdusrId(user.getId());
 
 			egovUserAbsnceService.updateUserAbsnce(userAbsnce);
-			return "forward:/uss/ion/uas/getUserAbsnce.do";
+			// getUserAbsnce.do 는 GET 매핑이므로 POST forward 시 405 발생 → redirect(GET)로 전환한다.
+			return "redirect:/uss/ion/uas/getUserAbsnce.do?userId=" + userAbsnce.getUserId();
 		}
 	}
 

@@ -136,7 +136,7 @@
 			 
  	<update id="deleteTemplateInf" parameterType="egovframework.let.cop.com.service.TemplateInf">
  		
-			UPDATE TB_BBS_MASTER SET 
+			UPDATE TB_TMPLAT_INFO SET 
 				USE_AT = 'N',
 				LAST_UPDUSR_ID = #{lastUpdusrId},
 				LAST_UPDT_PNTTM = SYSDATE

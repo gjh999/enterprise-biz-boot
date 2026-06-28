@@ -74,9 +74,15 @@ public class EgovFileMngUtil {
 
     	File saveFolder = new File(EgovWebUtil.filePathBlackList(storePathString));
 
+    	// 상대경로(예: ./files) 설정 시 MultipartFile.transferTo 가 서블릿 임시디렉터리 기준으로 해석되어
+    	// 저장에 실패하므로 절대경로로 정규화하여 저장 위치를 명확히 한다.
+    	saveFolder = saveFolder.getAbsoluteFile();
+
     	if (!saveFolder.exists() || saveFolder.isFile()) {
     		saveFolder.mkdirs();
     	}
+
+    	String saveFolderPath = saveFolder.getAbsolutePath();
 
 		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
 		MultipartFile file;
@@ -106,7 +112,7 @@ public class EgovFileMngUtil {
 		    long _size = file.getSize();
 
 		    if (!"".equals(orginFileName)) {
-				filePath = storePathString + File.separator + newName;
+				filePath = saveFolderPath + File.separator + newName;
 				file.transferTo(new File(EgovWebUtil.filePathBlackList(filePath)));
 		    }
 

@@ -486,7 +486,7 @@ CREATE TABLE TB_QUSTNR_RESPOND_INFO (
   QESTNR_ID char(20) NOT NULL,
   QUSTNR_RESPOND_ID char(20) NOT NULL,
   SEXDSTN_CODE char(1) ,
-  OCCP_TY_CODE varchar(3) ,
+  OCCP_TY_CODE varchar(10) ,
   RESPOND_NM varchar(150) ,
   BRTHDY char(20) ,
   AREA_NO varchar(12) ,
