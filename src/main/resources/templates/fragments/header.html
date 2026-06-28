@@ -5,22 +5,27 @@
 <header th:fragment="header" class="egov-header">
     <div class="container d-flex align-items-center justify-content-between py-2">
         <a class="d-flex align-items-center text-decoration-none" th:href="@{/}">
-            <img th:src="@{/images/logo.svg}" alt="로고" width="36" height="36" class="me-2"/>
-            <span class="fs-5 fw-bold">전자정부 표준프레임워크 포털</span>
+            <img th:src="@{/images/logo.svg}" th:alt="#{header.logo.alt}" alt="로고" width="36" height="36" class="me-2"/>
+            <span class="fs-5 fw-bold" th:text="#{header.brand}">전자정부 표준프레임워크 포털</span>
         </a>
         <div class="d-flex align-items-center gap-2">
+            <!-- 언어 선택 -->
+            <div class="egov-lang" role="group" th:attr="aria-label=#{lang.select}" aria-label="언어 선택">
+                <a th:href="@{/cmm/lang(lang='ko')}" class="lang-btn" th:classappend="${#locale.language == 'ko'} ? 'active'" th:text="#{lang.korean.short}">한국어</a>
+                <a th:href="@{/cmm/lang(lang='en')}" class="lang-btn" th:classappend="${#locale.language == 'en'} ? 'active'">EN</a>
+            </div>
             <span sec:authorize="isAuthenticated()" class="me-2">
                 <i class="bi bi-person-circle"></i>
-                <span sec:authentication="principal.username">사용자</span> 님
+                <span sec:authentication="principal.username">사용자</span> <span th:text="#{header.user.suffix}">님</span>
             </span>
             <a sec:authorize="isAuthenticated() and hasRole('ADMIN')"
                class="krds-btn tertiary small" th:href="@{/uss/umt/mber/EgovMberManage.do}">
-                <i class="bi bi-people"></i> 회원관리
+                <i class="bi bi-people"></i> <span th:text="#{common.memberManage}">회원관리</span>
             </a>
             <a sec:authorize="!isAuthenticated()" class="krds-btn primary small"
-               th:href="@{/uat/uia/egovLoginUsr.do}"><i class="bi bi-box-arrow-in-right"></i> 로그인</a>
+               th:href="@{/uat/uia/egovLoginUsr.do}"><i class="bi bi-box-arrow-in-right"></i> <span th:text="#{common.login}">로그인</span></a>
             <a sec:authorize="isAuthenticated()" class="krds-btn danger small"
-               th:href="@{/uat/uia/actionLogout.do}"><i class="bi bi-box-arrow-right"></i> 로그아웃</a>
+               th:href="@{/uat/uia/actionLogout.do}"><i class="bi bi-box-arrow-right"></i> <span th:text="#{common.logout}">로그아웃</span></a>
         </div>
     </div>
 </header>

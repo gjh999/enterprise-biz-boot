@@ -21,8 +21,8 @@
 </head>
 <body class="egov-login-body">
 <!-- 언어 선택 -->
-<div class="login-lang egov-lang" role="group" aria-label="언어 선택">
-    <a th:href="@{/cmm/lang(lang='ko')}" class="lang-btn" th:classappend="${#locale.language == 'ko'} ? 'active'">한국어</a>
+<div class="login-lang egov-lang" role="group" th:attr="aria-label=#{lang.select}" aria-label="언어 선택">
+    <a th:href="@{/cmm/lang(lang='ko')}" class="lang-btn" th:classappend="${#locale.language == 'ko'} ? 'active'" th:text="#{lang.korean.short}">한국어</a>
     <a th:href="@{/cmm/lang(lang='en')}" class="lang-btn" th:classappend="${#locale.language == 'en'} ? 'active'">EN</a>
 </div>
 <div class="container">

@@ -46,8 +46,8 @@
 
     </ul>
     <p class="text-center text-muted small">
-        전체 <strong th:text="${paginationInfo.totalRecordCount}">0</strong>건
-        (<span th:text="${paginationInfo.currentPageNo}">1</span>/<span th:text="${paginationInfo.totalPageCount}">1</span> 페이지)
+        <span th:text="#{common.total}">전체</span> <strong th:text="${paginationInfo.totalRecordCount}">0</strong><span th:text="#{common.unit.case}">건</span>
+        (<span th:text="${paginationInfo.currentPageNo}">1</span>/<span th:text="${paginationInfo.totalPageCount}">1</span> <span th:text="#{common.page.unit}">페이지</span>)
     </p>
 </nav>
 
@@ -93,8 +93,8 @@
 
     </ul>
     <p class="text-center text-muted small">
-        전체 <strong th:text="${paginationInfo.totalRecordCount}">0</strong>건
-        (<span th:text="${paginationInfo.currentPageNo}">1</span>/<span th:text="${paginationInfo.totalPageCount}">1</span> 페이지)
+        <span th:text="#{common.total}">전체</span> <strong th:text="${paginationInfo.totalRecordCount}">0</strong><span th:text="#{common.unit.case}">건</span>
+        (<span th:text="${paginationInfo.currentPageNo}">1</span>/<span th:text="${paginationInfo.totalPageCount}">1</span> <span th:text="#{common.page.unit}">페이지</span>)
     </p>
 </nav>
 </body>

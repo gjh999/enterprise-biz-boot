@@ -3,43 +3,43 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
 <head>
-    <title>로그인</title>
+    <title th:text="#{login.title}">로그인</title>
 </head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width: 460px;">
         <div class="krds-panel shadow-sm mt-4">
             <div class="krds-panel-body p-4">
-                <h1 class="h4 text-center mb-4"><i class="bi bi-shield-lock"></i> 로그인</h1>
+                <h1 class="h4 text-center mb-4"><i class="bi bi-shield-lock"></i> <span th:text="#{login.heading}">로그인</span></h1>
 
                 <div class="alert alert-danger py-2" th:if="${message}" th:text="${message}">오류</div>
 
                 <form th:action="@{/uat/uia/actionSecurityLogin.do}" method="post">
                     <div class="mb-3">
-                        <div class="form-tit"><label for="userSe">사용자 구분</label></div>
+                        <div class="form-tit"><label for="userSe" th:text="#{login.userSe}">사용자 구분</label></div>
                         <select class="krds-form-select" id="userSe" name="userSe">
-                            <option value="USR">업무사용자(직원)</option>
-                            <option value="GNR">일반회원</option>
-                            <option value="ENT">기업회원</option>
+                            <option value="USR" th:text="#{login.userSe.usr}">업무사용자(직원)</option>
+                            <option value="GNR" th:text="#{login.userSe.gnr}">일반회원</option>
+                            <option value="ENT" th:text="#{login.userSe.ent}">기업회원</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="id">아이디</label></div>
+                        <div class="form-tit"><label for="id" th:text="#{login.id.label}">아이디</label></div>
                         <input class="krds-input" id="id" name="id" type="text" required autofocus
-                               placeholder="아이디"/>
+                               th:placeholder="#{login.id.label}" placeholder="아이디"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="password">비밀번호</label></div>
+                        <div class="form-tit"><label for="password" th:text="#{login.pw.label}">비밀번호</label></div>
                         <input class="krds-input" id="password" name="password" type="password" required
-                               placeholder="비밀번호"/>
+                               th:placeholder="#{login.pw.label}" placeholder="비밀번호"/>
                     </div>
                     <button class="krds-btn primary w-100" type="submit">
-                        <i class="bi bi-box-arrow-in-right"></i> 로그인
+                        <i class="bi bi-box-arrow-in-right"></i> <span th:text="#{login.heading}">로그인</span>
                     </button>
                 </form>
 
                 <p class="text-muted small text-center mt-3 mb-0">
-                    관리자: <code>admin</code> / <code>1</code> &nbsp;·&nbsp; 일반: <code>user</code> / <code>1</code>
+                    <span th:text="#{login.hint.admin}">관리자</span>: <code>admin</code> / <code>1</code> &nbsp;·&nbsp; <span th:text="#{login.hint.user}">일반</span>: <code>user</code> / <code>1</code>
                 </p>
             </div>
         </div>
