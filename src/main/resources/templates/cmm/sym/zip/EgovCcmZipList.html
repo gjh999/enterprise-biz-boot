@@ -3,38 +3,38 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>우편번호 관리</title></head>
+<head><title th:text="#{zip.list.title}">우편번호 관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">우편번호 관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{nav.zip}">우편번호 관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-geo-alt"></i> 우편번호 관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-geo-alt"></i> <span th:text="#{zip.list.title}">우편번호 관리</span></h1>
 
         <form class="row g-2 mb-3" th:action="@{/sym/ccm/zip/EgovCcmZipList.do}" method="get">
             <div class="col-auto">
                 <select class="krds-form-select" name="searchCondition">
-                    <option value="2" th:selected="${searchVO.searchCondition == '2'}">시도명</option>
-                    <option value="3" th:selected="${searchVO.searchCondition == '3'}">시군구명</option>
-                    <option value="4" th:selected="${searchVO.searchCondition == '4'}">읍면동명</option>
-                    <option value="1" th:selected="${searchVO.searchCondition == '1'}">우편번호</option>
+                    <option value="2" th:selected="${searchVO.searchCondition == '2'}" th:text="#{zip.field.ctprvnNm}">시도명</option>
+                    <option value="3" th:selected="${searchVO.searchCondition == '3'}" th:text="#{zip.field.signguNm}">시군구명</option>
+                    <option value="4" th:selected="${searchVO.searchCondition == '4'}" th:text="#{zip.field.emdNm}">읍면동명</option>
+                    <option value="1" th:selected="${searchVO.searchCondition == '1'}" th:text="#{zip.field.zip}">우편번호</option>
                 </select>
             </div>
-            <div class="col-auto"><input class="krds-input" name="searchKeyword" th:value="${searchVO.searchKeyword}" placeholder="검색어"/></div>
-            <div class="col-auto"><button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> 검색</button></div>
+            <div class="col-auto"><input class="krds-input" name="searchKeyword" th:value="${searchVO.searchKeyword}" th:placeholder="#{common.search.ph}" placeholder="검색어"/></div>
+            <div class="col-auto"><button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.search}">검색</span></button></div>
             <div class="col-auto ms-auto" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="krds-btn primary" th:href="@{/sym/ccm/zip/EgovCcmZipRegist.do}"><i class="bi bi-plus-lg"></i> 등록</a>
-                <a class="krds-btn secondary" th:href="@{/sym/ccm/zip/EgovCcmExcelZipRegist.do}"><i class="bi bi-file-earmark-excel"></i> 엑셀등록</a>
+                <a class="krds-btn primary" th:href="@{/sym/ccm/zip/EgovCcmZipRegist.do}"><i class="bi bi-plus-lg"></i> <span th:text="#{button.register}">등록</span></a>
+                <a class="krds-btn secondary" th:href="@{/sym/ccm/zip/EgovCcmExcelZipRegist.do}"><i class="bi bi-file-earmark-excel"></i> <span th:text="#{zip.excel.register}">엑셀등록</span></a>
             </div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
-            <caption class="visually-hidden">우편번호에 대한 목록</caption>
+            <caption class="visually-hidden" th:text="#{zip.list.caption}">우편번호에 대한 목록</caption>
             <thead>
-            <tr><th scope="col" style="width:90px;">우편번호</th><th scope="col">시도</th><th scope="col">시군구</th><th scope="col">읍면동</th><th scope="col">건물/지번</th></tr>
+            <tr><th scope="col" style="width:90px;" th:text="#{zip.field.zip}">우편번호</th><th scope="col" th:text="#{zip.col.ctprvn}">시도</th><th scope="col" th:text="#{zip.col.signgu}">시군구</th><th scope="col" th:text="#{zip.col.emd}">읍면동</th><th scope="col" th:text="#{zip.col.buld}">건물/지번</th></tr>
             </thead>
             <tbody>
             <tr th:each="item : ${resultList}">
@@ -45,7 +45,7 @@
                 <td th:text="${item.liBuldNm}">건물</td>
             </tr>
             <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
-                <td colspan="5" class="text-center text-muted py-4">데이터가 없습니다.</td>
+                <td colspan="5" class="text-center text-muted py-4" th:text="#{zip.list.empty}">데이터가 없습니다.</td>
             </tr>
             </tbody>
         </table>
