@@ -3,51 +3,51 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>게시판 마스터 목록</title></head>
+<head><title th:text="#{bbs.mstrList}">게시판 마스터 목록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">게시판 마스터 목록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{bbs.mstrList}">게시판 마스터 목록</li>
         </ol></nav>
 
-        <h1 class="h4 mb-3"><i class="bi bi-grid-3x3-gap"></i> 게시판 마스터 목록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-grid-3x3-gap"></i> <span th:text="#{bbs.mstrList}">게시판 마스터 목록</span></h1>
 
         <!-- 검색 영역 (게시판 목록 표준) — 검색구분 + 검색어 -->
         <form th:action="@{/cop/bbs/SelectBBSMasterInfs.do}" method="get" class="search-bar krds-search mb-3">
             <div class="row g-2 align-items-end">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <div class="form-tit"><label for="searchCnd">검색구분</label></div>
+                        <div class="form-tit"><label for="searchCnd" th:text="#{bbs.search.cnd}">검색구분</label></div>
                         <div class="form-conts">
-                            <select id="searchCnd" name="searchCnd" class="krds-form-select" title="검색구분 선택">
-                                <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">게시판명</option>
-                                <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">게시판유형</option>
+                            <select id="searchCnd" name="searchCnd" class="krds-form-select" th:title="#{bbs.search.cnd.select}" title="검색구분 선택">
+                                <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}" th:text="#{bbs.bbsNm}">게시판명</option>
+                                <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}" th:text="#{bbs.bbsTy.full}">게시판유형</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <div class="form-tit"><label for="searchWrd">검색어</label></div>
+                        <div class="form-tit"><label for="searchWrd" th:text="#{bbs.search.wrd}">검색어</label></div>
                         <div class="form-conts">
                             <input type="text" id="searchWrd" name="searchWrd" class="krds-input"
-                                   th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어를 입력하세요" maxlength="35"/>
+                                   th:value="${searchVO != null ? searchVO.searchWrd : ''}" th:placeholder="#{bbs.search.wrd.ph}" placeholder="검색어를 입력하세요" maxlength="35"/>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <button type="submit" class="krds-btn primary medium w-100"><i class="bi bi-search"></i> 검색</button>
+                    <button type="submit" class="krds-btn primary medium w-100"><i class="bi bi-search"></i> <span th:text="#{button.search}">검색</span></button>
                 </div>
             </div>
         </form>
 
         <!-- 목록 헤더: 전체 건수 + 등록 버튼(우측) -->
         <div class="d-flex justify-content-between align-items-center mb-2 mt-3">
-            <span class="text-muted">전체 <strong th:text="${resultCnt}">0</strong>건</span>
+            <span class="text-muted"><span th:text="#{common.total}">전체</span> <strong th:text="${resultCnt}">0</strong><span th:text="#{common.unit.case}">건</span></span>
             <a class="krds-btn primary small" sec:authorize="isAuthenticated()" th:href="@{/cop/bbs/addBBSMaster.do}">
-                <i class="bi bi-plus-lg"></i> 등록
+                <i class="bi bi-plus-lg"></i> <span th:text="#{button.register}">등록</span>
             </a>
         </div>
 
@@ -55,12 +55,12 @@
         <table class="tbl">
             <thead>
             <tr>
-                <th scope="col" style="width:90px;">번호</th>
-                <th scope="col">게시판명</th>
-                <th scope="col" style="width:140px;">유형</th>
-                <th scope="col" style="width:140px;">속성</th>
-                <th scope="col" style="width:80px;">사용</th>
-                <th scope="col" style="width:130px;">등록일</th>
+                <th scope="col" style="width:90px;" th:text="#{common.no}">번호</th>
+                <th scope="col" th:text="#{bbs.bbsNm}">게시판명</th>
+                <th scope="col" style="width:140px;" th:text="#{bbs.bbsTy}">유형</th>
+                <th scope="col" style="width:140px;" th:text="#{bbs.bbsAttrb}">속성</th>
+                <th scope="col" style="width:80px;" th:text="#{bbs.use}">사용</th>
+                <th scope="col" style="width:130px;" th:text="#{common.regdate}">등록일</th>
             </tr>
             </thead>
             <tbody>
@@ -76,12 +76,12 @@
                 <td th:text="${item.bbsAttrbCodeNm}">속성</td>
                 <td class="text-center">
                     <span class="krds-badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-gray'"
-                          th:text="${item.useAt == 'Y'} ? '사용' : '미사용'">사용</span>
+                          th:text="${item.useAt == 'Y'} ? #messages.msg('bbs.use') : #messages.msg('bbs.unuse')">사용</span>
                 </td>
                 <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
             </tr>
             <tr th:if="${#lists.isEmpty(resultList)}">
-                <td colspan="6" class="text-center text-muted py-4">등록된 게시판 마스터가 없습니다.</td>
+                <td colspan="6" class="text-center text-muted py-4" th:text="#{bbs.empty.mstr}">등록된 게시판 마스터가 없습니다.</td>
             </tr>
             </tbody>
         </table>

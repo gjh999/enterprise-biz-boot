@@ -4,33 +4,33 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
 <head>
-    <title th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '게시판 관리'}">게시판 관리</title>
+    <title th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.mngTitle')}">게시판 관리</title>
 </head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-                <li class="breadcrumb-item">게시판 관리</li>
-                <li class="breadcrumb-item active" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '게시판'}">게시판</li>
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+                <li class="breadcrumb-item" th:text="#{bbs.mngTitle}">게시판 관리</li>
+                <li class="breadcrumb-item active" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.default')}">게시판</li>
             </ol>
         </nav>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '게시판 관리'}">게시판 관리</h1>
-            <span class="text-muted small">총 <strong th:text="${resultCnt}">0</strong> 건</span>
+            <h1 class="h4 mb-0" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.mngTitle')}">게시판 관리</h1>
+            <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong th:text="${resultCnt}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
         </div>
 
         <div class="krds-table-wrap">
         <table class="tbl">
             <thead>
             <tr>
-                <th scope="col" style="width:80px;">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col" style="width:120px;">작성자</th>
-                <th scope="col" style="width:160px;">등록일</th>
-                <th scope="col" style="width:80px;">조회</th>
+                <th scope="col" style="width:80px;" th:text="#{common.no}">번호</th>
+                <th scope="col" th:text="#{common.title}">제목</th>
+                <th scope="col" style="width:120px;" th:text="#{common.writer}">작성자</th>
+                <th scope="col" style="width:160px;" th:text="#{common.regdate}">등록일</th>
+                <th scope="col" style="width:80px;" th:text="#{common.views}">조회</th>
             </tr>
             </thead>
             <tbody>
@@ -41,12 +41,12 @@
                        th:href="@{/cop/bbs/admin/selectBoardArticle.do(bbsId=${item.bbsId},nttId=${item.nttId})}"
                        th:text="${item.nttSj}">제목</a>
                 </td>
-                <td class="text-center" th:text="${item.ntcrNm ?: '관리자'}">작성자</td>
+                <td class="text-center" th:text="${item.ntcrNm ?: #messages.msg('bbs.admin')}">작성자</td>
                 <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
                 <td class="text-center" th:text="${item.inqireCo ?: 0}">0</td>
             </tr>
             <tr th:if="${#lists.isEmpty(resultList)}">
-                <td colspan="5" class="text-center text-muted py-4">등록된 게시물이 없습니다.</td>
+                <td colspan="5" class="text-center text-muted py-4" th:text="#{bbs.empty.article}">등록된 게시물이 없습니다.</td>
             </tr>
             </tbody>
         </table>
@@ -55,7 +55,7 @@
         <div class="text-end" sec:authorize="isAuthenticated()">
             <a class="krds-btn primary small"
                th:href="@{/cop/bbs/admin/addBoardArticle.do(bbsId=${boardVO != null ? boardVO.bbsId : ''})}">
-                <i class="bi bi-pencil-square"></i> 글쓰기
+                <i class="bi bi-pencil-square"></i> <span th:text="#{bbs.write}">글쓰기</span>
             </a>
         </div>
     </div>

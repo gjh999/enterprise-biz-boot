@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>템플릿 목록</title>
+    <title th:text="#{bbs.tmplat.list}">템플릿 목록</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}"/>
     <link rel="stylesheet" th:href="@{/krds/resources/cdn/krds.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
@@ -12,26 +12,26 @@
 </head>
 <body class="p-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h5 mb-0">템플릿 선택</h1>
-        <button type="button" class="btn-close" aria-label="닫기" onclick="fn_egov_cancel_popup();"></button>
+        <h1 class="h5 mb-0" th:text="#{bbs.tmplat.select}">템플릿 선택</h1>
+        <button type="button" class="btn-close" th:aria-label="#{button.close}" aria-label="닫기" onclick="fn_egov_cancel_popup();"></button>
     </div>
 
     <form class="row g-2 mb-3" th:action="@{/cop/com/selectTemplateInfsPop.do}" method="get">
         <div class="col-auto">
-            <select class="krds-form-select" name="searchCnd" title="검색조건">
-                <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}">템플릿명</option>
-                <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}">템플릿구분</option>
+            <select class="krds-form-select" name="searchCnd" th:title="#{bbs.search.cnd}" title="검색조건">
+                <option value="0" th:selected="${searchVO != null and searchVO.searchCnd == '0'}" th:text="#{bbs.tmplat.nm}">템플릿명</option>
+                <option value="1" th:selected="${searchVO != null and searchVO.searchCnd == '1'}" th:text="#{bbs.tmplat.se.full}">템플릿구분</option>
             </select>
         </div>
         <div class="col-auto">
-            <input class="krds-input" type="text" name="searchWrd" maxlength="35" title="검색어"
-                   th:value="${searchVO != null ? searchVO.searchWrd : ''}" placeholder="검색어"/>
+            <input class="krds-input" type="text" name="searchWrd" maxlength="35" th:title="#{bbs.search.wrd}" title="검색어"
+                   th:value="${searchVO != null ? searchVO.searchWrd : ''}" th:placeholder="#{bbs.search.wrd}" placeholder="검색어"/>
         </div>
         <div class="col-auto">
-            <button class="krds-btn secondary small" type="submit"><i class="bi bi-search"></i> 조회</button>
+            <button class="krds-btn secondary small" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
         </div>
         <div class="col-auto ms-auto">
-            <span class="text-muted small">총 <strong th:text="${resultCnt ?: 0}">0</strong> 건</span>
+            <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong th:text="${resultCnt ?: 0}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
         </div>
     </form>
 
@@ -39,9 +39,9 @@
     <table class="tbl">
         <thead>
         <tr>
-            <th scope="col">템플릿 명</th>
-            <th scope="col">경로</th>
-            <th scope="col" style="width:90px;">선택</th>
+            <th scope="col" th:text="#{bbs.tmplat.nm.label}">템플릿 명</th>
+            <th scope="col" th:text="#{bbs.tmplat.cours}">경로</th>
+            <th scope="col" style="width:90px;" th:text="#{bbs.select.action}">선택</th>
         </tr>
         </thead>
         <tbody>
@@ -51,11 +51,11 @@
             <td class="text-center">
                 <button type="button" class="krds-btn primary small"
                         th:attr="data-id=${item.tmplatId},data-nm=${item.tmplatNm}"
-                        onclick="selectTmplat(this)">선택</button>
+                        onclick="selectTmplat(this)" th:text="#{bbs.select.action}">선택</button>
             </td>
         </tr>
         <tr th:if="${resultList == null or #lists.isEmpty(resultList)}">
-            <td colspan="3" class="text-center text-muted">데이터가 없습니다.</td>
+            <td colspan="3" class="text-center text-muted" th:text="#{bbs.tmplat.empty.data}">데이터가 없습니다.</td>
         </tr>
         </tbody>
     </table>

@@ -2,45 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>게시판 사용정보 등록</title></head>
+<head><title th:text="#{bbs.useInf.regist}">게시판 사용정보 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;" th:with="u=${boardUseInf}">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/cop/com/selectBBSUseInfs.do}">게시판사용정보</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cop/com/selectBBSUseInfs.do}" th:text="#{bbs.useInf}">게시판사용정보</a></li>
+            <li class="breadcrumb-item active" th:text="#{button.register}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> 게시판 사용정보 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> <span th:text="#{bbs.useInf.regist}">게시판 사용정보 등록</span></h1>
         <form th:action="@{/cop/com/insertBBSUseInf.do}" method="post" onsubmit="return fnValidateBbsUseInf();">
             <input type="hidden" name="pageIndex" th:value="${searchVO != null ? searchVO.pageIndex : '1'}"/>
             <input type="hidden" id="param_trgetType" name="param_trgetType" value=""/>
             <table class="tbl col">
-                <caption>게시판 사용정보 등록</caption>
+                <caption th:text="#{bbs.useInf.regist}">게시판 사용정보 등록</caption>
                 <tbody>
                 <tr>
-                    <th scope="row" style="width:190px;">게시판 명 <span class="frm-rq">*</span></th>
+                    <th scope="row" style="width:190px;"><span th:text="#{bbs.bbsNm.label}">게시판 명</span> <span class="frm-rq">*</span></th>
                     <td>
                         <div class="input-group">
                             <input class="krds-input" type="text" id="bbsNm" name="bbsNm" readonly
-                                   th:value="${u != null ? u.bbsNm : ''}" placeholder="조회 버튼으로 게시판을 선택하세요"/>
+                                   th:value="${u != null ? u.bbsNm : ''}" th:placeholder="#{bbs.bbsNm.select.ph}" placeholder="조회 버튼으로 게시판을 선택하세요"/>
                             <button class="krds-btn tertiary" type="button" onclick="fn_egov_inqire_bbsInf();">
-                                <i class="bi bi-search"></i> 조회
+                                <i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span>
                             </button>
                         </div>
                         <!-- @EgovNullCheck(bbsId) : 팝업 선택으로 채워진다 -->
                         <input type="hidden" id="bbsId" name="bbsId" th:value="${u != null ? u.bbsId : ''}"/>
-                        <small class="text-muted">사용정보가 등록되지 않은 게시판만 선택할 수 있습니다.</small>
+                        <small class="text-muted" th:text="#{bbs.useInf.notRegistOnly}">사용정보가 등록되지 않은 게시판만 선택할 수 있습니다.</small>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">대상 구분 <span class="frm-rq">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.trgetSe}">대상 구분</span> <span class="frm-rq">*</span></th>
                     <td>
                         <div class="input-group">
                             <select class="krds-form-select" id="trgetType" name="trgetType" style="max-width:200px;"
                                     onchange="fn_egov_selectTargetType(this);">
-                                <option value="" selected>선택하세요</option>
-                                <option value="SYSTEM">시스템</option>
+                                <option value="" selected th:text="#{bbs.select}">선택하세요</option>
+                                <option value="SYSTEM" th:text="#{bbs.trgetSe.system}">시스템</option>
                             </select>
                             <input class="krds-input" type="text" id="trgetNm" name="trgetNm" readonly value=""/>
                         </div>
@@ -51,8 +51,8 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-between">
-                <a class="krds-btn tertiary" th:href="@{/cop/com/selectBBSUseInfs.do}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/cop/com/selectBBSUseInfs.do}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>
@@ -60,6 +60,11 @@
 <th:block layout:fragment="body-js">
     <script th:inline="javascript">
         var bbsMstrPopupUrl = /*[[@{/cop/bbs/SelectBBSMasterInfsPop.do}]]*/ '/cop/bbs/SelectBBSMasterInfsPop.do';
+        var bbsInfoTitle = /*[[#{bbs.bbsInfo}]]*/ '게시판 정보';
+        var trgetSystemUseLabel = /*[[#{bbs.trgetSe.systemUse}]]*/ '시스템 활용';
+        var msgSelectBbs = /*[[#{bbs.alert.selectBbs}]]*/ '게시판을 선택하세요.';
+        var msgSelectTrgetSe = /*[[#{bbs.alert.selectTrgetSe}]]*/ '대상 구분을 선택하세요.';
+        var msgConfirmRegister = /*[[#{bbs.confirm.register}]]*/ '등록하시겠습니까?';
 
         /* 게시판 마스터 선택 팝업 (iframe 모달) */
         function fn_egov_inqire_bbsInf() {
@@ -68,7 +73,7 @@
             pan.id = 'modalPan';
             pan.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1050;display:flex;align-items:center;justify-content:center;';
             pan.innerHTML = '<div style="background:#fff;border-radius:.5rem;width:min(900px,95vw);height:min(600px,90vh);overflow:hidden;">'
-                + '<iframe src="' + bbsMstrPopupUrl + '" style="border:0;width:100%;height:100%;" title="게시판 정보"></iframe></div>';
+                + '<iframe src="' + bbsMstrPopupUrl + '" style="border:0;width:100%;height:100%;" title="' + bbsInfoTitle + '"></iframe></div>';
             pan.addEventListener('click', function (e) { if (e.target === pan) fn_egov_modal_remove(); });
             document.body.appendChild(pan);
         }
@@ -90,7 +95,7 @@
 
         /* 대상 구분 선택 → trgetId/trgetNm 설정 (JSP 원본: SYSTEM → SYSTEM_DEFAULT_BOARD) */
         function fn_egov_selectTargetType(obj) {
-            var retVal = (obj.value === '') ? '|' : 'SYSTEM_DEFAULT_BOARD|시스템 활용';
+            var retVal = (obj.value === '') ? '|' : 'SYSTEM_DEFAULT_BOARD|' + trgetSystemUseLabel;
             var tmp = retVal.split('|');
             document.getElementById('trgetId').value = tmp[0];
             document.getElementById('trgetNm').value = tmp[1];
@@ -99,14 +104,14 @@
 
         function fnValidateBbsUseInf() {
             if (document.getElementById('bbsId').value === '') {
-                alert('게시판을 선택하세요.');
+                alert(msgSelectBbs);
                 return false;
             }
             if (document.getElementById('trgetId').value === '') {
-                alert('대상 구분을 선택하세요.');
+                alert(msgSelectTrgetSe);
                 return false;
             }
-            return confirm('등록하시겠습니까?');
+            return confirm(msgConfirmRegister);
         }
     </script>
 </th:block>

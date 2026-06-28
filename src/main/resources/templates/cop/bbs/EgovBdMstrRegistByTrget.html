@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>게시판 등록 (대상)</title></head>
+<head><title th:text="#{bbs.regByTrget}">게시판 등록 (대상)</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:860px;"
          th:with="trgetId=${searchVO != null ? searchVO.trgetId : ''}">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
             <li class="breadcrumb-item">
-                <a th:href="@{/cop/bbs/selectBdMstrListByTrget.do(trgetId=${trgetId})}">게시판목록</a>
+                <a th:href="@{/cop/bbs/selectBdMstrListByTrget.do(trgetId=${trgetId})}" th:text="#{bbs.bbsList}">게시판목록</a>
             </li>
-            <li class="breadcrumb-item active">게시판 등록</li>
+            <li class="breadcrumb-item active" th:text="#{bbs.regByTrget}">게시판 등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> 게시판 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> <span th:text="#{bbs.regByTrget}">게시판 등록</span></h1>
         <form th:action="@{/cop/bbs/insertBdMstrByTrget.do}" th:object="${boardMaster}" method="post">
             <input type="hidden" name="trgetId" th:value="${trgetId}"/>
             <input type="hidden" th:field="*{trgetId}" th:if="${trgetId == null or #strings.isEmpty(trgetId)}"/>
@@ -25,33 +25,33 @@
             <table class="tbl col">
                 <tbody>
                 <tr>
-                    <th scope="row" style="width:190px;">게시판 명 <span class="text-danger">*</span></th>
+                    <th scope="row" style="width:190px;"><span th:text="#{bbs.bbsNm.label}">게시판 명</span> <span class="text-danger">*</span></th>
                     <td><input class="krds-input" type="text" maxlength="120" th:field="*{bbsNm}" required/></td>
                 </tr>
                 <tr>
-                    <th scope="row">게시판 소개 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.bbsIntrcn}">게시판 소개</span> <span class="text-danger">*</span></th>
                     <td><textarea class="krds-input" rows="4" maxlength="2000" th:field="*{bbsIntrcn}" required></textarea></td>
                 </tr>
                 <tr>
-                    <th scope="row">게시판 유형 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.bbsTy.label}">게시판 유형</span> <span class="text-danger">*</span></th>
                     <td>
                         <select class="krds-form-select" th:field="*{bbsTyCode}" required>
-                            <option value="">선택하세요</option>
+                            <option value="" th:text="#{bbs.select}">선택하세요</option>
                             <option th:each="c : ${typeList}" th:value="${c.code}" th:text="${c.codeNm}">유형</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">게시판 속성 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.bbsAttrb.label}">게시판 속성</span> <span class="text-danger">*</span></th>
                     <td>
                         <select class="krds-form-select" th:field="*{bbsAttrbCode}" required>
-                            <option value="">선택하세요</option>
+                            <option value="" th:text="#{bbs.select}">선택하세요</option>
                             <option th:each="c : ${attrbList}" th:value="${c.code}" th:text="${c.codeNm}">속성</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">답장가능여부 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.replyPosblAt}">답장가능여부</span> <span class="text-danger">*</span></th>
                     <td>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="rp_y" th:field="*{replyPosblAt}" value="Y"/>
@@ -64,7 +64,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">파일첨부가능여부 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.fileAtchPosblAt}">파일첨부가능여부</span> <span class="text-danger">*</span></th>
                     <td>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="fa_y" th:field="*{fileAtchPosblAt}" value="Y"/>
@@ -77,19 +77,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">첨부가능파일 숫자</th>
+                    <th scope="row" th:text="#{bbs.posblAtchFileNumber}">첨부가능파일 숫자</th>
                     <td>
                         <select class="krds-form-select" th:field="*{posblAtchFileNumber}">
-                            <option value="0">선택하세요</option>
-                            <option value="1">1개</option>
-                            <option value="2">2개</option>
-                            <option value="3">3개</option>
+                            <option value="0" th:text="#{bbs.select}">선택하세요</option>
+                            <option value="1" th:text="#{bbs.fileCount.1}">1개</option>
+                            <option value="2" th:text="#{bbs.fileCount.2}">2개</option>
+                            <option value="3" th:text="#{bbs.fileCount.3}">3개</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">템플릿 정보 <span class="text-danger">*</span></th>
-                    <td><input class="krds-input" type="text" th:field="*{tmplatNm}" value="게시판 기본템플릿" readonly/></td>
+                    <th scope="row"><span th:text="#{bbs.tmplatInfo}">템플릿 정보</span> <span class="text-danger">*</span></th>
+                    <td><input class="krds-input" type="text" th:field="*{tmplatNm}" readonly/></td>
                 </tr>
                 </tbody>
             </table>
@@ -97,8 +97,8 @@
 
             <div class="d-flex justify-content-between">
                 <a class="krds-btn tertiary"
-                   th:href="@{/cop/bbs/selectBdMstrListByTrget.do(trgetId=${trgetId})}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                   th:href="@{/cop/bbs/selectBdMstrListByTrget.do(trgetId=${trgetId})}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>

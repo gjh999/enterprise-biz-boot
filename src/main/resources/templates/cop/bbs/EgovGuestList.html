@@ -3,26 +3,26 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '방명록'}">방명록</title></head>
+<head><title th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.guest')}">방명록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container"
          th:with="bbsId=${boardVO != null ? boardVO.bbsId : ''}, editMode=${boardVO != null and boardVO.nttId != 0}">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '방명록'}">방명록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.guest')}">방명록</li>
         </ol></nav>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0"><i class="bi bi-chat-left-text"></i> <span th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '방명록'}">방명록</span></h1>
-            <span class="text-muted small">총 <strong th:text="${resultCnt}">0</strong> 건</span>
+            <h1 class="h4 mb-0"><i class="bi bi-chat-left-text"></i> <span th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.guest')}">방명록</span></h1>
+            <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong th:text="${resultCnt}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
         </div>
 
         <!-- 작성/수정 폼 : 방명록은 목록 화면에서 바로 등록한다 -->
         <div class="krds-panel mb-4" sec:authorize="isAuthenticated()">
             <div class="krds-panel-head py-2">
                 <i class="bi bi-pencil-square"></i>
-                <span th:text="${editMode} ? '방명록 수정' : '방명록 작성'">방명록 작성</span>
+                <span th:text="${editMode} ? #messages.msg('bbs.guest.modify') : #messages.msg('bbs.guest.write')">방명록 작성</span>
             </div>
             <div class="krds-panel-body">
                 <form th:action="${editMode} ? @{/cop/bbs/updateGuestList.do} : @{/cop/bbs/insertGuestList.do}"
@@ -38,13 +38,13 @@
                     <input type="hidden" name="ntceEndde" value="99991231"/>
 
                     <textarea class="krds-input mb-2" name="nttCn" rows="3" maxlength="2400" required
-                              placeholder="방명록 내용을 입력하세요."
+                              th:placeholder="#{bbs.guest.content.ph}" placeholder="방명록 내용을 입력하세요."
                               th:text="${editMode} ? ${boardVO.nttCn} : ''"></textarea>
                     <div class="text-end">
                         <a class="krds-btn tertiary small" th:if="${editMode}"
-                           th:href="@{/cop/bbs/selectGuestList.do(bbsId=${bbsId})}">취소</a>
+                           th:href="@{/cop/bbs/selectGuestList.do(bbsId=${bbsId})}" th:text="#{button.cancel}">취소</a>
                         <button class="krds-btn primary small" type="submit">
-                            <i class="bi bi-check-lg"></i> <span th:text="${editMode} ? '수정' : '등록'">등록</span>
+                            <i class="bi bi-check-lg"></i> <span th:text="${editMode} ? #messages.msg('button.modify') : #messages.msg('button.register')">등록</span>
                         </button>
                     </div>
                 </form>
@@ -63,35 +63,36 @@
                     <div class="d-flex justify-content-end gap-1 mt-1" sec:authorize="isAuthenticated()"
                          th:if="${sessionUniqId != null and sessionUniqId == item.frstRegisterId}">
                         <a class="krds-btn tertiary small"
-                           th:href="@{/cop/bbs/selectSingleGuestList.do(bbsId=${item.bbsId},nttId=${item.nttId})}">수정</a>
+                           th:href="@{/cop/bbs/selectSingleGuestList.do(bbsId=${item.bbsId},nttId=${item.nttId})}" th:text="#{button.modify}">수정</a>
                         <form th:action="@{/cop/bbs/deleteGuestList.do}" method="post" class="d-inline"
-                              onsubmit="return confirm('삭제하시겠습니까?');">
+                              th:onsubmit="'return confirm(\'' + #{bbs.confirm.delete} + '\');'">
                             <input type="hidden" name="bbsId" th:value="${item.bbsId}"/>
                             <input type="hidden" name="nttId" th:value="${item.nttId}"/>
-                            <button class="krds-btn danger small" type="submit">삭제</button>
+                            <button class="krds-btn danger small" type="submit" th:text="#{button.delete}">삭제</button>
                         </form>
                     </div>
                     <!-- 관리자는 타인 글도 삭제 가능 -->
                     <div class="d-flex justify-content-end mt-1" sec:authorize="hasRole('ROLE_ADMIN')"
                          th:if="${sessionUniqId == null or sessionUniqId != item.frstRegisterId}">
                         <form th:action="@{/cop/bbs/deleteGuestList.do}" method="post" class="d-inline"
-                              onsubmit="return confirm('삭제하시겠습니까?');">
+                              th:onsubmit="'return confirm(\'' + #{bbs.confirm.delete} + '\');'">
                             <input type="hidden" name="bbsId" th:value="${item.bbsId}"/>
                             <input type="hidden" name="nttId" th:value="${item.nttId}"/>
-                            <button class="krds-btn danger small" type="submit">삭제</button>
+                            <button class="krds-btn danger small" type="submit" th:text="#{button.delete}">삭제</button>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="text-center text-muted py-4" th:if="${#lists.isEmpty(resultList)}">등록된 방명록이 없습니다.</div>
+            <div class="text-center text-muted py-4" th:if="${#lists.isEmpty(resultList)}" th:text="#{bbs.guest.empty}">등록된 방명록이 없습니다.</div>
         </div>
     </div>
 </main>
 <th:block layout:fragment="body-js">
-    <script>
+    <script th:inline="javascript">
+        var msgGuestContentRequired = /*[[#{bbs.alert.content}]]*/ '내용을 입력하세요.';
         function fnValidateGuest(frm) {
             if (frm.nttCn.value.trim() === '') {
-                alert('내용을 입력하세요.');
+                alert(msgGuestContentRequired);
                 return false;
             }
             return true;

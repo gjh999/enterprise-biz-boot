@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>게시판 생성</title></head>
+<head><title th:text="#{bbs.create}">게시판 생성</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:860px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/cop/bbs/SelectBBSMasterInfs.do}">게시판생성관리</a></li>
-            <li class="breadcrumb-item active">게시판 생성</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cop/bbs/SelectBBSMasterInfs.do}" th:text="#{bbs.createMng}">게시판생성관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{bbs.create}">게시판 생성</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> 게시판 생성</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-plus"></i> <span th:text="#{bbs.create}">게시판 생성</span></h1>
         <form th:action="@{/cop/bbs/insertBBSMasterInf.do}" th:object="${boardMaster}" method="post">
             <input type="hidden" name="pageIndex" th:value="${searchVO != null ? searchVO.pageIndex : '1'}"/>
             <!-- @EgovNullCheck(tmplatId) : 빈값이면 검증 실패하므로 기본 템플릿 ID를 보장한다 -->
@@ -22,33 +22,33 @@
             <table class="tbl col">
                 <tbody>
                 <tr>
-                    <th scope="row" style="width:190px;">게시판 명 <span class="text-danger">*</span></th>
+                    <th scope="row" style="width:190px;"><span th:text="#{bbs.bbsNm.label}">게시판 명</span> <span class="text-danger">*</span></th>
                     <td><input class="krds-input" type="text" maxlength="120" th:field="*{bbsNm}" required/></td>
                 </tr>
                 <tr>
-                    <th scope="row">게시판 소개 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.bbsIntrcn}">게시판 소개</span> <span class="text-danger">*</span></th>
                     <td><textarea class="krds-input" rows="4" maxlength="2000" th:field="*{bbsIntrcn}" required></textarea></td>
                 </tr>
                 <tr>
-                    <th scope="row">게시판 유형 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.bbsTy.label}">게시판 유형</span> <span class="text-danger">*</span></th>
                     <td>
                         <select class="krds-form-select" th:field="*{bbsTyCode}" required>
-                            <option value="">선택하세요</option>
+                            <option value="" th:text="#{bbs.select}">선택하세요</option>
                             <option th:each="c : ${typeList}" th:value="${c.code}" th:text="${c.codeNm}">유형</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">게시판 속성 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.bbsAttrb.label}">게시판 속성</span> <span class="text-danger">*</span></th>
                     <td>
                         <select class="krds-form-select" th:field="*{bbsAttrbCode}" required>
-                            <option value="">선택하세요</option>
+                            <option value="" th:text="#{bbs.select}">선택하세요</option>
                             <option th:each="c : ${attrbList}" th:value="${c.code}" th:text="${c.codeNm}">속성</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">답장가능여부 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.replyPosblAt}">답장가능여부</span> <span class="text-danger">*</span></th>
                     <td>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="rp_y" th:field="*{replyPosblAt}" value="Y"/>
@@ -61,7 +61,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">파일첨부가능여부 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.fileAtchPosblAt}">파일첨부가능여부</span> <span class="text-danger">*</span></th>
                     <td>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="fa_y" th:field="*{fileAtchPosblAt}" value="Y"/>
@@ -74,35 +74,35 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">첨부가능파일 숫자</th>
+                    <th scope="row" th:text="#{bbs.posblAtchFileNumber}">첨부가능파일 숫자</th>
                     <td>
                         <select class="krds-form-select" th:field="*{posblAtchFileNumber}">
-                            <option value="0">선택하세요</option>
-                            <option value="1">1개</option>
-                            <option value="2">2개</option>
-                            <option value="3">3개</option>
+                            <option value="0" th:text="#{bbs.select}">선택하세요</option>
+                            <option value="1" th:text="#{bbs.fileCount.1}">1개</option>
+                            <option value="2" th:text="#{bbs.fileCount.2}">2개</option>
+                            <option value="3" th:text="#{bbs.fileCount.3}">3개</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">템플릿 정보 <span class="text-danger">*</span></th>
+                    <th scope="row"><span th:text="#{bbs.tmplatInfo}">템플릿 정보</span> <span class="text-danger">*</span></th>
                     <td>
                         <div class="input-group">
                             <input class="krds-input" type="text" id="tmplatNm" name="tmplatNm" readonly
-                                   th:value="${boardMaster != null and boardMaster.tmplatNm != null and !#strings.isEmpty(boardMaster.tmplatNm) ? boardMaster.tmplatNm : '게시판 기본템플릿'}"/>
+                                   th:value="${boardMaster != null and boardMaster.tmplatNm != null and !#strings.isEmpty(boardMaster.tmplatNm) ? boardMaster.tmplatNm : #messages.msg('bbs.tmplat.default')}"/>
                             <button class="krds-btn tertiary" type="button" onclick="fnOpenTmplatPopup();">
-                                <i class="bi bi-search"></i> 조회
+                                <i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span>
                             </button>
                         </div>
                     </td>
                 </tr>
                 <tr th:if="${addedOptions == 'true'}">
-                    <th scope="row">추가 선택사항</th>
+                    <th scope="row" th:text="#{bbs.addedOptions}">추가 선택사항</th>
                     <td>
                         <select class="krds-form-select" th:field="*{option}">
-                            <option value="">미선택</option>
-                            <option value="comment">댓글</option>
-                            <option value="stsfdg">만족도조사</option>
+                            <option value="" th:text="#{bbs.option.none}">미선택</option>
+                            <option value="comment" th:text="#{bbs.option.comment}">댓글</option>
+                            <option value="stsfdg" th:text="#{bbs.option.stsfdg}">만족도조사</option>
                         </select>
                     </td>
                 </tr>
@@ -111,8 +111,8 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <a class="krds-btn tertiary" th:href="@{/cop/bbs/SelectBBSMasterInfs.do}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/cop/bbs/SelectBBSMasterInfs.do}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>
@@ -120,6 +120,7 @@
 <th:block layout:fragment="body-js">
     <script th:inline="javascript">
         var tmplatPopupUrl = /*[[@{/cop/com/selectTemplateInfsPop.do}]]*/ '/cop/com/selectTemplateInfsPop.do';
+        var tmplatPopupTitle = /*[[#{bbs.tmplat.list}]]*/ '템플릿 목록';
 
         /* 템플릿 선택 팝업 (iframe 모달) */
         function fnOpenTmplatPopup() {
@@ -128,7 +129,7 @@
             pan.id = 'modalPan';
             pan.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1050;display:flex;align-items:center;justify-content:center;';
             pan.innerHTML = '<div style="background:#fff;border-radius:.5rem;width:min(900px,95vw);height:min(600px,90vh);overflow:hidden;">'
-                + '<iframe src="' + tmplatPopupUrl + '" style="border:0;width:100%;height:100%;" title="템플릿 목록"></iframe></div>';
+                + '<iframe src="' + tmplatPopupUrl + '" style="border:0;width:100%;height:100%;" title="' + tmplatPopupTitle + '"></iframe></div>';
             pan.addEventListener('click', function (e) { if (e.target === pan) fn_egov_modal_remove(); });
             document.body.appendChild(pan);
         }

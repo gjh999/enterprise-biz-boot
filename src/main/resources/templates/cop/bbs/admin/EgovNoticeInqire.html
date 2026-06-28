@@ -4,19 +4,19 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
 <head>
-    <title th:text="${result != null ? result.nttSj : '게시물'}">게시물</title>
+    <title th:text="${result != null ? result.nttSj : #messages.msg('bbs.article')}">게시물</title>
 </head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
                 <li class="breadcrumb-item">
                     <a th:href="@{/cop/bbs/admin/selectBoardList.do(bbsId=${result.bbsId})}"
-                       th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : '게시판'}">게시판</a>
+                       th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.default')}">게시판</a>
                 </li>
-                <li class="breadcrumb-item active">상세보기</li>
+                <li class="breadcrumb-item active" th:text="#{bbs.detail}">상세보기</li>
             </ol>
         </nav>
 
@@ -24,9 +24,9 @@
             <div class="krds-panel-head">
                 <h1 class="h5 mb-1" th:text="${result.nttSj}">제목</h1>
                 <div class="text-muted small">
-                    작성자 <span th:text="${result.ntcrNm ?: '관리자'}">관리자</span> ·
+                    <span th:text="#{common.writer}">작성자</span> <span th:text="${result.ntcrNm ?: #messages.msg('bbs.admin')}">관리자</span> ·
                     <span th:text="${result.frstRegisterPnttm}">등록일</span> ·
-                    조회 <span th:text="${result.inqireCo ?: 0}">0</span>
+                    <span th:text="#{common.views}">조회</span> <span th:text="${result.inqireCo ?: 0}">0</span>
                 </div>
             </div>
             <div class="krds-panel-body" style="min-height: 200px;">
@@ -38,7 +38,7 @@
             </div>
             <!-- 첨부파일 목록 + 다운로드 링크 (JSP: <c:import url="/cmm/fms/selectFileInfs.do">) -->
             <div class="krds-panel-body" style="border-top:1px solid var(--krds-gray-10,#E7E8EA);" th:if="${fileList != null and !#lists.isEmpty(fileList)}">
-                <strong class="small d-block mb-1">첨부파일</strong>
+                <strong class="small d-block mb-1" th:text="#{bbs.attach}">첨부파일</strong>
                 <div th:replace="~{cmm/fms/EgovFileList :: fileList(${fileList}, 'N', null, null)}"></div>
             </div>
         </div>
@@ -46,25 +46,25 @@
         <div class="d-flex justify-content-between mt-3">
             <a class="krds-btn tertiary small"
                th:href="@{/cop/bbs/admin/selectBoardList.do(bbsId=${result.bbsId})}">
-                <i class="bi bi-list"></i> 목록
+                <i class="bi bi-list"></i> <span th:text="#{button.list}">목록</span>
             </a>
             <span sec:authorize="isAuthenticated()" class="d-flex gap-2">
                 <a class="krds-btn tertiary small"
                    th:if="${brdMstrVO == null or brdMstrVO.replyPosblAt == 'Y'}"
                    th:href="@{/cop/bbs/admin/addReplyBoardArticle.do(bbsId=${result.bbsId},nttId=${result.nttId},sortOrdr=${result.sortOrdr},replyLc=${result.replyLc})}">
-                    <i class="bi bi-reply"></i> 답글
+                    <i class="bi bi-reply"></i> <span th:text="#{bbs.reply}">답글</span>
                 </a>
                 <a class="krds-btn secondary small"
                    th:href="@{/cop/bbs/admin/forUpdateBoardArticle.do(bbsId=${result.bbsId},nttId=${result.nttId})}">
-                    <i class="bi bi-pencil"></i> 수정
+                    <i class="bi bi-pencil"></i> <span th:text="#{button.modify}">수정</span>
                 </a>
                 <form th:action="@{/cop/bbs/admin/deleteBoardArticle.do}" method="post" class="d-inline"
-                      onsubmit="return confirm('삭제하시겠습니까?');">
+                      th:onsubmit="'return confirm(\'' + #{bbs.confirm.delete} + '\');'">
                     <input type="hidden" name="bbsId" th:value="${result.bbsId}"/>
                     <input type="hidden" name="nttId" th:value="${result.nttId}"/>
                     <input type="hidden" name="nttSj" th:value="${result.nttSj}"/>
                     <button type="submit" class="krds-btn danger small">
-                        <i class="bi bi-trash"></i> 삭제
+                        <i class="bi bi-trash"></i> <span th:text="#{button.delete}">삭제</span>
                     </button>
                 </form>
             </span>
