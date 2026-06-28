@@ -2,27 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>권한별 롤 관리</title></head>
+<head><title th:text="#{sec.authorRole.title}">권한별 롤 관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sec/ram/EgovAuthorListView.do}">권한관리</a></li>
-            <li class="breadcrumb-item active">권한별 롤 관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/ram/EgovAuthorListView.do}" th:text="#{sec.author.title}">권한관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{sec.authorRole.title}">권한별 롤 관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> 권한별 롤 관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-shield-lock"></i> <span th:text="#{sec.authorRole.title}">권한별 롤 관리</span></h1>
 
         <form id="searchForm" th:action="@{/sec/ram/EgovAuthorRoleList.do}" method="post" class="row g-2 mb-3">
             <div class="col-auto">
-                <label class="col-form-label">권한코드</label>
+                <label class="col-form-label" th:text="#{sec.authorRole.label.code}">권한코드</label>
             </div>
             <div class="col-auto">
                 <input type="text" class="krds-input" name="searchKeyword"
-                       th:value="${authorRoleManageVO != null ? authorRoleManageVO.searchKeyword : ''}" placeholder="권한코드 입력"/>
+                       th:value="${authorRoleManageVO != null ? authorRoleManageVO.searchKeyword : ''}" th:placeholder="#{sec.authorRole.placeholder}"/>
             </div>
             <div class="col-auto">
-                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> 조회</button>
+                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
@@ -34,10 +34,10 @@
 
             <div class="krds-table-wrap">
             <table class="tbl">
-                <caption class="visually-hidden">권한별 롤 목록</caption>
+                <caption class="visually-hidden" th:text="#{sec.authorRole.caption}">권한별 롤 목록</caption>
                 <thead><tr>
                     <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll"/></th>
-                    <th scope="col">롤ID</th><th scope="col">롤명</th><th scope="col">롤타입</th><th scope="col">롤Sort</th><th scope="col">롤 설명</th><th scope="col" style="width:120px;">등록일자</th><th scope="col" style="width:120px;">등록여부</th>
+                    <th scope="col" th:text="#{sec.authorRole.roleId}">롤ID</th><th scope="col" th:text="#{sec.authorRole.roleNm}">롤명</th><th scope="col" th:text="#{sec.authorRole.roleTyp}">롤타입</th><th scope="col" th:text="#{sec.authorRole.roleSort}">롤Sort</th><th scope="col" th:text="#{sec.authorRole.roleDc}">롤 설명</th><th scope="col" style="width:120px;" th:text="#{sec.authorRole.regDe}">등록일자</th><th scope="col" style="width:120px;" th:text="#{sec.authorRole.regYn}">등록여부</th>
                 </tr></thead>
                 <tbody>
                 <tr th:each="item : ${authorRoleList}">
@@ -50,17 +50,17 @@
                     <td class="text-center" th:text="${item.creatDt}">등록일자</td>
                     <td>
                         <select class="krds-form-select rowReg">
-                            <option value="Y" th:selected="${item.regYn == 'Y'}">등록</option>
-                            <option value="N" th:selected="${item.regYn == 'N'}">미등록</option>
+                            <option value="Y" th:selected="${item.regYn == 'Y'}" th:text="#{sec.regYn.registered}">등록</option>
+                            <option value="N" th:selected="${item.regYn == 'N'}" th:text="#{sec.regYn.unregistered}">미등록</option>
                         </select>
                     </td>
                 </tr>
-                <tr th:if="${#lists.isEmpty(authorRoleList)}"><td colspan="8" class="text-center text-muted py-4">조회된 롤이 없습니다. 권한코드로 조회하세요.</td></tr>
+                <tr th:if="${#lists.isEmpty(authorRoleList)}"><td colspan="8" class="text-center text-muted py-4" th:text="#{sec.authorRole.empty}">조회된 롤이 없습니다. 권한코드로 조회하세요.</td></tr>
                 </tbody>
             </table>
             </div>
             <div class="text-end">
-                <button type="button" class="krds-btn primary small" onclick="submitAuthorRole()"><i class="bi bi-save"></i> 권한별 롤정보 저장</button>
+                <button type="button" class="krds-btn primary small" onclick="submitAuthorRole()"><i class="bi bi-save"></i> <span th:text="#{sec.authorRole.save}">권한별 롤정보 저장</span></button>
             </div>
         </form>
     </div>
@@ -78,8 +78,8 @@
                     regs.push(tr.querySelector('.rowReg').value);
                 }
             });
-            if (codes.length === 0) { alert('선택된 롤이 없습니다.'); return; }
-            if (!confirm('저장하시겠습니까?')) return;
+            if (codes.length === 0) { alert([[#{sec.authorRole.js.noRole}]]); return; }
+            if (!confirm([[#{sec.confirm.save}]])) return;
             document.getElementById('roleCodes').value = codes.join(';');
             document.getElementById('regYns').value = regs.join(';');
             document.getElementById('roleForm').submit();

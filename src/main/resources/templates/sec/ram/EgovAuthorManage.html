@@ -2,30 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>권한관리</title></head>
+<head><title th:text="#{sec.author.title}">권한관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">권한관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{sec.author.title}">권한관리</li>
         </ol></nav>
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0"><i class="bi bi-shield-check"></i> 권한관리</h1>
-            <span class="text-muted small">총 <strong
-                    th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> 건</span>
+            <h1 class="h4 mb-0"><i class="bi bi-shield-check"></i> <span th:text="#{sec.author.title}">권한관리</span></h1>
+            <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong
+                    th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
         </div>
 
         <!-- 검색 (searchCondition=1: 권한명) -->
         <form class="row g-2 mb-3" th:action="@{/sec/ram/EgovAuthorList.do}" method="get">
             <input type="hidden" name="searchCondition" value="1"/>
-            <div class="col-auto"><label class="col-form-label col-form-label-sm">권한명</label></div>
+            <div class="col-auto"><label class="col-form-label col-form-label-sm" th:text="#{sec.author.name}">권한명</label></div>
             <div class="col-auto">
                 <input class="krds-input" type="text" name="searchKeyword"
                        th:value="${authorManageVO != null ? authorManageVO.searchKeyword : ''}" maxlength="35"/>
             </div>
             <div class="col-auto">
-                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> 조회</button>
+                <button class="krds-btn tertiary small" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
@@ -33,36 +33,36 @@
             <input type="hidden" name="authorCodes" id="authorCodes"/>
             <div class="krds-table-wrap">
             <table class="tbl">
-                <caption class="visually-hidden">권한 목록</caption>
+                <caption class="visually-hidden" th:text="#{sec.author.caption}">권한 목록</caption>
                 <thead><tr>
-                    <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll" title="전체선택"/></th>
-                    <th scope="col">권한코드</th><th scope="col">권한명</th><th scope="col">설명</th><th scope="col" style="width:140px;">생성일</th><th scope="col" style="width:120px;"></th>
+                    <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll" th:title="#{sec.author.checkAll}"/></th>
+                    <th scope="col" th:text="#{sec.author.code}">권한코드</th><th scope="col" th:text="#{sec.author.name}">권한명</th><th scope="col" th:text="#{sec.author.desc}">설명</th><th scope="col" style="width:140px;" th:text="#{sec.author.creatDe}">생성일</th><th scope="col" style="width:120px;"></th>
                 </tr></thead>
                 <tbody>
                 <tr th:each="item : ${authorList}">
-                    <td><input type="checkbox" class="rowChk" th:attr="data-code=${item.authorCode}" title="선택"/></td>
+                    <td><input type="checkbox" class="rowChk" th:attr="data-code=${item.authorCode}" th:title="#{sec.author.rowSelect}"/></td>
                     <td th:text="${item.authorCode}">코드</td>
                     <td th:text="${item.authorNm}">권한명</td>
                     <td th:text="${item.authorDc}">설명</td>
                     <td class="text-center" th:text="${item.authorCreatDe}">생성일</td>
                     <td class="text-end">
-                        <a class="krds-btn tertiary small" th:href="@{/sec/ram/EgovAuthor.do(authorCode=${item.authorCode})}"><i class="bi bi-pencil"></i> 수정</a>
+                        <a class="krds-btn tertiary small" th:href="@{/sec/ram/EgovAuthor.do(authorCode=${item.authorCode})}"><i class="bi bi-pencil"></i> <span th:text="#{button.modify}">수정</span></a>
                     </td>
                 </tr>
-                <tr th:if="${#lists.isEmpty(authorList)}"><td colspan="6" class="text-center text-muted py-4">등록된 권한이 없습니다.</td></tr>
+                <tr th:if="${#lists.isEmpty(authorList)}"><td colspan="6" class="text-center text-muted py-4" th:text="#{sec.author.empty}">등록된 권한이 없습니다.</td></tr>
                 </tbody>
             </table>
             </div>
             <div class="d-flex justify-content-between">
                 <button type="button" class="krds-btn danger small" onclick="deleteChecked()">
-                    <i class="bi bi-trash"></i> 선택 삭제</button>
+                    <i class="bi bi-trash"></i> <span th:text="#{sec.author.deleteSelected}">선택 삭제</span></button>
                 <div>
                     <a class="krds-btn tertiary small" th:href="@{/sec/ram/EgovAuthorRoleListView.do}">
-                        <i class="bi bi-shield-lock"></i> 권한별 롤 관리</a>
+                        <i class="bi bi-shield-lock"></i> <span th:text="#{sec.author.toRole}">권한별 롤 관리</span></a>
                     <a class="krds-btn tertiary small" th:href="@{/sec/rgm/EgovAuthorGroupListView.do}">
-                        <i class="bi bi-person-badge"></i> 사용자별 권한 관리</a>
+                        <i class="bi bi-person-badge"></i> <span th:text="#{sec.author.toGroup}">사용자별 권한 관리</span></a>
                     <a class="krds-btn primary small" th:href="@{/sec/ram/EgovAuthorInsertView.do}">
-                        <i class="bi bi-plus-lg"></i> 권한 등록</a>
+                        <i class="bi bi-plus-lg"></i> <span th:text="#{sec.author.register}">권한 등록</span></a>
                 </div>
             </div>
         </form>
@@ -71,7 +71,7 @@
         <div class="mt-3"
              th:replace="~{fragments/pagination :: paginationSearch(paginationInfo=${paginationInfo}, baseUrl='/sec/ram/EgovAuthorList.do', searchCondition=${authorManageVO != null ? authorManageVO.searchCondition : ''}, searchKeyword=${authorManageVO != null ? authorManageVO.searchKeyword : ''})}"></div>
     </div>
-    <script>
+    <script th:inline="javascript">
         document.getElementById('checkAll').addEventListener('change', function () {
             document.querySelectorAll('.rowChk').forEach(c => c.checked = this.checked);
         });
@@ -80,8 +80,8 @@
             document.querySelectorAll('.rowChk:checked').forEach(function (c) {
                 codes.push(c.getAttribute('data-code'));
             });
-            if (codes.length === 0) { alert('삭제할 권한을 선택하세요.'); return; }
-            if (!confirm('선택한 ' + codes.length + '건의 권한을 삭제하시겠습니까?')) return;
+            if (codes.length === 0) { alert([[#{sec.author.js.selectDelete}]]); return; }
+            if (!confirm([[#{sec.author.js.confirmDelete1}]] + ' ' + codes.length + [[#{sec.author.js.confirmDelete2}]])) return;
             document.getElementById('authorCodes').value = codes.join(';');
             document.getElementById('listForm').submit();
         }

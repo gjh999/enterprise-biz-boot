@@ -2,32 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>그룹 조회</title></head>
+<head><title th:text="#{sec.search.title}">그룹 조회</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">그룹 조회</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{sec.search.title}">그룹 조회</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-search"></i> 그룹 조회</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-search"></i> <span th:text="#{sec.search.title}">그룹 조회</span></h1>
 
         <form th:action="@{/sec/gmt/EgovGroupSearchList.do}" method="post" class="row g-2 mb-3">
-            <div class="col-auto"><label class="col-form-label">그룹 명</label></div>
+            <div class="col-auto"><label class="col-form-label" th:text="#{sec.search.label.name}">그룹 명</label></div>
             <div class="col-auto">
                 <input type="text" class="krds-input" name="searchKeyword"
                        th:value="${groupManageVO != null ? groupManageVO.searchKeyword : ''}"/>
                 <input type="hidden" name="searchCondition" value="1"/>
             </div>
             <div class="col-auto">
-                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> 조회</button>
+                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
         <div class="krds-table-wrap">
         <table class="tbl">
-            <caption class="visually-hidden">그룹 목록</caption>
-            <thead><tr><th scope="col" style="width:200px;">그룹ID</th><th scope="col">그룹명</th></tr></thead>
+            <caption class="visually-hidden" th:text="#{sec.group.caption}">그룹 목록</caption>
+            <thead><tr><th scope="col" style="width:200px;" th:text="#{sec.group.id}">그룹ID</th><th scope="col" th:text="#{sec.group.name}">그룹명</th></tr></thead>
             <tbody>
             <tr th:each="item : ${groupList}">
                 <td>
@@ -35,12 +35,12 @@
                 </td>
                 <td th:text="${item.groupNm}">그룹명</td>
             </tr>
-            <tr th:if="${#lists.isEmpty(groupList)}"><td colspan="2" class="text-center text-muted py-4">조회된 그룹이 없습니다.</td></tr>
+            <tr th:if="${#lists.isEmpty(groupList)}"><td colspan="2" class="text-center text-muted py-4" th:text="#{sec.search.empty}">조회된 그룹이 없습니다.</td></tr>
             </tbody>
         </table>
         </div>
     </div>
-    <script>
+    <script th:inline="javascript">
         document.querySelectorAll('.groupLink').forEach(function (a) {
             a.addEventListener('click', function () { selectGroup(this.getAttribute('data-groupid')); });
         });
@@ -56,7 +56,7 @@
                     return;
                 }
             } catch (e) { /* ignore cross-window errors */ }
-            alert('선택한 그룹ID: ' + groupId);
+            alert([[#{sec.search.js.selected}]] + ' ' + groupId);
         }
     </script>
 </main>

@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>롤관리</title></head>
+<head><title th:text="#{sec.role.title}">롤관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">롤(Role)관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{sec.role.titleParen}">롤(Role)관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-key"></i> 롤(Role) 관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-key"></i> <span th:text="#{sec.role.heading}">롤(Role) 관리</span></h1>
         <div class="krds-table-wrap">
         <table class="tbl">
-            <caption class="visually-hidden">롤 목록</caption>
-            <thead><tr><th scope="col">롤코드</th><th scope="col">롤명</th><th scope="col">설명</th><th scope="col" style="width:120px;">유형</th><th scope="col" style="width:120px;"></th></tr></thead>
+            <caption class="visually-hidden" th:text="#{sec.role.caption}">롤 목록</caption>
+            <thead><tr><th scope="col" th:text="#{sec.role.code}">롤코드</th><th scope="col" th:text="#{sec.role.name}">롤명</th><th scope="col" th:text="#{sec.role.desc}">설명</th><th scope="col" style="width:120px;" th:text="#{sec.role.type}">유형</th><th scope="col" style="width:120px;"></th></tr></thead>
             <tbody>
             <tr th:each="item : ${roleList}">
                 <td th:text="${item.roleCode}">코드</td>
@@ -22,14 +22,14 @@
                 <td th:text="${item.roleDc}">설명</td>
                 <td class="text-center" th:text="${item.roleTyp}">유형</td>
                 <td class="text-end">
-                    <a class="krds-btn tertiary small" th:href="@{/sec/rmt/EgovRole.do(roleCode=${item.roleCode})}"><i class="bi bi-pencil"></i> 수정</a>
+                    <a class="krds-btn tertiary small" th:href="@{/sec/rmt/EgovRole.do(roleCode=${item.roleCode})}"><i class="bi bi-pencil"></i> <span th:text="#{button.modify}">수정</span></a>
                 </td>
             </tr>
-            <tr th:if="${#lists.isEmpty(roleList)}"><td colspan="5" class="text-center text-muted py-4">등록된 롤이 없습니다.</td></tr>
+            <tr th:if="${#lists.isEmpty(roleList)}"><td colspan="5" class="text-center text-muted py-4" th:text="#{sec.role.empty}">등록된 롤이 없습니다.</td></tr>
             </tbody>
         </table>
         </div>
-        <div class="text-end"><a class="krds-btn primary small" th:href="@{/sec/rmt/EgovRoleInsertView.do}"><i class="bi bi-plus-lg"></i> 롤 등록</a></div>
+        <div class="text-end"><a class="krds-btn primary small" th:href="@{/sec/rmt/EgovRoleInsertView.do}"><i class="bi bi-plus-lg"></i> <span th:text="#{sec.role.register}">롤 등록</span></a></div>
     </div>
 </main>
 </body>

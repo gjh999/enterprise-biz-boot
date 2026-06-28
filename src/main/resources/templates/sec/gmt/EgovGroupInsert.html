@@ -2,35 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>그룹 등록</title></head>
+<head><title th:text="#{sec.group.insert.title}">그룹 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sec/gmt/EgovGroupListView.do}">그룹관리</a></li>
-            <li class="breadcrumb-item active">그룹 등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/gmt/EgovGroupListView.do}" th:text="#{sec.group.title}">그룹관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{sec.group.insert.title}">그룹 등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> 그룹 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-diagram-3"></i> <span th:text="#{sec.group.insert.title}">그룹 등록</span></h1>
 
         <form th:action="@{/sec/gmt/EgovGroupInsert.do}" method="post">
             <div class="krds-panel">
                 <div class="krds-panel-body">
                     <div class="mb-3">
-                        <div class="form-tit"><label for="groupNm">그룹 명 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="groupNm"><span th:text="#{sec.group.label.name}">그룹 명</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="groupNm" name="groupNm" maxlength="50" required
                                th:value="${groupManage != null ? groupManage.groupNm : ''}"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="groupDc">설명</label></div>
+                        <div class="form-tit"><label for="groupDc" th:text="#{sec.group.desc}">설명</label></div>
                         <input type="text" class="krds-input" id="groupDc" name="groupDc" maxlength="50"
                                th:value="${groupManage != null ? groupManage.groupDc : ''}"/>
                     </div>
                 </div>
             </div>
             <div class="text-end mt-3">
-                <a class="krds-btn tertiary small" th:href="@{/sec/gmt/EgovGroupListView.do}">목록</a>
-                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary small" th:href="@{/sec/gmt/EgovGroupListView.do}" th:text="#{button.list}">목록</a>
+                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>

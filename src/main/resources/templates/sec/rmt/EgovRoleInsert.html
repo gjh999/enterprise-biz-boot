@@ -2,47 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>롤 등록</title></head>
+<head><title th:text="#{sec.role.register}">롤 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/sec/rmt/EgovRoleListView.do}">롤관리</a></li>
-            <li class="breadcrumb-item active">롤 등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/sec/rmt/EgovRoleListView.do}" th:text="#{sec.role.title}">롤관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{sec.role.register}">롤 등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-key"></i> 롤(Role) 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-key"></i> <span th:text="#{sec.role.insert.heading}">롤(Role) 등록</span></h1>
 
         <form th:action="@{/sec/rmt/EgovRoleInsert.do}" method="post">
             <div class="krds-panel">
                 <div class="krds-panel-body">
                     <div class="mb-3">
-                        <div class="form-tit"><label for="roleNm">롤 명 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="roleNm"><span th:text="#{sec.role.label.name}">롤 명</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="roleNm" name="roleNm" maxlength="50" required/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="rolePtn">롤 패턴 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="rolePtn"><span th:text="#{sec.role.label.pattern}">롤 패턴</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="rolePtn" name="rolePtn" maxlength="50" required/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="roleDc">설명</label></div>
+                        <div class="form-tit"><label for="roleDc" th:text="#{sec.role.desc}">설명</label></div>
                         <input type="text" class="krds-input" id="roleDc" name="roleDc" maxlength="50"/>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="roleTyp">롤 타입 <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="roleTyp"><span th:text="#{sec.role.label.type}">롤 타입</span> <span class="frm-rq">*</span></label></div>
                         <select class="krds-form-select" id="roleTyp" name="roleTyp">
                             <option th:each="c : ${cmmCodeDetailList}" th:value="${c.code}" th:text="${c.codeNm}">타입</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <div class="form-tit"><label for="roleSort">롤 Sort <span class="frm-rq">*</span></label></div>
+                        <div class="form-tit"><label for="roleSort"><span th:text="#{sec.role.label.sort}">롤 Sort</span> <span class="frm-rq">*</span></label></div>
                         <input type="text" class="krds-input" id="roleSort" name="roleSort" maxlength="50" required/>
                     </div>
                 </div>
             </div>
             <div class="text-end mt-3">
-                <a class="krds-btn tertiary small" th:href="@{/sec/rmt/EgovRoleListView.do}">목록</a>
-                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary small" th:href="@{/sec/rmt/EgovRoleListView.do}" th:text="#{button.list}">목록</a>
+                <button type="submit" class="krds-btn primary small"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>

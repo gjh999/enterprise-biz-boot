@@ -2,30 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>사용자별 권한 관리</title></head>
+<head><title th:text="#{sec.authorGroup.title}">사용자별 권한 관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">사용자별 권한 관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{sec.authorGroup.title}">사용자별 권한 관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-person-badge"></i> 사용자별 권한 관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-person-badge"></i> <span th:text="#{sec.authorGroup.title}">사용자별 권한 관리</span></h1>
 
         <form id="searchForm" th:action="@{/sec/rgm/EgovAuthorGroupList.do}" method="post" class="row g-2 mb-3">
             <div class="col-auto">
                 <select class="krds-form-select" name="searchCondition" th:with="sc=${authorGroupVO != null ? authorGroupVO.searchCondition : ''}">
-                    <option value="1" th:selected="${sc == '1'}">사용자 ID</option>
-                    <option value="2" th:selected="${sc == '2'}">사용자 명</option>
-                    <option value="3" th:selected="${sc == '3'}">그룹</option>
+                    <option value="1" th:selected="${sc == '1'}" th:text="#{sec.authorGroup.cond.userId}">사용자 ID</option>
+                    <option value="2" th:selected="${sc == '2'}" th:text="#{sec.authorGroup.cond.userNm}">사용자 명</option>
+                    <option value="3" th:selected="${sc == '3'}" th:text="#{sec.authorGroup.cond.group}">그룹</option>
                 </select>
             </div>
             <div class="col-auto">
                 <input type="text" class="krds-input" name="searchKeyword"
-                       th:value="${authorGroupVO != null ? authorGroupVO.searchKeyword : ''}" placeholder="검색어"/>
+                       th:value="${authorGroupVO != null ? authorGroupVO.searchKeyword : ''}" th:placeholder="#{sec.authorGroup.placeholder}" placeholder="검색어"/>
             </div>
             <div class="col-auto">
-                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> 조회</button>
+                <button type="submit" class="krds-btn secondary small"><i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span></button>
             </div>
         </form>
 
@@ -37,10 +37,10 @@
 
             <div class="krds-table-wrap">
             <table class="tbl">
-                <caption class="visually-hidden">사용자별 권한 목록</caption>
+                <caption class="visually-hidden" th:text="#{sec.authorGroup.caption}">사용자별 권한 목록</caption>
                 <thead><tr>
                     <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll"/></th>
-                    <th scope="col">사용자ID</th><th scope="col">사용자명</th><th scope="col">사용자 유형</th><th scope="col" style="width:200px;">권한</th><th scope="col" style="width:100px;">등록여부</th>
+                    <th scope="col" th:text="#{sec.authorGroup.userId}">사용자ID</th><th scope="col" th:text="#{sec.authorGroup.userNm}">사용자명</th><th scope="col" th:text="#{sec.authorGroup.userTy}">사용자 유형</th><th scope="col" style="width:200px;" th:text="#{sec.authorGroup.author}">권한</th><th scope="col" style="width:100px;" th:text="#{sec.authorGroup.regYn}">등록여부</th>
                 </tr></thead>
                 <tbody>
                 <tr th:each="item : ${authorGroupList}">
@@ -59,13 +59,13 @@
                     </td>
                     <td class="text-center" th:text="${item.regYn}">등록여부</td>
                 </tr>
-                <tr th:if="${#lists.isEmpty(authorGroupList)}"><td colspan="6" class="text-center text-muted py-4">조회된 사용자가 없습니다.</td></tr>
+                <tr th:if="${#lists.isEmpty(authorGroupList)}"><td colspan="6" class="text-center text-muted py-4" th:text="#{sec.authorGroup.empty}">조회된 사용자가 없습니다.</td></tr>
                 </tbody>
             </table>
             </div>
             <div class="text-end">
-                <button type="button" class="krds-btn primary small" onclick="submitAuthorGroup('insert')"><i class="bi bi-save"></i> 권한등록</button>
-                <button type="button" class="krds-btn danger small" onclick="submitAuthorGroup('delete')"><i class="bi bi-x-circle"></i> 등록취소</button>
+                <button type="button" class="krds-btn primary small" onclick="submitAuthorGroup('insert')"><i class="bi bi-save"></i> <span th:text="#{sec.authorGroup.register}">권한등록</span></button>
+                <button type="button" class="krds-btn danger small" onclick="submitAuthorGroup('delete')"><i class="bi bi-x-circle"></i> <span th:text="#{sec.authorGroup.cancelReg}">등록취소</span></button>
             </div>
         </form>
     </div>
@@ -88,8 +88,8 @@
                     mbers.push(chk.getAttribute('data-mbertycode'));
                 }
             });
-            if (ids.length === 0) { alert('선택된 항목이 없습니다.'); return; }
-            if (!confirm(mode === 'insert' ? '권한을 등록하시겠습니까?' : '등록을 취소하시겠습니까?')) return;
+            if (ids.length === 0) { alert([[#{sec.authorGroup.js.noItem}]]); return; }
+            if (!confirm(mode === 'insert' ? [[#{sec.authorGroup.js.confirmRegister}]] : [[#{sec.authorGroup.js.confirmCancel}]])) return;
             var f = document.getElementById('authorGroupForm');
             document.getElementById('userIds').value = ids.join(';');
             document.getElementById('authorCodes').value = authors.join(';');
