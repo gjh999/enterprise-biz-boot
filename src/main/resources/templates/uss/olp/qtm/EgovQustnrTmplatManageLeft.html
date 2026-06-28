@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문템플릿 관리</title></head>
+<head><title th:text="#{survey.qtm.leftMng.title}">설문템플릿 관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">설문템플릿 관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.qtm.leftMng.title}">설문템플릿 관리</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-images"></i> 설문템플릿 관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-images"></i> <span th:text="#{survey.qtm.leftMng.title}">설문템플릿 관리</span></h1>
         <div class="list-group">
-            <a class="list-group-item list-group-item-action" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">템플릿 목록</a>
-            <a class="list-group-item list-group-item-action" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageRegist.do}">템플릿 등록</a>
-            <a class="list-group-item list-group-item-action" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">설문지 관리</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}" th:text="#{survey.qtm.leftMng.list}">템플릿 목록</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageRegist.do}" th:text="#{survey.qtm.leftMng.regist}">템플릿 등록</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}" th:text="#{survey.qtm.leftMng.qmc}">설문지 관리</a>
         </div>
     </div>
 </main>

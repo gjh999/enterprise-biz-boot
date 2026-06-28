@@ -2,49 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>온라인설문 메인</title></head>
+<head><title th:text="#{survey.qtm.main.title}">온라인설문 메인</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">온라인설문 메인</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.qtm.main.title}">온라인설문 메인</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> 온라인설문 관리</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> <span th:text="#{survey.qtm.main.heading}">온라인설문 관리</span></h1>
         <div class="row g-3">
             <div class="col-md-4">
                 <div class="krds-panel h-100"><div class="krds-panel-body">
-                    <h5><i class="bi bi-clipboard-check"></i> 설문관리</h5>
-                    <p class="text-muted">설문지를 등록하고 관리합니다.</p>
-                    <a class="krds-btn primary small" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}">바로가기</a>
+                    <h5><i class="bi bi-clipboard-check"></i> <span th:text="#{survey.qtm.main.qmc}">설문관리</span></h5>
+                    <p class="text-muted" th:text="#{survey.qtm.main.qmc.desc}">설문지를 등록하고 관리합니다.</p>
+                    <a class="krds-btn primary small" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}" th:text="#{survey.qtm.main.goto}">바로가기</a>
                 </div></div>
             </div>
             <div class="col-md-4">
                 <div class="krds-panel h-100"><div class="krds-panel-body">
-                    <h5><i class="bi bi-layout-text-window"></i> 설문템플릿</h5>
-                    <p class="text-muted">설문 화면 템플릿을 관리합니다.</p>
-                    <a class="krds-btn primary small" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">바로가기</a>
+                    <h5><i class="bi bi-layout-text-window"></i> <span th:text="#{survey.qtm.main.tmplat}">설문템플릿</span></h5>
+                    <p class="text-muted" th:text="#{survey.qtm.main.tmplat.desc}">설문 화면 템플릿을 관리합니다.</p>
+                    <a class="krds-btn primary small" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}" th:text="#{survey.qtm.main.goto}">바로가기</a>
                 </div></div>
             </div>
             <div class="col-md-4">
                 <div class="krds-panel h-100"><div class="krds-panel-body">
-                    <h5><i class="bi bi-ui-checks"></i> 설문조사 참여</h5>
-                    <p class="text-muted">진행 중인 설문에 참여합니다.</p>
-                    <a class="krds-btn primary small" th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}">바로가기</a>
+                    <h5><i class="bi bi-ui-checks"></i> <span th:text="#{survey.qtm.main.respond}">설문조사 참여</span></h5>
+                    <p class="text-muted" th:text="#{survey.qtm.main.respond.desc}">진행 중인 설문에 참여합니다.</p>
+                    <a class="krds-btn primary small" th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}" th:text="#{survey.qtm.main.goto}">바로가기</a>
                 </div></div>
             </div>
             <div class="col-md-4">
                 <div class="krds-panel h-100"><div class="krds-panel-body">
-                    <h5><i class="bi bi-people"></i> 설문응답자</h5>
-                    <p class="text-muted">설문 응답자 정보를 관리합니다.</p>
-                    <a class="krds-btn primary small" th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}">바로가기</a>
+                    <h5><i class="bi bi-people"></i> <span th:text="#{survey.qtm.main.respondent}">설문응답자</span></h5>
+                    <p class="text-muted" th:text="#{survey.qtm.main.respondent.desc}">설문 응답자 정보를 관리합니다.</p>
+                    <a class="krds-btn primary small" th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}" th:text="#{survey.qtm.main.goto}">바로가기</a>
                 </div></div>
             </div>
             <div class="col-md-4">
                 <div class="krds-panel h-100"><div class="krds-panel-body">
-                    <h5><i class="bi bi-clipboard-data"></i> 응답자결과</h5>
-                    <p class="text-muted">설문 응답 결과를 조회합니다.</p>
-                    <a class="krds-btn primary small" th:href="@{/uss/olp/qri/EgovQustnrRespondInfoList.do}">바로가기</a>
+                    <h5><i class="bi bi-clipboard-data"></i> <span th:text="#{survey.qtm.main.result}">응답자결과</span></h5>
+                    <p class="text-muted" th:text="#{survey.qtm.main.result.desc}">설문 응답 결과를 조회합니다.</p>
+                    <a class="krds-btn primary small" th:href="@{/uss/olp/qri/EgovQustnrRespondInfoList.do}" th:text="#{survey.qtm.main.goto}">바로가기</a>
                 </div></div>
             </div>
         </div>

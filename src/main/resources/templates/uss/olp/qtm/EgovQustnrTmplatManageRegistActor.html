@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문템플릿 등록 처리</title></head>
+<head><title th:text="#{survey.qtm.registActor.title}">설문템플릿 등록 처리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:600px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">설문템플릿</a></li>
-            <li class="breadcrumb-item active">등록 처리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}" th:text="#{survey.qtm.crumb}">설문템플릿</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.crumb.registActor}">등록 처리</li>
         </ol></nav>
         <div class="krds-panel"><div class="krds-panel-body text-center">
             <i class="bi bi-check-circle text-success fs-1"></i>
-            <p class="mt-2">설문템플릿 등록이 처리되었습니다.</p>
-            <a class="krds-btn primary" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}">목록으로</a>
+            <p class="mt-2" th:text="#{survey.qtm.registActor.msg}">설문템플릿 등록이 처리되었습니다.</p>
+            <a class="krds-btn primary" th:href="@{/uss/olp/qtm/EgovQustnrTmplatManageList.do}" th:text="#{survey.btn.tolist}">목록으로</a>
         </div></div>
     </div>
 </main>

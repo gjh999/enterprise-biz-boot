@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문 템플릿</title></head>
+<head><title th:text="#{survey.mgt.title}">설문 템플릿</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:820px;"
          th:with="info=${Comtnqestnrinfo != null and !#lists.isEmpty(Comtnqestnrinfo)} ? ${Comtnqestnrinfo[0]} : null">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">설문 템플릿</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.mgt.title}">설문 템플릿</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-layout-text-window"></i> 설문 템플릿</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-layout-text-window"></i> <span th:text="#{survey.mgt.heading}">설문 템플릿</span></h1>
 
         <div class="krds-panel mb-3" th:if="${info != null}"><div class="krds-panel-body">
             <h2 class="h5 mb-1" th:text="${info['qestnrsj']}">설문제목</h2>
@@ -31,9 +31,9 @@
                 <textarea class="krds-input" rows="3" disabled></textarea>
             </div>
         </div>
-        <p class="text-muted" th:if="${Comtnqustnrqesitm == null or #lists.isEmpty(Comtnqustnrqesitm)}">등록된 문항이 없습니다.</p>
+        <p class="text-muted" th:if="${Comtnqustnrqesitm == null or #lists.isEmpty(Comtnqustnrqesitm)}" th:text="#{survey.stats.noQuestion}">등록된 문항이 없습니다.</p>
 
-        <div class="mt-3"><a class="krds-btn tertiary" th:href="${returnUrl != null ? returnUrl : '/'}">이전으로</a></div>
+        <div class="mt-3"><a class="krds-btn tertiary" th:href="${returnUrl != null ? returnUrl : '/'}" th:text="#{survey.btn.prev}">이전으로</a></div>
     </div>
 </main>
 </body>
