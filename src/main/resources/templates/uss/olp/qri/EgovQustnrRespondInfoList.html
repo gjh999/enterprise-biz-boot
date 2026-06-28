@@ -2,23 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>응답자결과 목록</title></head>
+<head><title th:text="#{survey.qri.list.title}">응답자결과 목록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item active">응답자결과 목록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.qri.list.title}">응답자결과 목록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clipboard-data"></i> 응답자결과 목록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-data"></i> <span th:text="#{survey.qri.list.heading}">응답자결과 목록</span></h1>
         <div class="krds-table-wrap"><table class="tbl">
             <thead><tr>
-                <th scope="col" style="width:60px;">번호</th>
-                <th scope="col">문항내용</th>
-                <th scope="col">선택항목</th>
-                <th scope="col">주관식답변</th>
-                <th scope="col" style="width:120px;">응답자</th>
-                <th scope="col" style="width:120px;">등록일</th>
+                <th scope="col" style="width:60px;" th:text="#{survey.label.no}">번호</th>
+                <th scope="col" th:text="#{survey.col.qestnCn}">문항내용</th>
+                <th scope="col" th:text="#{survey.col.selectIem}">선택항목</th>
+                <th scope="col" th:text="#{survey.col.textAnswer}">주관식답변</th>
+                <th scope="col" style="width:120px;" th:text="#{survey.col.respondNm}">응답자</th>
+                <th scope="col" style="width:120px;" th:text="#{survey.label.regdate}">등록일</th>
             </tr></thead>
             <tbody>
             <tr th:each="item, st : ${resultList}">
@@ -29,7 +29,7 @@
                 <td class="text-center" th:text="${item['respondnm']}">응답자</td>
                 <td class="text-center" th:text="${item['frstregistpnttm']}">등록일</td>
             </tr>
-            <tr th:if="${#lists.isEmpty(resultList)}"><td colspan="6" class="text-center text-muted py-4">응답 결과가 없습니다.</td></tr>
+            <tr th:if="${#lists.isEmpty(resultList)}"><td colspan="6" class="text-center text-muted py-4" th:text="#{survey.empty.qri}">응답 결과가 없습니다.</td></tr>
             </tbody>
         </table></div>
     </div>

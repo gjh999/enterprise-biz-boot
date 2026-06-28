@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>응답자정보 수정</title></head>
+<head><title th:text="#{survey.qrm.modify.title}">응답자정보 수정</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}">응답자관리</a></li>
-            <li class="breadcrumb-item active">수정</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}" th:text="#{survey.crumb.qrm}">응답자관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.crumb.modify}">수정</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 응답자정보 수정</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> <span th:text="#{survey.qrm.modify.heading}">응답자정보 수정</span></h1>
         <form th:action="@{/uss/olp/qrm/EgovQustnrRespondManageModify.do}" method="post">
             <input type="hidden" name="cmd" value="save"/>
             <input type="hidden" name="qestnrRespondId" th:value="${r != null ? r.qestnrrespondid : ''}"/>
@@ -19,21 +19,21 @@
             <input type="hidden" name="qestnrTmplatId" th:value="${r != null ? r.qestnrtmplatid : ''}"/>
             <input type="hidden" name="brth" th:value="${r != null ? r.brthdy : ''}"/>
             <div class="row g-3">
-                <div class="col-12"><label>설문제목</label>
+                <div class="col-12"><label th:text="#{survey.col.qestnrSj}">설문제목</label>
                     <input class="krds-input" type="text" readonly th:value="${r != null ? r.qestnrSj : ''}"/></div>
-                <div class="col-md-6"><label>성별 <span class="text-danger">*</span></label>
+                <div class="col-md-6"><label><span th:text="#{survey.field.sexdstn}">성별</span> <span class="text-danger">*</span></label>
                     <select class="krds-form-select" name="sexdstnCode" required>
-                        <option value="">선택</option>
+                        <option value="" th:text="#{survey.select.placeholder}">선택</option>
                         <option th:each="c : ${comCode014}" th:value="${c.code}" th:text="${c.codeNm}" th:selected="${r != null and c.code == r.sexdstnCode}"></option>
                     </select></div>
-                <div class="col-md-6"><label>직업 <span class="text-danger">*</span></label>
+                <div class="col-md-6"><label><span th:text="#{survey.field.occp}">직업</span> <span class="text-danger">*</span></label>
                     <select class="krds-form-select" name="occpTyCode" required>
-                        <option value="">선택</option>
+                        <option value="" th:text="#{survey.select.placeholder}">선택</option>
                         <option th:each="c : ${comCode034}" th:value="${c.code}" th:text="${c.codeNm}" th:selected="${r != null and c.code == r.occpTyCode}"></option>
                     </select></div>
-                <div class="col-12"><label>응답자명 <span class="text-danger">*</span></label>
+                <div class="col-12"><label><span th:text="#{survey.field.respondNm}">응답자명</span> <span class="text-danger">*</span></label>
                     <input class="krds-input" type="text" name="respondNm" th:value="${r != null ? r.respondNm : ''}" maxlength="50" required/></div>
-                <div class="col-12"><label>전화번호 <span class="text-danger">*</span></label>
+                <div class="col-12"><label><span th:text="#{survey.field.telno}">전화번호</span> <span class="text-danger">*</span></label>
                     <div class="d-flex gap-2 align-items-center" style="max-width:380px;">
                         <input class="krds-input" type="text" name="areaNo" th:value="${r != null ? r.areaNo : ''}" maxlength="4" required/> -
                         <input class="krds-input" type="text" name="middleTelno" th:value="${r != null ? r.middleTelno : ''}" maxlength="4" required/> -
@@ -41,8 +41,8 @@
                     </div></div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="krds-btn tertiary" th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olp/qrm/EgovQustnrRespondManageList.do}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.modify}">수정</span></button>
             </div>
         </form>
     </div>
