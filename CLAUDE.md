@@ -41,7 +41,7 @@ java -Dfile.encoding=UTF-8 -jar target/egovframe-boot-enterprise-biz-5.0.0.jar -
   `@SpringBootApplication`(egovframework 전체).
 - **보안**: 세션 기반 Spring Security(`com.security.SecurityConfig`). 미인증/권한부족 → `/uat/uia/egovLoginUsr.do`.
 - **뷰**: 컨트롤러 반환 뷰명(앞 슬래시 없음) = `templates/<뷰명>.html`. JSP 미작성.
-- **레이아웃**: `templates/layouts/default.html`(Thymeleaf Layout Dialect) + `templates/fragments/{header,nav,footer,pagination}.html`. 정적자원 `static/css|js|images`(KRDS+Bootstrap5, 전부 로컬).
+- **레이아웃**: `templates/layouts/default.html`(Thymeleaf Layout Dialect) + `templates/fragments/{header,nav,footer,pagination}.html`. 정적자원 `static/css|js|images`(**공식 KRDS** `krds.min.css`+호환 레이어 `krds-compat.css`+`krds.css`+다크 `theme.css`, 전부 로컬. **Bootstrap 프레임워크 제거**·Bootstrap Icons `bi-*`만 유지. GNB 드롭다운/모바일 collapse는 `data-bs-*` + `krds-compat.js` 바닐라 대체).
 
 ## 모듈 구성
 

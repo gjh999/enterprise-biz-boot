@@ -1,7 +1,8 @@
 /* ============================================================
    eGovFrame 5.0 — 모던 다크 테마 (랜딩 페이지 톤 통일)
    모든 포털 페이지에 적용되는 전역 오버라이드.
-   bootstrap.min.css / krds.css / common.css 이후에 로드되어 우선 적용된다.
+   krds.min.css / krds-compat.css / krds.css / common.css 이후에 로드되어 우선 적용된다.
+   (Bootstrap 프레임워크는 제거됨 — Bootstrap Icons 아이콘 폰트만 유지)
    ============================================================ */
 
 :root {
