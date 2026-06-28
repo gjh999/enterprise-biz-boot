@@ -2,40 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문항목 등록</title></head>
+<head><title th:text="#{survey.qim.regist.title}">설문항목 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">설문항목</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}" th:text="#{survey.crumb.qim}">설문항목</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.crumb.regist}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 설문항목 등록</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> <span th:text="#{survey.qim.regist.heading}">설문항목 등록</span></h1>
         <form th:action="@{/uss/olp/qim/EgovQustnrItemManageRegist.do}" th:object="${qustnrItemManageVO}" method="post">
             <input type="hidden" name="cmd" value="save"/>
             <div class="row g-3">
-                <div class="col-md-6"><label>설문지 ID</label>
+                <div class="col-md-6"><label th:text="#{survey.field.qestnrId}">설문지 ID</label>
                     <input class="krds-input" type="text" th:field="*{qestnrId}"/></div>
-                <div class="col-md-6"><label>설문템플릿 ID</label>
+                <div class="col-md-6"><label th:text="#{survey.field.qestnrTmplatId}">설문템플릿 ID</label>
                     <input class="krds-input" type="text" th:field="*{qestnrTmplatId}"/></div>
-                <div class="col-md-6"><label>설문문항 ID</label>
+                <div class="col-md-6"><label th:text="#{survey.field.qestnrQesitmId}">설문문항 ID</label>
                     <input class="krds-input" type="text" th:field="*{qestnrQesitmId}"/></div>
-                <div class="col-md-6"><label>항목순번 <span class="text-danger">*</span></label>
+                <div class="col-md-6"><label><span th:text="#{survey.field.iemSn}">항목순번</span> <span class="text-danger">*</span></label>
                     <input class="krds-input" type="text" th:field="*{iemSn}" maxlength="5" required/>
                     <div class="text-danger small" th:if="${#fields.hasErrors('iemSn')}" th:errors="*{iemSn}"></div></div>
-                <div class="col-12"><label>항목내용 <span class="text-danger">*</span></label>
+                <div class="col-12"><label><span th:text="#{survey.field.iemCn}">항목내용</span> <span class="text-danger">*</span></label>
                     <textarea class="krds-input" rows="4" th:field="*{iemCn}" required></textarea>
                     <div class="text-danger small" th:if="${#fields.hasErrors('iemCn')}" th:errors="*{iemCn}"></div></div>
-                <div class="col-md-6"><label>기타답변여부</label>
+                <div class="col-md-6"><label th:text="#{survey.field.etcAnswerAt}">기타답변여부</label>
                     <select class="krds-form-select" th:field="*{etcAnswerAt}">
                         <option value="N">N</option>
                         <option value="Y">Y</option>
                     </select></div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="krds-btn tertiary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>

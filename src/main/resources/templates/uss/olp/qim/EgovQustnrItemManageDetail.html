@@ -3,40 +3,40 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문항목 상세</title></head>
+<head><title th:text="#{survey.qim.detail.title}">설문항목 상세</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">설문항목</a></li>
-            <li class="breadcrumb-item active">상세</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}" th:text="#{survey.crumb.qim}">설문항목</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.crumb.detail}">상세</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> 설문항목 상세</h1>
-        <div class="text-muted" th:if="${r == null}">상세 데이터가 없습니다.</div>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ul"></i> <span th:text="#{survey.qim.detail.heading}">설문항목 상세</span></h1>
+        <div class="text-muted" th:if="${r == null}" th:text="#{survey.empty.detail}">상세 데이터가 없습니다.</div>
         <div class="krds-table-wrap" th:if="${r != null}">
         <table class="tbl col">
             <tbody>
-            <tr><th scope="row" style="width:160px;">설문제목</th><td th:text="${r.qestnrCn}"></td></tr>
-            <tr><th scope="row">설문문항</th><td th:text="${r.qestnrQesitmCn}"></td></tr>
-            <tr><th scope="row">항목순번</th><td th:text="${r.iemSn}"></td></tr>
-            <tr><th scope="row">항목내용</th><td style="white-space:pre-line;" th:text="${r.iemCn}"></td></tr>
-            <tr><th scope="row">기타답변여부</th><td th:text="${r.etcAnswerAt}"></td></tr>
+            <tr><th scope="row" style="width:160px;" th:text="#{survey.col.qestnrSj}">설문제목</th><td th:text="${r.qestnrCn}"></td></tr>
+            <tr><th scope="row" th:text="#{survey.field.qestnrQesitm}">설문문항</th><td th:text="${r.qestnrQesitmCn}"></td></tr>
+            <tr><th scope="row" th:text="#{survey.field.iemSn}">항목순번</th><td th:text="${r.iemSn}"></td></tr>
+            <tr><th scope="row" th:text="#{survey.field.iemCn}">항목내용</th><td style="white-space:pre-line;" th:text="${r.iemCn}"></td></tr>
+            <tr><th scope="row" th:text="#{survey.field.etcAnswerAt}">기타답변여부</th><td th:text="${r.etcAnswerAt}"></td></tr>
             </tbody>
         </table>
         </div>
         <div class="d-flex justify-content-between mt-3" th:if="${r != null}">
-            <a class="krds-btn tertiary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}">목록</a>
+            <a class="krds-btn tertiary" th:href="@{/uss/olp/qim/EgovQustnrItemManageList.do}" th:text="#{button.list}">목록</a>
             <div sec:authorize="isAuthenticated()">
                 <form class="d-inline" th:action="@{/uss/olp/qim/EgovQustnrItemManageModify.do}" method="post">
                     <input type="hidden" name="qustnrIemId" th:value="${r.qustnrIemId}"/>
-                    <button class="krds-btn primary" type="submit"><i class="bi bi-pencil"></i> 수정</button>
+                    <button class="krds-btn primary" type="submit"><i class="bi bi-pencil"></i> <span th:text="#{button.modify}">수정</span></button>
                 </form>
                 <form class="d-inline" th:action="@{/uss/olp/qim/EgovQustnrItemManageDetail.do}" method="post"
-                      onsubmit="return confirm('삭제하시겠습니까?');">
+                      th:onsubmit="|return confirm('[[#{survey.confirm.delete}]]');|">
                     <input type="hidden" name="qustnrIemId" th:value="${r.qustnrIemId}"/>
                     <input type="hidden" name="cmd" value="del"/>
-                    <button class="krds-btn danger" type="submit"><i class="bi bi-trash"></i> 삭제</button>
+                    <button class="krds-btn danger" type="submit"><i class="bi bi-trash"></i> <span th:text="#{button.delete}">삭제</span></button>
                 </form>
             </div>
         </div>
