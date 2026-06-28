@@ -2,18 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문 응답</title></head>
+<head><title th:text="#{survey.qnn.respond.title}">설문 응답</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:820px;"
          th:with="info=${Comtnqestnrinfo != null and !#lists.isEmpty(Comtnqestnrinfo)} ? ${Comtnqestnrinfo[0]} : null,
                   emp=${Emplyrinfo != null and !#lists.isEmpty(Emplyrinfo)} ? ${Emplyrinfo[0]} : null">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}">설문조사</a></li>
-            <li class="breadcrumb-item active">응답</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}" th:text="#{survey.crumb.qnn}">설문조사</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.crumb.respond}">응답</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> 설문 응답</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-clipboard-check"></i> <span th:text="#{survey.qnn.respond.heading}">설문 응답</span></h1>
 
         <div class="krds-panel mb-3" th:if="${info != null}"><div class="krds-panel-body">
             <h2 class="h5 mb-1" th:text="${info.qestnrsj}">설문제목</h2>
@@ -27,21 +27,21 @@
             <input type="hidden" name="qestnrTmplatId" th:value="${qestnrTmplatId}"/>
 
             <fieldset class="border rounded p-3 mb-4">
-                <legend class="h6">응답자 정보</legend>
+                <legend class="h6" th:text="#{survey.qnn.respondentInfo}">응답자 정보</legend>
                 <div class="row g-3">
-                    <div class="col-md-6"><label>성별</label>
+                    <div class="col-md-6"><label th:text="#{survey.field.sexdstn}">성별</label>
                         <select class="krds-form-select" name="sexdstnCode">
-                            <option value="">선택</option>
+                            <option value="" th:text="#{survey.select.placeholder}">선택</option>
                             <option th:each="c : ${comCode014}" th:value="${c.code}" th:text="${c.codeNm}"></option>
                         </select></div>
-                    <div class="col-md-6"><label>직업</label>
+                    <div class="col-md-6"><label th:text="#{survey.field.occp}">직업</label>
                         <select class="krds-form-select" name="occpTyCode">
-                            <option value="">선택</option>
+                            <option value="" th:text="#{survey.select.placeholder}">선택</option>
                             <option th:each="c : ${comCode034}" th:value="${c.code}" th:text="${c.codeNm}"></option>
                         </select></div>
-                    <div class="col-md-6"><label>생년월일(YYYYMMDD)</label>
+                    <div class="col-md-6"><label th:text="#{survey.field.brthdy}">생년월일(YYYYMMDD)</label>
                         <input class="krds-input" type="text" name="brth" maxlength="8" th:value="${emp != null ? emp.brth : ''}"/></div>
-                    <div class="col-md-6"><label>응답자명</label>
+                    <div class="col-md-6"><label th:text="#{survey.field.respondNm}">응답자명</label>
                         <input class="krds-input" type="text" name="respondNm" maxlength="50" th:value="${emp != null ? emp.emplyrNm : ''}"/></div>
                 </div>
             </fieldset>
@@ -57,7 +57,7 @@
                                th:name="${q.qestnrqesitmid}" th:value="${iem.qustnrIemId}"/>
                         <label class="form-check-label" th:text="${iem.iemCn}">항목</label>
                         <input class="krds-input mt-1" style="max-width:300px;" type="text"
-                               th:if="${iem.etcAnswerAt == 'Y'}" th:name="'ETC_' + ${iem.qustnrIemId}" placeholder="기타 의견"/>
+                               th:if="${iem.etcAnswerAt == 'Y'}" th:name="'ETC_' + ${iem.qustnrIemId}" th:placeholder="#{survey.qnn.etc.placeholder}" placeholder="기타 의견"/>
                     </div>
                 </div>
                 <!-- 주관식 -->
@@ -65,11 +65,11 @@
                     <textarea class="krds-input" rows="3" th:name="${q.qestnrqesitmid}"></textarea>
                 </div>
             </div>
-            <p class="text-muted" th:if="${Comtnqustnrqesitm == null or #lists.isEmpty(Comtnqustnrqesitm)}">등록된 문항이 없습니다.</p>
+            <p class="text-muted" th:if="${Comtnqustnrqesitm == null or #lists.isEmpty(Comtnqustnrqesitm)}" th:text="#{survey.stats.noQuestion}">등록된 문항이 없습니다.</p>
 
             <div class="d-flex justify-content-between mt-4">
-                <a class="krds-btn tertiary" th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-send"></i> 설문 제출</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-send"></i> <span th:text="#{survey.btn.submit}">설문 제출</span></button>
             </div>
         </form>
     </div>

@@ -2,41 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문문항 등록</title></head>
+<head><title th:text="#{survey.qqm.regist.title}">설문문항 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">설문문항</a></li>
-            <li class="breadcrumb-item active">등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}" th:text="#{survey.crumb.qqm}">설문문항</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.crumb.regist}">등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-list-ol"></i> 설문문항 등록</h1>
-        <p class="text-muted small" th:if="${qestnrInfo != null}">설문지: <span th:text="${qestnrInfo.qestnrSj}"></span></p>
+        <h1 class="h4 mb-3"><i class="bi bi-list-ol"></i> <span th:text="#{survey.qqm.regist.heading}">설문문항 등록</span></h1>
+        <p class="text-muted small" th:if="${qestnrInfo != null}"><span th:text="#{survey.qqm.survey}">설문지:</span> <span th:text="${qestnrInfo.qestnrSj}"></span></p>
         <form th:action="@{/uss/olp/qqm/EgovQustnrQestnManageRegist.do}" th:object="${qustnrQestnManageVO}" method="post">
             <input type="hidden" name="cmd" value="save"/>
             <input type="hidden" th:field="*{qestnrId}"/>
             <input type="hidden" th:field="*{qestnrTmplatId}"/>
             <input type="hidden" th:field="*{searchMode}"/>
             <div class="row g-3">
-                <div class="col-md-4"><label>질문순번 <span class="text-danger">*</span></label>
+                <div class="col-md-4"><label><span th:text="#{survey.field.qestnsn}">질문순번</span> <span class="text-danger">*</span></label>
                     <input class="krds-input" type="text" th:field="*{qestnSn}" maxlength="10" required/>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnSn')}" th:errors="*{qestnSn}"></div></div>
-                <div class="col-md-4"><label>질문유형 <span class="text-danger">*</span></label>
+                <div class="col-md-4"><label><span th:text="#{survey.field.qestnTy}">질문유형</span> <span class="text-danger">*</span></label>
                     <select class="krds-form-select" th:field="*{qestnTyCode}" required>
-                        <option value="">선택</option>
+                        <option value="" th:text="#{survey.select.placeholder}">선택</option>
                         <option th:each="c : ${cmmCode018}" th:value="${c.code}" th:text="${c.codeNm}"></option>
                     </select>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnTyCode')}" th:errors="*{qestnTyCode}"></div></div>
-                <div class="col-md-4"><label>최대선택건수</label>
+                <div class="col-md-4"><label th:text="#{survey.field.mxmmChoiseCo}">최대선택건수</label>
                     <input class="krds-input" type="text" th:field="*{mxmmChoiseCo}"/></div>
-                <div class="col-12"><label>질문내용 <span class="text-danger">*</span></label>
+                <div class="col-12"><label><span th:text="#{survey.field.questCn}">질문내용</span> <span class="text-danger">*</span></label>
                     <textarea class="krds-input" rows="4" th:field="*{qestnCn}" required></textarea>
                     <div class="text-danger small" th:if="${#fields.hasErrors('qestnCn')}" th:errors="*{qestnCn}"></div></div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="krds-btn tertiary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 저장</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.save}">저장</span></button>
             </div>
         </form>
     </div>

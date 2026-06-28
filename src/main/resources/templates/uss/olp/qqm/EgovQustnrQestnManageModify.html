@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title>설문문항 수정</title></head>
+<head><title th:text="#{survey.qqm.modify.title}">설문문항 수정</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:760px;" th:with="r=${resultList != null and !#lists.isEmpty(resultList)} ? ${resultList[0]} : null">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">설문문항</a></li>
-            <li class="breadcrumb-item active">수정</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}" th:text="#{survey.crumb.qqm}">설문문항</a></li>
+            <li class="breadcrumb-item active" th:text="#{survey.crumb.modify}">수정</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> 설문문항 수정</h1>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> <span th:text="#{survey.qqm.modify.heading}">설문문항 수정</span></h1>
         <form th:action="@{/uss/olp/qqm/EgovQustnrQestnManageModify.do}" method="post">
             <input type="hidden" name="cmd" value="save"/>
             <input type="hidden" name="qestnrQesitmId" th:value="${r != null ? r.qestnrqesitmid : ''}"/>
@@ -19,22 +19,22 @@
             <input type="hidden" name="qestnrTmplatId" th:value="${r != null ? r.qestnrtmplatid : ''}"/>
             <input type="hidden" name="searchMode" value="Y"/>
             <div class="row g-3">
-                <div class="col-md-4"><label>질문순번 <span class="text-danger">*</span></label>
+                <div class="col-md-4"><label><span th:text="#{survey.field.qestnsn}">질문순번</span> <span class="text-danger">*</span></label>
                     <input class="krds-input" type="text" name="qestnSn" th:value="${r != null ? r.qestnsn : ''}" maxlength="10" required/></div>
-                <div class="col-md-4"><label>질문유형 <span class="text-danger">*</span></label>
+                <div class="col-md-4"><label><span th:text="#{survey.field.qestnTy}">질문유형</span> <span class="text-danger">*</span></label>
                     <select class="krds-form-select" name="qestnTyCode" required>
-                        <option value="">선택</option>
+                        <option value="" th:text="#{survey.select.placeholder}">선택</option>
                         <option th:each="c : ${cmmCode018}" th:value="${c.code}" th:text="${c.codeNm}"
                                 th:selected="${r != null and c.code == r.qestntycode}"></option>
                     </select></div>
-                <div class="col-md-4"><label>최대선택건수</label>
+                <div class="col-md-4"><label th:text="#{survey.field.mxmmChoiseCo}">최대선택건수</label>
                     <input class="krds-input" type="text" name="mxmmChoiseCo" th:value="${r != null ? r.mxmmchoiseco : ''}"/></div>
-                <div class="col-12"><label>질문내용 <span class="text-danger">*</span></label>
+                <div class="col-12"><label><span th:text="#{survey.field.questCn}">질문내용</span> <span class="text-danger">*</span></label>
                     <textarea class="krds-input" rows="4" name="qestnCn" required th:text="${r != null ? r.qestncn : ''}"></textarea></div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-                <a class="krds-btn tertiary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}">목록</a>
-                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> 수정</button>
+                <a class="krds-btn tertiary" th:href="@{/uss/olp/qqm/EgovQustnrQestnManageList.do}" th:text="#{button.list}">목록</a>
+                <button class="krds-btn primary" type="submit"><i class="bi bi-check-lg"></i> <span th:text="#{button.modify}">수정</span></button>
             </div>
         </form>
     </div>
