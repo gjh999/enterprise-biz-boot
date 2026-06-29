@@ -94,7 +94,7 @@
                 <tr>
                     <th scope="row"><span th:text="#{bbs.tmplatInfo}">템플릿 정보</span> <span class="text-danger">*</span></th>
                     <td><input class="krds-input" type="text" name="tmplatNm" readonly
-                               th:value="${result != null and result.tmplatNm != null and !#strings.isEmpty(result.tmplatNm) ? result.tmplatNm : #messages.msg('bbs.tmplat.default')}"/></td>
+                               th:value="${result != null and result.tmplatNm != null and !#strings.isEmpty(result.tmplatNm)} ? ${result.tmplatNm} : #{bbs.tmplat.default}"/></td>
                 </tr>
                 </tbody>
             </table>

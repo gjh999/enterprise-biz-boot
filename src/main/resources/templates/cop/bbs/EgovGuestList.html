@@ -3,18 +3,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.guest')}">방명록</title></head>
+<head><title th:text="${brdMstrVO != null} ? ${brdMstrVO.bbsNm} : #{bbs.guest}">방명록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container"
          th:with="bbsId=${boardVO != null ? boardVO.bbsId : ''}, editMode=${boardVO != null and boardVO.nttId != 0}">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
-            <li class="breadcrumb-item active" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.guest')}">방명록</li>
+            <li class="breadcrumb-item active" th:text="${brdMstrVO != null} ? ${brdMstrVO.bbsNm} : #{bbs.guest}">방명록</li>
         </ol></nav>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0"><i class="bi bi-chat-left-text"></i> <span th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.guest')}">방명록</span></h1>
+            <h1 class="h4 mb-0"><i class="bi bi-chat-left-text"></i> <span th:text="${brdMstrVO != null} ? ${brdMstrVO.bbsNm} : #{bbs.guest}">방명록</span></h1>
             <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong th:text="${resultCnt}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
         </div>
 
@@ -22,7 +22,7 @@
         <div class="krds-panel mb-4" sec:authorize="isAuthenticated()">
             <div class="krds-panel-head py-2">
                 <i class="bi bi-pencil-square"></i>
-                <span th:text="${editMode} ? #messages.msg('bbs.guest.modify') : #messages.msg('bbs.guest.write')">방명록 작성</span>
+                <span th:text="${editMode} ? #{bbs.guest.modify} : #{bbs.guest.write}">방명록 작성</span>
             </div>
             <div class="krds-panel-body">
                 <form th:action="${editMode} ? @{/cop/bbs/updateGuestList.do} : @{/cop/bbs/insertGuestList.do}"
@@ -44,7 +44,7 @@
                         <a class="krds-btn tertiary small" th:if="${editMode}"
                            th:href="@{/cop/bbs/selectGuestList.do(bbsId=${bbsId})}" th:text="#{button.cancel}">취소</a>
                         <button class="krds-btn primary small" type="submit">
-                            <i class="bi bi-check-lg"></i> <span th:text="${editMode} ? #messages.msg('button.modify') : #messages.msg('button.register')">등록</span>
+                            <i class="bi bi-check-lg"></i> <span th:text="${editMode} ? #{button.modify} : #{button.register}">등록</span>
                         </button>
                     </div>
                 </form>

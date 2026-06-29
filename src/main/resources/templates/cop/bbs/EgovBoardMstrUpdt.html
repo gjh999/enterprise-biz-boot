@@ -52,7 +52,7 @@
                 <tr>
                     <th scope="row" th:text="#{bbs.replyPosblAt}">답장가능여부</th>
                     <td><span
-                              th:text="${result != null and result.replyPosblAt == 'Y'} ? #messages.msg('bbs.replyPosble') : #messages.msg('bbs.replyImposble')">가능</span></td>
+                              th:text="${result != null and result.replyPosblAt == 'Y'} ? #{bbs.replyPosble} : #{bbs.replyImposble}">가능</span></td>
                 </tr>
                 <tr>
                     <th scope="row"><span th:text="#{bbs.fileAtchPosblAt}">파일첨부가능여부</span> <span class="text-danger">*</span></th>
@@ -85,7 +85,7 @@
                     <td>
                         <div class="input-group">
                             <input class="krds-input" type="text" id="tmplatNm" name="tmplatNm" readonly
-                                   th:value="${result != null and result.tmplatNm != null and !#strings.isEmpty(result.tmplatNm) ? result.tmplatNm : #messages.msg('bbs.tmplat.default')}"/>
+                                   th:value="${result != null and result.tmplatNm != null and !#strings.isEmpty(result.tmplatNm)} ? ${result.tmplatNm} : #{bbs.tmplat.default}"/>
                             <button class="krds-btn tertiary" type="button" onclick="fnOpenTmplatPopup();">
                                 <i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span>
                             </button>

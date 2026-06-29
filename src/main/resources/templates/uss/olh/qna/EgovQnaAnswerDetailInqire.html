@@ -15,7 +15,7 @@
         <div class="krds-panel">
             <div class="krds-panel-head d-flex justify-content-between">
                 <strong th:text="${result.qestnSj}">제목</strong>
-                <span class="krds-badge bg-gray" th:text="${result.qnaProcessSttusCodeNm ?: #messages.msg('qna.sttus.receipt')}">상태</span>
+                <span class="krds-badge bg-gray" th:text="${result.qnaProcessSttusCodeNm} ?: #{qna.sttus.receipt}">상태</span>
             </div>
             <div class="krds-panel-body">
                 <div class="text-muted small mb-2">

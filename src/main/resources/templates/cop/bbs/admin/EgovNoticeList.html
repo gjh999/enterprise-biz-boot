@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
 <head>
-    <title th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.mngTitle')}">게시판 관리</title>
+    <title th:text="${brdMstrVO != null} ? ${brdMstrVO.bbsNm} : #{bbs.mngTitle}">게시판 관리</title>
 </head>
 <body>
 <main layout:fragment="content">
@@ -13,12 +13,12 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
                 <li class="breadcrumb-item" th:text="#{bbs.mngTitle}">게시판 관리</li>
-                <li class="breadcrumb-item active" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.default')}">게시판</li>
+                <li class="breadcrumb-item active" th:text="${brdMstrVO != null} ? ${brdMstrVO.bbsNm} : #{bbs.default}">게시판</li>
             </ol>
         </nav>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0" th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.mngTitle')}">게시판 관리</h1>
+            <h1 class="h4 mb-0" th:text="${brdMstrVO != null} ? ${brdMstrVO.bbsNm} : #{bbs.mngTitle}">게시판 관리</h1>
             <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong th:text="${resultCnt}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
         </div>
 
@@ -41,7 +41,7 @@
                        th:href="@{/cop/bbs/admin/selectBoardArticle.do(bbsId=${item.bbsId},nttId=${item.nttId})}"
                        th:text="${item.nttSj}">제목</a>
                 </td>
-                <td class="text-center" th:text="${item.ntcrNm ?: #messages.msg('bbs.admin')}">작성자</td>
+                <td class="text-center" th:text="${item.ntcrNm} ?: #{bbs.admin}">작성자</td>
                 <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
                 <td class="text-center" th:text="${item.inqireCo ?: 0}">0</td>
             </tr>

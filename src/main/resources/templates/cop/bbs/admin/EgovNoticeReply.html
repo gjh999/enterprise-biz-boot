@@ -10,7 +10,7 @@
             <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
             <li class="breadcrumb-item">
                 <a th:href="@{/cop/bbs/admin/selectBoardList.do(bbsId=${bdMstr != null ? bdMstr.bbsId : ''})}"
-                   th:text="${bdMstr != null ? bdMstr.bbsNm : #messages.msg('bbs.default')}">게시판</a>
+                   th:text="${bdMstr != null} ? ${bdMstr.bbsNm} : #{bbs.default}">게시판</a>
             </li>
             <li class="breadcrumb-item active" th:text="#{bbs.reply.do}">답글쓰기</li>
         </ol></nav>

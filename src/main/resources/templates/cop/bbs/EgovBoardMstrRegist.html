@@ -89,7 +89,7 @@
                     <td>
                         <div class="input-group">
                             <input class="krds-input" type="text" id="tmplatNm" name="tmplatNm" readonly
-                                   th:value="${boardMaster != null and boardMaster.tmplatNm != null and !#strings.isEmpty(boardMaster.tmplatNm) ? boardMaster.tmplatNm : #messages.msg('bbs.tmplat.default')}"/>
+                                   th:value="${boardMaster != null and boardMaster.tmplatNm != null and !#strings.isEmpty(boardMaster.tmplatNm)} ? ${boardMaster.tmplatNm} : #{bbs.tmplat.default}"/>
                             <button class="krds-btn tertiary" type="button" onclick="fnOpenTmplatPopup();">
                                 <i class="bi bi-search"></i> <span th:text="#{button.inquiry}">조회</span>
                             </button>

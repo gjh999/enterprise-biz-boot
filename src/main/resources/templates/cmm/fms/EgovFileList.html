@@ -20,7 +20,7 @@
             <span th:text="${fileVO.orignlFileNm}">파일명</span>
             <span class="text-muted small">[<span th:text="${fileVO.fileMg}">0</span>&nbsp;byte]</span>
             <form th:action="@{/cmm/fms/deleteFileInfs.do}" method="post" class="d-inline m-0"
-                  th:attr="onsubmit=|return confirm('${#messages.msg('file.list.deleteConfirm')}');|">
+                  th:onsubmit="|return confirm('__#{file.list.deleteConfirm}__');|">
                 <input type="hidden" name="atchFileId" th:value="${atchFileId}"/>
                 <input type="hidden" name="fileSn" th:value="${fileVO.fileSn}"/>
                 <input type="hidden" name="returnUrl" th:value="${returnUrl}"/>

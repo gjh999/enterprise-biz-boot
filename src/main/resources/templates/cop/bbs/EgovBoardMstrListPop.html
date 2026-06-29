@@ -57,7 +57,7 @@
             <td th:text="${item.bbsTyCodeNm}">유형</td>
             <td th:text="${item.bbsAttrbCodeNm}">속성</td>
             <td class="text-center" th:text="${item.frstRegisterPnttm}">생성일</td>
-            <td class="text-center" th:text="${item.useAt == 'Y'} ? #messages.msg('bbs.use') : #messages.msg('bbs.unuse')">사용</td>
+            <td class="text-center" th:text="${item.useAt == 'Y'} ? #{bbs.use} : #{bbs.unuse}">사용</td>
             <td class="text-center">
                 <button type="button" class="krds-btn secondary small"
                         th:attr="data-bbs-id=${item.bbsId},data-bbs-nm=${item.bbsNm}"

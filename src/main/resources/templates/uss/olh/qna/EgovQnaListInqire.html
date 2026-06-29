@@ -55,7 +55,7 @@
                 <td class="text-center">
                     <span class="krds-badge"
                           th:classappend="${item.qnaProcessSttusCode == '3'} ? 'bg-success' : 'bg-gray'"
-                          th:text="${item.qnaProcessSttusCodeNm ?: #messages.msg('qna.sttus.receipt')}">상태</span>
+                          th:text="${item.qnaProcessSttusCodeNm} ?: #{qna.sttus.receipt}">상태</span>
                 </td>
                 <td>
                     <a class="text-decoration-none"

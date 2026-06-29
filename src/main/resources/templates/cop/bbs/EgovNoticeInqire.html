@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/default}" lang="ko">
 <head>
-    <title th:text="${result != null ? result.nttSj : #messages.msg('bbs.article')}">게시물</title>
+    <title th:text="${result != null} ? ${result.nttSj} : #{bbs.article}">게시물</title>
 </head>
 <body>
 <main layout:fragment="content">
@@ -14,7 +14,7 @@
                 <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
                 <li class="breadcrumb-item">
                     <a th:href="@{/cop/bbs/selectBoardList.do(bbsId=${result.bbsId})}"
-                       th:text="${brdMstrVO != null ? brdMstrVO.bbsNm : #messages.msg('bbs.default')}">게시판</a>
+                       th:text="${brdMstrVO != null} ? ${brdMstrVO.bbsNm} : #{bbs.default}">게시판</a>
                 </li>
                 <li class="breadcrumb-item active" th:text="#{bbs.detail}">상세보기</li>
             </ol>
@@ -24,7 +24,7 @@
             <div class="krds-panel-head">
                 <h1 class="h5 mb-1" th:text="${result.nttSj}">제목</h1>
                 <div class="text-muted small">
-                    <span th:text="#{common.writer}">작성자</span> <span th:text="${result.ntcrNm ?: #messages.msg('bbs.admin')}">관리자</span> ·
+                    <span th:text="#{common.writer}">작성자</span> <span th:text="${result.ntcrNm} ?: #{bbs.admin}">관리자</span> ·
                     <span th:text="${result.frstRegisterPnttm}">등록일</span> ·
                     <span th:text="#{common.views}">조회</span> <span th:text="${result.inqireCo ?: 0}">0</span>
                 </div>

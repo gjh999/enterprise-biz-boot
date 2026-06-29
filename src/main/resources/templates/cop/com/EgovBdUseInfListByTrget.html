@@ -37,7 +37,7 @@
                 <td th:text="${item.registSeCodeNm}">등록구분</td>
                 <td class="text-center">
                     <span class="krds-badge" th:classappend="${item.useAt == 'Y'} ? 'bg-success' : 'bg-gray'"
-                          th:text="${item.useAt == 'Y'} ? #messages.msg('bbs.use') : #messages.msg('bbs.unuse')">사용</span>
+                          th:text="${item.useAt == 'Y'} ? #{bbs.use} : #{bbs.unuse}">사용</span>
                 </td>
                 <td class="text-center" th:text="${item.frstRegisterPnttm}">등록일</td>
             </tr>
