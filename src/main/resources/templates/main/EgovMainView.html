@@ -254,9 +254,9 @@
             <div>
                 <div class="lp-row" th:each="item : ${qriList}">
                     <a th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}"
-                       th:text="${item.qestnrSj}">설문 제목</a>
+                       th:text="${item['qestnrsj']}">설문 제목</a>
                     <span class="date">
-                        <span th:text="${item.qestnrBeginDe}">시작일</span> ~ <span th:text="${item.qestnrEndDe}">종료일</span>
+                        <span th:text="${item['qestnrbeginde']}">시작일</span> ~ <span th:text="${item['qestnrendde']}">종료일</span>
                     </span>
                 </div>
                 <div class="lp-row" th:if="${qriList == null or #lists.isEmpty(qriList)}">
