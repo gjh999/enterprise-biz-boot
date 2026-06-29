@@ -52,9 +52,10 @@ secrets/
 *.bak
 
 # Runtime data / uploads / logs (런타임 산출물)
-files/
+# 주의: 루트 고정(/) 없이 'log/'·'files/' 로 쓰면 소스 패키지(sym/log 등)까지 무시되므로 루트 경로로 한정한다.
+/files/
 /upload/
-log/
+/log/
 backend
 bootrun*.log
 *.pid

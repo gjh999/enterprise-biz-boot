@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title th:text="#{log.login.inqire.title}">로그인 로그 상세</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/sym/log/clg/SelectLoginLogList.do}" th:text="#{log.login.list.title}">접속로그관리</a></li>
+                <li class="breadcrumb-item active" th:text="#{log.detail}">상세조회</li>
+            </ol>
+        </nav>
+
+        <h1 class="h4 mb-3" th:text="#{log.login.info}">로그인 로그 정보</h1>
+
+        <div class="krds-table-wrap">
+        <table class="tbl col" th:object="${result}">
+            <caption th:text="#{log.login.info}">로그인 로그 정보</caption>
+            <tbody>
+            <tr>
+                <th scope="row" style="width:190px;" th:text="#{log.logId}">로그ID</th>
+                <td th:text="*{logId}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.occrrncDe}">발생일자</th>
+                <td th:text="*{creatDt}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.logType}">로그유형</th>
+                <td th:text="*{loginMthd}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.rqsterNm}">요청자</th>
+                <td th:text="*{loginNm}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.rqsterIp}">요청자IP</th>
+                <td th:text="*{loginIp}"></td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div class="text-end">
+            <a class="krds-btn tertiary small" th:href="@{/sym/log/clg/SelectLoginLogList.do}" th:text="#{button.list}">목록</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

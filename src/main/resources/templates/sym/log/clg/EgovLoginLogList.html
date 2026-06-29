@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title th:text="#{log.login.list.title}">접속로그관리</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+                <li class="breadcrumb-item" th:text="#{log.innerSvcManage}">내부서비스관리</li>
+                <li class="breadcrumb-item active" th:text="#{log.login.list.title}">접속로그관리</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h4 mb-0" th:text="#{log.login.list.title}">접속로그관리</h1>
+            <span class="text-muted small"><span th:text="#{log.total}">총</span> <strong th:text="${resultCnt}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
+        </div>
+
+        <form name="frm" id="frm" method="get" th:action="@{/sym/log/clg/SelectLoginLogList.do}">
+            <div class="row g-2 align-items-end mb-3">
+                <div class="col-auto">
+                    <label for="searchBgnDe" class="small mb-1" th:text="#{log.occrrncDe}">발생일자</label>
+                    <input type="date" name="searchBgnDe" id="searchBgnDe" class="krds-input"
+                           th:value="${searchVO != null ? searchVO.searchBgnDe : ''}"/>
+                </div>
+                <div class="col-auto pb-1">~</div>
+                <div class="col-auto">
+                    <label for="searchEndDe" class="small mb-1">&nbsp;</label>
+                    <input type="date" name="searchEndDe" id="searchEndDe" class="krds-input"
+                           th:value="${searchVO != null ? searchVO.searchEndDe : ''}"/>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="krds-btn primary small" th:text="#{button.inquiry}">조회</button>
+                </div>
+            </div>
+            <input type="hidden" name="pageIndex" th:value="${searchVO != null ? searchVO.pageIndex : 1}"/>
+        </form>
+
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <thead>
+            <tr>
+                <th scope="col" style="width:80px;" th:text="#{log.no}">번호</th>
+                <th scope="col" th:text="#{log.logId}">로그ID</th>
+                <th scope="col" style="width:180px;" th:text="#{log.occrrncDe}">발생일자</th>
+                <th scope="col" style="width:120px;" th:text="#{log.logType}">로그유형</th>
+                <th scope="col" style="width:120px;" th:text="#{log.detailView}">상세보기</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="result,status : ${resultList}">
+                <td class="text-center"
+                    th:text="${paginationInfo.totalRecordCount - ((searchVO.pageIndex-1) * searchVO.pageSize) - status.index}">1</td>
+                <td th:text="${result.logId}">LOG_ID</td>
+                <td class="text-center" th:text="${result.creatDt}">발생일자</td>
+                <td class="text-center" th:text="${result.loginMthd}">유형</td>
+                <td class="text-center">
+                    <a class="krds-btn tertiary small"
+                       th:href="@{/sym/log/clg/InqireLoginLog.do(logId=${result.logId})}" th:text="#{log.detailView}">상세보기</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(resultList)}">
+                <td colspan="5" class="text-center text-muted py-4" th:text="#{log.login.empty}">조회된 접속로그가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <nav th:if="${paginationInfo != null and paginationInfo.totalPageCount > 1}" class="mt-3">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"
+                    th:each="p : ${#numbers.sequence(1, paginationInfo.totalPageCount)}"
+                    th:classappend="${p == paginationInfo.currentPageNo} ? ' active'">
+                    <a class="page-link"
+                       th:href="@{/sym/log/clg/SelectLoginLogList.do(pageIndex=${p},searchBgnDe=${searchVO.searchBgnDe},searchEndDe=${searchVO.searchEndDe})}"
+                       th:text="${p}">1</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+</body>
+</html>

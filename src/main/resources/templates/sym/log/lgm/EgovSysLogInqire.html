@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head>
+    <title th:text="#{log.sys.inqire.title}">시스템 로그 상세</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/sym/log/lgm/SelectSysLogList.do}" th:text="#{log.sys.list.title}">시스템로그관리</a></li>
+                <li class="breadcrumb-item active" th:text="#{log.detail}">상세조회</li>
+            </ol>
+        </nav>
+
+        <h1 class="h4 mb-3" th:text="#{log.sys.info}">시스템 로그 정보</h1>
+
+        <div class="krds-table-wrap">
+        <table class="tbl col" th:object="${result}">
+            <caption th:text="#{log.sys.info}">시스템 로그 정보</caption>
+            <tbody>
+            <tr>
+                <th scope="row" style="width:190px;" th:text="#{log.requstId}">요청ID</th>
+                <td th:text="*{requstId}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.occrrncDe}">발생일자</th>
+                <td th:text="*{occrrncDe}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.srvcNm}">서비스명</th>
+                <td th:text="*{srvcNm}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.methodNm}">메서드명</th>
+                <td th:text="*{methodNm}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.processTy}">처리구분</th>
+                <td th:text="*{processSeCodeNm}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.processSecnds}">처리시간</th>
+                <td th:text="*{processTime}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.rqsterNm}">요청자</th>
+                <td th:text="*{rqsterNm}"></td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="#{log.rqsterIp}">요청자IP</th>
+                <td th:text="*{rqesterIp}"></td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div class="text-end">
+            <a class="krds-btn tertiary small" th:href="@{/sym/log/lgm/SelectSysLogList.do}" th:text="#{button.list}">목록</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
