@@ -53,9 +53,15 @@ a:hover { color: #fff; }
 
 .skip-nav { background: var(--t-indigo); }
 
-/* ---------- 헤더 ---------- */
+/* ---------- 헤더 (포털 정책: 상단 고정 sticky + 스크롤 시 잘림 방지) ----------
+   기존 다크 톤은 유지하되, position/z-index/배경을 보정해 스크롤 시 본문이
+   반투명 헤더를 통과해 헤더가 '잘려 보이는' 현상을 제거한다.
+   헤더+GNB를 함께 sticky 스택으로 두어 항상 상단에 고정·온전히 노출. */
 .egov-header.egov-header {
-    background: rgba(10, 14, 39, 0.72) !important;
+    position: sticky;
+    top: 0;
+    z-index: 1040;            /* 본문/페이지타이틀(z<=2)·드롭다운 베이스 위 */
+    background: rgba(10, 14, 39, 0.92) !important;   /* 불투명도 ↑ : 본문 비침 차단 */
     backdrop-filter: blur(18px) saturate(160%);
     border-bottom: 1px solid var(--t-line) !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
@@ -81,11 +87,12 @@ a:hover { color: #fff; }
 
 /* ---------- 네비게이션 ---------- */
 .egov-nav.egov-nav {
-    background: rgba(13, 17, 46, 0.66) !important;
+    background: rgba(13, 17, 46, 0.92) !important;   /* 불투명도 ↑ : 스크롤 시 본문 비침 차단 */
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--t-line);
-    position: relative;
-    z-index: 1030;            /* 드롭다운이 페이지 타이틀/콘텐츠 위로 오도록 */
+    position: sticky;
+    top: 56px;                /* 헤더(약 56px) 바로 아래 고정 → 헤더+GNB 동반 sticky */
+    z-index: 1035;            /* 헤더 아래·콘텐츠/드롭다운 베이스 위 */
 }
 .egov-nav .nav-link {
     color: #e7ebff !important;
@@ -333,7 +340,7 @@ nav[aria-label="페이지 네비게이션"] .text-muted { color: var(--t-muted) 
     border-radius: 14px;
 }
 
-/* ---------- 푸터 ---------- */
+/* ---------- 푸터 (포털식 pub-foot 구조 + 비즈 다크 톤) ---------- */
 .egov-footer.egov-footer {
     background: #060916 !important;
     border-top: 1px solid var(--t-line);
@@ -341,6 +348,53 @@ nav[aria-label="페이지 네비게이션"] .text-muted { color: var(--t-muted) 
 }
 .egov-footer .text-muted { color: #7e87b5 !important; }
 .egov-footer h6 { color: #fff; }
+
+/* 포털식 pub-foot 3컬럼 + 공식 배너 + 소셜 + 카피라이트 (비즈 다크 톤 유지) */
+.pub-foot{ background:#060916; border-top:1px solid var(--t-line); padding:52px 0 32px; margin-top:60px; color:#fff; }
+.pub-foot > .container{ max-width:1180px; padding-left:24px; padding-right:24px; }
+.pub-foot-top{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:30px; margin-top:1.25rem; }
+.pub-foot .pub-brand{ display:flex; align-items:center; gap:12px; font-weight:800; font-size:20px; letter-spacing:-.02em; color:#fff; text-decoration:none; margin-bottom:12px; }
+.pub-foot .pub-brand .mark{ width:38px; height:38px; border-radius:11px; }
+.pub-foot .desc{ color:#9aa1c8; font-size:14.5px; max-width:46ch; margin:0; line-height:1.6; }
+.pub-foot-cols{ display:flex; gap:64px; flex-wrap:wrap; }
+.pub-foot-col h4{ font-size:14px; color:#fff; margin:0 0 14px; letter-spacing:.04em; }
+.pub-foot-col a{ display:block; color:#9aa1c8; font-size:14px; margin-bottom:10px; text-decoration:none; white-space:nowrap; }
+.pub-foot-col a:hover{ color:#fff; }
+.pub-foot-bottom{ margin-top:40px; padding-top:24px; border-top:1px solid var(--t-line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; color:#7e87b5; font-size:13px; align-items:center; }
+.pub-foot-bottom .soc{ display:flex; gap:14px; font-size:18px; }
+.pub-foot-bottom .soc a{ color:#9aa1c8; }
+.pub-foot-bottom .soc a:hover{ color:#fff; }
+@media (max-width:768px){ .pub-foot-cols{ gap:32px; } .pub-foot{ padding:36px 0 28px; } }
+
+/* 전자정부표준프레임워크 공식 홈페이지 배너 (포털 정책) */
+.egov-official-banner{
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    padding:18px 22px; border-radius:16px; text-decoration:none; color:#fff;
+    background:linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2));
+    box-shadow:0 12px 30px rgba(79,107,255,.32); transition:transform .2s, box-shadow .2s; }
+.egov-official-banner:hover{ transform:translateY(-2px); box-shadow:0 16px 38px rgba(79,107,255,.45); color:#fff; }
+.egov-official-banner:focus-visible{ outline:3px solid #fff; outline-offset:2px; }
+.egov-official-banner .ban-txt{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.egov-official-banner .ban-txt strong{ font-size:1.05rem; font-weight:800; display:flex; align-items:center; gap:.45rem; }
+.egov-official-banner .ban-txt small{ font-size:.85rem; opacity:.92; }
+.egov-official-banner .ban-go{ display:inline-flex; align-items:center; gap:.4rem; font-weight:700; white-space:nowrap;
+    background:rgba(255,255,255,.16); padding:.5rem 1rem; border-radius:999px; }
+.egov-official-banner:hover .ban-go{ background:rgba(255,255,255,.28); }
+@media (max-width:600px){ .egov-official-banner{ padding:14px 16px; } .egov-official-banner .ban-txt strong{ font-size:.98rem; } }
+
+/* ── 맨 위로(스크롤 톱) 버튼 (포털 정책 동일) ── */
+.scroll-top-btn{ position:fixed; right:24px; bottom:24px; z-index:1060; width:48px; height:48px; border-radius:50%;
+    border:none; background:linear-gradient(135deg, var(--t-indigo), var(--t-indigo-2)); color:#fff; font-size:1.35rem;
+    box-shadow:0 10px 26px rgba(79,107,255,.5); cursor:pointer; opacity:0; visibility:hidden;
+    transition:opacity .25s, visibility .25s, transform .2s; display:flex; align-items:center; justify-content:center; }
+.scroll-top-btn.show{ opacity:1; visibility:visible; }
+.scroll-top-btn:hover{ transform:translateY(-3px); box-shadow:0 14px 32px rgba(79,107,255,.6); }
+.scroll-top-btn:focus-visible{ outline:3px solid #93b4ff; outline-offset:2px; }
+
+/* 인쇄: 헤더/네비/푸터/맨위로 숨김 */
+@media print {
+    .egov-header, .egov-nav, .pub-foot, .egov-footer, .scroll-top-btn { display:none !important; }
+}
 
 /* 일반 텍스트 색 보정 (다크 배경) */
 .egov-content .text-dark { color: var(--t-text) !important; }
@@ -579,3 +633,35 @@ select.krds-form-select {
     border-radius: var(--t-radius) !important;
     box-shadow: 0 12px 30px rgba(0,0,0,.25);
 }
+
+/* ============================================================
+   글자크기 밸런스 정규화 (항목2) — 헤더/GNB 대비 본문/표/폼/버튼 균형
+   biz body는 14px라 본문이 GNB(14.5px) 대비 과소해 보임.
+   포털 토큰 정규화 기준으로 본문 기준선을 15px로 올려 헤더·GNB와 균형.
+   theme.css가 최종 권위로 로드되므로 여기서 통일 보정.
+   ============================================================ */
+body.egov-body { font-size: 15px; line-height: 1.6; }
+/* 본문 콘텐츠 기준 타이포 */
+.egov-content { font-size: 15px; }
+.egov-content p,
+.egov-content li,
+.egov-content dd,
+.egov-content dt { font-size: 15px; }
+/* 표/폼/버튼: 본문과 균형(과대 컴포넌트 정규화) */
+.egov-content .krds-table-wrap table.tbl,
+.egov-content .krds-table-wrap table.tbl th,
+.egov-content .krds-table-wrap table.tbl td { font-size: 14.5px !important; }
+.egov-content .krds-input,
+.egov-content .krds-form-select,
+.egov-content .form-control,
+.egov-content .form-select { font-size: 14.5px !important; }
+.egov-content .krds-btn { font-size: 14.5px; }
+.egov-content .krds-btn.small,
+.egov-content .krds-btn.xsmall { font-size: 13.5px; }
+.egov-content .krds-btn.large,
+.egov-content .krds-btn.xlarge { font-size: 15.5px; }
+/* 브레드크럼/페이지 타이틀 — GNB와 위계 균형(타이틀은 본문보다 크게 유지) */
+.egov-content .breadcrumb,
+.egov-content .breadcrumb-item { font-size: 13px; }
+/* 헤더 사용자/버튼 영역도 GNB와 동일 위계로 정렬 */
+.egov-header .krds-btn.small { font-size: 13.5px; }

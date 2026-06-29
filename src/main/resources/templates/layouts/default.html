@@ -54,8 +54,8 @@
     </th:block>
 </main>
 
-<!-- 푸터 -->
-<footer class="egov-footer" th:replace="~{fragments/footer :: footer}"></footer>
+<!-- 푸터 (포털식 pub-foot) -->
+<footer class="pub-foot" th:replace="~{fragments/footer :: footer}"></footer>
 
 <!-- KRDS JS: 공식(탭·아코디언) → compat(data-bs-* 대체) → 스킨 → 공통 -->
 <script th:src="@{/krds/resources/cdn/krds.min.js}"></script>
@@ -65,5 +65,19 @@
 
 <!-- 페이지별 추가 JS -->
 <th:block layout:fragment="body-js"></th:block>
+
+<!-- 맨 위로 버튼 (포털 정책 동일: 스크롤 300px↑ 표시, 인쇄 숨김) -->
+<button type="button" id="scrollTopBtn" class="scroll-top-btn" th:attr="aria-label=#{layout.scrollTop},title=#{layout.scrollTop}" aria-label="맨 위로" title="맨 위로">
+    <i class="bi bi-arrow-up"></i>
+</button>
+<script th:inline="none">
+(function(){
+    var btn = document.getElementById('scrollTopBtn');
+    if(!btn) return;
+    var onScroll = function(){ if(window.scrollY > 300){ btn.classList.add('show'); } else { btn.classList.remove('show'); } };
+    window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+    btn.addEventListener('click', function(){ window.scrollTo({ top:0, behavior:'smooth' }); });
+})();
+</script>
 </body>
 </html>
