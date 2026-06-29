@@ -8,7 +8,7 @@
 ![hsqldb](https://img.shields.io/badge/DB-HSQL%20%7C%20PostgreSQL%20%2B5-CC2927?style=for-the-badge&logo=postgresql&logoColor=white)
 
 > 전자정부 표준프레임워크 5.0 기업업무 공통컴포넌트(`enterprise-biz-jsp`, Spring + JSP + WAR)를 **Spring Boot + Thymeleaf(JAR)** 로 전환한 프로젝트입니다.
-> JSP 원본의 전 기능(컨트롤러 210개 엔드포인트)을 Thymeleaf 화면으로 구현하고, KRDS 디자인 표준을 적용했습니다.
+> JSP 원본의 전 기능(컨트롤러 210개 엔드포인트)을 Thymeleaf 화면으로 구현하고, **KRDS(Korea Design System) 디자인 표준 전면 적용**과 **다국어(한국어/English) 전환**을 완료했습니다.
 > 본 저장소는 **단독으로 빌드·실행**됩니다(외부 형제 프로젝트 불필요).
 
 ---
@@ -25,7 +25,7 @@
 | :--- | :--- |
 | 프레임워크 | eGovFrame Boot 5.0 (RTE 5.0.0) + Spring Boot 3.5.6 + Spring Framework 6.2.11 |
 | 언어 / 빌드 | Java 17 / Maven 3.9.9 (eGovCI-5.0.0 내장) |
-| 화면 | Thymeleaf 3.1.3 + Layout Dialect 3.4.0 + KRDS(Korea Design System) + Bootstrap 5 (전부 로컬, CDN 미사용) |
+| 화면 | Thymeleaf 3.1.3 + Layout Dialect 3.4.0 + **KRDS(Korea Design System)** 전면 적용 (공식 `krds.min.css` + 호환 레이어 `krds-compat.css` + `krds.css` + 다크 `theme.css`, 전부 로컬·CDN 미사용. Bootstrap 프레임워크 제거, Bootstrap Icons `bi-*`만 유지) |
 | 보안 | 세션 기반 Spring Security 6.5.5 (`HttpSessionSecurityContextRepository`) |
 | 데이터 | MyBatis 3.5.19 / 개발=내장 HSQLDB 2.7.4 / 운영=PostgreSQL·MySQL·Oracle·Tibero·CUBRID·Altibase |
 | 패키징 | 실행 가능 JAR (`java -jar`), 포트 28080 |
@@ -145,6 +145,20 @@ KRDS 다크 테마 랜딩. 상단 네비게이션: **게시판 · 회원·권한
 
 ---
 
+## 다국어 (i18n)
+
+전 화면 **한국어 / English** 전환을 지원합니다.
+
+- **전환 방법**: 헤더의 **한국어 / EN** 토글 클릭. 버튼은 `/cmm/lang?lang=ko|en` 으로 이동하며,
+  `EgovLangController` 가 선택 언어를 `LANG` 쿠키(`CookieLocaleResolver`, 기본 한국어)에 저장한 뒤
+  직전 페이지로 다시 리다이렉트(PRG)합니다. 최종 URL 에는 `?lang` 파라미터가 남지 않습니다.
+- **메시지 리소스**: `src/main/resources/egovframework/message/message-ui_ko.properties` / `_en.properties`
+  (각각 약 1,436개 키, **키 집합 정합**). Thymeleaf 템플릿 238개를 ko/en 메시지 키로 전환했으며, 화면 하드코딩 한글 잔여 0.
+- **규약**: 새 문구는 ko/en 양쪽에 **APPEND** 로만 추가하고 키 집합을 일치시킵니다.
+  영어에서 의도적으로 비워 두는 값(예: 단위 접미사, 한국어 전용 부제)은 빈 값(`key=`)으로 유지합니다.
+
+---
+
 ## 데이터베이스
 
 - **개발(기본)**: 내장 HSQL — `src/main/resources/db/shtdb.sql` (DDL+DATA)
@@ -177,9 +191,10 @@ enterprise-biz-boot/
 │     ├─ uat/{uia,uap}/                #   로그인·로그인정책
 │     └─ uss/{umt,ion,olh,olp,sam}/    #   사용자·부재 / FAQ·Q&A·설문·약관(일부 상속)
 ├─ src/main/resources/
-│  ├─ templates/                       # Thymeleaf 238개 (layouts/default + fragments + 모듈 화면)
-│  ├─ static/                          # KRDS·Bootstrap5 (로컬 css/js/images)
+│  ├─ templates/                       # Thymeleaf 238개 (layouts/default + fragments + 모듈 화면, ko/en 메시지키)
+│  ├─ static/                          # KRDS 자산 (krds/resources/cdn/krds.min.css·krds-compat·krds·theme, 로컬 css/js/images)
 │  ├─ egovframework/mapper/            # MyBatis 매퍼 288개 (Egov{기능}_SQL_{db}.xml, 7종)
+│  ├─ egovframework/message/           # 다국어 메시지 (message-ui_{ko,en}.properties, 각 ~1436키)
 │  ├─ db/shtdb.sql                     # HSQL 초기 DDL+DATA
 │  └─ application.properties           # 포트 28080 등 설정
 ├─ DATABASE/{altibase,cubrid,mysql,oracle,postgresql,tibero}/   # 운영 DBMS DDL/DATA (all_ebt_*)
@@ -196,3 +211,7 @@ enterprise-biz-boot/
 - 상세 컨벤션·전환 핵심·함정: [CLAUDE.md](CLAUDE.md)
 - 재현 가능한 작업 절차(빌드·검증·DBMS dialect): [SKILL.md](SKILL.md)
 - 본 프로젝트는 표준프레임워크 공통컴포넌트 기능 일부를 선정해 구성한 참조용 소스입니다.
+
+---
+
+> 본 코드베이스는 eGovFrame 표준프레임워크 기업업무 공통컴포넌트(업무 관리자 콘솔) 템플릿을 기반으로, Thymeleaf MVC 화면 계층과 **KRDS 디자인 전환·다국어(한국어/English)·보안/스키마 정비**를 더해 새 프로젝트의 출발점으로 사용할 수 있도록 구성되었습니다.

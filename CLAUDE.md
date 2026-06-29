@@ -41,7 +41,13 @@ java -Dfile.encoding=UTF-8 -jar target/egovframe-boot-enterprise-biz-5.0.0.jar -
   `@SpringBootApplication`(egovframework 전체).
 - **보안**: 세션 기반 Spring Security(`com.security.SecurityConfig`). 미인증/권한부족 → `/uat/uia/egovLoginUsr.do`.
 - **뷰**: 컨트롤러 반환 뷰명(앞 슬래시 없음) = `templates/<뷰명>.html`. JSP 미작성.
-- **레이아웃**: `templates/layouts/default.html`(Thymeleaf Layout Dialect) + `templates/fragments/{header,nav,footer,pagination}.html`. 정적자원 `static/css|js|images`(**공식 KRDS** `krds.min.css`+호환 레이어 `krds-compat.css`+`krds.css`+다크 `theme.css`, 전부 로컬. **Bootstrap 프레임워크 제거**·Bootstrap Icons `bi-*`만 유지. GNB 드롭다운/모바일 collapse는 `data-bs-*` + `krds-compat.js` 바닐라 대체).
+- **레이아웃**: `templates/layouts/default.html`(Thymeleaf Layout Dialect) + `templates/fragments/{header,nav,footer,pagination}.html`. 정적자원 `static/css|js|images`(**공식 KRDS** `krds/resources/cdn/krds.min.css`+호환 레이어 `krds-compat.css`+`krds.css`+다크 `theme.css`, 전부 로컬. **Bootstrap 프레임워크 제거**·Bootstrap Icons `bi-*`만 유지. GNB 드롭다운/모바일 collapse는 `data-bs-*` + `krds-compat.js` 바닐라 대체). 레거시 컴포넌트 클래스 잔존 0.
+
+## 다국어 (i18n) — 전면 적용 완료
+
+- **전환 흐름**: 헤더 한국어/EN 토글 → `/cmm/lang?lang=ko|en` → `EgovLangController` 가 `LocaleResolver` 로 선택 언어를 **`LANG` 쿠키**(`CookieLocaleResolver "LANG"`, `WebMvcConfig`, 기본 `Locale.KOREAN`)에 저장 → Referer 로 PRG 리다이렉트(오픈 리다이렉트 방지·`?lang` 비잔류).
+- **메시지 리소스**: `src/main/resources/egovframework/message/message-ui_{ko,en}.properties`(폴백 `message-ui.properties`). **키 집합 정합**(ko/en 각 ~1436키 동일 키). 템플릿 238개 ko/en 메시지키 전환, **하드코딩 한글 잔여 0**.
+- **규약**: 신규 문구는 ko/en 양쪽에 **APPEND 만**(키 집합 항상 일치). 영어 의도적 빈값(단위 접미사·한국어 전용 부제 등)은 `key=` 빈값 유지(현재 ~17개). 부분 전환 시에도 양쪽 키 동시 추가.
 
 ## 모듈 구성
 
@@ -106,3 +112,6 @@ java -Dfile.encoding=UTF-8 -jar target/egovframe-boot-enterprise-biz-5.0.0.jar -
 | 날짜 | 작업 |
 |------|------|
 | 2026-06-17 | enterprise-biz-jsp(JSP/WAR) → enterprise-biz-boot(Boot/Thymeleaf/JAR) 전환. portal-site-boot 인프라 재사용 + 업무관리자 11개 모듈(코드/메뉴/프로그램/로그/통계/정책/부재) 신규 전환. 매퍼 7종 DB 현행화(TB_ 명명, 잔존 0). 포트 28080. 패키지 빌드·구동 성공 |
+| 2026-06-24 | **KRDS 전면 적용 완료**: 전 모듈(uss·cmm·sym·cop·sec·main·로그인) 템플릿 KRDS 네이티브 마크업 전환, 공식 자산(`krds.min.css`)+호환 레이어(`krds-compat`)+다크 `theme.css` 로드순서 정비. **Bootstrap 프레임워크 자산 제거**(참조 0 확인), `bi-*` 아이콘만 유지. GNB는 `data-bs-*`+`krds-compat.js` 바닐라 대체 |
+| 2026-06-28 | **다국어(i18n) 전면 적용 완료**: 인프라 이식(`EgovLangController`·`CookieLocaleResolver "LANG"`) + 전 템플릿 238개 ko/en 메시지키 전환(message-ui_{ko,en}, 키 정합 ~1436, 하드코딩 잔여 0). 멀티파트/요청 UTF-8 인코딩 방어 강화. 메뉴 등록 반려 버그·메뉴목록 렌더 오류 수정 |
+| 2026-06-28 | **기능 점검 수정**: 설문응답 `OCCP_TY_CODE` varchar(1)→(10)(shtdb+6 DBMS), `TB_EMPLYR_INFO_CHNG_DTLS` 불필요 NOT NULL 완화(사용자 수정 시 변경이력 INSERT 실패 해소), 사용자부재(uas) 조회 null 가드, Q&A 관리자(ROLE_ADMIN) 권한 판정 추가, 파일저장 경로 절대경로화·템플릿 매퍼 7종 보정. 접속로그/시스템로그 조회 정상 동작(목록·검색·상세) |
