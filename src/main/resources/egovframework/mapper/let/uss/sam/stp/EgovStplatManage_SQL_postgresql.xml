@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 개정이력: 2026.06.17  구재호  Spring Boot + Thymeleaf 전환 / TB_ 표준 명명 적용 -->
 <mapper namespace="StplatManageDAO">
-    <!-- 개정이력: 2026.06.17  구재호   레거시 테이블명(LETT*/COMT*/COMVN*) → TB_/VW_ 표준 명명 현행화 (Spring Boot + Thymeleaf 전환) -->
 
 
 	<resultMap id="StplatManage" type="egovframework.let.uss.sam.stp.service.StplatManageVO">
@@ -13,35 +13,72 @@
 		<result property="frstRegisterPnttm" column="FRST_REGIST_PNTTM"/>
 		<result property="frstRegisterId" column="FRST_REGISTER_ID"/>
 		<result property="lastUpdusrPnttm" column="LAST_UPDT_PNTTM"/>
-		<result property="lastUpdusrId" column="LAST_UPDUSR_ID"/>				
+		<result property="lastUpdusrId" column="LAST_UPDUSR_ID"/>
+		<result property="ver" column="VER"/>
+		<result property="aplcDe" column="APLC_DE"/>
+		<result property="reprsntAt" column="REPRSNT_AT"/>
+		<result property="useAt" column="USE_AT"/>
 	</resultMap>
-	
+
 	<select id="selectStplatDetail" resultMap="StplatManage">
-				
-			SELECT 	USE_STPLAT_ID, USE_STPLAT_NM, USE_STPLAT_CN,  INFO_PROVD_AGRE_CN,  
-					TO_CHAR(FRST_REGIST_PNTTM,'YYYY-MM-DD') FRST_REGIST_PNTTM   , FRST_REGISTER_ID, 
-					TO_CHAR(LAST_UPDT_PNTTM,'YYYY-MM-DD')   LAST_UPDT_PNTTM	  , LAST_UPDUSR_ID			 			  			 			  
-			FROM	TB_STPLAT_INFO		
-			WHERE	USE_STPLAT_ID=#{useStplatId}					
-		
+
+			SELECT 	USE_STPLAT_ID, USE_STPLAT_NM, USE_STPLAT_CN,  INFO_PROVD_AGRE_CN,
+					TO_CHAR(FRST_REGIST_PNTTM,'YYYY-MM-DD') FRST_REGIST_PNTTM   , FRST_REGISTER_ID,
+					TO_CHAR(LAST_UPDT_PNTTM,'YYYY-MM-DD')   LAST_UPDT_PNTTM	  , LAST_UPDUSR_ID,
+					VER, APLC_DE, REPRSNT_AT, USE_AT
+			FROM	TB_STPLAT_INFO
+			WHERE	USE_STPLAT_ID=#{useStplatId}
+
 	</select>
-	
+
+	<select id="selectRepresentStplat" resultMap="StplatManage">
+			SELECT 	USE_STPLAT_ID, USE_STPLAT_NM, USE_STPLAT_CN, INFO_PROVD_AGRE_CN,
+					TO_CHAR(FRST_REGIST_PNTTM,'YYYY-MM-DD') FRST_REGIST_PNTTM, FRST_REGISTER_ID,
+					TO_CHAR(LAST_UPDT_PNTTM,'YYYY-MM-DD') LAST_UPDT_PNTTM, LAST_UPDUSR_ID,
+					VER, APLC_DE, REPRSNT_AT, USE_AT
+			FROM	TB_STPLAT_INFO
+			WHERE	REPRSNT_AT = 'Y' AND COALESCE(USE_AT, 'Y') = 'Y'
+			ORDER BY APLC_DE DESC, USE_STPLAT_ID DESC
+			LIMIT 1
+	</select>
+
+	<update id="clearRepresentStplat">
+			UPDATE TB_STPLAT_INFO SET REPRSNT_AT = 'N' WHERE REPRSNT_AT = 'Y'
+	</update>
+
+	<update id="setRepresentStplat" parameterType="string">
+			UPDATE TB_STPLAT_INFO SET REPRSNT_AT = 'Y' WHERE USE_STPLAT_ID = #{useStplatId}
+	</update>
+
+	<update id="updateUseAtStplat" parameterType="map">
+			UPDATE TB_STPLAT_INFO SET
+				USE_AT = #{useAt},
+				REPRSNT_AT = CASE WHEN #{useAt} = 'N' THEN 'N' ELSE REPRSNT_AT END,
+				LAST_UPDT_PNTTM = now()
+			WHERE USE_STPLAT_ID = #{useStplatId}
+	</update>
+
+	<select id="selectActiveStplatCnt" resultType="int">
+			SELECT COUNT(*) FROM TB_STPLAT_INFO WHERE COALESCE(USE_AT, 'Y') = 'Y'
+	</select>
+
 	<select id="selectStplatList" parameterType="egovframework.let.uss.sam.stp.service.StplatManageDefaultVO" resultType="egovMap">
-		
-			SELECT 	USE_STPLAT_ID, USE_STPLAT_NM, USE_STPLAT_CN,  INFO_PROVD_AGRE_CN,  
-					TO_CHAR(FRST_REGIST_PNTTM,'YYYY-MM-DD') as FRST_REGIST_PNTTM	  , FRST_REGISTER_ID, 
-					TO_CHAR(LAST_UPDT_PNTTM,'YYYY-MM-DD') as LAST_UPDT_PNTTM	  , LAST_UPDUSR_ID			 
-			FROM	TB_STPLAT_INFO                               			
-			WHERE	1=1   			
+
+			SELECT 	USE_STPLAT_ID, USE_STPLAT_NM, USE_STPLAT_CN,  INFO_PROVD_AGRE_CN,
+					TO_CHAR(FRST_REGIST_PNTTM,'YYYY-MM-DD') as FRST_REGIST_PNTTM	  , FRST_REGISTER_ID,
+					TO_CHAR(LAST_UPDT_PNTTM,'YYYY-MM-DD') as LAST_UPDT_PNTTM	  , LAST_UPDUSR_ID,
+					VER, APLC_DE, REPRSNT_AT, USE_AT
+			FROM	TB_STPLAT_INFO
+			WHERE	1=1
 							
 			<if test="searchCondition == &quot;useStplatNm&quot;">AND
 				USE_STPLAT_NM LIKE CONCAT('%', #{searchKeyword}, '%')
 			</if>
 			<if test="searchCondition == &quot;useStplatCn&quot;">AND
 				USE_STPLAT_CN LIKE CONCAT('%', #{searchKeyword}, '%')
-			</if>			
-			ORDER BY USE_STPLAT_NM DESC			
-			LIMIT  #{recordCountPerPage} OFFSET #{firstIndex}	
+			</if>
+			ORDER BY APLC_DE DESC, USE_STPLAT_ID DESC
+			LIMIT  #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 	
 	<select id="selectStplatListTotCnt" parameterType="egovframework.let.uss.sam.stp.service.StplatManageDefaultVO" resultType="int">
@@ -62,32 +99,43 @@
 			
 			INSERT INTO TB_STPLAT_INFO
 				   (USE_STPLAT_ID
-				  , USE_STPLAT_NM				   
+				  , USE_STPLAT_NM
 				  , USE_STPLAT_CN
 				  , INFO_PROVD_AGRE_CN
-				  , FRST_REGIST_PNTTM 
-				  , FRST_REGISTER_ID 
-				  , LAST_UPDT_PNTTM 
-				  , LAST_UPDUSR_ID) 
+				  , FRST_REGIST_PNTTM
+				  , FRST_REGISTER_ID
+				  , LAST_UPDT_PNTTM
+				  , LAST_UPDUSR_ID
+				  , VER
+				  , APLC_DE
+				  , REPRSNT_AT
+				  , USE_AT)
 			VALUES ( #{useStplatId}
-				  , #{useStplatNm}			
+				  , #{useStplatNm}
 				  , #{useStplatCn}
 				  , #{infoProvdAgreCn}
 				  , now()
 				  , #{frstRegisterId}
 				  , now()
-				  , #{lastUpdusrId} )
+				  , #{lastUpdusrId}
+				  , #{ver}
+				  , #{aplcDe}
+				  , #{reprsntAt}
+				  , COALESCE(#{useAt}, 'Y') )
 		
 	</insert>
 	
 	<update id="updateStplatCn">
 		
-			UPDATE	TB_STPLAT_INFO	SET 
+			UPDATE	TB_STPLAT_INFO	SET
 				   	USE_STPLAT_NM=#{useStplatNm}
-				  ,	USE_STPLAT_CN=#{useStplatCn}				  
+				  ,	USE_STPLAT_CN=#{useStplatCn}
 				  ,	INFO_PROVD_AGRE_CN=#{infoProvdAgreCn}
 				  , LAST_UPDT_PNTTM=now()
 				  , LAST_UPDUSR_ID=#{lastUpdusrId}
+				  , VER=#{ver}
+				  , APLC_DE=#{aplcDe}
+				  , REPRSNT_AT=#{reprsntAt}
  			WHERE  USE_STPLAT_ID=#{useStplatId}
 		
 	</update>
