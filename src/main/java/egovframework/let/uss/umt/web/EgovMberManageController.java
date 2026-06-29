@@ -306,6 +306,31 @@ public class EgovMberManageController {
 	}
 
 	/**
+	 * 선택 회원을 승인(상태 A→P)한다. 일반/기업/업무사용자 모두 가능(유형별 테이블 상태 갱신).
+	 * @param checkedIdForApprove 승인대상 "userTy:uniqId" 콤마 구분 문자열
+	 * @param userSearchVO 검색조건정보
+	 * @param model 화면모델
+	 * @return forward:/uss/umt/mber/EgovMberManage.do
+	 * @throws Exception
+	 */
+	@RequestMapping("/uss/umt/mber/EgovMberApprove.do")
+	public String approveMber(@RequestParam("checkedIdForApprove") String checkedIdForApprove,
+			@ModelAttribute("searchVO") UserDefaultVO userSearchVO, Model model) throws Exception {
+
+		// 미인증 사용자에 대한 보안처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(!isAuthenticated) {
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+			return "uat/uia/EgovLoginUsr";
+		}
+
+		mberManageService.approveMber(checkedIdForApprove);
+		//Exception 없이 진행시 승인(수정)성공메시지
+		model.addAttribute("resultMsg", "success.common.update");
+		return "forward:/uss/umt/mber/EgovMberManage.do";
+	}
+
+	/**
 	 * 일반회원가입신청 등록화면으로 이동한다.
 	 * @param userSearchVO 검색조건
 	 * @param mberManageVO 일반회원가입신청정보

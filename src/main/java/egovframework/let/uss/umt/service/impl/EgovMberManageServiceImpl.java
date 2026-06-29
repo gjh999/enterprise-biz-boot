@@ -106,8 +106,9 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	/**
-	 * 화면에 조회된 사용자의 정보를 데이터베이스에서 삭제
-	 * @param checkedIdForDel 삭제대상 일반회원아이디
+	 * 화면에 조회된 사용자의 정보를 데이터베이스에서 삭제(가입삭제)
+	 * 회원구분(userTy)별 처리: USR01=일반회원 물리삭제, USR02=기업회원 상태 'D', USR03=업무사용자 상태 'D'
+	 * @param checkedIdForDel 삭제대상 회원아이디("userTy:uniqId" 콤마구분)
 	 * @throws Exception
 	 */
 	@Override
@@ -115,14 +116,22 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 		String [] delId = checkedIdForDel.split(",");
 		for (int i=0; i<delId.length ; i++){
 			String [] id = delId[i].split(":");
-			if (id[0].equals("USR03")){
-		        //업무사용자(직원)삭제
-			}else if(id[0].equals("USR01")){
-				//일반회원삭제
-				mberManageDAO.deleteMber(id[1]);
-			}else if(id[0].equals("USR02")){
-				//기업회원삭제
-			}
+			if (id.length < 2) continue;
+			mberManageDAO.deleteMberByType(id[1], id[0]);
+		}
+	}
+
+	/**
+	 * 선택한 회원을 승인(상태 A→P)한다. 회원구분(userTy)별 상태컬럼을 'P'로 갱신한다.
+	 * @param checkedIdForApprove 승인대상 "userTy:uniqId" 콤마구분 문자열
+	 */
+	@Override
+	public void approveMber(String checkedIdForApprove)  {
+		String [] apvId = checkedIdForApprove.split(",");
+		for (int i=0; i<apvId.length ; i++){
+			String [] id = apvId[i].split(":");
+			if (id.length < 2) continue;
+			mberManageDAO.approveMber(id[1], id[0]);
 		}
 	}
 

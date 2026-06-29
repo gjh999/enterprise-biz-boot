@@ -63,10 +63,17 @@ public interface EgovMberManageService {
 
 	/**
 	 * 화면에 조회된 사용자의 정보를 데이터베이스에서 삭제
-	 * @param checkedIdForDel 삭제대상 일반회원아이디
+	 * @param checkedIdForDel 삭제대상 회원아이디("userTy:uniqId" 콤마구분)
 	 * @throws Exception
 	 */
 	public void deleteMber(String checkedIdForDel) throws Exception;
+
+	/**
+	 * 선택한 회원을 승인(상태 A→P)한다. 회원구분(userTy)별 상태컬럼을 갱신한다.
+	 * @param checkedIdForApprove 승인대상 "userTy:uniqId" 콤마구분 문자열
+	 * @throws Exception
+	 */
+	public void approveMber(String checkedIdForApprove) throws Exception;
 
 	/**
 	 * 일반회원 약관확인

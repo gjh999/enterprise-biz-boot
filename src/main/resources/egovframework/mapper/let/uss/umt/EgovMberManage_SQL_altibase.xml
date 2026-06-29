@@ -13,47 +13,94 @@
     
  <select id="selectMberList" parameterType="egovframework.let.uss.umt.service.UserDefaultVO" resultType="egovMap">
 SELECT * FROM ( SELECT rownum rn, TB.* FROM (
-    SELECT 
-        ESNTL_ID               as "uniqId",
-        'USR01'               as "userTy",
-        MBER_ID               as "userId",
-        MBER_NM               as "userNm",
-        MBER_EMAIL_ADRES      as "emailAdres",
-        AREA_NO               as "areaNo",
-        MIDDLE_TELNO          as "middleTelno",
-        END_TELNO             as "endTelno",
-        MBTLNUM           as "moblphonNo",
-        GROUP_ID              as "groupId",
-        MBER_STTUS            as "sttus",
-        SBSCRB_DE             as "sbscrbDe"
-    FROM    TB_GNRL_MBER
+    SELECT * FROM (
+        SELECT
+            ESNTL_ID               as "uniqId",
+            'USR01'               as "userTy",
+            MBER_ID               as "userId",
+            MBER_NM               as "userNm",
+            MBER_EMAIL_ADRES      as "emailAdres",
+            GROUP_ID              as "groupId",
+            MBER_STTUS            as "sttus",
+            SBSCRB_DE             as "sbscrbDe"
+        FROM    TB_GNRL_MBER
+        UNION ALL
+        SELECT
+            ESNTL_ID               as "uniqId",
+            'USR02'               as "userTy",
+            ENTRPRS_MBER_ID       as "userId",
+            CMPNY_NM              as "userNm",
+            APPLCNT_EMAIL_ADRES   as "emailAdres",
+            GROUP_ID              as "groupId",
+            ENTRPRS_MBER_STTUS    as "sttus",
+            SBSCRB_DE             as "sbscrbDe"
+        FROM    TB_ENTRPRS_MBER
+        UNION ALL
+        SELECT
+            ESNTL_ID               as "uniqId",
+            'USR03'               as "userTy",
+            EMPLYR_ID             as "userId",
+            USER_NM               as "userNm",
+            EMAIL_ADRES           as "emailAdres",
+            GROUP_ID              as "groupId",
+            EMPLYR_STTUS_CODE     as "sttus",
+            SBSCRB_DE             as "sbscrbDe"
+        FROM    TB_EMPLYR_INFO
+    ) U
     WHERE 1=1
         <if test='sbscrbSttus != "0"'>
-            AND MBER_STTUS LIKE  #{sbscrbSttus}
+            AND "sttus" LIKE  #{sbscrbSttus}
+        </if>
+        <if test='userTy != null and userTy != "" and userTy != "0"'>
+            AND "userTy" = #{userTy}
         </if>
         <if test="searchCondition == 0">
-            AND MBER_ID LIKE #{searchKeyword}
+            AND "userId" LIKE #{searchKeyword}
         </if>
         <if test="searchCondition == 1">
-            AND MBER_NM LIKE '%' ||#{searchKeyword}|| '%'
+            AND "userNm" LIKE '%' ||#{searchKeyword}|| '%'
         </if>
-        ORDER BY 12 DESC
+        ORDER BY "sbscrbDe" DESC
         ) TB ) WHERE rn BETWEEN #{firstIndex} + 1 AND #{firstIndex} + #{recordCountPerPage}
     </select>
-    
-    
+
+
         <select id="selectMberListTotCnt" parameterType="egovframework.let.uss.umt.service.UserDefaultVO" resultType="int">
             SELECT COUNT(1) totcnt
-            FROM   TB_GNRL_MBER
+            FROM (
+                SELECT
+                    'USR01'               as "userTy",
+                    MBER_ID               as "userId",
+                    MBER_NM               as "userNm",
+                    MBER_STTUS            as "sttus"
+                FROM    TB_GNRL_MBER
+                UNION ALL
+                SELECT
+                    'USR02'               as "userTy",
+                    ENTRPRS_MBER_ID       as "userId",
+                    CMPNY_NM              as "userNm",
+                    ENTRPRS_MBER_STTUS    as "sttus"
+                FROM    TB_ENTRPRS_MBER
+                UNION ALL
+                SELECT
+                    'USR03'               as "userTy",
+                    EMPLYR_ID             as "userId",
+                    USER_NM               as "userNm",
+                    EMPLYR_STTUS_CODE     as "sttus"
+                FROM    TB_EMPLYR_INFO
+            ) U
             WHERE 1=1
             <if test='sbscrbSttus != "0"'>
-                MBER_STTUS LIKE  #{sbscrbSttus}
+                AND "sttus" LIKE  #{sbscrbSttus}
             </if>
-            <if test="searchCondition == 0">AND
-                MBER_ID LIKE #{searchKeyword}
+            <if test='userTy != null and userTy != "" and userTy != "0"'>
+                AND "userTy" = #{userTy}
             </if>
-            <if test="searchCondition == 1">AND
-                MBER_NM LIKE '%' ||#{searchKeyword}|| '%'
+            <if test="searchCondition == 0">
+                AND "userId" LIKE #{searchKeyword}
+            </if>
+            <if test="searchCondition == 1">
+                AND "userNm" LIKE '%' ||#{searchKeyword}|| '%'
             </if>
     </select>
     
@@ -106,11 +153,30 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
     </insert>
     
     <delete id="deleteMber_S">
-        
-            DELETE FROM TB_GNRL_MBER 
+
+            DELETE FROM TB_GNRL_MBER
             WHERE ESNTL_ID=#{delId}
-        
+
     </delete>
+
+    <!-- 회원 승인(A→P) - 회원구분별 상태컬럼 정합 -->
+    <update id="approveGnrlMber_S">
+        UPDATE TB_GNRL_MBER SET MBER_STTUS = 'P' WHERE ESNTL_ID = #{uniqId}
+    </update>
+    <update id="approveEntrprsMber_S">
+        UPDATE TB_ENTRPRS_MBER SET ENTRPRS_MBER_STTUS = 'P' WHERE ESNTL_ID = #{uniqId}
+    </update>
+    <update id="approveEmplyr_S">
+        UPDATE TB_EMPLYR_INFO SET EMPLYR_STTUS_CODE = 'P' WHERE ESNTL_ID = #{uniqId}
+    </update>
+
+    <!-- 유형별 가입삭제(상태 D) - 기업/업무사용자 소프트 삭제 -->
+    <update id="deleteEntrprsMber_S">
+        UPDATE TB_ENTRPRS_MBER SET ENTRPRS_MBER_STTUS = 'D' WHERE ESNTL_ID = #{uniqId}
+    </update>
+    <update id="deleteEmplyr_S">
+        UPDATE TB_EMPLYR_INFO SET EMPLYR_STTUS_CODE = 'D' WHERE ESNTL_ID = #{uniqId}
+    </update>
     
     <select id="selectMber_S" resultType="egovframework.let.uss.umt.service.MberManageVO">
         

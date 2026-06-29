@@ -31,7 +31,10 @@ public class UserDefaultVO implements Serializable {
 
 	/** 검색조건-회원상태     (0, A, D, P)*/
     private String sbscrbSttus = "0";
-	
+
+	/** 검색조건-회원구분  (0=전체, USR01=일반, USR02=기업, USR03=업무사용자) */
+    private String userTy = "0";
+
 	/** 검색조건 */
     private String searchCondition = "";
     
@@ -73,6 +76,22 @@ public class UserDefaultVO implements Serializable {
 	 */
 	public void setSbscrbSttus(String sbscrbSttus) {
 		this.sbscrbSttus = sbscrbSttus;
+	}
+
+	/**
+	 * userTy attribute 값을  리턴한다.
+	 * @return String
+	 */
+	public String getUserTy() {
+		return userTy;
+	}
+
+	/**
+	 * userTy attribute 값을 설정한다.
+	 * @param userTy String
+	 */
+	public void setUserTy(String userTy) {
+		this.userTy = userTy;
 	}
 
 	/**

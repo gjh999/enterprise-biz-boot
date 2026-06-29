@@ -24,9 +24,17 @@
         <div class="alert alert-success py-2" th:if="${resultMsg == 'success.common.update'}" th:text="#{mber.msg.update}">수정되었습니다.</div>
         <div class="alert alert-success py-2" th:if="${resultMsg == 'success.common.delete'}" th:text="#{mber.msg.delete}">삭제되었습니다.</div>
 
-        <!-- 검색조건 (JSP: 상태 sbscrbSttus / 조건 searchCondition 0=아이디·1=이름 / 키워드) -->
+        <!-- 검색조건 (회원구분 userTy / 상태 sbscrbSttus / 조건 searchCondition 0=아이디·1=이름 / 키워드) -->
         <form class="row g-2 mb-3" th:action="@{/uss/umt/mber/EgovMberManage.do}" method="get"
-              th:with="sttusList=${entrprsMberSttus_result}">
+              th:with="sttusList=${entrprsMberSttus_result}, ut=${userSearchVO.userTy}">
+            <div class="col-auto">
+                <select class="krds-form-select" name="userTy" th:title="#{mber.manage.userTy.select}" title="회원구분 선택">
+                    <option value="0" th:selected="${ut == '0' or ut == null}" th:text="#{mber.manage.userTy.all}">전체</option>
+                    <option value="USR01" th:selected="${ut == 'USR01'}" th:text="#{mber.ty.gnr}">일반회원</option>
+                    <option value="USR02" th:selected="${ut == 'USR02'}" th:text="#{mber.ty.ent}">기업회원</option>
+                    <option value="USR03" th:selected="${ut == 'USR03'}" th:text="#{mber.ty.usr}">업무사용자</option>
+                </select>
+            </div>
             <div class="col-auto">
                 <select class="krds-form-select" name="sbscrbSttus" th:title="#{mber.manage.searchSttus}"
                         th:with="ss=${userSearchVO.sbscrbSttus}">
@@ -61,12 +69,14 @@
 
         <form id="listForm" th:action="@{/uss/umt/mber/EgovMberDelete.do}" method="post">
             <input type="hidden" name="checkedIdForDel" id="checkedIdForDel"/>
+            <input type="hidden" name="checkedIdForApprove" id="checkedIdForApprove"/>
             <div class="krds-table-wrap">
             <table class="tbl">
                 <caption class="visually-hidden" th:text="#{mber.manage.title}">회원 목록</caption>
                 <thead>
                 <tr>
                     <th scope="col" style="width:40px;"><input type="checkbox" id="checkAll" th:title="#{sec.author.checkAll}" title="전체선택"/></th>
+                    <th scope="col" style="width:110px;" th:text="#{mber.col.userTy}">회원구분</th>
                     <th scope="col" th:text="#{mber.col.id}">아이디</th>
                     <th scope="col" th:text="#{mber.col.name}">이름</th>
                     <th scope="col" th:text="#{mber.col.email}">이메일</th>
@@ -78,12 +88,21 @@
                 <tr th:each="item : ${resultList}">
                     <td>
                         <input type="checkbox" class="rowChk"
-                               th:attr="data-delid='USR01:' + ${item.uniqid}" th:title="#{sec.author.rowSelect}" title="선택"/>
+                               th:attr="data-id=${item.userty} + ':' + ${item.uniqid}, data-sttus=${item.sttus}"
+                               th:title="#{sec.author.rowSelect}" title="선택"/>
+                    </td>
+                    <td class="text-center">
+                        <span th:text="${item.userty == 'USR01'} ? #{mber.ty.gnr} : (${item.userty == 'USR02'} ? #{mber.ty.ent} : (${item.userty == 'USR03'} ? #{mber.ty.usr} : ${item.userty}))">회원구분</span>
                     </td>
                     <td>
-                        <a class="text-decoration-none"
+                        <!-- 회원구분(userTy)별 알맞은 수정 화면으로 라우팅 (USR03 업무사용자 수정화면 미구현 → 텍스트) -->
+                        <a th:if="${item.userty == 'USR01'}" class="text-decoration-none"
                            th:href="@{/uss/umt/mber/EgovMberSelectUpdtView.do(selectedId=${item.uniqid},pageIndex=${userSearchVO.pageIndex})}"
                            th:text="${item.userid}">아이디</a>
+                        <a th:if="${item.userty == 'USR02'}" class="text-decoration-none"
+                           th:href="@{/uss/umt/mber/EgovEntrprsMberSelectUpdtView.do(selectedId=${item.uniqid},pageIndex=${userSearchVO.pageIndex})}"
+                           th:text="${item.userid}">아이디</a>
+                        <span th:unless="${item.userty == 'USR01' or item.userty == 'USR02'}" th:text="${item.userid}">아이디</span>
                     </td>
                     <td th:text="${item.usernm}">이름</td>
                     <td th:text="${item.emailadres}">이메일</td>
@@ -95,36 +114,41 @@
                     <td class="text-center" th:text="${item.sbscrbde}">가입일</td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(resultList)}">
-                    <td colspan="6" class="text-center text-muted py-4" th:text="#{mber.empty}">등록된 회원이 없습니다.</td>
+                    <td colspan="7" class="text-center text-muted py-4" th:text="#{mber.empty}">등록된 회원이 없습니다.</td>
                 </tr>
                 </tbody>
             </table>
             </div>
 
             <div class="d-flex justify-content-between">
-                <button type="button" class="krds-btn danger small" onclick="deleteChecked()">
-                    <i class="bi bi-trash"></i> <span th:text="#{mber.btn.deleteSelected}">선택 삭제</span>
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="button" class="krds-btn primary small" onclick="approveChecked()">
+                        <i class="bi bi-check2-circle"></i> <span th:text="#{mber.btn.approveSelected}">선택 승인</span>
+                    </button>
+                    <button type="button" class="krds-btn danger small" onclick="deleteChecked()">
+                        <i class="bi bi-trash"></i> <span th:text="#{mber.btn.deleteSelected}">선택 삭제</span>
+                    </button>
+                </div>
                 <a class="krds-btn primary small" th:href="@{/uss/umt/mber/EgovMberInsertView.do}">
                     <i class="bi bi-person-plus"></i> <span th:text="#{mber.btn.register}">회원 등록</span>
                 </a>
             </div>
         </form>
 
-        <!-- 페이징 (검색조건 유지: sbscrbSttus/searchCondition/searchKeyword) -->
+        <!-- 페이징 (검색조건 유지: userTy/sbscrbSttus/searchCondition/searchKeyword) -->
         <nav th:aria-label="#{common.pageNav}" aria-label="페이지 네비게이션" class="mt-3"
              th:if="${paginationInfo != null and paginationInfo.totalRecordCount > 0}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${paginationInfo.firstPageNoOnPageList == 1} ? 'disabled' : ''">
                     <a class="page-link" aria-label="이전" th:aria-label="#{common.prev}"
                        th:href="${paginationInfo.firstPageNoOnPageList > 1}
-                                ? @{/uss/umt/mber/EgovMberManage.do(pageIndex=${paginationInfo.firstPageNoOnPageList - 1},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}
+                                ? @{/uss/umt/mber/EgovMberManage.do(pageIndex=${paginationInfo.firstPageNoOnPageList - 1},userTy=${userSearchVO.userTy},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}
                                 : '#'"><span aria-hidden="true">&laquo;</span></a>
                 </li>
                 <th:block th:each="pageNo : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}">
                     <li class="page-item" th:classappend="${pageNo == paginationInfo.currentPageNo} ? 'active' : ''">
                         <a class="page-link"
-                           th:href="@{/uss/umt/mber/EgovMberManage.do(pageIndex=${pageNo},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}"
+                           th:href="@{/uss/umt/mber/EgovMberManage.do(pageIndex=${pageNo},userTy=${userSearchVO.userTy},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}"
                            th:text="${pageNo}">1</a>
                     </li>
                 </th:block>
@@ -132,25 +156,43 @@
                     th:classappend="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount} ? 'disabled' : ''">
                     <a class="page-link" aria-label="다음" th:aria-label="#{common.next}"
                        th:href="${paginationInfo.lastPageNoOnPageList < paginationInfo.totalPageCount}
-                                ? @{/uss/umt/mber/EgovMberManage.do(pageIndex=${paginationInfo.lastPageNoOnPageList + 1},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}
+                                ? @{/uss/umt/mber/EgovMberManage.do(pageIndex=${paginationInfo.lastPageNoOnPageList + 1},userTy=${userSearchVO.userTy},sbscrbSttus=${userSearchVO.sbscrbSttus},searchCondition=${userSearchVO.searchCondition},searchKeyword=${userSearchVO.searchKeyword})}
                                 : '#'"><span aria-hidden="true">&raquo;</span></a>
                 </li>
             </ul>
         </nav>
     </div>
     <script th:inline="javascript">
+        var APPROVE_URL = /*[[@{/uss/umt/mber/EgovMberApprove.do}]]*/ '/uss/umt/mber/EgovMberApprove.do';
+        var DELETE_URL = /*[[@{/uss/umt/mber/EgovMberDelete.do}]]*/ '/uss/umt/mber/EgovMberDelete.do';
         document.getElementById('checkAll').addEventListener('change', function () {
             document.querySelectorAll('.rowChk').forEach(c => c.checked = this.checked);
         });
         function deleteChecked() {
             var ids = [];
             document.querySelectorAll('.rowChk:checked').forEach(function (c) {
-                ids.push(c.getAttribute('data-delid'));
+                ids.push(c.getAttribute('data-id'));
             });
-            if (ids.length === 0) { alert([[#{mber.js.selectDelete}]]); return; }
-            if (!confirm([[#{mber.js.confirmDelete1}]] + ' ' + ids.length + [[#{mber.js.confirmDelete2}]])) return;
+            if (ids.length === 0) { alert(/*[[#{mber.js.selectDelete}]]*/ '삭제할 회원을 선택하세요.'); return; }
+            if (!confirm((/*[[#{mber.js.confirmDelete1}]]*/ '선택한 ') + ' ' + ids.length + (/*[[#{mber.js.confirmDelete2}]]*/ '명의 회원을 삭제하시겠습니까?'))) return;
+            var form = document.getElementById('listForm');
             document.getElementById('checkedIdForDel').value = ids.join(',');
-            document.getElementById('listForm').submit();
+            form.action = DELETE_URL;
+            form.submit();
+        }
+        function approveChecked() {
+            var ids = [];
+            document.querySelectorAll('.rowChk:checked').forEach(function (c) {
+                if (c.getAttribute('data-sttus') === 'A') {
+                    ids.push(c.getAttribute('data-id'));
+                }
+            });
+            if (ids.length === 0) { alert(/*[[#{mber.js.selectApprove}]]*/ '승인대기(신청중) 상태의 회원을 선택하세요.'); return; }
+            if (!confirm((/*[[#{mber.js.confirmApprove1}]]*/ '선택한 ') + ' ' + ids.length + (/*[[#{mber.js.confirmApprove2}]]*/ '명의 회원을 승인하시겠습니까?'))) return;
+            var form = document.getElementById('listForm');
+            document.getElementById('checkedIdForApprove').value = ids.join(',');
+            form.action = APPROVE_URL;
+            form.submit();
         }
     </script>
 </main>

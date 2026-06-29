@@ -56,6 +56,41 @@ public class MberManageDAO extends EgovAbstractMapper{
     }
 
     /**
+     * 회원 삭제(가입삭제) - 회원구분(userTy)에 따라 처리
+     * USR01=일반회원 물리삭제, USR02=기업회원 상태 'D', USR03=업무사용자 상태 'D'
+     * @param uniqId 삭제대상 회원 고유ID(ESNTL_ID)
+     * @param userTy 회원구분(USR01/USR02/USR03)
+     */
+    public void deleteMberByType(String uniqId, String userTy){
+        java.util.Map<String, String> param = new java.util.HashMap<>();
+        param.put("uniqId", uniqId);
+        if ("USR02".equals(userTy)) {
+            update("mberManageDAO.deleteEntrprsMber_S", param);
+        } else if ("USR03".equals(userTy)) {
+            update("mberManageDAO.deleteEmplyr_S", param);
+        } else {
+            delete("mberManageDAO.deleteMber_S", uniqId);
+        }
+    }
+
+    /**
+     * 회원 승인(A→P) - 회원구분(userTy)에 따라 해당 테이블의 상태컬럼을 'P'로 갱신
+     * @param uniqId 승인대상 회원 고유ID(ESNTL_ID)
+     * @param userTy 회원구분(USR01=일반, USR02=기업, USR03=업무사용자)
+     */
+    public void approveMber(String uniqId, String userTy){
+        java.util.Map<String, String> param = new java.util.HashMap<>();
+        param.put("uniqId", uniqId);
+        if ("USR02".equals(userTy)) {
+            update("mberManageDAO.approveEntrprsMber_S", param);
+        } else if ("USR03".equals(userTy)) {
+            update("mberManageDAO.approveEmplyr_S", param);
+        } else {
+            update("mberManageDAO.approveGnrlMber_S", param);
+        }
+    }
+
+    /**
      * 일반회원의 기본정보를 화면에서 입력하여 항목의 정합성을 체크하고 데이터베이스에 저장
      * @param mberManageVO 일반회원 등록정보
      * @return String 등록결과
