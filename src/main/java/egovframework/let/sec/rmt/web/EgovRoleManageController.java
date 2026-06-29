@@ -75,7 +75,8 @@ public class EgovRoleManageController {
     @RequestMapping("/sec/rmt/EgovRoleListView.do")
     public String selectRoleListView()
             throws Exception {
-        return "sec/rmt/EgovRoleManage";
+        // 화면 진입 시 전체 목록 즉시 조회(포털 패턴): 조회 핸들러로 포워드
+        return "forward:/sec/rmt/EgovRoleList.do";
     }
 
 	/**

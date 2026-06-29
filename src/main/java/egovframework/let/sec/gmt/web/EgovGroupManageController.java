@@ -63,8 +63,9 @@ public class EgovGroupManageController {
     @RequestMapping("/sec/gmt/EgovGroupListView.do")
     public String selectGroupListView()
             throws Exception {
-        return "sec/gmt/EgovGroupManage";
-    }   
+        // 화면 진입 시 전체 목록 즉시 조회(포털 패턴): 조회 핸들러로 포워드
+        return "forward:/sec/gmt/EgovGroupList.do";
+    }
 
 	/**
 	 * 시스템사용 목적별 그룹 목록 조회

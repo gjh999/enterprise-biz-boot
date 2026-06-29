@@ -57,7 +57,8 @@ public class EgovAuthorManageController {
 	 */
 	@RequestMapping("/sec/ram/EgovAuthorListView.do")
 	public String selectAuthorListView() throws Exception {
-		return "sec/ram/EgovAuthorManage";
+		// 화면 진입 시 전체 목록 즉시 조회(포털 패턴): 조회 핸들러로 포워드
+		return "forward:/sec/ram/EgovAuthorList.do";
 	}
 
 	/**

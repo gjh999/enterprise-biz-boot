@@ -59,9 +59,9 @@ public class EgovAuthorGroupController {
 	 */
     @RequestMapping("/sec/rgm/EgovAuthorGroupListView.do")
     public String selectAuthorGroupListView() throws Exception {
-
-        return "sec/rgm/EgovAuthorGroupManage";
-    }    
+        // 화면 진입 시 전체 목록 즉시 조회(포털 패턴): 조회 핸들러로 포워드
+        return "forward:/sec/rgm/EgovAuthorGroupList.do";
+    }
 
 	/**
 	 * 그룹별 할당된 권한 목록 조회

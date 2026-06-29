@@ -54,9 +54,9 @@ public class EgovAuthorRoleController {
 	 */
     @RequestMapping("/sec/ram/EgovAuthorRoleListView.do")
     public String selectAuthorRoleListView() throws Exception {
-
-        return "sec/ram/EgovAuthorRoleManage";
-    } 
+        // 화면 진입 시 전체 목록 즉시 조회(포털 패턴): 조회 핸들러로 포워드
+        return "forward:/sec/ram/EgovAuthorRoleList.do";
+    }
 
 	/**
 	 * 권한별 할당된 롤 목록 조회

@@ -54,7 +54,8 @@ public class EgovLoginPolicyController {
 	 */
 	@GetMapping("/uat/uap/selectLoginPolicyListView.do")
 	public String selectLoginPolicyListView() throws Exception {
-		return "uat/uap/EgovLoginPolicyList";
+		// 화면 진입 시 전체 목록 즉시 조회(포털 패턴): 조회 핸들러로 포워드
+		return "forward:/uat/uap/selectLoginPolicyList.do";
 	}
 
 	/**

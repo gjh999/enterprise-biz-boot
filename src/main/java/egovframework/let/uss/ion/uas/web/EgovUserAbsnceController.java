@@ -55,7 +55,8 @@ public class EgovUserAbsnceController {
 	 */
 	@GetMapping("/uss/ion/uas/selectUserAbsnceListView.do")
 	public String selectUserAbsnceListView() throws Exception {
-		return "uss/ion/uas/EgovUserAbsnceList";
+		// 화면 진입 시 전체 목록 즉시 조회(포털 패턴): 조회 핸들러로 포워드
+		return "forward:/uss/ion/uas/selectUserAbsnceList.do";
 	}
 
 	/**
