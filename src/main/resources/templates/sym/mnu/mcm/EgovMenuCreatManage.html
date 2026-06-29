@@ -63,17 +63,13 @@
 
         <div class="d-flex justify-content-center" th:if="${paginationInfo != null}">
             <nav>
-                <ul class="pagination">
-                    <li class="page-item" th:if="${paginationInfo.currentPageNo > 1}">
-                        <a class="page-link" th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do(pageIndex=${paginationInfo.currentPageNo - 1}, searchKeyword=${searchVO != null} ? ${searchVO.searchKeyword} : '')}" th:text="#{common.prev}">이전</a>
-                    </li>
-                    <li class="page-item active">
-                        <span class="page-link" th:text="${paginationInfo.currentPageNo}">1</span>
-                    </li>
-                    <li class="page-item" th:if="${paginationInfo.currentPageNo * paginationInfo.recordCountPerPage < paginationInfo.totalRecordCount}">
-                        <a class="page-link" th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do(pageIndex=${paginationInfo.currentPageNo + 1}, searchKeyword=${searchVO != null} ? ${searchVO.searchKeyword} : '')}" th:text="#{common.next}">다음</a>
-                    </li>
-                </ul>
+                <div class="krds-pagination">
+                    <a class="page-navi prev" th:if="${paginationInfo.currentPageNo > 1}" th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do(pageIndex=${paginationInfo.currentPageNo - 1}, searchKeyword=${searchVO != null} ? ${searchVO.searchKeyword} : '')}" th:text="#{common.prev}">이전</a>
+                    <div class="page-links">
+                        <span class="page-link active" th:text="${paginationInfo.currentPageNo}">1</span>
+                    </div>
+                    <a class="page-navi next" th:if="${paginationInfo.currentPageNo * paginationInfo.recordCountPerPage < paginationInfo.totalRecordCount}" th:href="@{/sym/mnu/mcm/EgovMenuCreatManageSelect.do(pageIndex=${paginationInfo.currentPageNo + 1}, searchKeyword=${searchVO != null} ? ${searchVO.searchKeyword} : '')}" th:text="#{common.next}">다음</a>
+                </div>
             </nav>
         </div>
     </div>
