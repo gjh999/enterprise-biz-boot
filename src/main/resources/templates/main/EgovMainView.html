@@ -103,6 +103,11 @@
 <main layout:fragment="content">
 <div class="lp-wrap container" style="max-width:1200px;">
 
+    <!-- ===== 메인 배너(슬라이드 캐러셀) — 등록된 메인 배너가 있을 때만 ===== -->
+    <section class="mb-4" th:if="${mainBannerList != null and !#lists.isEmpty(mainBannerList)}">
+        <div th:replace="~{fragments/banner :: carousel(${mainBannerList}, ${bannerInterval}, 'bnr-main')}"></div>
+    </section>
+
     <!-- ===== HERO ===== -->
     <section class="lp-hero">
         <span class="lp-eyebrow"><i class="bi bi-shield-check"></i> <span th:text="#{main.hero.badge}">전자정부 표준프레임워크 5.0</span></span>

@@ -2,53 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title th:text="#{bnr.title}">배너관리</title></head>
+<head><title th:text="#{bnr.mng.manage}">배너관리</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
-            <li class="breadcrumb-item active" th:text="#{bnr.title}">배너관리</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{bnr.mng.manage}">배너관리</li>
         </ol></nav>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h4 mb-0"><i class="bi bi-image"></i> <span th:text="#{bnr.title}">배너관리</span></h1>
-            <span class="text-muted small"><span th:text="#{common.total}">총</span> <strong
-                    th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong> <span th:text="#{common.unit.case}">건</span></span>
-        </div>
+        <h1 class="h4 mb-3"><i class="bi bi-image"></i> <span th:text="#{bnr.mng.manage}">배너관리</span></h1>
 
-        <!-- 검색조건 (searchCondition=1: 배너명) -->
-        <form class="row g-2 mb-3" th:action="@{/uss/ion/bnr/selectBannerList.do}" method="get">
+        <!-- 검색 영역 (게시판 목록 표준) — 배너명 (searchCondition=1 고정) -->
+        <form th:action="@{/uss/ion/bnr/selectBannerList.do}" method="get" class="search-bar krds-search mb-3">
             <input type="hidden" name="searchCondition" value="1"/>
-            <div class="col-auto">
-                <input class="krds-input" name="searchKeyword" th:value="${bannerVO?.searchKeyword}"
-                       maxlength="30" th:placeholder="#{bnr.search.ph}" placeholder="배너명" th:title="#{bnr.search.title}" title="배너명 검색어"/>
-            </div>
-            <div class="col-auto"><button class="krds-btn primary" type="submit"><i class="bi bi-search"></i> <span th:text="#{button.search}">검색</span></button></div>
-            <div class="col-auto ms-auto">
-                <a class="krds-btn primary" th:href="@{/uss/ion/bnr/addViewBanner.do}"><i class="bi bi-plus-lg"></i> <span th:text="#{bnr.regist.button}">배너 등록</span></a>
+            <div class="row g-2 align-items-end">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <div class="form-tit"><label for="searchKeyword" th:text="#{bnr.mng.col.name}">배너명</label></div>
+                        <div class="form-conts">
+                            <input type="text" id="searchKeyword" name="searchKeyword" class="krds-input"
+                                   th:value="${bannerVO?.searchKeyword}" th:placeholder="#{bnr.mng.searchKeyword.placeholder}" placeholder="검색어를 입력하세요" maxlength="30"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="krds-btn primary medium w-100"><i class="bi bi-search"></i> <span th:text="#{button.search}">검색</span></button>
+                </div>
             </div>
         </form>
+
+        <!-- 목록 헤더: 전체 건수 + 등록 버튼(우측) -->
+        <div class="d-flex justify-content-between align-items-center mb-2 mt-3">
+            <span class="text-muted"><span th:text="#{common.total}">전체</span> <strong th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong><span th:text="#{common.unit.case}">건</span></span>
+            <a class="krds-btn primary small" th:href="@{/uss/ion/bnr/addViewBanner.do}"><i class="bi bi-plus-lg"></i> <span th:text="#{bnr.mng.btn.regist}">배너 등록</span></a>
+        </div>
 
         <div class="krds-table-wrap">
         <table class="tbl">
             <thead><tr>
-                <th scope="col" style="width:60px;" th:text="#{bnr.col.sortOrdr}">순서</th><th scope="col" th:text="#{bnr.col.bannerNm}">배너명</th><th scope="col" th:text="#{bnr.col.linkUrl}">링크</th><th scope="col" th:text="#{bnr.col.bannerDc}">설명</th>
-                <th scope="col" style="width:90px;" th:text="#{bnr.col.reflctAt}">반영여부</th><th scope="col" style="width:110px;" th:text="#{bnr.col.regDate}">등록일</th>
+                <th scope="col" style="width:60px;" th:text="#{bnr.mng.col.order}">순서</th><th scope="col" style="width:90px;" th:text="#{bnr.mng.col.type}">유형</th><th scope="col" th:text="#{bnr.mng.col.name}">배너명</th><th scope="col" th:text="#{bnr.mng.col.link}">링크</th><th scope="col" th:text="#{bnr.mng.col.desc}">설명</th>
+                <th scope="col" style="width:90px;" th:text="#{bnr.mng.col.reflct}">노출여부</th><th scope="col" style="width:110px;" th:text="#{bnr.mng.col.regdate}">등록일</th>
             </tr></thead>
             <tbody>
             <tr th:each="item : ${bannerList}">
                 <td class="text-center" th:text="${item.sortOrdr}">1</td>
+                <td class="text-center">
+                    <span class="krds-badge bg-info"
+                          th:text="${item.bannerTy == 'POPUP'} ? #{bnr.mng.type.popup} : (${item.bannerTy == 'FOOTER'} ? #{bnr.mng.type.footer} : #{bnr.mng.type.main})">메인</span>
+                </td>
                 <td><a th:href="@{/uss/ion/bnr/getBanner.do(bannerId=${item.bannerId})}" th:text="${item.bannerNm}">배너명</a></td>
                 <td><a th:href="${item.linkUrl}" th:text="${item.linkUrl}" target="_blank">링크</a></td>
                 <td th:text="${item.bannerDc}">설명</td>
                 <td class="text-center">
                     <span class="krds-badge"
                           th:classappend="${item.reflctAt == 'Y'} ? 'bg-success' : 'bg-gray'"
-                          th:text="${item.reflctAt == 'Y'} ? #{bnr.reflct.y} : #{bnr.reflct.n}">반영</span>
+                          th:text="${item.reflctAt == 'Y'} ? #{bnr.mng.reflct.on} : #{bnr.mng.reflct.off}">노출</span>
                 </td>
                 <td class="text-center" th:text="${item.regDate}">등록일</td>
             </tr>
-            <tr th:if="${bannerList == null or #lists.isEmpty(bannerList)}"><td colspan="6" class="text-center text-muted py-4" th:text="#{bnr.empty}">등록된 배너가 없습니다.</td></tr>
+            <tr th:if="${bannerList == null or #lists.isEmpty(bannerList)}"><td colspan="7" class="text-center text-muted py-4" th:text="#{bnr.mng.empty.list}">등록된 배너가 없습니다.</td></tr>
             </tbody>
         </table>
         </div>

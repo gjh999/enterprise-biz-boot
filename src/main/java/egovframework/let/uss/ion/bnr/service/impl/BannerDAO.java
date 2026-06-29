@@ -24,7 +24,7 @@ import egovframework.let.uss.ion.bnr.service.BannerVO;
  *  -------    --------    ---------------------------
  *   2009.08.03  lee.m.j        최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -39,6 +39,16 @@ public class BannerDAO extends EgovAbstractMapper {
 	 */
 	public List<BannerVO> selectBannerList(BannerVO bannerVO) throws Exception {
 		return selectList("bannerDAO.selectBannerList", bannerVO);
+	}
+
+	/**
+	 * 배너 유형별 반영 배너 목록을 조회한다.
+	 * @param bannerVO - 배너 Vo (bannerTy 필수)
+	 * @return List - 유형별 배너 목록
+	 * @exception Exception
+	 */
+	public List<BannerVO> selectBannerListByType(BannerVO bannerVO) throws Exception {
+		return selectList("bannerDAO.selectBannerListByType", bannerVO);
 	}
 
     /**

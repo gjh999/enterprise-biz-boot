@@ -4,6 +4,11 @@
 <body>
 <footer th:fragment="footer" class="pub-foot">
     <div class="container">
+        <!-- 푸터 배너 슬라이드(캐러셀) -->
+        <div class="mb-3" th:if="${footerBannerList != null and !#lists.isEmpty(footerBannerList)}">
+            <div th:replace="~{fragments/banner :: carousel(${footerBannerList}, ${bannerInterval}, 'bnr-foot')}"></div>
+        </div>
+
         <!-- 전자정부표준프레임워크 공식 홈페이지 배너 -->
         <a href="https://www.egovframe.go.kr/home/main.do" target="_blank" rel="noopener"
            class="egov-official-banner" th:title="#{footer.official.title}">

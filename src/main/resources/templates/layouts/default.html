@@ -31,6 +31,8 @@
     <link rel="stylesheet" th:href="@{/css/krds.css}"/>
     <!-- 모던 다크 테마 (전역 오버라이드) -->
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+    <!-- 배너(메인 캐러셀·팝업·푸터) -->
+    <link rel="stylesheet" th:href="@{/css/banner.css}"/>
     <link rel="icon" type="image/svg+xml" th:href="@{/images/logo.svg}"/>
 
     <!-- 페이지별 추가 CSS -->
@@ -57,11 +59,18 @@
 <!-- 푸터 (포털식 pub-foot) -->
 <footer class="pub-foot" th:replace="~{fragments/footer :: footer}"></footer>
 
+<!-- 팝업 배너: 홈(isHome)에서만, 로그인/에러 화면(bannerPopupHidden) 제외 -->
+<th:block th:if="${isHome and !bannerPopupHidden}">
+    <th:block th:replace="~{fragments/banner :: popup(${popupBannerList}, ${bannerInterval})}"></th:block>
+</th:block>
+
 <!-- KRDS JS: 공식(탭·아코디언) → compat(data-bs-* 대체) → 스킨 → 공통 -->
 <script th:src="@{/krds/resources/cdn/krds.min.js}"></script>
 <script th:src="@{/js/krds-compat.js}"></script>
 <script th:src="@{/js/krds.js}"></script>
 <script th:src="@{/js/common.js}"></script>
+<!-- 배너 캐러셀·팝업 동작 -->
+<script th:src="@{/js/banner.js}"></script>
 
 <!-- 페이지별 추가 JS -->
 <th:block layout:fragment="body-js"></th:block>

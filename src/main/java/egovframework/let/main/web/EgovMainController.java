@@ -13,6 +13,8 @@ import egovframework.let.cop.bbs.service.EgovBBSManageService;
 import egovframework.let.uss.olh.faq.service.EgovFaqManageService;
 import egovframework.let.uss.olh.faq.service.FaqManageDefaultVO;
 import egovframework.let.uss.olp.qri.service.EgovQustnrRespondInfoService;
+import egovframework.let.uss.ion.bnr.service.BannerVO;
+import egovframework.let.uss.ion.bnr.service.EgovBannerService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,8 +42,11 @@ public class EgovMainController {
 	@Resource(name = "egovQustnrRespondInfoService")
 	private EgovQustnrRespondInfoService egovQustnrRespondInfoService;
 
+	@Resource(name = "egovBannerService")
+	private EgovBannerService egovBannerService;
+
 	/**
-	 * 포털 메인 페이지.
+	 * 기업업무 메인 페이지.
 	 */
 	@RequestMapping(value = {"/", "/cmm/main/mainPage.do"})
 	public String mainPage(ModelMap model) {
@@ -49,7 +54,21 @@ public class EgovMainController {
 		model.addAttribute("bbsList", selectBoard("BBSMSTR_BBBBBBBBBBBB"));    // 자유게시판
 		model.addAttribute("faqList", selectFaq());                            // FAQ
 		model.addAttribute("qriList", selectQri());                            // 설문참여
+		model.addAttribute("mainBannerList", selectBannerByType("MAIN"));      // 메인 슬라이드 배너
 		return "main/EgovMainView";
+	}
+
+	/** 유형(MAIN/POPUP/FOOTER)별 반영 배너 목록(게시기간 필터). 실패해도 메인 렌더링 보장. */
+	private List<?> selectBannerByType(String bannerTy) {
+		try {
+			BannerVO bannerVO = new BannerVO();
+			bannerVO.setBannerTy(bannerTy);
+			List<?> result = egovBannerService.selectBannerListByType(bannerVO);
+			return result == null ? List.of() : result;
+		} catch (Exception e) {
+			log.warn("메인 배너 조회 실패(type={}): {}", bannerTy, e.getMessage());
+			return List.of();
+		}
 	}
 
 	/**

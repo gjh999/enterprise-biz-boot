@@ -1,0 +1,82 @@
+/* ===== 배너 슬라이드(캐러셀) — 순수 CSS/JS, 외부 라이브러리 없음 ===== */
+.bnr-carousel { position: relative; overflow: hidden; border-radius: 18px;
+    border: 1px solid var(--krds-gray-10, #E7E8EA); background: #f4f5f6; }
+.bnr-track { display: flex; transition: transform .6s ease; }
+/* position:relative 필수 — 캡션(.bnr-cap)이 카러셀 전체가 아닌 '자기 슬라이드' 기준으로
+   고정되도록 한다. 없으면 모든 슬라이드 캡션이 카러셀 하단 한 자리에 겹쳐 뭉개진다(가독성 버그). */
+.bnr-slide { position: relative; min-width: 100%; flex: 0 0 100%; }
+.bnr-slide a { display: block; text-decoration: none; }
+.bnr-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bnr-cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    display: flex; flex-direction: column; gap: 4px; padding: 30px 20px 16px;
+    background: linear-gradient(0deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.45) 45%, transparent 100%);
+    color: #fff; font-weight: 700; font-size: 16px; line-height: 1.35;
+    text-shadow: 0 1px 3px rgba(0,0,0,.55); pointer-events: none; }
+/* 캡션 제목(첫 span)·설명(small) 줄바꿈/간격 정리 — 서로 겹치지 않도록 블록 배치 */
+.bnr-cap > span { display: block; }
+/* 메인 배너 높이 */
+.bnr-main .bnr-slide { height: clamp(180px, 26vw, 320px); }
+/* 푸터 배너 높이 */
+.bnr-foot .bnr-slide { height: clamp(90px, 14vw, 150px); }
+.bnr-cap small { display: block; font-weight: 500; font-size: 12.5px; line-height: 1.4;
+    opacity: .92; margin-top: 1px; }
+
+/* 표시기(dots) */
+.bnr-dots { position: absolute; left: 0; right: 0; bottom: 10px; display: flex;
+    justify-content: center; gap: 8px; z-index: 3; }
+.bnr-foot .bnr-dots { bottom: 6px; }
+.bnr-dot { width: 10px; height: 10px; border-radius: 999px; border: none; cursor: pointer;
+    background: rgba(255,255,255,.55); padding: 0; }
+.bnr-dot.active { background: #fff; }
+
+/* 좌우 화살표 */
+.bnr-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+    width: 38px; height: 38px; border-radius: 999px; border: none; cursor: pointer;
+    background: rgba(0,0,0,.35); color: #fff; font-size: 18px; line-height: 1; }
+.bnr-nav:hover { background: rgba(0,0,0,.55); }
+.bnr-prev { left: 10px; } .bnr-next { right: 10px; }
+
+/* ===== 팝업 배너 ===== */
+/* 기본은 숨김(display:none). JS가 열 때만 display:flex 로 표시 → 닫힌 상태에서는
+   오버레이가 스크롤/클릭을 절대 가로막지 않는다. */
+.bnr-popup-overlay { display: none; }
+.bnr-popup-overlay.is-open { position: fixed; inset: 0; z-index: 1080;
+    background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; }
+/* 좌표(left/top) 지정 팝업: 가운데 정렬 대신 좌상단 기준 위치 */
+.bnr-popup-overlay.is-positioned.is-open { display: block; background: rgba(0,0,0,.5); }
+.bnr-popup-overlay.is-positioned .bnr-popup { position: absolute; }
+.bnr-popup { width: min(420px, 92vw); max-height: 90vh; display: flex; flex-direction: column;
+    background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+/* 팝업 내부 캐러셀(여러 팝업 묶음) */
+.bnr-popup .bnr-carousel { border: none; border-radius: 0; background: #fff; }
+.bnr-popup .bnr-slide { height: auto; }
+.bnr-popup-body { flex: 1 1 auto; overflow-y: auto; min-height: 0; }
+.bnr-popup-body a { display: block; }
+.bnr-popup-body img { width: 100%; display: block; max-height: 60vh; object-fit: cover; }
+.bnr-popup-title { padding: 14px 18px 4px; font-weight: 700; font-size: 16px; color: #1E2124; }
+.bnr-popup-desc { padding: 0 18px 12px; font-size: 13.5px; color: #58616A; }
+.bnr-popup-foot { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; border-top: 1px solid var(--krds-gray-10, #E7E8EA); background: #f4f5f6; }
+/* 팝업 체크박스: 순수 input[type=checkbox] — 호환 레이어의 .form-check-input 음수 마진 영향 차단.
+   ⚠️ krds.min.css의 input[type=checkbox]{position:absolute;width:1px;height:1px;clip:rect(0,0,0,0)…!important}
+   (KRDS sr-only 패턴)가 이 체크박스까지 1px로 클리핑해 숨기므로, position/clip/appearance 등을 !important 로
+   되돌려 네이티브 컨트롤로 확실히 보이고 클릭/선택 가능하게 한다. (.form-check-input 미사용이라 krds.css 보정 비대상) */
+.bnr-popup-foot label { font-size: 14px; color: #33363D; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin: 0; }
+.bnr-popup-foot input[type="checkbox"].bnr-popup-today {
+    position: static !important; width: 18px !important; height: 18px !important;
+    margin: 0 !important; padding: 0 !important; overflow: visible !important;
+    clip: auto !important; flex: 0 0 auto; cursor: pointer; vertical-align: middle;
+    border: initial !important; accent-color: #256EF4;
+    -webkit-appearance: auto !important; -moz-appearance: auto !important; appearance: auto !important; }
+.bnr-popup-close { border: none; background: transparent; font-size: 14px; color: #58616A; cursor: pointer; font-weight: 600; padding: 6px 4px; }
+/* 팝업 내부 캐러셀 dots 는 이미지 위 하단에 표시 */
+.bnr-popup .bnr-dots { bottom: 8px; }
+
+/* ===== 메인 캐러셀 첫 슬라이드(히어로) ===== */
+/* 히어로를 캐러셀 슬라이드로 편입할 때 사용. 기존 .lp-hero 스타일을 슬라이드 안에서 재활용. */
+.bnr-main .bnr-slide.bnr-hero-slide { height: auto; }
+.bnr-main .bnr-slide.bnr-hero-slide .lp-hero { border-radius: 0; height: 100%; box-shadow: none; border: none; }
+/* 히어로가 들어간 메인 캐러셀은 콘텐츠 높이에 맞춰 자동(고정 높이 해제) */
+.bnr-main.bnr-has-hero .bnr-slide { height: auto; }
+.bnr-main.bnr-has-hero .bnr-slide:not(.bnr-hero-slide) { min-height: clamp(220px, 30vw, 360px); display: flex; }
+.bnr-main.bnr-has-hero .bnr-slide:not(.bnr-hero-slide) a { width: 100%; }

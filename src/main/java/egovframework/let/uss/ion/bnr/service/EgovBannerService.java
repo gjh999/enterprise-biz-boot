@@ -17,7 +17,7 @@ import java.util.List;
  *  -------    --------    ---------------------------
  *   2009.08.03  lee.m.j        최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성 
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -31,6 +31,13 @@ public interface EgovBannerService {
 	 * @param bannerVO
 	 */
 	public List<BannerVO> selectBannerList(BannerVO bannerVO) throws Exception;
+
+	/**
+	 * 배너 유형(MAIN/POPUP/FOOTER)별로 반영(REFLCT_AT='Y') 배너 목록을 조회한다.
+	 * @param bannerVO - 배너 Vo (bannerTy 필수)
+	 * @return List - 유형별 배너 목록
+	 */
+	public List<BannerVO> selectBannerListByType(BannerVO bannerVO) throws Exception;
 
 	/**
 	 * 배너목록 총 갯수를 조회한다.

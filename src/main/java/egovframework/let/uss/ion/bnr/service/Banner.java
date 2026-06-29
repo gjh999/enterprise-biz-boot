@@ -19,7 +19,7 @@ import jakarta.validation.constraints.Pattern;
  *  -------    --------    ---------------------------
  *   2009.08.03  lee.m.j        최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성 
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -40,9 +40,8 @@ public class Banner extends ComDefaultVO {
 	@Size(max=30)
 	private String bannerNm;
 	/**
-	 * 링크 URL
+	 * 링크 URL (선택사항 — 없으면 이미지/슬라이드만 표시)
 	 */
-	@EgovNullCheck
 	private String linkUrl;
 	/**
 	 * 배너 이미지
@@ -68,6 +67,30 @@ public class Banner extends ComDefaultVO {
 	 */
 	private String reflctAt;
 	/**
+	 * 배너 유형 (MAIN: 메인, POPUP: 팝업, FOOTER: 푸터)
+	 */
+	private String bannerTy;
+	/**
+	 * 팝업 좌표 X(left, px)
+	 */
+	private Integer popupLeft;
+	/**
+	 * 팝업 좌표 Y(top, px)
+	 */
+	private Integer popupTop;
+	/**
+	 * 팝업 너비(px)
+	 */
+	private Integer popupWidth;
+	/**
+	 * 팝업 높이(px)
+	 */
+	private Integer popupHeight;
+	/**
+	 * 팝업 묶음 표출 여부 (Y: 여러 팝업을 한 팝업 캐러셀로 묶음, N: 각각 별도 팝업)
+	 */
+	private String popupGroupAt;
+	/**
 	 * 사용자 ID
 	 */
 	private String userId;
@@ -75,6 +98,18 @@ public class Banner extends ComDefaultVO {
 	 * 등록일자
 	 */
 	private String regDate;
+	/**
+	 * 수정일시 (LAST_UPDT_PNTTM)
+	 */
+	private String lastUpdtPnttm;
+	/**
+	 * 게시기간 시작일 (EXPSR_BGNDE, nullable — 미설정 시 상시 노출)
+	 */
+	private String expsrBgnde;
+	/**
+	 * 게시기간 종료일 (EXPSR_ENDDE, nullable — 미설정 시 상시 노출)
+	 */
+	private String expsrEndde;
 	/**
 	 * 파일첨부여부
 	 */
@@ -177,6 +212,48 @@ public class Banner extends ComDefaultVO {
 		this.reflctAt = reflctAt;
 	}
 	/**
+	 * @return the bannerTy
+	 */
+	public String getBannerTy() {
+		return bannerTy;
+	}
+	/**
+	 * @param bannerTy the bannerTy to set
+	 */
+	public void setBannerTy(String bannerTy) {
+		this.bannerTy = bannerTy;
+	}
+	public Integer getPopupLeft() {
+		return popupLeft;
+	}
+	public void setPopupLeft(Integer popupLeft) {
+		this.popupLeft = popupLeft;
+	}
+	public Integer getPopupTop() {
+		return popupTop;
+	}
+	public void setPopupTop(Integer popupTop) {
+		this.popupTop = popupTop;
+	}
+	public Integer getPopupWidth() {
+		return popupWidth;
+	}
+	public void setPopupWidth(Integer popupWidth) {
+		this.popupWidth = popupWidth;
+	}
+	public Integer getPopupHeight() {
+		return popupHeight;
+	}
+	public void setPopupHeight(Integer popupHeight) {
+		this.popupHeight = popupHeight;
+	}
+	public String getPopupGroupAt() {
+		return popupGroupAt;
+	}
+	public void setPopupGroupAt(String popupGroupAt) {
+		this.popupGroupAt = popupGroupAt;
+	}
+	/**
 	 * @return the userId
 	 */
 	public String getUserId() {
@@ -199,6 +276,42 @@ public class Banner extends ComDefaultVO {
 	 */
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
+	}
+	/**
+	 * @return the lastUpdtPnttm
+	 */
+	public String getLastUpdtPnttm() {
+		return lastUpdtPnttm;
+	}
+	/**
+	 * @param lastUpdtPnttm the lastUpdtPnttm to set
+	 */
+	public void setLastUpdtPnttm(String lastUpdtPnttm) {
+		this.lastUpdtPnttm = lastUpdtPnttm;
+	}
+	/**
+	 * @return the expsrBgnde
+	 */
+	public String getExpsrBgnde() {
+		return expsrBgnde;
+	}
+	/**
+	 * @param expsrBgnde the expsrBgnde to set
+	 */
+	public void setExpsrBgnde(String expsrBgnde) {
+		this.expsrBgnde = expsrBgnde;
+	}
+	/**
+	 * @return the expsrEndde
+	 */
+	public String getExpsrEndde() {
+		return expsrEndde;
+	}
+	/**
+	 * @param expsrEndde the expsrEndde to set
+	 */
+	public void setExpsrEndde(String expsrEndde) {
+		this.expsrEndde = expsrEndde;
 	}
 	/**
 	 * @return the isAtchFile

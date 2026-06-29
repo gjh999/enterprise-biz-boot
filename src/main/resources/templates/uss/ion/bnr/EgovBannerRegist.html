@@ -2,46 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}" lang="ko">
-<head><title th:text="#{bnr.regist.title}">배너 등록</title></head>
+<head><title th:text="#{bnr.mng.regist}">배너 등록</title></head>
 <body>
 <main layout:fragment="content">
     <div class="container" style="max-width:820px;">
         <nav aria-label="breadcrumb"><ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{nav.home}">홈</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/uss/ion/bnr/selectBannerList.do}" th:text="#{bnr.title}">배너관리</a></li>
-            <li class="breadcrumb-item active" th:text="#{bnr.regist.breadcrumb}">배너 등록</li>
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/ion/bnr/selectBannerList.do}" th:text="#{bnr.mng.manage}">배너관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{bnr.mng.regist}">배너 등록</li>
         </ol></nav>
-        <h1 class="h4 mb-3"><i class="bi bi-image"></i> <span th:text="#{bnr.regist.title}">배너 등록</span></h1>
+        <h1 class="h4 mb-3"><i class="bi bi-image"></i> <span th:text="#{bnr.mng.regist}">배너 등록</span></h1>
         <form th:action="@{/uss/ion/bnr/addBanner.do}" th:object="${banner}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
-                <label><span th:text="#{bnr.form.bannerNm}">배너명</span> <span class="frm-rq">*</span></label>
+                <label class="form-label"><span th:text="#{bnr.mng.label.type}">배너 유형</span> <span class="text-danger">*</span></label>
+                <select class="krds-form-select" th:field="*{bannerTy}" id="bannerTy" onchange="togglePopupFields()">
+                    <option value="MAIN" th:text="#{bnr.mng.opt.type.main}">메인 배너</option>
+                    <option value="POPUP" th:text="#{bnr.mng.opt.type.popup}">팝업 배너</option>
+                    <option value="FOOTER" th:text="#{bnr.mng.opt.type.footer}">푸터 배너</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"><span th:text="#{bnr.mng.label.name}">배너명</span> <span class="text-danger">*</span></label>
                 <input class="krds-input" type="text" th:field="*{bannerNm}" maxlength="30" required autofocus/>
                 <div class="text-danger small" th:if="${#fields.hasErrors('bannerNm')}" th:errors="*{bannerNm}"></div>
             </div>
             <div class="mb-3">
-                <label><span th:text="#{bnr.form.linkUrl}">링크 URL</span> <span class="frm-rq">*</span></label>
-                <input class="krds-input" type="text" th:field="*{linkUrl}" maxlength="255" required/>
+                <label class="form-label" th:text="#{bnr.mng.label.linkUrl}">링크 URL</label>
+                <input class="krds-input" type="text" th:field="*{linkUrl}" maxlength="255" th:placeholder="#{bnr.mng.linkUrl.placeholder}" placeholder="선택사항 — 비우면 링크 없이 표시"/>
                 <div class="text-danger small" th:if="${#fields.hasErrors('linkUrl')}" th:errors="*{linkUrl}"></div>
             </div>
+            <!-- 팝업 유형 전용: 좌표/크기/묶음 -->
+            <fieldset id="popupFields" class="mb-3" style="display:none; border:1px solid var(--krds-gray-10,#E7E8EA); border-radius:12px; padding:14px 16px;">
+                <legend class="form-label" style="font-size:14px; font-weight:700;" th:text="#{bnr.mng.popup.options}">팝업 옵션</legend>
+                <div class="mb-2">
+                    <label class="form-label" th:text="#{bnr.mng.popup.groupLabel}">묶음 표출</label>
+                    <select class="krds-form-select" th:field="*{popupGroupAt}">
+                        <option value="N" th:text="#{bnr.mng.popup.group.no}">각각 별도 팝업으로 표출</option>
+                        <option value="Y" th:text="#{bnr.mng.popup.group.yes}">여러 팝업을 한 팝업 안에서 슬라이드(묶음)</option>
+                    </select>
+                </div>
+                <div class="row g-2">
+                    <div class="col-6"><label class="form-label" th:text="#{bnr.mng.popup.left}">좌표 X(left, px)</label>
+                        <input class="krds-input" type="number" th:field="*{popupLeft}" min="0" th:placeholder="#{bnr.mng.popup.ph.center}" placeholder="중앙정렬은 비움"/></div>
+                    <div class="col-6"><label class="form-label" th:text="#{bnr.mng.popup.top}">좌표 Y(top, px)</label>
+                        <input class="krds-input" type="number" th:field="*{popupTop}" min="0" th:placeholder="#{bnr.mng.popup.ph.center}" placeholder="중앙정렬은 비움"/></div>
+                    <div class="col-6"><label class="form-label" th:text="#{bnr.mng.popup.width}">너비(width, px)</label>
+                        <input class="krds-input" type="number" th:field="*{popupWidth}" min="0" th:placeholder="#{bnr.mng.popup.ph.width}" placeholder="기본 420"/></div>
+                    <div class="col-6"><label class="form-label" th:text="#{bnr.mng.popup.height}">높이(height, px)</label>
+                        <input class="krds-input" type="number" th:field="*{popupHeight}" min="0" th:placeholder="#{bnr.mng.popup.ph.auto}" placeholder="자동"/></div>
+                </div>
+            </fieldset>
             <div class="mb-3">
-                <label th:text="#{bnr.form.bannerImage}">배너 이미지</label>
+                <label class="form-label" th:text="#{bnr.mng.label.image}">배너 이미지</label>
                 <input class="krds-input" type="file" name="file_1"/>
             </div>
             <div class="mb-3">
-                <label th:text="#{bnr.form.bannerDc}">배너 설명</label>
+                <label class="form-label" th:text="#{bnr.mng.label.desc}">배너 설명</label>
                 <input class="krds-input" type="text" th:field="*{bannerDc}" maxlength="100"/>
             </div>
             <div class="mb-3">
-                <label><span th:text="#{bnr.form.sortOrdr}">정렬순서</span> <span class="frm-rq">*</span></label>
+                <label class="form-label"><span th:text="#{bnr.mng.label.sortOrdr}">정렬순서</span> <span class="text-danger">*</span></label>
                 <input class="krds-input" type="number" th:field="*{sortOrdr}" min="0" value="1" required/>
                 <div class="text-danger small" th:if="${#fields.hasErrors('sortOrdr')}" th:errors="*{sortOrdr}"></div>
             </div>
             <div class="mb-3">
-                <label th:text="#{bnr.form.reflctAt}">반영여부</label>
+                <label class="form-label" th:text="#{bnr.mng.label.reflct}">노출여부</label>
                 <select class="krds-form-select" th:field="*{reflctAt}">
-                    <option value="Y">Y</option>
-                    <option value="N">N</option>
+                    <option value="Y" th:text="#{bnr.mng.reflct.on}">노출</option>
+                    <option value="N" th:text="#{bnr.mng.reflct.off}">비노출</option>
                 </select>
+                <div class="form-text" th:text="#{bnr.mng.reflct.help}">'노출'이어도 아래 게시기간이 설정된 경우 기간 내에만 표시됩니다.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" th:text="#{bnr.mng.label.period}">게시기간 (노출 시작일 ~ 종료일)</label>
+                <div class="d-flex align-items-center gap-2">
+                    <input class="krds-input" type="date" th:field="*{expsrBgnde}"/>
+                    <span>~</span>
+                    <input class="krds-input" type="date" th:field="*{expsrEndde}"/>
+                </div>
+                <div class="form-text" th:text="#{bnr.mng.period.help}">미설정(비움) 시 상시 노출됩니다.</div>
             </div>
             <div class="d-flex justify-content-between">
                 <a class="krds-btn tertiary" th:href="@{/uss/ion/bnr/selectBannerList.do}" th:text="#{button.list}">목록</a>
@@ -50,5 +89,15 @@
         </form>
     </div>
 </main>
+<th:block layout:fragment="body-js">
+<script>
+    function togglePopupFields() {
+        var ty = document.getElementById('bannerTy');
+        var box = document.getElementById('popupFields');
+        if (ty && box) box.style.display = (ty.value === 'POPUP') ? 'block' : 'none';
+    }
+    document.addEventListener('DOMContentLoaded', togglePopupFields);
+</script>
+</th:block>
 </body>
 </html>
