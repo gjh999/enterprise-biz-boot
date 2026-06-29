@@ -677,3 +677,18 @@ body.egov-body { font-size: 15px; line-height: 1.6; }
 .egov-content .breadcrumb-item { font-size: 13px; }
 /* 헤더 사용자/버튼 영역도 GNB와 동일 위계로 정렬 */
 .egov-header .krds-btn.small { font-size: 13.5px; }
+
+/* ── KRDS 페이지네이션(.krds-pagination) 다크 테마 — 전 목록 페이징 통일(요청 ⑦) ── */
+.krds-pagination{ display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin:18px 0 6px; }
+.krds-pagination .page-links{ display:flex; gap:6px; flex-wrap:wrap; }
+.krds-pagination .page-link, .krds-pagination .page-navi{
+  display:inline-flex; align-items:center; justify-content:center;
+  background: rgba(255,255,255,.05); border:1px solid var(--t-line-strong, rgba(255,255,255,.18));
+  color: var(--t-text); border-radius:11px; text-decoration:none; font-weight:600; transition:all .15s ease; }
+.krds-pagination .page-navi{ padding:0 .85rem; gap:4px; }
+.krds-pagination .page-link:hover, .krds-pagination .page-navi:not(.disabled):hover{
+  background: rgba(79,107,255,.22); color:#fff; transform:translateY(-1px); }
+.krds-pagination .page-link.active{
+  background: linear-gradient(135deg, var(--t-indigo,#4f6bff), var(--t-indigo-2,#7a5cff));
+  border-color:transparent; color:#fff; box-shadow:0 8px 20px rgba(79,107,255,.40); }
+.krds-pagination .page-navi.disabled{ opacity:.4; pointer-events:none; }

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <body>
 <!--
-  페이지네이션 프래그먼트
+  페이지네이션 프래그먼트 (KRDS 네이티브: .krds-pagination — 이전/숫자/다음)
   사용법: th:replace="~{fragments/pagination :: pagination(paginationInfo=${paginationInfo}, baseUrl='/bbs/list', searchCnd='', searchWrd='')}"
   - baseUrl 에는 쿼리스트링 없이 '경로'만 전달한다. 검색 파라미터는 searchCnd/searchWrd 로 전달하면
     Thymeleaf 가 @{} 로 안전하게 인코딩하여 페이지 이동 시에도 검색조건이 유지된다.
@@ -10,41 +10,27 @@
 -->
 <nav th:fragment="pagination(paginationInfo, baseUrl, searchCnd, searchWrd)" aria-label="페이지 네비게이션"
      th:if="${paginationInfo != null and paginationInfo.totalRecordCount > 0}">
-    <ul class="pagination justify-content-center">
-
+    <div class="krds-pagination">
         <!-- 이전 페이지 그룹 -->
-        <li class="page-item" th:classappend="${paginationInfo.firstPageNoOnPageList == 1} ? 'disabled' : ''">
-            <a class="page-link"
-               th:href="${paginationInfo.firstPageNoOnPageList > 1}
-                        ? @{${baseUrl}(pageIndex=${paginationInfo.firstPageNoOnPageList - 1}, searchCnd=${searchCnd}, searchWrd=${searchWrd})}
-                        : '#'"
-               aria-label="이전">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
+        <span th:if="${paginationInfo.firstPageNoOnPageList == 1}" class="page-navi prev disabled" th:text="#{common.prev}">이전</span>
+        <a th:unless="${paginationInfo.firstPageNoOnPageList == 1}" class="page-navi prev" th:text="#{common.prev}"
+           th:href="@{${baseUrl}(pageIndex=${paginationInfo.firstPageNoOnPageList - 1}, searchCnd=${searchCnd}, searchWrd=${searchWrd})}">이전</a>
 
         <!-- 페이지 번호 -->
-        <th:block th:each="pageNo : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}">
-            <li class="page-item" th:classappend="${pageNo == paginationInfo.currentPageNo} ? 'active' : ''">
-                <a class="page-link"
-                   th:href="@{${baseUrl}(pageIndex=${pageNo}, searchCnd=${searchCnd}, searchWrd=${searchWrd})}"
-                   th:text="${pageNo}">1</a>
-            </li>
-        </th:block>
+        <div class="page-links">
+            <a class="page-link" th:each="pageNo : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}"
+               th:classappend="${pageNo == paginationInfo.currentPageNo} ? 'active' : ''"
+               th:href="@{${baseUrl}(pageIndex=${pageNo}, searchCnd=${searchCnd}, searchWrd=${searchWrd})}"
+               th:attr="aria-current=${pageNo == paginationInfo.currentPageNo} ? 'page' : null">
+                <span th:text="${pageNo}">1</span>
+            </a>
+        </div>
 
         <!-- 다음 페이지 그룹 -->
-        <li class="page-item"
-            th:classappend="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount} ? 'disabled' : ''">
-            <a class="page-link"
-               th:href="${paginationInfo.lastPageNoOnPageList < paginationInfo.totalPageCount}
-                        ? @{${baseUrl}(pageIndex=${paginationInfo.lastPageNoOnPageList + 1}, searchCnd=${searchCnd}, searchWrd=${searchWrd})}
-                        : '#'"
-               aria-label="다음">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-
-    </ul>
+        <span th:if="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount}" class="page-navi next disabled" th:text="#{common.next}">다음</span>
+        <a th:unless="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount}" class="page-navi next" th:text="#{common.next}"
+           th:href="@{${baseUrl}(pageIndex=${paginationInfo.lastPageNoOnPageList + 1}, searchCnd=${searchCnd}, searchWrd=${searchWrd})}">다음</a>
+    </div>
     <p class="text-center text-muted small">
         <span th:text="#{common.total}">전체</span> <strong th:text="${paginationInfo.totalRecordCount}">0</strong><span th:text="#{common.unit.case}">건</span>
         (<span th:text="${paginationInfo.currentPageNo}">1</span>/<span th:text="${paginationInfo.totalPageCount}">1</span> <span th:text="#{common.page.unit}">페이지</span>)
@@ -57,41 +43,27 @@
 -->
 <nav th:fragment="paginationSearch(paginationInfo, baseUrl, searchCondition, searchKeyword)" aria-label="페이지 네비게이션"
      th:if="${paginationInfo != null and paginationInfo.totalRecordCount > 0}">
-    <ul class="pagination justify-content-center">
-
+    <div class="krds-pagination">
         <!-- 이전 페이지 그룹 -->
-        <li class="page-item" th:classappend="${paginationInfo.firstPageNoOnPageList == 1} ? 'disabled' : ''">
-            <a class="page-link"
-               th:href="${paginationInfo.firstPageNoOnPageList > 1}
-                        ? @{${baseUrl}(pageIndex=${paginationInfo.firstPageNoOnPageList - 1}, searchCondition=${searchCondition}, searchKeyword=${searchKeyword})}
-                        : '#'"
-               aria-label="이전">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
+        <span th:if="${paginationInfo.firstPageNoOnPageList == 1}" class="page-navi prev disabled" th:text="#{common.prev}">이전</span>
+        <a th:unless="${paginationInfo.firstPageNoOnPageList == 1}" class="page-navi prev" th:text="#{common.prev}"
+           th:href="@{${baseUrl}(pageIndex=${paginationInfo.firstPageNoOnPageList - 1}, searchCondition=${searchCondition}, searchKeyword=${searchKeyword})}">이전</a>
 
         <!-- 페이지 번호 -->
-        <th:block th:each="pageNo : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}">
-            <li class="page-item" th:classappend="${pageNo == paginationInfo.currentPageNo} ? 'active' : ''">
-                <a class="page-link"
-                   th:href="@{${baseUrl}(pageIndex=${pageNo}, searchCondition=${searchCondition}, searchKeyword=${searchKeyword})}"
-                   th:text="${pageNo}">1</a>
-            </li>
-        </th:block>
+        <div class="page-links">
+            <a class="page-link" th:each="pageNo : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}"
+               th:classappend="${pageNo == paginationInfo.currentPageNo} ? 'active' : ''"
+               th:href="@{${baseUrl}(pageIndex=${pageNo}, searchCondition=${searchCondition}, searchKeyword=${searchKeyword})}"
+               th:attr="aria-current=${pageNo == paginationInfo.currentPageNo} ? 'page' : null">
+                <span th:text="${pageNo}">1</span>
+            </a>
+        </div>
 
         <!-- 다음 페이지 그룹 -->
-        <li class="page-item"
-            th:classappend="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount} ? 'disabled' : ''">
-            <a class="page-link"
-               th:href="${paginationInfo.lastPageNoOnPageList < paginationInfo.totalPageCount}
-                        ? @{${baseUrl}(pageIndex=${paginationInfo.lastPageNoOnPageList + 1}, searchCondition=${searchCondition}, searchKeyword=${searchKeyword})}
-                        : '#'"
-               aria-label="다음">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-
-    </ul>
+        <span th:if="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount}" class="page-navi next disabled" th:text="#{common.next}">다음</span>
+        <a th:unless="${paginationInfo.lastPageNoOnPageList == paginationInfo.totalPageCount}" class="page-navi next" th:text="#{common.next}"
+           th:href="@{${baseUrl}(pageIndex=${paginationInfo.lastPageNoOnPageList + 1}, searchCondition=${searchCondition}, searchKeyword=${searchKeyword})}">다음</a>
+    </div>
     <p class="text-center text-muted small">
         <span th:text="#{common.total}">전체</span> <strong th:text="${paginationInfo.totalRecordCount}">0</strong><span th:text="#{common.unit.case}">건</span>
         (<span th:text="${paginationInfo.currentPageNo}">1</span>/<span th:text="${paginationInfo.totalPageCount}">1</span> <span th:text="#{common.page.unit}">페이지</span>)
