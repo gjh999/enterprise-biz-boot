@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title th:text="#{mber.sbscrb.select.title}">회원가입</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{mber.sbscrb.select.title}">회원가입</li>
+        </ol></nav>
+        <h1 class="h4 mb-2"><i class="bi bi-person-plus"></i> <span th:text="#{mber.sbscrb.select.title}">회원가입</span></h1>
+        <p class="text-muted mb-4" th:text="#{mber.sbscrb.select.desc}">가입하실 회원 유형을 선택하세요.</p>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="krds-panel h-100">
+                    <div class="krds-panel-head"><i class="bi bi-person"></i> <span th:text="#{mber.sbscrb.gnr.title}">일반회원 가입</span></div>
+                    <div class="krds-panel-body d-flex flex-column">
+                        <p class="text-muted flex-grow-1" th:text="#{mber.sbscrb.gnr.desc}">개인 사용자를 위한 일반 회원으로 가입합니다.</p>
+                        <a class="krds-btn primary w-100" th:href="@{/uss/umt/cmm/EgovStplatCnfirmMber.do}">
+                            <i class="bi bi-arrow-right"></i> <span th:text="#{mber.sbscrb.btn.gnr}">일반회원으로 가입</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="krds-panel h-100">
+                    <div class="krds-panel-head"><i class="bi bi-building"></i> <span th:text="#{mber.sbscrb.ent.title}">기업회원 가입</span></div>
+                    <div class="krds-panel-body d-flex flex-column">
+                        <p class="text-muted flex-grow-1" th:text="#{mber.sbscrb.ent.desc}">사업자등록번호를 보유한 기업 회원으로 가입합니다.</p>
+                        <a class="krds-btn secondary w-100" th:href="@{/uss/umt/cmm/EgovStplatCnfirmEntrprs.do}">
+                            <i class="bi bi-arrow-right"></i> <span th:text="#{mber.sbscrb.btn.ent}">기업회원으로 가입</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

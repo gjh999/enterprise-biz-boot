@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 개정이력: 2026.06.29  Claude  기업회원 가입 기능 신규(포털 이식, Tibero) -->
+<mapper namespace="entrprsMberManageDAO">
+
+    <resultMap id="stplatMap" type="egovframework.let.uss.umt.service.StplatVO">
+        <result property="useStplatId" column="USE_STPLAT_ID"/>
+        <result property="useStplatCn" column="USE_STPLAT_CN"/>
+        <result property="infoProvdAgeCn" column="INFO_PROVD_AGRE_CN"/>
+    </resultMap>
+
+    <insert id="insertEntrprsMber_S" parameterType="egovframework.let.uss.umt.service.EntrprsMberManageVO">
+        INSERT INTO TB_ENTRPRS_MBER
+            (
+                ENTRPRS_MBER_ID            ,
+                ENTRPRS_SE_CODE            ,
+                BIZRNO                     ,
+                JURIRNO                    ,
+                CMPNY_NM                   ,
+                CXFC                       ,
+                ZIP                        ,
+                ADRES                      ,
+                FXNUM                      ,
+                INDUTY_CODE                ,
+                APPLCNT_NM                 ,
+                APPLCNT_IHIDNUM            ,
+                SBSCRB_DE                  ,
+                ENTRPRS_MBER_STTUS         ,
+                ENTRPRS_MBER_PASSWORD      ,
+                ENTRPRS_MBER_PASSWORD_HINT ,
+                ENTRPRS_MBER_PASSWORD_CNSR ,
+                GROUP_ID                   ,
+                DETAIL_ADRES               ,
+                APPLCNT_EMAIL_ADRES        ,
+                TELNO                      ,
+                ESNTL_ID                   ,
+                FRST_REGIST_PNTTM          ,
+                FRST_REGISTER_ID
+            )
+        VALUES
+            (
+                #{entrprsMberId},
+                #{entrprsSeCode},
+                #{bizrno},
+                #{jurirno},
+                #{cmpnyNm},
+                #{cxfc},
+                #{zip},
+                #{adres},
+                #{fxnum},
+                #{indutyCode},
+                #{applcntNm},
+                #{applcntIhidnum},
+                sysdate,
+                #{entrprsMberSttus},
+                #{entrprsMberPassword},
+                #{entrprsMberPasswordHint},
+                #{entrprsMberPasswordCnsr},
+                #{groupId},
+                #{detailAdres},
+                #{applcntEmailAdres},
+                #{telno},
+                #{uniqId},
+                sysdate,
+                #{entrprsMberId}
+            )
+    </insert>
+
+    <select id="selectEntrprsMber_S" resultType="egovframework.let.uss.umt.service.EntrprsMberManageVO">
+        SELECT
+            ESNTL_ID                   uniqId,
+            ENTRPRS_MBER_ID            entrprsMberId,
+            ENTRPRS_MBER_PASSWORD_HINT entrprsMberPasswordHint,
+            ENTRPRS_MBER_PASSWORD_CNSR entrprsMberPasswordCnsr,
+            RTRIM(ENTRPRS_SE_CODE)     entrprsSeCode,
+            BIZRNO                     bizrno,
+            JURIRNO                    jurirno,
+            CMPNY_NM                   cmpnyNm,
+            CXFC                       cxfc,
+            RTRIM(INDUTY_CODE)         indutyCode,
+            APPLCNT_NM                 applcntNm,
+            APPLCNT_IHIDNUM            applcntIhidnum,
+            APPLCNT_EMAIL_ADRES        applcntEmailAdres,
+            ENTRPRS_MBER_STTUS         entrprsMberSttus,
+            TELNO                      telno,
+            FXNUM                      fxnum,
+            ZIP                        zip,
+            ADRES                      adres,
+            DETAIL_ADRES               detailAdres,
+            GROUP_ID                   groupId,
+            TO_CHAR(SBSCRB_DE,'YYYY-MM-DD') sbscrbDe
+        FROM TB_ENTRPRS_MBER
+        WHERE ESNTL_ID = #{uniqId}
+    </select>
+
+    <update id="updateEntrprsMber_S" parameterType="egovframework.let.uss.umt.service.EntrprsMberManageVO">
+        UPDATE TB_ENTRPRS_MBER
+        SET ENTRPRS_MBER_PASSWORD_HINT = #{entrprsMberPasswordHint},
+            ENTRPRS_MBER_PASSWORD_CNSR = #{entrprsMberPasswordCnsr},
+            ENTRPRS_SE_CODE            = #{entrprsSeCode},
+            BIZRNO                     = #{bizrno},
+            JURIRNO                    = #{jurirno},
+            CMPNY_NM                   = #{cmpnyNm},
+            CXFC                       = #{cxfc},
+            INDUTY_CODE                = #{indutyCode},
+            APPLCNT_NM                 = #{applcntNm},
+            APPLCNT_EMAIL_ADRES        = #{applcntEmailAdres},
+            ENTRPRS_MBER_STTUS         = #{entrprsMberSttus},
+            TELNO                      = #{telno},
+            FXNUM                      = #{fxnum},
+            ZIP                        = #{zip},
+            ADRES                      = #{adres},
+            DETAIL_ADRES               = #{detailAdres},
+            GROUP_ID                   = #{groupId}
+        WHERE ESNTL_ID = #{uniqId}
+    </update>
+
+    <select id="selectStplat_S" resultMap="stplatMap">
+        SELECT
+            USE_STPLAT_ID,
+            USE_STPLAT_CN,
+            INFO_PROVD_AGRE_CN
+        FROM TB_STPLAT_INFO
+        WHERE USE_STPLAT_ID = #{stplatId}
+    </select>
+
+    <select id="checkIdDplct_S" resultType="int">
+        SELECT COUNT(1) usedCnt
+        FROM (
+            SELECT EMPLYR_ID userId FROM TB_EMPLYR_INFO
+            UNION ALL
+            SELECT ENTRPRS_MBER_ID userId FROM TB_ENTRPRS_MBER
+            UNION ALL
+            SELECT MBER_ID userId FROM TB_GNRL_MBER
+        ) A
+        WHERE userId = #{checkId}
+    </select>
+</mapper>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title th:text="#{entrprs.sbscrb.title}">기업회원 가입신청</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:820px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/umt/cmm/EgovMberSbscrbSelect.do}" th:text="#{mber.sbscrb.select.title}">회원가입</a></li>
+            <li class="breadcrumb-item active" th:text="#{entrprs.sbscrb.title}">기업회원 가입신청</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-building"></i> <span th:text="#{entrprs.sbscrb.title}">기업회원 가입신청</span></h1>
+
+        <form th:action="@{/uss/umt/cmm/EgovEntrprsMberSbscrb.do}" method="post" th:object="${entrprsMberManageVO}" id="entForm">
+            <!-- @EgovNullCheck 대상: 컨트롤러가 재설정하나 @Valid 통과용 hidden -->
+            <input type="hidden" th:field="*{groupId}"/>
+            <input type="hidden" th:field="*{entrprsMberSttus}"/>
+
+            <div class="alert alert-danger py-2" th:if="${#fields.hasAnyErrors()}" th:text="#{mber.form.validateError}">
+                입력값을 확인하세요. (필수 항목 누락)
+            </div>
+
+            <!-- ── 계정 정보 ── -->
+            <fieldset class="krds-form-section">
+                <legend class="krds-form-section-title" th:text="#{entrprs.sec.account}">계정 정보</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 form-group"><label class="form-label"><span th:text="#{entrprs.id}">아이디</span> <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input class="krds-input" type="text" th:field="*{entrprsMberId}" maxlength="20" required/>
+                            <button class="krds-btn tertiary" type="button" id="btnIdCheck"><i class="bi bi-search"></i> <span th:text="#{entrprs.id.check}">중복확인</span></button>
+                        </div></div>
+                    <div class="col-md-6 form-group"><label class="form-label"><span th:text="#{entrprs.password}">비밀번호</span> <span class="text-danger">*</span></label>
+                        <input class="krds-input" type="password" th:field="*{entrprsMberPassword}" id="entPwd" maxlength="20" required/></div>
+                    <div class="col-md-6 form-group"><label class="form-label"><span th:text="#{entrprs.password.confirm}">비밀번호 확인</span> <span class="text-danger">*</span></label>
+                        <input class="krds-input" type="password" name="password2" id="entPwd2" maxlength="20" required/></div>
+                    <div class="col-md-6 form-group"><label class="form-label"><span th:text="#{entrprs.password.hint}">비밀번호 힌트</span> <span class="text-danger">*</span></label>
+                        <select class="krds-form-select" th:field="*{entrprsMberPasswordHint}" required>
+                            <option value="" th:text="#{mber.selectPlease}">선택하세요</option>
+                            <option value="P01" th:text="#{mber.pwdHint.p01}">가장 기억에 남는 장소는?</option>
+                            <option value="P02" th:text="#{mber.pwdHint.p02}">나의 좌우명은?</option>
+                            <option value="P03" th:text="#{mber.pwdHint.p03}">나의 보물 제1호는?</option>
+                            <option value="P04" th:text="#{mber.pwdHint.p04}">가장 기억에 남는 선생님 성함은?</option>
+                            <option value="P05" th:text="#{mber.pwdHint.p05}">다른 사람은 모르는 나만의 신체비밀은?</option>
+                        </select></div>
+                    <div class="col-md-6 form-group"><label class="form-label"><span th:text="#{entrprs.password.cnsr}">비밀번호 정답</span> <span class="text-danger">*</span></label>
+                        <input class="krds-input" type="text" th:field="*{entrprsMberPasswordCnsr}" maxlength="100" required/></div>
+                </div>
+            </fieldset>
+
+            <!-- ── 기업 정보 ── -->
+            <fieldset class="krds-form-section">
+                <legend class="krds-form-section-title" th:text="#{entrprs.sec.company}">기업 정보</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 form-group"><label class="form-label"><span th:text="#{entrprs.cmpnyNm}">회사명</span> <span class="text-danger">*</span></label>
+                        <input class="krds-input" type="text" th:field="*{cmpnyNm}" maxlength="60" required/></div>
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.cxfc}">대표자명</label>
+                        <input class="krds-input" type="text" th:field="*{cxfc}" maxlength="50"/></div>
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.bizrno}">사업자등록번호</label>
+                        <input class="krds-input" type="text" th:field="*{bizrno}" maxlength="10" inputmode="numeric" placeholder="0000000000"/></div>
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.jurirno}">법인등록번호</label>
+                        <input class="krds-input" type="text" th:field="*{jurirno}" maxlength="13" inputmode="numeric"/></div>
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.seCode}">기업구분</label>
+                        <select class="krds-form-select" th:field="*{entrprsSeCode}">
+                            <option value="" th:text="#{mber.selectPlease}">선택하세요</option>
+                            <option value="ENT01" th:text="#{mber.entSe.ent01}">대기업</option>
+                            <option value="ENT02" th:text="#{mber.entSe.ent02}">중소기업</option>
+                            <option value="ENT03" th:text="#{mber.entSe.ent03}">소상공인</option>
+                            <option value="ENT04" th:text="#{mber.entSe.ent04}">공공기관</option>
+                            <option value="ENT05" th:text="#{mber.entSe.ent05}">기타</option>
+                        </select></div>
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.indutyCode}">업종</label>
+                        <select class="krds-form-select" th:field="*{indutyCode}">
+                            <option value="" th:text="#{mber.selectPlease}">선택하세요</option>
+                            <option value="IND01" th:text="#{mber.induty.ind01}">제조업</option>
+                            <option value="IND02" th:text="#{mber.induty.ind02}">건설업</option>
+                            <option value="IND03" th:text="#{mber.induty.ind03}">도소매업</option>
+                            <option value="IND04" th:text="#{mber.induty.ind04}">정보통신업</option>
+                            <option value="IND05" th:text="#{mber.induty.ind05}">서비스업</option>
+                            <option value="IND06" th:text="#{mber.induty.ind06}">기타</option>
+                        </select></div>
+                </div>
+            </fieldset>
+
+            <!-- ── 담당자 정보 ── -->
+            <fieldset class="krds-form-section">
+                <legend class="krds-form-section-title" th:text="#{entrprs.sec.applcnt}">담당자 정보</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 form-group"><label class="form-label"><span th:text="#{entrprs.applcntNm}">담당자명</span> <span class="text-danger">*</span></label>
+                        <input class="krds-input" type="text" th:field="*{applcntNm}" maxlength="50" required/></div>
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.applcntEmail}">담당자 이메일</label>
+                        <input class="krds-input" type="email" th:field="*{applcntEmailAdres}" maxlength="50"/></div>
+                </div>
+            </fieldset>
+
+            <!-- ── 연락처·주소 ── -->
+            <fieldset class="krds-form-section">
+                <legend class="krds-form-section-title" th:text="#{entrprs.sec.contact}">연락처·주소</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.telno}">전화번호</label>
+                        <input class="krds-input" type="text" th:field="*{telno}" maxlength="13"
+                               data-phone-format="tel" inputmode="numeric" placeholder="02-123-4567"/></div>
+                    <div class="col-md-6 form-group"><label class="form-label" th:text="#{entrprs.fxnum}">팩스번호</label>
+                        <input class="krds-input" type="text" th:field="*{fxnum}" maxlength="20"/></div>
+                    <div class="col-md-4 form-group"><label class="form-label" th:text="#{entrprs.zip}">우편번호</label>
+                        <div class="input-group">
+                            <input class="krds-input" type="text" th:field="*{zip}" id="entZip" maxlength="6"/>
+                            <button class="krds-btn tertiary" type="button" id="btnZipSearch"><i class="bi bi-search"></i></button>
+                        </div></div>
+                    <div class="col-md-8 form-group"><label class="form-label" th:text="#{entrprs.adres}">주소</label>
+                        <input class="krds-input" type="text" th:field="*{adres}" id="entAdres" maxlength="100"/></div>
+                    <div class="col-12 form-group"><label class="form-label" th:text="#{entrprs.detailAdres}">상세주소</label>
+                        <input class="krds-input" type="text" th:field="*{detailAdres}" maxlength="100"/></div>
+                </div>
+            </fieldset>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a class="krds-btn tertiary" th:href="@{/uss/umt/cmm/EgovMberSbscrbSelect.do}" th:text="#{entrprs.btn.cancel}">취소</a>
+                <button class="krds-btn primary" type="submit" id="btnEntSbscrb"><i class="bi bi-check-lg"></i> <span th:text="#{entrprs.btn.submit}">가입신청</span></button>
+            </div>
+        </form>
+    </div>
+    <script th:inline="javascript">
+        var PWD_MISMATCH = /*[[#{entrprs.pwd.mismatch}]]*/ '비밀번호가 일치하지 않습니다.';
+        document.getElementById('btnIdCheck').addEventListener('click', function () {
+            var id = document.getElementById('entrprsMberId').value;
+            window.open([[@{/uss/umt/EgovIdDplctCnfirmView.do}]] + '?checkId=' + encodeURIComponent(id),
+                'idCheck', 'width=600,height=450,scrollbars=yes');
+        });
+        document.getElementById('btnZipSearch').addEventListener('click', function () {
+            window.open([[@{/cmm/sym/zip/EgovCcmZipSearchPopup.do}]], 'zipSearch', 'width=560,height=620,scrollbars=yes');
+        });
+        function fn_egov_returnValue(retVal) {
+            if (retVal) {
+                document.getElementById('entZip').value = retVal.sZip || retVal.vZip;
+                document.getElementById('entAdres').value = retVal.sAddr;
+            }
+        }
+        window.fnZipReturn = function (zip, addr) {
+            document.getElementById('entZip').value = zip;
+            document.getElementById('entAdres').value = addr;
+        };
+        document.getElementById('entForm').addEventListener('submit', function (e) {
+            if (document.getElementById('entPwd').value !== document.getElementById('entPwd2').value) {
+                e.preventDefault();
+                alert(PWD_MISMATCH);
+            }
+        });
+    </script>
+</main>
+</body>
+</html>

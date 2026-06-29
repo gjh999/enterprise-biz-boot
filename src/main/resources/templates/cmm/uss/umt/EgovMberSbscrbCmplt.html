@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title th:text="#{mber.cmplt.title}">가입 신청 완료</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:640px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{common.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{mber.cmplt.title}">가입 신청 완료</li>
+        </ol></nav>
+
+        <div class="krds-panel text-center mt-3">
+            <div class="krds-panel-body py-5">
+                <i class="bi bi-check-circle-fill text-success" style="font-size:3rem;" aria-hidden="true"></i>
+                <h1 class="h4 mt-3 mb-2" th:text="#{mber.cmplt.heading}">가입 신청이 완료되었습니다.</h1>
+                <p class="text-muted mb-1" th:text="#{mber.cmplt.desc}">관리자 승인 후 로그인하실 수 있습니다.</p>
+                <p class="text-muted small mb-4" th:if="${sbscrbMberNm != null and sbscrbMberNm != ''}">
+                    <span th:text="${sbscrbMberNm}">홍길동</span> <span th:text="#{mber.cmplt.thanks}">님, 신청해 주셔서 감사합니다.</span></p>
+                <div class="d-flex justify-content-center gap-2">
+                    <a class="krds-btn primary" th:href="@{/uat/uia/egovLoginUsr.do}">
+                        <i class="bi bi-box-arrow-in-right"></i> <span th:text="#{mber.cmplt.toLogin}">로그인 화면으로</span></a>
+                    <a class="krds-btn tertiary" th:href="@{/}">
+                        <i class="bi bi-house"></i> <span th:text="#{mber.cmplt.toHome}">홈으로</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
