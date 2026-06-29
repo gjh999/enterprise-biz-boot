@@ -358,10 +358,12 @@ public class EgovMberManageController {
 	@RequestMapping("/uss/umt/cmm/EgovMberSbscrb.do")
 	public String sbscrbMber(@Valid @ModelAttribute("mberManageVO") MberManageVO mberManageVO, BindingResult bindingResult) throws Exception {
 
-		//가입상태 초기화
+		//가입상태 초기화(셀프가입 'A' 승인대기 → 관리자 승인 시 'P', 로그인은 'P'만 허용)
 		mberManageVO.setMberSttus("A");
-		//그룹정보 초기화
-		mberManageVO.setGroupId("GROUP_00000000000000"); //기본그룹
+		//그룹정보 초기화(일반회원 기본그룹 = ROLE_USER. 포털과 동일하게 ADMIN 그룹 부여 금지)
+		mberManageVO.setGroupId("GROUP_00000000000001"); //ROLE_USER(일반회원 기본그룹)
+		//사용자유형(일반회원)
+		mberManageVO.setUserTy("USR01");
 		//일반회원가입신청 등록시 일반회원등록기능을 사용하여 등록한다.
 		mberManageService.insertMber(mberManageVO);
 		return "forward:/uat/uia/egovLoginUsr.do";

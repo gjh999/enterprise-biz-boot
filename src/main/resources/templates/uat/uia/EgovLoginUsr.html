@@ -38,6 +38,12 @@
                     </button>
                 </form>
 
+                <div class="text-center mt-3">
+                    <a class="krds-btn secondary w-100" th:href="@{/uss/umt/cmm/EgovStplatCnfirmMber.do}">
+                        <i class="bi bi-person-plus"></i> <span th:text="#{login.register}">회원가입</span>
+                    </a>
+                </div>
+
                 <p class="text-muted small text-center mt-3 mb-0">
                     <span th:text="#{login.hint.admin}">관리자</span>: <code>admin</code> / <code>1</code> &nbsp;·&nbsp; <span th:text="#{login.hint.user}">일반</span>: <code>user</code> / <code>1</code>
                 </p>
