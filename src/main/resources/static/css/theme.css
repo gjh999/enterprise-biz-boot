@@ -619,12 +619,24 @@ select.krds-form-select {
 .krds-badge.bg-warning { background: linear-gradient(135deg, #ffb347, #ff8a3d) !important; color: #3a2400 !important; }
 .krds-badge.bg-info { background: linear-gradient(135deg, #19d3da, #1597d6) !important; color: #04263b !important; }
 
-/* ── KRDS 아코디언(.krds-accordion / .btn-accordion 다크 대응) ── */
-.krds-accordion .accordion-item { background: rgba(255,255,255,.03); border: 1px solid var(--t-line); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
-.krds-accordion .btn-accordion { background: transparent !important; color: var(--t-text) !important; width: 100%; text-align: left; border: 0; display: flex; align-items: center; }
-.krds-accordion .btn-accordion:hover { background: rgba(79,107,255,.10) !important; }
-.krds-accordion .accordion-body { color: var(--t-text); }
-.krds-accordion .accordion-body p { color: var(--t-muted); }
+/* ── KRDS 아코디언(.krds-accordion / .btn-accordion 다크 대응) — Q&A·FAQ 색상 밸런스 ── */
+.krds-accordion .accordion-item { background: rgba(255,255,255,.04); border: 1px solid var(--t-line); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+.krds-accordion .btn-accordion { background: transparent !important; color: var(--t-text) !important; width: 100%; text-align: left; border: 0; display: flex; align-items: center; font-weight: 600; }
+.krds-accordion .btn-accordion:hover { background: rgba(79,107,255,.12) !important; }
+.krds-accordion .accordion-item.active .btn-accordion,
+.krds-accordion .accordion-item .btn-accordion[aria-expanded="true"] { background: rgba(79,107,255,.10) !important; }
+/* 답변 영역: KRDS 라이트 토큰(--krds-accordion--color-action[-open])이 펼친 패널을 밝게 칠해
+   다크 테마에서 본문이 안 보이던 문제 → 토큰을 다크로 재정의 + 배경/글자색 강제 */
+.krds-accordion { --krds-accordion--color-action: transparent; --krds-accordion--color-action-open: rgba(255,255,255,.05); }
+.krds-accordion .accordion-body { background: rgba(255,255,255,.05) !important; color: var(--t-text) !important; border-top: 1px solid var(--t-line); }
+.krds-accordion .accordion-body p { color: var(--t-text) !important; }
+.krds-accordion .accordion-body span { color: var(--t-text); }
+/* 질문 본문(부가설명)만 약하게, 답변은 또렷하게 */
+.krds-accordion .accordion-body p.text-muted { color: var(--t-muted) !important; }
+
+/* ── 헤더 브랜드 타이틀 확대(요청) ── */
+.egov-header .egov-brand-title { font-size: 1.4rem !important; letter-spacing: -.01em; }
+@media (max-width: 768px){ .egov-header .egov-brand-title { font-size: 1.15rem !important; } }
 
 /* ── KRDS 검색바(.krds-search = .search-bar 다크 대응) ── */
 .krds-search {

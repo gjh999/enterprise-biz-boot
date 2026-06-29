@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title th:text="#{usertype.title}">사용자 구분 안내</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container" style="max-width:960px;">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{usertype.title}">사용자 구분 안내</li>
+        </ol></nav>
+        <h1 class="h4 mb-2"><i class="bi bi-people"></i> <span th:text="#{usertype.title}">사용자 구분 안내</span></h1>
+        <p class="text-muted mb-4" th:text="#{usertype.desc}">본 시스템은 세 가지 사용자 구분을 운영합니다.</p>
+
+        <!-- ① 현재 로그인 사용자 -->
+        <div class="krds-panel mb-4">
+            <div class="krds-panel-head"><i class="bi bi-person-badge"></i> <span th:text="#{usertype.current.title}">현재 로그인 사용자</span></div>
+            <div class="krds-panel-body">
+                <p class="mb-0" th:if="${!authenticated}" th:text="#{usertype.current.none}">로그인하지 않았습니다.</p>
+                <div class="row g-3" th:if="${authenticated}">
+                    <div class="col-md-3">
+                        <div class="text-muted small" th:text="#{usertype.current.se}">사용자 구분</div>
+                        <span class="krds-badge"
+                              th:classappend="${loginVO.userSe == 'USR'} ? 'bg-success' : (${loginVO.userSe == 'ENT'} ? 'bg-gray' : 'outline-primary')"
+                              th:text="${loginVO.userSe == 'USR'} ? '업무사용자(USR)' : (${loginVO.userSe == 'GNR'} ? '일반회원(GNR)' : (${loginVO.userSe == 'ENT'} ? '기업회원(ENT)' : ${loginVO.userSe}))">구분</span>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted small" th:text="#{usertype.current.id}">아이디</div>
+                        <strong th:text="${loginVO.id}">id</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted small" th:text="#{usertype.current.name}">이름</div>
+                        <strong th:text="${loginVO.name}">name</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted small" th:text="#{usertype.current.role}">권한</div>
+                        <span class="krds-badge outline-secondary" th:each="auth : ${authorities}" th:text="${auth}">ROLE</span>
+                        <span sec:authorize="hasRole('ADMIN')" class="krds-badge bg-success">관리자</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ② 구분별 비교 표 -->
+        <h2 class="h5 mt-4 mb-2" th:text="#{usertype.table.title}">구분별 비교</h2>
+        <div class="krds-table-wrap mb-4">
+            <table class="tbl">
+                <caption th:text="#{usertype.table.title}">구분별 비교</caption>
+                <colgroup>
+                    <col style="width:14%"><col style="width:8%"><col style="width:18%">
+                    <col style="width:24%"><col style="width:14%"><col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col" th:text="#{usertype.col.se}">구분</th>
+                        <th scope="col" th:text="#{usertype.col.code}">코드</th>
+                        <th scope="col" th:text="#{usertype.col.table}">저장 테이블</th>
+                        <th scope="col" th:text="#{usertype.col.path}">가입 경로</th>
+                        <th scope="col" th:text="#{usertype.col.role}">대표 권한</th>
+                        <th scope="col" th:text="#{usertype.col.usage}">주요 용도</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>업무사용자</td><td><code>USR</code></td><td><code>TB_EMPLYR_INFO</code></td>
+                        <td>관리자 등록(회원관리)</td><td>ROLE_ADMIN / ROLE_USER</td><td>관리·운영(회원·권한·콘텐츠·시스템)</td>
+                    </tr>
+                    <tr>
+                        <td>일반회원</td><td><code>GNR</code></td><td><code>TB_GNRL_MBER</code></td>
+                        <td>일반회원 가입</td><td>ROLE_USER</td><td>게시판·설문 등 일반 서비스</td>
+                    </tr>
+                    <tr>
+                        <td>기업회원</td><td><code>ENT</code></td><td><code>TB_ENTRPRS_MBER</code></td>
+                        <td>기업회원 가입</td><td>ROLE_USER</td><td>기업 대상 서비스</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-muted small">통합 식별은 <code>ESNTL_ID</code>(VW_USER_MASTER 뷰의 UNION 통합) 기준이며, 로그인 시 <code>userSe</code>로 모집단(테이블)을 결정합니다.</p>
+
+        <!-- ③ 구분별 분기 예시 -->
+        <h2 class="h5 mt-4 mb-2" th:text="#{usertype.branch.title}">구분별 분기 예시</h2>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="krds-panel h-100">
+                    <div class="krds-panel-head"><span class="krds-badge bg-success">USR</span> 업무사용자</div>
+                    <div class="krds-panel-body"><p class="mb-0" th:text="#{usertype.branch.usr}">관리/운영 메뉴</p></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="krds-panel h-100">
+                    <div class="krds-panel-head"><span class="krds-badge outline-primary">GNR</span> 일반회원</div>
+                    <div class="krds-panel-body"><p class="mb-0" th:text="#{usertype.branch.gnr}">일반 서비스</p></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="krds-panel h-100">
+                    <div class="krds-panel-head"><span class="krds-badge bg-gray">ENT</span> 기업회원</div>
+                    <div class="krds-panel-body"><p class="mb-0" th:text="#{usertype.branch.ent}">기업 서비스</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 분기 코드 패턴 -->
+        <h2 class="h5 mt-4 mb-2" th:text="#{usertype.pattern.title}">분기 코드 패턴</h2>
+        <div class="krds-panel mb-4">
+            <div class="krds-panel-head">Thymeleaf · Java</div>
+            <div class="krds-panel-body">
+<pre class="mb-3" style="white-space:pre-wrap;"><code>&lt;!-- Thymeleaf: 권한 기반 화면 분기 (sec:authorize) --&gt;
+&lt;div sec:authorize="hasRole('ADMIN')"&gt; 관리자 전용 메뉴 &lt;/div&gt;
+&lt;div sec:authorize="isAuthenticated()"&gt; 로그인 사용자 메뉴 &lt;/div&gt;</code></pre>
+<pre class="mb-0" style="white-space:pre-wrap;"><code>// Java: userSe(USER_SE) 기반 분기
+LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+switch (user.getUserSe()) {
+    case "USR": /* 업무사용자: 관리/운영 */ break;
+    case "GNR": /* 일반회원: 서비스 */     break;
+    case "ENT": /* 기업회원: 기업서비스 */  break;
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

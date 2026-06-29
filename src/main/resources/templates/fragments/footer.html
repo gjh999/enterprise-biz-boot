@@ -38,6 +38,8 @@
                 <div class="pub-foot-col">
                     <h4 th:text="#{foot.col.support}">지원</h4>
                     <a sec:authorize="!isAuthenticated()" th:href="@{/uat/uia/egovLoginUsr.do}" th:text="#{foot.link.login}">로그인</a>
+                    <a th:href="@{/cmm/krds/EgovKrdsSample.do}" th:text="#{foot.link.krdsSample}">KRDS 예시</a>
+                    <a th:href="@{/cmm/user-types}" th:text="#{foot.link.userTypes}">사용자 구분</a>
                     <a href="/swagger-ui/index.html" target="_blank" th:text="#{foot.link.apidoc}">API 문서</a>
                 </div>
             </div>
