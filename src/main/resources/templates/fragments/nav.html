@@ -20,6 +20,23 @@
                         <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/cop/bbs/SelectBBSMasterInfs.do}" th:text="#{nav.bbsMaster}">게시판마스터관리</a></li>
                     </ul>
                 </li>
+                <!-- ===== 콘텐츠 (FAQ·Q&A·설문·약관·배너) ===== -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text="#{nav.content}">콘텐츠</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/uss/olh/faq/FaqListInqire.do}" th:text="#{nav.faq}">FAQ</a></li>
+                        <li><a class="dropdown-item" th:href="@{/uss/olh/qna/QnaListInqire.do}" th:text="#{nav.qna}">Q&amp;A</a></li>
+                        <li><a class="dropdown-item" th:href="@{/uss/olp/qnn/EgovQustnrRespondInfoManageList.do}" th:text="#{nav.surveyJoin}">설문참여</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><hr class="dropdown-divider"/></li>
+                        <li sec:authorize="hasRole('ADMIN')"><h6 class="dropdown-header" th:text="#{nav.contentManage}">콘텐츠관리</h6></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/uss/olh/faq/admin/FaqListInqire.do}" th:text="#{nav.faqManage}">FAQ관리</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/uss/olh/qna/admin/QnaListInqire.do}" th:text="#{nav.qnaAnswer}">Q&amp;A관리</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/uss/olp/qmc/EgovQustnrManageList.do}" th:text="#{nav.surveyManage}">설문관리</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/uss/sam/stp/StplatListInqire.do}" th:text="#{nav.terms}">이용약관관리</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/uss/sam/ipm/listIndvdlInfoPolicy.do}" th:text="#{nav.privacy}">개인정보방침관리</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/uss/ion/bnr/selectBannerListView.do}" th:text="#{nav.bannerManage}">배너관리</a></li>
+                    </ul>
+                </li>
                 <!-- ===== 회원·권한관리 (관리자) ===== -->
                 <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text="#{nav.memberAuth}">회원·권한</a>
