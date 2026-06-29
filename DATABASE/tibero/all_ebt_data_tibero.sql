@@ -450,3 +450,12 @@ INSERT INTO TB_USER_ABSNCE (EMPLYR_ID, USER_ABSNCE_AT, FRST_REGIST_PNTTM, FRST_R
 INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovProgramListManage.do',1,'프로그램목록관리','admin','목록 페이징 오류 수정 요청','',NULL,'A',NULL,'20250101','목록 페이징 오류');
 INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovCcmCmmnCodeList.do',1,'공통코드관리','admin','공통코드 검색조건 추가 요청','담당자 배정 후 분석 진행중','admin','P',NULL,'20250115','공통코드 검색조건 추가');
 INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovMenuManage.do',1,'메뉴목록관리','admin','메뉴 정렬순서 변경 요청','정렬순서 변경 반영 완료','admin','C','20250220','20250201','메뉴 정렬순서 변경');
+
+-- ============================================================
+-- 포털 패리티: 배너(유형/게시기간) + 약관·개인정보처리방침(대표/버전/사용여부) 시드
+-- ============================================================
+INSERT INTO TB_BANNER(BANNER_ID,BANNER_NM,LINK_URL,BANNER_IMAGE,BANNER_DC,REFLCT_AT,FRST_REGISTER_ID,FRST_REGIST_PNTTM,BANNER_IMAGE_FILE,SORT_ORDR,BANNER_TY,EXPSR_BGNDE,EXPSR_ENDDE) VALUES ('BANNER_0000000000001','전자정부 표준프레임워크','https://www.egovframe.go.kr','banner01.png','메인 상단 슬라이드 배너','Y','admin',SYSDATE,'banner01.png',1,'MAIN',DATE '2026-01-01',DATE '2027-12-31');
+INSERT INTO TB_BANNER(BANNER_ID,BANNER_NM,LINK_URL,BANNER_IMAGE,BANNER_DC,REFLCT_AT,FRST_REGISTER_ID,FRST_REGIST_PNTTM,BANNER_IMAGE_FILE,SORT_ORDR,BANNER_TY,EXPSR_BGNDE,EXPSR_ENDDE) VALUES ('BANNER_0000000000003','팝업 공지','https://www.egovframe.go.kr','banner01.png','홈 진입 팝업 배너','Y','admin',SYSDATE,'banner01.png',1,'POPUP',DATE '2026-01-01',DATE '2027-12-31');
+INSERT INTO TB_BANNER(BANNER_ID,BANNER_NM,LINK_URL,BANNER_IMAGE,BANNER_DC,REFLCT_AT,FRST_REGISTER_ID,FRST_REGIST_PNTTM,BANNER_IMAGE_FILE,SORT_ORDR,BANNER_TY,EXPSR_BGNDE,EXPSR_ENDDE) VALUES ('BANNER_0000000000004','푸터 배너','https://www.egovframe.go.kr','banner02.png','푸터 슬라이드 배너','Y','admin',SYSDATE,'banner02.png',1,'FOOTER',DATE '2026-01-01',DATE '2027-12-31');
+INSERT INTO TB_STPLAT_INFO(USE_STPLAT_ID,USE_STPLAT_NM,USE_STPLAT_CN,INFO_PROVD_AGRE_CN,FRST_REGIST_PNTTM,FRST_REGISTER_ID,VER,APLC_DE,REPRSNT_AT,USE_AT) VALUES ('STPLAT_0000000000001','서비스 이용약관','제1조(목적) 본 약관은 전자정부 표준프레임워크 기업업무 공통컴포넌트 이용에 관한 사항을 규정합니다.','개인정보 제공에 동의합니다.',SYSDATE,'admin','2.0','20260101','Y','Y');
+INSERT INTO TB_INDVDL_INFO_POLICY(INDVDL_INFO_POLICY_ID,INDVDL_INFO_POLICY_CN,INDVDL_INFO_POLICY_AGRE_AT,FRST_REGISTER_ID,FRST_REGIST_PNTTM,INDVDL_INFO_POLICY_NM,VER,APLC_DE,REPRSNT_AT,USE_AT) VALUES ('INDVDL_INFO_00000001','전자정부 표준프레임워크 기업업무 공통컴포넌트(이하 "시스템")는 「개인정보 보호법」에 따라 정보주체의 개인정보를 보호합니다.','Y','admin',SYSDATE,'개인정보처리방침','2.0','20260101','Y','Y');
