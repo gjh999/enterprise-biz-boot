@@ -28,7 +28,7 @@ import jakarta.annotation.Resource;
  *  -------    --------    ---------------------------
  *   2009.04.01  박정규          최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -56,6 +56,53 @@ public class EgovStplatManageServiceImpl extends EgovAbstractServiceImpl impleme
         if (resultVO == null)
             throw processException("info.nodata.msg");
         return resultVO;
+    }
+
+    /**
+	 * 대표(현행) 이용약관 1건을 조회한다. (모달 표출용)
+	 */
+    @Override
+	public StplatManageVO selectRepresentStplat() {
+        return stplatManageDAO.selectRepresentStplat();
+    }
+
+    /**
+     * 지정 이용약관을 대표로 설정한다(전체 대표 해제 후 단건 지정).
+     * 미사용(USE_AT='N') 항목은 대표 지정 불가 — 무시한다.
+     */
+    @Override
+    public void setRepresentStplat(String useStplatId) {
+        StplatManageVO vo = new StplatManageVO();
+        vo.setUseStplatId(useStplatId);
+        StplatManageVO cur;
+        try {
+            cur = stplatManageDAO.selectStplatDetail(vo);
+        } catch (Exception e) {
+            return;
+        }
+        // 미사용 항목은 대표 지정 금지
+        if (cur == null || "N".equals(cur.getUseAt())) {
+            return;
+        }
+        stplatManageDAO.clearRepresentStplat();
+        stplatManageDAO.setRepresentStplat(useStplatId);
+    }
+
+    /**
+     * 사용여부(USE_AT)를 변경한다. 대표를 미사용 전환하면 대표도 함께 해제(데이터 정합).
+     */
+    @Override
+    public void updateUseAtStplat(String useStplatId, String useAt) {
+        java.util.Map<String, String> param = new java.util.HashMap<>();
+        param.put("useStplatId", useStplatId);
+        param.put("useAt", "N".equals(useAt) ? "N" : "Y");
+        // SQL 에서 USE_AT='N' 이면 REPRSNT_AT='N' 으로 함께 내려 대표 정합을 보장한다.
+        stplatManageDAO.updateUseAtStplat(param);
+    }
+
+    @Override
+    public int selectActiveStplatCnt() {
+        return stplatManageDAO.selectActiveStplatCnt();
     }
 
     /**

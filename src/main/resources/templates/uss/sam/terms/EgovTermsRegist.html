@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title th:text="#{terms.regist.title}">약관 등록</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{menu.home}">홈</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/uss/sam/terms/list.do}" th:text="#{terms.list.title}">약관 관리</a></li>
+            <li class="breadcrumb-item active" th:text="#{terms.regist.title}">약관 등록</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-pencil-square"></i> <span th:text="#{terms.regist.title}">약관 등록</span></h1>
+
+        <div th:if="${validationError}" class="krds-alert danger mb-3" role="alert">
+            <span th:text="#{terms.validation.required}">명칭과 내용을 입력해 주세요.</span>
+        </div>
+
+        <form th:action="@{/uss/sam/terms/regist.do}" method="post" id="termsForm">
+            <div class="krds-form-section">
+                <!-- 유형 선택(항목5): 선택 상태가 명확히 보이는 라디오 카드 + 선택 유형 강조 배지 -->
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <span th:text="#{terms.type}">유형</span> <span class="text-danger">*</span>
+                        <span class="terms-type-current krds-badge bg-primary" id="termsTypeBadge" th:text="#{terms.stplat}">이용약관</span>
+                    </label>
+                    <div class="terms-type-choices">
+                        <label class="terms-type-card" data-type="stplat">
+                            <input type="radio" name="termsType" value="stplat"
+                                   th:checked="${termsType == null or termsType == '' or termsType == 'stplat'}"/>
+                            <span class="terms-type-card-body">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <strong th:text="#{terms.stplat}">이용약관</strong>
+                            </span>
+                        </label>
+                        <label class="terms-type-card" data-type="ipm">
+                            <input type="radio" name="termsType" value="ipm"
+                                   th:checked="${termsType == 'ipm'}"/>
+                            <span class="terms-type-card-body">
+                                <i class="bi bi-shield-lock"></i>
+                                <strong th:text="#{terms.ipm}">개인정보처리방침</strong>
+                            </span>
+                        </label>
+                    </div>
+                    <p class="terms-type-hint text-muted" id="termsTypeHint" style="margin:.5rem 0 0; font-size:.875rem;"></p>
+                </div>
+
+                <!-- 명칭 -->
+                <div class="form-group mb-3">
+                    <label class="form-label" for="nm"><span th:text="#{terms.name}">명칭</span> <span class="text-danger">*</span></label>
+                    <input type="text" id="nm" name="nm" class="krds-input w-100" maxlength="100"
+                           th:value="${nm}" th:placeholder="#{terms.name.placeholder}" required/>
+                </div>
+
+                <!-- 내용 -->
+                <div class="form-group mb-3">
+                    <label class="form-label" for="cn"><span th:text="#{terms.content}">내용</span> <span class="text-danger">*</span></label>
+                    <textarea id="cn" name="cn" class="krds-input w-100" rows="12"
+                              th:placeholder="#{terms.content.placeholder}" required th:text="${cn}"></textarea>
+                </div>
+
+                <!-- 이용약관 전용: 정보제공동의내용 -->
+                <div class="form-group mb-3 field-stplat">
+                    <label class="form-label" for="infoProvdAgreCn" th:text="#{terms.infoProvdAgreCn}">정보제공동의내용</label>
+                    <textarea id="infoProvdAgreCn" name="infoProvdAgreCn" class="krds-input w-100" rows="3"
+                              th:placeholder="#{terms.infoProvdAgreCn.placeholder}">개인정보 제공에 동의합니다.</textarea>
+                </div>
+
+                <!-- 개인정보처리방침 전용: 동의여부 -->
+                <div class="form-group mb-3 field-ipm" style="display:none;">
+                    <label class="form-label" for="indvdlInfoYn" th:text="#{terms.indvdlInfoYn}">동의여부</label>
+                    <select id="indvdlInfoYn" name="indvdlInfoYn" class="krds-form-select">
+                        <option value="Y" th:text="#{terms.agree.yes}">동의</option>
+                        <option value="N" th:text="#{terms.agree.no}">미동의</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="krds-form-section">
+                <!-- 버전관리 -->
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="ver" th:text="#{terms.version}">버전</label>
+                            <input type="text" id="ver" name="ver" class="krds-input w-100" maxlength="20"
+                                   th:value="${ver}" placeholder="1.0"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="aplcDe" th:text="#{terms.aplcDe}">적용일자</label>
+                            <input type="date" id="aplcDe" name="aplcDeInput" class="krds-input w-100"/>
+                            <input type="hidden" id="aplcDeHidden" name="aplcDe" th:value="${aplcDe}"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label class="form-label" th:text="#{terms.represent}">대표여부</label>
+                            <div style="padding-top:6px;">
+                                <label><input type="checkbox" id="reprsntAt" name="reprsntAt" value="Y"
+                                              th:checked="${reprsntAt == 'Y'}"/>
+                                    <span th:text="#{terms.represent.set}">대표(현행)로 지정</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end mt-3" style="gap:8px; display:flex; justify-content:flex-end;">
+                <a class="krds-btn tertiary medium" th:href="@{/uss/sam/terms/list.do}" th:text="#{button.list}">목록</a>
+                <button type="submit" class="krds-btn primary medium" th:text="#{button.save}">저장</button>
+            </div>
+        </form>
+    </div>
+
+    <script th:inline="javascript">
+    (function () {
+        var form = document.getElementById('termsForm');
+        if (!form) { return; }
+        var badgeEl = document.getElementById('termsTypeBadge');
+        var hintEl = document.getElementById('termsTypeHint');
+        var I18N = {
+            stplat: /*[[#{terms.stplat}]]*/ '이용약관',
+            ipm: /*[[#{terms.ipm}]]*/ '개인정보처리방침',
+            hintStplat: /*[[#{terms.type.hint.stplat}]]*/ '이용약관: 정보제공동의내용을 함께 등록합니다.',
+            hintIpm: /*[[#{terms.type.hint.ipm}]]*/ '개인정보처리방침: 동의여부를 함께 등록합니다.'
+        };
+        function currentType() {
+            var r = form.querySelector('input[name="termsType"]:checked');
+            return r ? r.value : 'stplat';
+        }
+        function toggleFields() {
+            var t = currentType();
+            form.querySelectorAll('.field-stplat').forEach(function (el) {
+                el.style.display = (t === 'stplat') ? '' : 'none';
+            });
+            form.querySelectorAll('.field-ipm').forEach(function (el) {
+                el.style.display = (t === 'ipm') ? '' : 'none';
+            });
+            // 선택 유형 강조: 배지 색상/문구 + 카드 하이라이트 + 동적 필드 안내
+            var ipm = (t === 'ipm');
+            if (badgeEl) {
+                badgeEl.className = 'terms-type-current krds-badge ' + (ipm ? 'bg-success' : 'bg-primary');
+                badgeEl.textContent = ipm ? I18N.ipm : I18N.stplat;
+            }
+            if (hintEl) { hintEl.textContent = ipm ? I18N.hintIpm : I18N.hintStplat; }
+            form.querySelectorAll('.terms-type-card').forEach(function (card) {
+                var on = card.getAttribute('data-type') === t;
+                card.classList.toggle('selected', on);
+            });
+        }
+        form.querySelectorAll('input[name="termsType"]').forEach(function (r) {
+            r.addEventListener('change', toggleFields);
+        });
+        // 날짜(YYYY-MM-DD) -> hidden(YYYYMMDD) 동기화
+        var de = document.getElementById('aplcDe');
+        var deHidden = document.getElementById('aplcDeHidden');
+        if (deHidden && deHidden.value && deHidden.value.length === 8) {
+            de.value = deHidden.value.substring(0,4) + '-' + deHidden.value.substring(4,6) + '-' + deHidden.value.substring(6,8);
+        }
+        form.addEventListener('submit', function () {
+            if (de && de.value) { deHidden.value = de.value.replace(/-/g, ''); }
+            else if (deHidden) { deHidden.value = ''; }
+        });
+        toggleFields();
+    })();
+    </script>
+</main>
+</body>
+</html>

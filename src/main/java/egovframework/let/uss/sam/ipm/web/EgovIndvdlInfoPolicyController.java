@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
-import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -34,7 +33,7 @@ import jakarta.validation.Valid;
  *  -------    --------    ---------------------------
  *   2009.07.03  장동한          최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -71,38 +70,13 @@ public class EgovIndvdlInfoPolicyController {
      * @return "/uss/sam/ipm/EgovOnlinePollList"
      * @throws Exception
      */
-    @SuppressWarnings("unused")
 	@RequestMapping(value = "/uss/sam/ipm/listIndvdlInfoPolicy.do")
     public String EgovIndvdlInfoPolicyList(
             @ModelAttribute("searchVO") ComDefaultVO searchVO, @RequestParam Map <String, Object> commandMap,
             IndvdlInfoPolicy indvdlInfoPolicy, ModelMap model)
             throws Exception {
-
-        String sSearchMode = commandMap.get("searchMode") == null ? "" : (String)commandMap.get("searchMode");
-
-        /** EgovPropertyService.sample */
-        searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-        searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
-        /** pageing */
-        PaginationInfo paginationInfo = new PaginationInfo();
-        paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-        paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-        paginationInfo.setPageSize(searchVO.getPageSize());
-
-        searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-        searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-        searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-        model.addAttribute("resultList", egovIndvdlInfoPolicyService.selectIndvdlInfoPolicyList(searchVO));
-
-        model.addAttribute("searchKeyword", commandMap.get("searchKeyword") == null ? "" : (String) commandMap.get("searchKeyword"));
-        model.addAttribute("searchCondition", commandMap.get("searchCondition") == null ? "" : (String) commandMap.get("searchCondition"));
-
-        int totCnt = egovIndvdlInfoPolicyService.selectIndvdlInfoPolicyListCnt(searchVO);
-        paginationInfo.setTotalRecordCount(totCnt);
-        model.addAttribute("paginationInfo", paginationInfo);
-        return "uss/sam/ipm/EgovIndvdlInfoPolicyList";
+        // 약관/개인정보 통합 목록으로 일원화(항목7) — 옛 분리 목록 진입점은 통합 목록(유형=개인정보)으로 리다이렉트.
+        return "redirect:/uss/sam/terms/list.do?termsType=ipm";
     }
 
     /**
@@ -132,7 +106,7 @@ public class EgovIndvdlInfoPolicyController {
                 return "uat/uia/EgovLoginUsr";
             }
             egovIndvdlInfoPolicyService.deleteIndvdlInfoPolicy(indvdlInfoPolicy);
-            sLocationUrl = "forward:/uss/sam/ipm/listIndvdlInfoPolicy.do";
+            sLocationUrl = "redirect:/uss/sam/terms/list.do?termsType=ipm";
         } else {
             IndvdlInfoPolicy indvdlInfoPolicyVO = egovIndvdlInfoPolicyService.selectIndvdlInfoPolicyDetail(indvdlInfoPolicy);
             model.addAttribute("indvdlInfoPolicy", indvdlInfoPolicyVO);
@@ -194,7 +168,7 @@ public class EgovIndvdlInfoPolicyController {
             indvdlInfoPolicy.setLastUpdusrId(loginVO.getUniqId());
 
             egovIndvdlInfoPolicyService.updateIndvdlInfoPolicy(indvdlInfoPolicy);
-            sLocationUrl = "forward:/uss/sam/ipm/listIndvdlInfoPolicy.do";
+            sLocationUrl = "redirect:/uss/sam/terms/list.do?termsType=ipm";
         } else {
             IndvdlInfoPolicy indvdlInfoPolicyVO = egovIndvdlInfoPolicyService.selectIndvdlInfoPolicyDetail(indvdlInfoPolicy);
             model.addAttribute("indvdlInfoPolicy", indvdlInfoPolicyVO);
@@ -239,30 +213,22 @@ public class EgovIndvdlInfoPolicyController {
         // 로그인 객체 선언
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        String sLocationUrl = "uss/sam/ipm/EgovIndvdlInfoPolicyRegist";
-
         String sCmd = commandMap.get("cmd") == null ? "" : (String) commandMap.get("cmd");
 
-        // 초기 페이지 로드 시에는 검증 에러 무시
+        // 통합 등록(항목7)으로 일원화 — 초기 등록폼 진입은 통합 등록(유형=개인정보)으로 리다이렉트.
         if (!"save".equals(sCmd)) {
-            bindingResult = new BeanPropertyBindingResult(indvdlInfoPolicy, "indvdlInfoPolicy");
-            model.addAttribute(BindingResult.MODEL_KEY_PREFIX + "indvdlInfoPolicy", bindingResult);
+            return "redirect:/uss/sam/terms/registView.do?termsType=ipm";
         }
 
-        if (sCmd.equals("save")) {
-
-            if(bindingResult.hasErrors()){
-                return sLocationUrl;
-            }
-            //아이디 설정
-            indvdlInfoPolicy.setFrstRegisterId(loginVO.getUniqId());
-            indvdlInfoPolicy.setLastUpdusrId(loginVO.getUniqId());
-            //저장
-            egovIndvdlInfoPolicyService.insertIndvdlInfoPolicy(indvdlInfoPolicy);
-            sLocationUrl = "forward:/uss/sam/ipm/listIndvdlInfoPolicy.do";
+        if (bindingResult.hasErrors()) {
+            return "redirect:/uss/sam/terms/registView.do?termsType=ipm";
         }
-
-        return sLocationUrl;
+        //아이디 설정
+        indvdlInfoPolicy.setFrstRegisterId(loginVO.getUniqId());
+        indvdlInfoPolicy.setLastUpdusrId(loginVO.getUniqId());
+        //저장
+        egovIndvdlInfoPolicyService.insertIndvdlInfoPolicy(indvdlInfoPolicy);
+        return "redirect:/uss/sam/terms/list.do?termsType=ipm";
     }
 
 

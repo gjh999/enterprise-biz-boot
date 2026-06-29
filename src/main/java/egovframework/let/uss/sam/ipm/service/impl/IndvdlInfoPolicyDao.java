@@ -20,7 +20,7 @@ import egovframework.let.uss.sam.ipm.service.IndvdlInfoPolicy;
  *  -------    --------    ---------------------------
  *   2009.07.03  장동한          최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -55,6 +55,34 @@ public class IndvdlInfoPolicyDao extends EgovAbstractMapper {
      */
     public IndvdlInfoPolicy selectIndvdlInfoPolicyDetail(IndvdlInfoPolicy indvdlInfoPolicy) throws Exception {
         return (IndvdlInfoPolicy)selectOne("IndvdlInfoPolicy.selectIndvdlInfoPolicyDetail", indvdlInfoPolicy);
+    }
+
+    /**
+     * 대표(현행) 개인정보처리방침 1건을 조회한다. (모달 표출용)
+     * @return 대표 개인정보처리방침 (없으면 null)
+     */
+    public IndvdlInfoPolicy selectRepresentIndvdlInfoPolicy() {
+        return (IndvdlInfoPolicy)selectOne("IndvdlInfoPolicy.selectRepresentIndvdlInfoPolicy");
+    }
+
+    /** 전체 대표 해제(REPRSNT_AT='N'). */
+    public void clearRepresentIndvdlInfoPolicy() {
+        update("IndvdlInfoPolicy.clearRepresentIndvdlInfoPolicy", null);
+    }
+
+    /** 단건 대표 지정(REPRSNT_AT='Y'). */
+    public void setRepresentIndvdlInfoPolicy(String indvdlInfoId) {
+        update("IndvdlInfoPolicy.setRepresentIndvdlInfoPolicy", indvdlInfoId);
+    }
+
+    /** 사용여부(USE_AT) 변경. */
+    public void updateUseAtIndvdlInfoPolicy(java.util.Map<String, String> param) {
+        update("IndvdlInfoPolicy.updateUseAtIndvdlInfoPolicy", param);
+    }
+
+    /** 사용중(USE_AT='Y') 건수. */
+    public int selectActiveIndvdlInfoPolicyCnt() {
+        return (Integer)selectOne("IndvdlInfoPolicy.selectActiveIndvdlInfoPolicyCnt");
     }
 
     /**

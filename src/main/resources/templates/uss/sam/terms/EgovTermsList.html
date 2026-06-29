@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/default}" lang="ko">
+<head><title th:text="#{terms.list.title}">약관 관리</title></head>
+<body>
+<main layout:fragment="content">
+    <div class="container">
+        <nav aria-label="breadcrumb"><ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{menu.home}">홈</a></li>
+            <li class="breadcrumb-item active" th:text="#{terms.list.title}">약관 관리</li>
+        </ol></nav>
+        <h1 class="h4 mb-3"><i class="bi bi-file-earmark-text"></i> <span th:text="#{terms.list.title}">약관 관리</span></h1>
+
+        <!-- 검색 영역 (게시판 목록 표준) — 유형필터 + 검색어 -->
+        <form th:action="@{/uss/sam/terms/list.do}" method="get" class="search-bar krds-search mb-3">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="form-tit"><label for="termsType" th:text="#{terms.type}">유형</label></div>
+                        <div class="form-conts">
+                            <select id="termsType" name="termsType" class="krds-form-select" th:title="#{terms.type}">
+                                <option value="" th:selected="${termsType == null or termsType == ''}" th:text="#{terms.type.all}">전체</option>
+                                <option value="stplat" th:selected="${termsType == 'stplat'}" th:text="#{terms.stplat}">이용약관</option>
+                                <option value="ipm" th:selected="${termsType == 'ipm'}" th:text="#{terms.ipm}">개인정보처리방침</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="form-tit"><label for="searchKeyword" th:text="#{search.keyword}">검색어</label></div>
+                        <div class="form-conts">
+                            <input type="text" id="searchKeyword" name="searchKeyword" class="krds-input"
+                                   th:value="${searchKeyword}" th:placeholder="#{search.keyword.placeholder}" maxlength="100"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="krds-btn primary medium w-100"><i class="bi bi-search"></i> <span th:text="#{button.search}">검색</span></button>
+                </div>
+            </div>
+        </form>
+
+        <!-- 목록 헤더: 전체 건수(좌) + 등록 버튼(우, 관리자) -->
+        <div class="d-flex justify-content-between align-items-center mb-2 mt-3">
+            <span class="text-muted"><span th:text="#{list.total}">전체</span> <strong th:text="${paginationInfo != null ? paginationInfo.totalRecordCount : 0}">0</strong><span th:text="#{list.count.unit}">건</span></span>
+            <a class="krds-btn primary small" sec:authorize="hasRole('ADMIN')"
+               th:href="@{/uss/sam/terms/registView.do(termsType=${termsType == null or termsType == '' ? 'stplat' : termsType})}">
+                <i class="bi bi-plus-lg"></i> <span th:text="#{terms.regist}">약관 등록</span></a>
+        </div>
+
+        <div class="krds-table-wrap">
+        <table class="tbl">
+            <caption class="visually-hidden" th:text="#{terms.list.title}">약관 목록</caption>
+            <thead>
+            <tr>
+                <th scope="col" style="width:60px;" class="text-center" th:text="#{list.seq}">순번</th>
+                <th scope="col" style="width:130px;" class="text-center" th:text="#{terms.type}">유형</th>
+                <th scope="col" th:text="#{terms.name}">명칭</th>
+                <th scope="col" style="width:72px;" class="text-center" th:text="#{terms.version}">버전</th>
+                <th scope="col" style="width:110px;" class="text-center" th:text="#{terms.aplcDe}">적용일자</th>
+                <th scope="col" style="width:84px;" class="text-center" th:text="#{terms.useAt}">사용여부</th>
+                <th scope="col" style="width:84px;" class="text-center" th:text="#{terms.represent}">대표</th>
+                <th scope="col" style="width:150px;" class="text-center" sec:authorize="hasRole('ADMIN')" th:text="#{terms.manage}">관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 순번 역순(항목10): 최신이 맨 위, 전체 건수에서 페이지 오프셋·행번호를 빼서 내림차순 표기 -->
+            <tr th:each="item, st : ${resultList}">
+                <td class="text-center" th:text="${paginationInfo.totalRecordCount - paginationInfo.firstRecordIndex - st.index}">1</td>
+                <td class="text-center">
+                    <span class="krds-badge"
+                          th:classappend="${item.termsType == 'ipm'} ? ' bg-success' : ' bg-primary'"
+                          th:text="${item.termsTypeNm}">유형</span>
+                </td>
+                <td>
+                    <a class="text-decoration-none"
+                       th:href="${item.termsType == 'ipm'}
+                                 ? @{/uss/sam/ipm/detailIndvdlInfoPolicy.do(indvdlInfoId=${item.id})}
+                                 : @{/uss/sam/stp/StplatDetailInqire.do(useStplatId=${item.id})}"
+                       th:text="${item.nm}">명칭</a>
+                </td>
+                <td class="text-center" th:text="${item.ver != null and item.ver != '' ? item.ver : '-'}">1.0</td>
+                <td class="text-center" th:text="${item.aplcDe != null and item.aplcDe != '' ? item.aplcDe : item.regDe}">일자</td>
+                <td class="text-center">
+                    <span th:if="${item.useAt != 'N'}" class="krds-badge bg-info" th:text="#{terms.use.yes}">노출</span>
+                    <span th:if="${item.useAt == 'N'}" class="krds-badge bg-secondary" th:text="#{terms.use.no}">미사용</span>
+                </td>
+                <td class="text-center">
+                    <span th:if="${item.reprsntAt == 'Y'}" class="krds-badge bg-success" th:text="#{terms.represent.yes}">대표</span>
+                    <span th:unless="${item.reprsntAt == 'Y'}" class="text-muted">-</span>
+                </td>
+                <td class="text-center" sec:authorize="hasRole('ADMIN')">
+                    <div style="display:inline-flex; gap:4px; flex-wrap:wrap; justify-content:center;">
+                        <!-- 대표 지정(미사용/이미 대표면 비활성) -->
+                        <form th:if="${item.reprsntAt != 'Y' and item.useAt != 'N'}"
+                              th:action="@{/uss/sam/terms/setRepresent.do}" method="post" style="display:inline;">
+                            <input type="hidden" name="termsType" th:value="${item.termsType}"/>
+                            <input type="hidden" name="id" th:value="${item.id}"/>
+                            <input type="hidden" name="returnType" th:value="${termsType}"/>
+                            <button type="submit" class="krds-btn tertiary xsmall" th:text="#{terms.represent.set.short}">대표지정</button>
+                        </form>
+                        <!-- 사용/미사용 토글 -->
+                        <form th:action="@{/uss/sam/terms/toggleUse.do}" method="post" style="display:inline;"
+                              th:attr="onsubmit=${item.reprsntAt == 'Y' and item.useAt != 'N'} ? 'return confirm(this.dataset.warn);' : null"
+                              th:data-warn="#{terms.represent.unuse.confirm}">
+                            <input type="hidden" name="termsType" th:value="${item.termsType}"/>
+                            <input type="hidden" name="id" th:value="${item.id}"/>
+                            <input type="hidden" name="returnType" th:value="${termsType}"/>
+                            <input type="hidden" name="useAt" th:value="${item.useAt == 'N' ? 'Y' : 'N'}"/>
+                            <button type="submit" class="krds-btn secondary xsmall"
+                                    th:text="${item.useAt == 'N'} ? #{terms.use.on} : #{terms.use.off}">미사용</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(resultList)}">
+                <td colspan="8" class="text-center text-muted py-4" th:text="#{terms.empty}">등록된 약관이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- 페이징 (게시판식, 유형필터·검색어 유지) -->
+        <div class="mt-3"
+             th:replace="~{fragments/pagination :: paginationTerms(paginationInfo=${paginationInfo}, baseUrl='/uss/sam/terms/list.do', termsType=${termsType}, searchKeyword=${searchKeyword})}"></div>
+    </div>
+</main>
+</body>
+</html>

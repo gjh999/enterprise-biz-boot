@@ -23,7 +23,7 @@ import jakarta.annotation.Resource;
  *  -------    --------    ---------------------------
  *   2009.07.03  장동한          최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -68,6 +68,50 @@ public class EgovIndvdlInfoPolicyServiceImpl extends EgovAbstractServiceImpl
     @Override
 	public IndvdlInfoPolicy selectIndvdlInfoPolicyDetail( IndvdlInfoPolicy indvdlInfoPolicy) throws Exception {
         return dao.selectIndvdlInfoPolicyDetail(indvdlInfoPolicy);
+    }
+
+    /**
+     * 대표(현행) 개인정보처리방침 1건을 조회한다. (모달 표출용)
+     */
+    @Override
+	public IndvdlInfoPolicy selectRepresentIndvdlInfoPolicy() {
+        return dao.selectRepresentIndvdlInfoPolicy();
+    }
+
+    /**
+     * 지정 개인정보처리방침을 대표로 설정한다(전체 대표 해제 후 단건 지정). 미사용은 대표 불가.
+     */
+    @Override
+    public void setRepresentIndvdlInfoPolicy(String indvdlInfoId) {
+        IndvdlInfoPolicy q = new IndvdlInfoPolicy();
+        q.setIndvdlInfoId(indvdlInfoId);
+        IndvdlInfoPolicy cur;
+        try {
+            cur = dao.selectIndvdlInfoPolicyDetail(q);
+        } catch (Exception e) {
+            return;
+        }
+        if (cur == null || "N".equals(cur.getUseAt())) {
+            return;
+        }
+        dao.clearRepresentIndvdlInfoPolicy();
+        dao.setRepresentIndvdlInfoPolicy(indvdlInfoId);
+    }
+
+    /**
+     * 사용여부(USE_AT)를 변경한다. 대표를 미사용 전환하면 SQL 에서 대표도 함께 해제된다.
+     */
+    @Override
+    public void updateUseAtIndvdlInfoPolicy(String indvdlInfoId, String useAt) {
+        java.util.Map<String, String> param = new java.util.HashMap<>();
+        param.put("indvdlInfoId", indvdlInfoId);
+        param.put("useAt", "N".equals(useAt) ? "N" : "Y");
+        dao.updateUseAtIndvdlInfoPolicy(param);
+    }
+
+    @Override
+    public int selectActiveIndvdlInfoPolicyCnt() {
+        return dao.selectActiveIndvdlInfoPolicyCnt();
     }
 
     /**

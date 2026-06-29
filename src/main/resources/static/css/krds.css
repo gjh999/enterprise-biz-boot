@@ -201,3 +201,35 @@ select.krds-form-select{
   flex:0 0 auto !important; width:auto !important; white-space:nowrap; }
 .input-group > :not(:first-child){ border-top-left-radius:0; border-bottom-left-radius:0; margin-left:-1px; }
 .input-group > :not(:last-child){ border-top-right-radius:0; border-bottom-right-radius:0; }
+/* ── 약관/개인정보처리방침 모달 (KRDS .krds-modal 위에 보강) ──
+   - 헤더에 버전·적용일자 메타 표시, 본문은 스크롤(max-height + overflow).
+   - KRDS 클래스명 재사용/충돌 회피를 위해 terms-* 네임스페이스 사용. */
+#termsModal[hidden]{ display:none; }
+/* 팝업 배너 오버레이(.bnr-popup-overlay z-index:1080) 위에 모달이 오도록 보강 */
+#termsModal.in{ z-index:2100; }
+#termsModal .modal-back, #termsModal .modal-back.in{ z-index:2090; }
+#termsModal .modal-dialog{ z-index:2110; }
+#termsModal .modal-dialog .modal-content{ max-height:82vh; padding:14px 28px 22px; align-items:stretch; }
+#termsModal .modal-header{ display:flex; align-items:center; justify-content:space-between;
+  width:100%; gap:12px; padding:0 0 6px; margin:0; }
+#termsModal .modal-title{ display:flex; align-items:center; flex-wrap:wrap; gap:8px;
+  font-size:1.2rem; font-weight:700; margin:0; line-height:1.3;
+  color:var(--krds-gray-90,#1E2124); }
+#termsModal .modal-title .krds-badge:empty{ display:none; }
+#termsModal .btn-close{ flex:0 0 auto; background:none; border:0; cursor:pointer; margin:0;
+  width:auto; height:auto; opacity:1;
+  font-size:1.1rem; line-height:1; color:var(--krds-gray-60,#6D7882); padding:4px; border-radius:6px; }
+/* 닫기 X 중복 제거: krds-compat .btn-close::before(×) 를 끄고 본문의 bi-x-lg 아이콘만 노출 */
+#termsModal .btn-close::before{ content:none !important; }
+#termsModal .btn-close:hover{ color:var(--krds-gray-90,#1E2124); background:var(--krds-gray-5,#F4F5F6); }
+/* 버전·적용일자 메타: 제목 바로 아래 한 줄, 균형 간격(KRDS 톤) */
+.terms-modal-meta{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; width:100%;
+  padding:6px 0 10px; margin:0; border-bottom:1px solid var(--krds-gray-20,#CDD1D5); }
+.terms-modal-meta:empty{ display:none; }
+.terms-meta-item{ display:inline-flex; align-items:center; gap:4px; font-size:.85rem; color:var(--krds-gray-70,#464C53); }
+.terms-meta-item strong{ color:var(--krds-primary,#246BEB); font-weight:600; }
+.terms-modal-body{ width:100%; max-height:60vh; overflow-y:auto; padding:16px 4px 4px;
+  font-size:.95rem; line-height:1.7; color:var(--krds-gray-80,#33363D); }
+.terms-modal-body .terms-content{ white-space:normal; word-break:break-word; }
+.terms-modal-body::-webkit-scrollbar{ width:8px; }
+.terms-modal-body::-webkit-scrollbar-thumb{ background:var(--krds-gray-30,#B1B8BE); border-radius:4px; }

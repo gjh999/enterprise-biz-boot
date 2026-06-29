@@ -24,7 +24,7 @@ import egovframework.let.uss.sam.stp.service.StplatManageVO;
  *  -------    --------    ---------------------------
  *   2009.04.01  박정규          최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  *
  * </pre>
  */
@@ -42,6 +42,34 @@ public class StplatManageDAO extends EgovAbstractMapper {
 
         return (StplatManageVO) selectOne("StplatManageDAO.selectStplatDetail", vo);
 
+    }
+
+    /**
+     * 대표(현행) 이용약관 1건을 조회한다. (모달 표출용)
+     * @return 대표 이용약관 (없으면 null)
+     */
+    public StplatManageVO selectRepresentStplat() {
+        return (StplatManageVO) selectOne("StplatManageDAO.selectRepresentStplat");
+    }
+
+    /** 전체 대표 해제(REPRSNT_AT='N'). */
+    public void clearRepresentStplat() {
+        update("StplatManageDAO.clearRepresentStplat", null);
+    }
+
+    /** 단건 대표 지정(REPRSNT_AT='Y'). */
+    public void setRepresentStplat(String useStplatId) {
+        update("StplatManageDAO.setRepresentStplat", useStplatId);
+    }
+
+    /** 사용여부(USE_AT) 변경. */
+    public void updateUseAtStplat(java.util.Map<String, String> param) {
+        update("StplatManageDAO.updateUseAtStplat", param);
+    }
+
+    /** 사용중(USE_AT='Y') 건수. */
+    public int selectActiveStplatCnt() {
+        return (Integer) selectOne("StplatManageDAO.selectActiveStplatCnt");
     }
 
     /**

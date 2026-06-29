@@ -18,7 +18,7 @@ import jakarta.validation.constraints.Size;
  *  -------    --------    ---------------------------
  *   2009.07.03  장동한          최초 생성
  *   2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성 
- *   2026.06.17  구재호          Spring Boot + Thymeleaf 전환
+ *  2026.06.17  구재호          Spring Boot + Thymeleaf 전환
  * 
  * </pre>
  */
@@ -61,7 +61,51 @@ public class IndvdlInfoPolicy implements Serializable {
     /** 컨트롤 명령어 */
     private String cmd;
 
-    
+    /** 버전 (예: '1.0') */
+    private String ver;
+
+    /** 적용일자 (YYYYMMDD) */
+    private String aplcDe;
+
+    /** 대표여부 ('Y'/'N') */
+    private String reprsntAt;
+
+    /** 사용여부 ('Y'=노출/'N'=미사용) */
+    private String useAt;
+
+    public String getUseAt() {
+        return useAt;
+    }
+
+    public void setUseAt(String useAt) {
+        this.useAt = useAt;
+    }
+
+    public String getVer() {
+        return ver;
+    }
+
+    public void setVer(String ver) {
+        this.ver = ver;
+    }
+
+    public String getAplcDe() {
+        return aplcDe;
+    }
+
+    public void setAplcDe(String aplcDe) {
+        this.aplcDe = aplcDe;
+    }
+
+    public String getReprsntAt() {
+        return reprsntAt;
+    }
+
+    public void setReprsntAt(String reprsntAt) {
+        this.reprsntAt = reprsntAt;
+    }
+
+
     /**
      * indvdlInfoId 리턴
      *
