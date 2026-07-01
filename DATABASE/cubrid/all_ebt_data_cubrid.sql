@@ -475,9 +475,9 @@ INSERT INTO TB_LOGIN_POLICY(EMPLYR_ID,IP_INFO,DPLCT_PERM_AT,LMTT_AT,FRST_REGIST_
 INSERT INTO TB_USER_ABSNCE(EMPLYR_ID,USER_ABSNCE_AT,FRST_REGIST_PNTTM,FRST_REGISTER_ID,LAST_UPDT_PNTTM,LAST_UPDUSR_ID) VALUES ('admin','N',SYSDATETIME,'admin',SYSDATETIME,'admin');
 INSERT INTO TB_USER_ABSNCE(EMPLYR_ID,USER_ABSNCE_AT,FRST_REGIST_PNTTM,FRST_REGISTER_ID,LAST_UPDT_PNTTM,LAST_UPDUSR_ID) VALUES ('user','Y',SYSDATETIME,'admin',SYSDATETIME,'admin');
 
-INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovProgramListManage.do',1,'프로그램목록관리','admin','목록 페이징 오류 수정 요청','',NULL,'A',NULL,'20250101','목록 페이징 오류');
-INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovCcmCmmnCodeList.do',1,'공통코드관리','admin','공통코드 검색조건 추가 요청','담당자 배정 후 분석 진행중','admin','P',NULL,'20250115','공통코드 검색조건 추가');
-INSERT INTO TB_PROGRM_CHANGE_DTLS VALUES ('EgovMenuManage.do',1,'메뉴목록관리','admin','메뉴 정렬순서 변경 요청','정렬순서 변경 반영 완료','admin','C','20250220','20250201','메뉴 정렬순서 변경');
+INSERT INTO TB_PROGRM_CHANGE_DTLS (PROGRM_FILE_NM, REQUST_NO, PROGRM_KOREAN_NM, RQESTER_ID, CHANGE_REQUST_CN, REQUST_PROCESS_CN, OPETR_ID, PROCESS_STTUS_CODE, PROCESS_DE, REQUST_DE, REQUST_SJ) VALUES ('EgovProgramListManage.do',1,'프로그램목록관리','admin','목록 페이징 오류 수정 요청','',NULL,'A',NULL,'20250101','목록 페이징 오류');
+INSERT INTO TB_PROGRM_CHANGE_DTLS (PROGRM_FILE_NM, REQUST_NO, PROGRM_KOREAN_NM, RQESTER_ID, CHANGE_REQUST_CN, REQUST_PROCESS_CN, OPETR_ID, PROCESS_STTUS_CODE, PROCESS_DE, REQUST_DE, REQUST_SJ) VALUES ('EgovCcmCmmnCodeList.do',1,'공통코드관리','admin','공통코드 검색조건 추가 요청','담당자 배정 후 분석 진행중','admin','P',NULL,'20250115','공통코드 검색조건 추가');
+INSERT INTO TB_PROGRM_CHANGE_DTLS (PROGRM_FILE_NM, REQUST_NO, PROGRM_KOREAN_NM, RQESTER_ID, CHANGE_REQUST_CN, REQUST_PROCESS_CN, OPETR_ID, PROCESS_STTUS_CODE, PROCESS_DE, REQUST_DE, REQUST_SJ) VALUES ('EgovMenuManage.do',1,'메뉴목록관리','admin','메뉴 정렬순서 변경 요청','정렬순서 변경 반영 완료','admin','C','20250220','20250201','메뉴 정렬순서 변경');
 
 -- ============================================================
 -- 포털 패리티: 배너(유형/게시기간) + 약관·개인정보처리방침(대표/버전/사용여부) 시드
