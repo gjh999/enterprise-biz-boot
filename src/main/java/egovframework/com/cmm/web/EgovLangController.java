@@ -51,8 +51,9 @@ public class EgovLangController {
 				String path = uri.getRawPath();
 				String host = uri.getHost();
 				boolean sameHost = (host == null) || host.equalsIgnoreCase(request.getServerName());
-				if (sameHost && path != null && path.startsWith("/")) {
-					String query = uri.getRawQuery();
+				// /cmm/lang 자기 자신으로의 복귀(루프)는 제외 → 무한/주소창 lang 잔류 방지
+				if (sameHost && path != null && path.startsWith("/") && !path.endsWith("/cmm/lang")) {
+					String query = stripLangParam(uri.getRawQuery());
 					return (query != null && !query.isBlank()) ? path + "?" + query : path;
 				}
 			} catch (IllegalArgumentException ignore) {
@@ -60,5 +61,25 @@ public class EgovLangController {
 			}
 		}
 		return "/";
+	}
+
+	/** 쿼리스트링에서 lang 파라미터를 제거해 주소창에 ?lang 이 잔류하지 않도록 한다. */
+	private String stripLangParam(String rawQuery) {
+		if (rawQuery == null || rawQuery.isBlank()) {
+			return rawQuery;
+		}
+		StringBuilder sb = new StringBuilder();
+		for (String pair : rawQuery.split("&")) {
+			int eq = pair.indexOf('=');
+			String key = (eq >= 0) ? pair.substring(0, eq) : pair;
+			if ("lang".equalsIgnoreCase(key)) {
+				continue;
+			}
+			if (sb.length() > 0) {
+				sb.append('&');
+			}
+			sb.append(pair);
+		}
+		return sb.toString();
 	}
 }
