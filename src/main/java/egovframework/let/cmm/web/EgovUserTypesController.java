@@ -19,6 +19,7 @@ import egovframework.com.cmm.LoginVO;
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *  2026.06.23  Claude        사용자 구분 안내 페이지 신규
+ *   2026.07.02  구재호        Spring Boot + Thymeleaf + KRDS + 다국어(i18n) 전환
  * </pre>
  */
 @Controller

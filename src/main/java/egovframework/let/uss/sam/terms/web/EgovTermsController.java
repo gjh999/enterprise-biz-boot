@@ -37,6 +37,7 @@ import jakarta.annotation.Resource;
  *   푸터는 모든 페이지(비인증 포함)에 노출되므로 view.do 는 공개(SecurityConfig anyRequest permitAll).
  *
  * 개정이력: 2026.06.23  구재호  약관 대표+버전관리+모달 통합 재구성
+ *   2026.07.02  구재호        Spring Boot + Thymeleaf + KRDS + 다국어(i18n) 전환
  * </pre>
  */
 @Controller

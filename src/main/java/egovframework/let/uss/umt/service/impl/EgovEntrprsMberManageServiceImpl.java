@@ -19,6 +19,7 @@ import jakarta.annotation.Resource;
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *  2026.06.29  Claude        기업회원 가입 기능 신규(포털 이식)
+ *   2026.07.02  구재호        Spring Boot + Thymeleaf + KRDS + 다국어(i18n) 전환
  * </pre>
  */
 @Service("entrprsMberManageService")
